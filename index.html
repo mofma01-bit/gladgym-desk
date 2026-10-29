@@ -2154,8 +2154,28 @@ body{word-break:keep-all}
 #gcfm .gc-in{width:100%;margin-top:12px}#gcfm .gc-b{display:flex;gap:8px;margin-top:18px}#gcfm .gc-b .btn{flex:1;height:44px;justify-content:center}
 .as-attw{margin-top:10px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.as-att{flex-basis:100%;margin-top:4px;padding:10px 12px;border-radius:10px;background:var(--dark-3);border:1px solid var(--line)}
 .as-att-h{display:flex;gap:10px;align-items:baseline;font-size:14px}.as-att-h .k{font-size:13px;font-weight:700;color:var(--sub)}.as-att-h b{color:var(--cream)}
-.as-att-c{display:grid;gap:4px;margin:8px 0 8px}.as-att-r{display:flex;align-items:baseline;gap:10px;font-size:13.5px}.as-att-r .g{min-width:92px;color:#d9d3c9;font-weight:700}.as-att-r.we .g{color:var(--teal)}.as-att-r b{min-width:34px;font-weight:900;color:var(--cream)}.as-att-r small{font-size:13px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.as-att .as-btn.sm{margin:2px 0 4px}.as-att-l span.more{border-style:dashed;color:var(--sub)}
+/* 최근 출석 30일 달력 (2026-10-29 대표 「날짜가 나열만 되니까 머릿속에 안 그려짐」) */
+.as-att-s{font-size:13px;color:var(--sub);margin-top:2px}.as-att-s b{color:var(--cream)}
+.as-cal{display:grid;grid-template-columns:38px repeat(7,minmax(0,1fr));gap:4px;margin:10px 0 6px;font-size:12.5px}
+.as-cal .h{color:var(--sub);text-align:center;font-weight:800}.as-cal .w{color:var(--sub);font-size:12px;align-self:center;white-space:nowrap}
+.as-cal .d{min-height:34px;border-radius:8px;background:var(--dark-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;color:#6d675f;font-size:13px}
+.as-cal .d.y{background:color-mix(in srgb,#62b386 30%,var(--dark-2));border-color:color-mix(in srgb,#62b386 60%,transparent);color:var(--cream);font-weight:800}.as-cal .d.y small{font-size:11.5px;font-weight:700;color:#cfe9d9}
+.as-cal .d.t{outline:1.5px solid var(--gold)}.as-cal .d.o{opacity:.35}
+.as-bands{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.as-bands span{background:var(--dark-2);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:13px;color:#d9d3c9}.as-bands span.we{color:var(--teal)}.as-bands b{color:var(--gold)}
+/* 배정 지금 상태 · 지난 기록 (2026-10-29 대표 「무슨 말인지 하나도 못 알아보겠어 · 용어 정리」) */
+.asp-now{border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);background:color-mix(in srgb,var(--gold) 7%,var(--dark-2));border-radius:10px;padding:8px 12px;margin-bottom:10px}.asp-now b{font-size:14.5px}.asp-now small{display:block;color:var(--sub);font-size:13px}
+.asp-tl{list-style:none;border-left:2px solid var(--line);margin:0 0 0 6px;padding:0 0 0 14px}.asp-tl li{position:relative;margin:0 0 8px;font-size:13.5px;color:#d9d3c9}
+.asp-tl li::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--line)}.asp-tl li.n::before{background:var(--gold)}
+.asp-tl .dt{display:inline-block;min-width:44px;color:var(--gold);font-weight:900}.asp-tl .who{color:var(--sub);font-size:12.5px}.asp-tl b{color:var(--cream)}
+.tf-seg{display:flex;gap:6px;margin:0 0 10px}.tf-seg button{flex:1;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:10px;padding:8px 0;font:inherit;font-weight:800;cursor:pointer}.tf-seg button.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}
+.tf-row .tf-why{font-size:12.5px;font-weight:800;border-radius:6px;padding:1px 7px;margin-left:8px;border:1px solid var(--line);color:#d9d3c9}.tf-row .tf-in{font-size:13px;color:var(--sub);margin:4px 0 6px}.tf-row .tf-b{display:flex;gap:6px;flex-wrap:wrap}
+.tf-row.keep .a,.tf-row.keep .tf-in{opacity:.5}
+.asp-judge{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--sub)}.asp-judge .btn{margin-left:auto}
+.asp-warn{border:1px dashed #df8f55;border-radius:10px;padding:7px 10px;font-size:13px;margin-top:8px;color:#f0c9a8}
+/* 락커 만료자 — 15일 기준 두 묶음 (2026-10-29 대표 「15일 이상 경과자는 연락하거나 물품 회수」) */
+.lk-g{display:flex;align-items:center;gap:8px;font-weight:900;margin:12px 0 6px}.lk-g .n{margin-left:auto;color:var(--sub);font-size:13px;font-weight:700}
+.bp-row2.lk-over{border-color:color-mix(in srgb,#df8f55 55%,transparent);background:color-mix(in srgb,#df8f55 8%,var(--dark-2))}.bp-row2.lk-over .lk-r b{color:#f3b98c}
+.lk-r{margin-left:auto;text-align:right;font-size:13.5px}.lk-r small{display:block;color:var(--sub);font-size:12.5px}
 .as-att-l{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 6px}.as-att-l span{font-size:13px;padding:3px 8px;border-radius:6px;background:var(--dark-2);border:1px solid var(--line);color:#d9d3c9}.as-att-l span.we{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
 .sc-saved{margin-left:8px;display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:800;color:var(--teal);background:var(--teal-dim);border:1px solid color-mix(in srgb,var(--teal) 45%,transparent)}
 .sc-card.done{opacity:.72}.sc-ro{display:flex;gap:10px;align-items:baseline;margin-top:8px;font-size:14px;color:#d9d3c9}.sc-ro .k{width:58px;flex:none;font-size:13px;font-weight:700;color:var(--sub)}.sc-ro .by{font-size:13px;color:var(--sub)}
@@ -2941,7 +2961,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '494';
+const BUILD = '496';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10243,12 +10263,53 @@ async function 락커받기(){ if(락커.중 || Date.now() - 락커.때 < 600000
   try{ 락커.r = await crm('locker_status', {}); }catch(e){ 락커.r = null; }
   락커.중 = false; 락커.때 = Date.now(); if(S.view === 'home') render(); }
 const 락커줄 = k => (락커.r && Array.isArray(락커.r[k])) ? 락커.r[k] : [];
+/* ══ TG 회수 · 추가 ══ 중앙 tg_fix — 전산(브로제이)에서 무료 수업권을 회수하거나 추가할 줄 · 관리자만 · 처리하면 다음 매시 저절로 빠짐 (2026-10-29 18:58 대표 「데스크 팝업 · 회수와 추가 한 탭에서 분류해서 내가 할 수 있게」) */
+const TG정리 = { r:null, 중:false, 때:0, 탭:'회수' };
+async function TG정리받기(강){ if(!TG정리권() || TG정리.중 || (!강 && Date.now() - TG정리.때 < 600000)) return; TG정리.중 = true;
+  try{ const r = await crm('tg_fix', {}); TG정리.r = r && r.ok !== false ? r : null; }catch(e){ TG정리.r = null; }
+  TG정리.중 = false; TG정리.때 = Date.now(); if(S.view === 'home') render(); }
+const TG정리줄 = k => (TG정리.r && Array.isArray(TG정리.r[k])) ? TG정리.r[k] : [];
+const TG정리할 = () => TG정리줄('회수').concat(TG정리줄('추가')).filter(o => !o['둠']);
+const TG칸말 = [['수업권', '수업권'], ['지금권', '지금 수업권'], ['남음', '남음'], ['처음', '처음'], ['회원권끝', '회원권 끝'], ['수업권끝', '수업권 끝'], ['상품', '상품'], ['결제', '결제'], ['줄시작', '배정 줄']];
+function TG정리판(){
+  const 탭 = TG정리.탭, L = TG정리줄(탭), 수 = k => TG정리줄(k).filter(o => !o['둠']).length;
+  const 칸 = o => TG칸말.filter(([k]) => o[k] != null && o[k] !== '').map(([k, 말]) => 말 + ' ' + esc(String(o[k]))).join(' · ');
+  const 줄 = o => '<div class="bp-row2 tf-row' + (o['둠'] ? ' keep' : '') + '"><div class="a"><b>' + esc(o['이름'] || '') + '</b>' + (o['전화4'] ? '<span class="sub3" style="margin-left:6px">' + esc(String(o['전화4'])) + '</span>' : '') + (o['둠'] ? '<span class="tf-why">그대로 둠</span>' : '') + '</div>'
+    + '<div class="tf-in">' + 칸(o) + '</div><div class="tf-b">'
+    + (o['둠'] ? '<button class="btn ghost sm" data-act="tx:tgfixundo" data-k="' + esc(o['키']) + '">되돌리기</button>'
+      : '<button class="btn ghost sm" data-act="tx:tgfixkeep" data-k="' + esc(o['키']) + '">그대로 두기</button>' + (탭 === '추가' && o['상품'] ? '<button class="btn ghost sm" data-act="tx:tgfixprod" data-k="' + esc(o['키']) + '">이 상품 제외</button>' : ''))
+    + '</div></div>';
+  const 갈 = [...new Set(L.map(o => o['왜'] || '기타'))];
+  판열기('TG 회수 · 추가', '<div class="ck-act">' + (탭 === '회수' ? '전산에서 무료 수업권을 회수해 주세요' : '전산에서 운동가이드 수업권을 추가해 주세요') + '<small>전산에서 처리하면 다음 매시 저절로 빠져요 · 손대지 않을 줄은 「그대로 두기」' + (TG정리.r && TG정리.r['만든때'] ? ' · ' + esc(String(TG정리.r['만든때']).slice(5, 16).replace('-', '/')) + ' 기준' : '') + '</small></div>'
+    + '<div class="tf-seg">' + ['회수', '추가'].map(k => '<button class="' + (k === 탭 ? 'on' : '') + '" data-act="tx:tgfixtab" data-k="' + k + '">' + k + ' ' + 수(k) + '</button>').join('') + '</div>'
+    + (L.length ? 갈.map(w => { const 들 = L.filter(o => (o['왜'] || '기타') === w).sort((a, b) => (a['둠'] ? 1 : 0) - (b['둠'] ? 1 : 0)); return '<div class="lk-g">' + esc(w) + '<span class="n">' + 들.filter(o => !o['둠']).length + '건</span></div>' + 들.map(줄).join(''); }).join('')
+      : '<div class="empty why"><b>' + 탭 + '할 줄이 없습니다</b>전산과 배정이 맞으면 여기가 비어요</div>'));
+}
+async function TG정리고침(act, key){
+  const o = TG정리줄('회수').concat(TG정리줄('추가')).find(z => String(z['키']) === String(key)); if(!o) return;
+  const 말 = act === '둠' ? o['이름'] + ' — 회수 · 추가 안 하고 그대로 둘까요?' : act === '풀기' ? o['이름'] + ' — 「그대로 두기」를 되돌릴까요?' : '「' + o['상품'] + '」 상품을 제외할까요?\n이 상품 결제 줄이 모두 「추가」에서 빠져요(운동가이드 없는 상품)';
+  if(!await 묻기(말)) return;
+  try{ const r = await crm('tg_fix_set', Object.assign({ act, key:o['키'] }, act === '상품' ? { product:o['상품'] } : {}));
+    if(!r || r.ok === false) throw new Error((r && (r.why || r.error)) || '저장하지 못했어요');
+    TG정리.r = r; TG정리.때 = Date.now(); toast('저장했어요'); TG정리판(); if(S.view === 'home') render(); }
+  catch(e){ toast(e.message || '저장하지 못했어요'); } }
+const 락커경과 = o => { const e = String((o && o['끝']) || '').slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(e) ? Math.round((new Date(TODAY + 'T12:00:00') - new Date(e + 'T12:00:00')) / 86400000) : null; };      /* 만료일부터 오늘까지 */
+const 락커지남 = () => 락커줄('만료').filter(o => (락커경과(o) || 0) >= 15);      /* 보관 15일 지남 — 연락 · 물품 회수 */
+function 락커만료묶음(L){
+  const 짧 = d => d ? String(d).slice(5, 10).replace('-', '/') : '-', 줄 = o => { const n = 락커경과(o), 넘 = n != null && n >= 15;
+    return '<div class="bp-row2' + (넘 ? ' lk-over' : '') + '"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b>'
+      + (o['전화'] ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '')
+      + '<span class="lk-r"><b>만료일 ' + 짧(o['끝']) + (n != null ? ' · ' + n + '일 경과' : '') + '</b>' + (n == null ? '' : '<small>' + (넘 ? (n > 15 ? '보관 기간 ' + (n - 15) + '일 넘음' : '오늘로 보관 15일') : (15 - n) + '일 뒤 회수') + '</small>') + '</span></div></div>'; };
+  const 정 = L.slice().sort((a, b) => (락커경과(b) || 0) - (락커경과(a) || 0)), 넘 = 정.filter(o => (락커경과(o) || 0) >= 15), 안 = 정.filter(o => (락커경과(o) || 0) < 15);
+  return (넘.length ? '<div class="lk-g">15일 지남 · 연락하거나 물품 회수<span class="n">' + 넘.length + '개</span></div>' + 넘.map(줄).join('') : '')
+    + (안.length ? '<div class="lk-g">보관 중 · 15일 안<span class="n">' + 안.length + '개</span></div>' + 안.map(줄).join('') : ''); }
 function 락커판(k){
   const L = 락커줄(k), 짧 = d => d ? String(d).slice(5).replace('-', '/') : '-';
-  판열기(k === 'TM' ? '락커 TM' : '락커 만료자', '<div class="ck-act">' + (k === 'TM' ? '폐기 안내 뒤 15일이 지나도 회수 안 된 락커예요<small>전화해 회수 · 연장을 안내해 주세요 · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>' : '기간이 끝났는데 아직 회수 안 된 락커예요<small>폐기 안내 앞 · 뒤 모두 · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>') + '</div>'
-    + (L.length ? L.map(o => '<div class="bp-row2"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b>'
+  판열기(k === 'TM' ? '락커 TM' : '락커 만료자', '<div class="ck-act">' + (k === 'TM' ? '폐기 안내 뒤 15일이 지나도 회수 안 된 락커예요<small>전화해 회수 · 연장을 안내해 주세요 · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>' : '만료된 락커 ' + L.length + '개<small>보관은 만료일부터 최대 15일이에요 · 15일이 지나면 연락하거나 물품을 회수해요(그 뒤 폐기) · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>') + '</div>'
+    + (k === '만료' && L.length ? 락커만료묶음(L)
+      : L.length ? L.map(o => '<div class="bp-row2"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b>'
         + (o['전화'] ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '')
-        + '<span class="sub3" style="margin-left:auto">끝 ' + 짧(o['끝']) + (o['안내일'] ? ' · 안내 ' + 짧(o['안내일']) : '') + (o['지난날'] != null && o['지난날'] !== '' ? ' · 안내 뒤 ' + esc(String(o['지난날'])) + '일' : '') + '</span></div></div>').join('')
+        + '<span class="sub3" style="margin-left:auto">만료일 ' + 짧(o['끝']) + (o['안내일'] ? ' · 안내 ' + 짧(o['안내일']) : '') + (o['지난날'] != null && o['지난날'] !== '' ? ' · 안내 뒤 ' + esc(String(o['지난날'])) + '일' : '') + '</span></div></div>').join('')
       : '<div class="empty why"><b>' + (k === 'TM' ? '전화할 락커가 없습니다' : '만료된 락커가 없습니다') + '</b>' + (k === 'TM' ? '폐기 안내 뒤 15일이 지나도 회수 안 되면 여기에 뜹니다' : '기간이 끝나고 회수 안 된 락커가 여기에 뜹니다') + '</div>'));
 }
 function 다음주쉼판(){
@@ -13645,7 +13706,8 @@ const 현황칸 = [
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
   /* 락커 — 중앙 locker_status 그대로 (2026-10-25 대표 「현황판에는 락커만료자 · 락커TM」) · 셈 = 명단 길이 */
-  { k:'락커만료', 이름:'락커 만료자', 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r },
+  { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
+  { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r },
   { k:'락커TM', 이름:'락커 TM', 색:'warn', 셈: () => 락커줄('TM').length, 직접: () => 락커판('TM'), 보임: () => !!락커.r },
   { k:'연월차', 이름:'연월차 승인 대기', 색:'', 보임: () => 할수('leaveok') },
   { k:'가입',   이름:'가입 승인 대기',   색:'gold', 보임: () => 할수('perm'),      /* 2026-10-19 — 새 로그인 가입 승인(pwpending) · 옛 이메일 가입 수(가입대기수)가 아니다 */
@@ -13674,7 +13736,7 @@ const 현황셈하기 = k => {
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
-  setTimeout(락커받기, 0); setTimeout(못감받기, 0);
+  setTimeout(락커받기, 0); setTimeout(못감받기, 0); setTimeout(TG정리받기, 0);
   if((!배정.줄 || Date.now() - (배정.때 || 0) > 120000) && !배정.중 && 할수('assign')) setTimeout(배정받기, 0);      /* 2분마다 다시 받음 — 못감받기 안(10분 거름 뒤)에 두어 10분에 한 번만 받았다 (2026-10-28 19:07 대표 「배정해도 알림이 없다」) */      /* 현황판 「락커 만료자 · 락커 TM」 (2026-10-25 · 안에서 10분 거름) */      /* 10분 지났으면 오늘 수업 다시 (안에서 거른다) */
   /* ⭐ 두 단 — **할 일이 있는 것이 윗줄**, 0 인 것은 아랫줄로 내린다
        (2026-09-30 대표 「죽어있는건 아래줄 · 살아있는건 윗줄로」).
@@ -14161,7 +14223,7 @@ async function 배정고침(id, 몸, 말){
   catch(e){ toast('저장하지 못했어요 — ' + (e.message || '').slice(0, 60)); return false; }
 }
 /* 최근 출석 — TG메모(희망시간)가 없는 줄만 · 누르면 펼침 · 다시 누르면 접힘 · 처음 누를 때만 받는다(서버 30분 캐시 · 브로제이 부담 적게) */
-const 배정출석 = { 답:{}, 중:{}, 열림:new Set(), 날열림:new Set() };
+const 배정출석 = { 답:{}, 중:{}, 열림:new Set() };
 const 배정TG있음 = x => /희망시간\s*:/.test(String((x && x.fc_memo) || ''));
 function 배정출석칸(x){
   if(!x) return '';      /* 희망시간이 있어도 보임 — 배정할 때 언제 오는지 본다 (2026-10-28 22:57 대표 「출석 시간 표기가 없어졌는데」) */
@@ -14170,16 +14232,30 @@ function 배정출석칸(x){
   if(열){
     if(배정출석.중[id]) 속 = '<div class="sub3">최근 출석을 불러오는 중이에요…</div>';
     else if(d && d.ok === false) 속 = '<div class="sub3">' + esc(d.why || '불러오지 못했어요') + '</div>';
-    else if(d){ const 칸들 = d['칸별'] || [], 날들 = (d['출석'] || []).slice(0, 10), 날열 = 배정출석.날열림.has(id);      /* 2026-10-23 대표 「최대 갯수 · 보기 좋게 정렬」 · 중앙 칸별 · 최대 10일 */
+    else if(d){ const 칸들 = d['칸별'] || [], 첫 = (d['출석'] || [])[0], 잘림 = !Array.isArray(d['달력']) && +d['더'] > 0;      /* 30일 달력 — 중앙 「달력」(30일 전체)이 있으면 그것 · 없으면 「출석」 최근 10일 (2026-10-29) */
       속 = '<div class="as-att"><div class="as-att-h"><span class="k">주로</span><b>' + esc(d['주로'] || '최근 30일 출석 없음') + '</b></div>'
-      + (칸들.length ? '<div class="as-att-c">' + 칸들.map(c => '<div class="as-att-r' + (c['구분'] === '주말' ? ' we' : '') + '"><span class="g">' + esc((c['구분'] || '') + ' ' + (c['칸'] || '')) + '</span><b>' + (+c['횟수'] || 0) + '회</b><small>' + esc((c['날'] || []).join(' · ')) + '</small></div>').join('') + '</div>' : '')
-      + (날들.length ? (칸들.length ? '<button class="as-btn sm" data-act="tx:asattd" data-k="' + esc(id) + '">' + (날열 ? '날짜별 접기 ▴' : '날짜별 보기 ▾') + '</button>' : '')
-        + (!칸들.length || 날열 ? '<div class="as-att-l">' + 날들.map(a => '<span' + (a['주말'] ? ' class="we"' : '') + '>' + esc(a['날'] || '') + ' ' + esc(a['시'] || '') + '</span>').join('') + (+d['더'] > 0 ? '<span class="more">외 ' + (+d['더']) + '일</span>' : '') + '</div>' : '') : '')
-      + '<div class="sub3">' + esc([d['기간'], d['횟수'] != null ? d['횟수'] + '번' : '', d['받은때'] ? d['받은때'].slice(5).replace('-', '/') + ' 기준' : ''].filter(Boolean).join(' · ')) + '</div></div>'; }
+      + '<div class="as-att-s">' + (d['횟수'] != null ? '30일에 <b>' + (+d['횟수'] || 0) + '번</b>' : '') + (첫 ? ' · 마지막 ' + esc((첫['날'] || '') + ' ' + (첫['시'] || '')) : '') + '</div>'
+      + 출석달력(d)
+      + (칸들.length ? '<div class="as-bands">' + 칸들.map(c => '<span' + (c['구분'] === '주말' ? ' class="we"' : '') + '>' + esc((c['구분'] || '') + ' ' + (c['칸'] || '') + '시') + ' <b>' + (+c['횟수'] || 0) + '번</b></span>').join('') + '</div>' : '')
+      + '<div class="sub3">' + esc([잘림 ? '달력엔 최근 10일만 · 외 ' + (+d['더']) + '일' : '', d['받은때'] ? d['받은때'].slice(5).replace('-', '/') + ' 기준' : ''].filter(Boolean).join(' · ')) + '</div></div>'; }
   }
-  return '<div class="as-attw"><button class="as-btn" data-act="tx:asatt" data-k="' + esc(id) + '">' + (열 ? '접기 ▴' : '전산에서 자세히 ▾') + '</button>' + 속 + '</div>';
+  return '<div class="as-attw"><button class="as-btn" data-act="tx:asatt" data-k="' + esc(id) + '">' + (열 ? '접기 ▴' : '출석 보기 ▾') + '</button>' + 속 + '</div>';
 }
-function 배정출석날(id){ id = String(id); if(배정출석.날열림.has(id)) 배정출석.날열림.delete(id); else 배정출석.날열림.add(id); 배정판(id); }
+const 날키 = t => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+const 월일키 = (s, 기) => { const m = String(s || '').match(/^(\d{1,2})\/(\d{1,2})(?!\d)/); if(!m) return ''; const 년 = +m[1] > +기.slice(5, 7) ? +기.slice(0, 4) - 1 : +기.slice(0, 4); return 년 + '-' + String(+m[1]).padStart(2, '0') + '-' + String(+m[2]).padStart(2, '0'); };      /* 「10/28(수)」 → 2026-10-28 · 기준 달보다 크면 지난해 */
+function 출석달력(d){      /* 최근 30일 — 월요일부터 · 온 날 초록 + 들어온 시각 · 오늘 금색 테두리 */
+  const 기 = String(d['받은때'] || TODAY).slice(0, 10), 끝 = new Date(기 + 'T12:00:00'), 처음 = new Date(끝); 처음.setDate(처음.getDate() - 29);
+  const 온 = {};
+  if(Array.isArray(d['달력'])) d['달력'].forEach(a => { if(a && a.d) 온[String(a.d).slice(0, 10)] = a['시'] != null && a['시'] !== '' ? String(a['시']).replace(/시$/, '') + '시' : ''; });
+  else (d['출석'] || []).forEach(a => { const k = 월일키(a['날'], 기); if(k) 온[k] = a['시'] || ''; });
+  const t = new Date(처음); t.setDate(t.getDate() - ((t.getDay() + 6) % 7));
+  let h = '<div class="as-cal"><span></span>' + ['월', '화', '수', '목', '금', '토', '일'].map(w => '<span class="h">' + w + '</span>').join('');
+  for(let i = 0; i < 49 && (t <= 끝 || (t.getDay() + 6) % 7 !== 0); i++, t.setDate(t.getDate() + 1)){
+    const k = 날키(t), 밖 = t < 처음 || t > 끝, 옴 = !밖 && (k in 온);
+    if((t.getDay() + 6) % 7 === 0) h += '<span class="w">' + (t.getMonth() + 1) + '/' + t.getDate() + '</span>';
+    h += '<span class="d' + (밖 ? ' o' : '') + (옴 ? ' y' : '') + (k === 기 ? ' t' : '') + '"' + (옴 ? ' title="' + esc(k + ' ' + 온[k]) + '"' : '') + '>' + (t > 끝 ? '' : t.getDate()) + (옴 && 온[k] ? '<small>' + esc(온[k]) + '</small>' : '') + '</span>';
+  }
+  return h + '</div>'; }
 async function 배정출석열기(id){
   id = String(id); const x = (배정.줄 || []).find(r => String(r.id) === id); if(!x) return;
   if(배정출석.열림.has(id)){ 배정출석.열림.delete(id); 배정판(id); return; }
@@ -14537,6 +14613,42 @@ function 배정할일(x){
   if(x.progress === '재연락 필요' && x.recall_on) return '<div class="asp-todo"><span><b>' + esc(String(x.recall_on).slice(5).replace('-', '/')) + '에 다시 연락하기로 했어요</b><small>나중에 희망 · 담당 ' + esc(배정담당(x)) + '</small></span></div>';
   if(배정첫(x)) return '<div class="asp-todo"><span><b>첫 수업을 잡아 주세요</b><small>담당 ' + esc(배정담당(x)) + (x.assigned_on ? ' · ' + esc(String(x.assigned_on).slice(5).replace('-', '/')) + ' 배정' : '') + '</small></span></div>';
   return ''; }
+/* 배정 지금 상태 · 지난 기록 — assign_note(중앙 · 데스크가 한 줄씩 적음)를 날짜별로 · 기계 말은 화면에서만 쉬운 말로 (저장된 글은 그대로) (2026-10-29 대표 「용어 정리」) */
+const 배정분말 = { A0:['담당 정하기', '담당이 아직 없어요'], A1:['첫 수업 전', '담당이 첫 수업을 잡아요'], A2:['진행 중', ''], A3:['수업 멈춤', '마지막 수업 뒤 14일 넘게 다음 수업이 없어요'], A4:['나중에 희망', '고객이 나중에 받겠다고 했어요'],
+  B1:['대기 고객', '담당이 없고 자동 설문이 나가요 · 신청하면 담당 정하기로 올라와요'], B2:['나중에 진행', '담당이 없고 자동 설문도 안 나가요 · 본인이 신청하면 담당 정하기로 올라와요'], C:['끝', 'TG를 다 썼거나 회원권이 끝났어요'] };
+const 짧날 = k => k ? (+k.slice(5, 7)) + '/' + (+k.slice(8, 10)) : '';
+const 배정날키 = s => { const m = String(s || '').match(/^\d{4}-\d{2}-\d{2}/); return m ? m[0] : 월일키(s, TODAY); };
+const 배정출처 = { 노션옮김:'노션에서 옮겨 온 고객', 전산결제:'전산 결제로 생긴 줄', 직접:'데스크에서 추가한 고객', CRM보충:'전산 자료로 채운 줄' };
+function 배정기록말(s){ let m;
+  if((m = s.match(/나중에 진행 · 전 담당 (.+?) · 전 상태 (.+?) · TG 남음 (\d+)\/(\d+)/))) return '전산에 TG가 ' + m[3] + '회 남아 있어 <b>「나중에 진행」</b>으로 옮겼어요 <span class="who">· ' + (m[1] && m[1] !== '-' ? '전에는 ' + esc(m[1]) + ' 선생님 · ' : '전 상태 ') + esc(m[2]) + '</span>';
+  if((m = s.match(/^\d{4}-\d{2}-\d{2} 종료 · (.+?) \((.+?)\)\s*$/))) return esc(m[2]) + ' 선생님이 <b>「담당 종료 — ' + esc(m[1]) + '」</b>로 닫았어요';
+  if((m = s.match(/회차 정리 · (.+?) 는 지금 수업권\((\d{4}-\d{2}-\d{2}) 시작\) 전/))) return esc(m[1].split(',').map(z => 짧날(z.trim())).join(' · ')) + ' 수업은 지금 수업권(' + 짧날(m[2]) + ' 시작) 전이라 <b>회차에서 뺐어요</b>';
+  if((m = s.match(/자동 종료 · 마지막 TG (\d{4}-\d{2}-\d{2}) 뒤 (\d+)일 동안/))) return '마지막 수업(' + 짧날(m[1]) + ') 뒤 ' + m[2] + '일 동안 수업이 없어 <b>자동으로 닫혔어요</b>';
+  if((m = s.match(/관리자 판정 · 수업 다 받음 → 종료 · (.+)$/))) return esc(m[1]) + ' 님이 <b>「수업 다 받음 → 종료」</b>로 닫았어요';
+  if((m = s.match(/관리자 판정 취소 · (.+)$/))) return esc(m[1]) + ' 님이 <b>종료를 취소</b>했어요';
+  if((m = s.match(/정리 · 전 담당 (.+?)\(퇴사\) · TG (\d+)회 남음/))) return '담당 ' + esc(m[1]) + ' 선생님이 퇴사해 <b>다시 배정</b>을 기다려요 (TG ' + m[2] + '회 남음)';
+  return ''; }
+function 배정기록(x){
+  const t = x.tg_class && typeof x.tg_class === 'object' ? x.tg_class : null, 분 = t && 배정분말[t.cls];
+  const 지금 = 분 ? '<div class="asp-now"><b>' + esc(분[0]) + (t.cls !== 'C' && t.left != null && t.left !== '' ? ' — TG ' + esc(String(t.left)) + '회 남음' : '') + '</b>' + (분[1] ? '<small>' + esc(분[1]) + '</small>' : '') + '</div>' : '';
+  const 생 = String(x.created_at || '').slice(0, 10);
+  const 들 = String(x.assign_note || '').split(/\n+/).map(s => s.trim()).filter(Boolean).map((s, i) => { const k = 배정날키(s), 말 = 배정기록말(s);
+    if(!k && !말 && s.length <= 6 && !/\s/.test(s)) return { k:생, i, h:'노션 때 담당 메모 — ' + esc(s) };
+    return { k:k || 생, i, h:말 || esc(k ? s.replace(/^(\d{4}-\d{2}-\d{2}|\d{1,2}\/\d{1,2})\s*·?\s*/, '') : s) }; });
+  if(!배정미배(x) && x.assigned_on && !들.some(z => z.k === String(x.assigned_on).slice(0, 10))) 들.push({ k:String(x.assigned_on).slice(0, 10), i:-1, h:'담당 <b>' + esc(배정담당(x)) + '</b> 선생님 배정' });
+  if(생) 들.push({ k:생, i:-2, h:esc(배정출처[x.source] || (x.source || '') + ' 줄') });
+  들.sort((a, b) => a.k === b.k ? b.i - a.i : (a.k < b.k ? 1 : -1));
+  const 다받 = String(x.assign_note || '').match(/(\d{4}-\d{2}-\d{2}) 종료 · 수업을 다 받음/);
+  const 경고 = 다받 && t && t.cls !== 'C' && +t.left > 0 && (!t.start || 다받[1] >= t.start) ? '<div class="asp-warn">⚠ 선생님은 「수업을 다 받음」인데 전산은 TG ' + esc(String(t.left)) + '회 남음 — 둘이 달라요 · 전산에서 확인해 주세요</div>' : '';
+  return 지금 + (들.length ? '<ul class="asp-tl">' + 들.map((z, j) => '<li' + (j ? '' : ' class="n"') + '><span class="dt">' + esc(짧날(z.k)) + '</span> ' + z.h + '</li>').join('') + '</ul>' : '') + 경고 + 배정판정칸(x); }
+/* 관리자 판정 — 오늘부터 CRM 이 정본 · 수업 처리가 빠진 줄은 관리자가 종료 (2026-10-29 18:58 대표 · 중앙) · assign_note 「관리자 판정」 줄을 중앙이 읽고 다시 안 엶 */
+const 중앙글판정 = { 닫음:' 관리자 판정 · 수업 다 받음 → 종료 · ', 취소:' 관리자 판정 취소 · ' };      /* assign_note 에 저장하는 글자 — 중앙이 읽는다 · 바꾸지 않는다 · 화면엔 배정기록말이 쉬운 말로 */
+const TG정리권 = () => !!(ME && (ME.super === true || ['대표자', '최고관리자'].includes(등급of(ME))));
+const 배정판정됨 = x => { const L = String(x.assign_note || '').split(/\n+/).filter(s => s.includes('관리자 판정')); return !!L.length && !L[L.length - 1].includes('판정 취소'); };
+function 배정판정칸(x){
+  if(!TG정리권() || x.kind !== '가이드' || !배정쓰기(x)) return '';
+  if(배정판정됨(x)) return x.progress === '종료' ? '<div class="asp-judge">' + '관리자가 수업 다 받음으로 닫았어요' + '<button class="btn ghost sm" data-act="tx:asjudgeno" data-k="' + esc(x.id) + '">종료 취소</button></div>' : '';
+  return 배정열림(x) ? '<div class="asp-judge">' + '전산에 수업 처리가 빠졌으면' + '<button class="btn ghost sm" data-act="tx:asjudge" data-k="' + esc(x.id) + '">수업 다 받음 → 종료</button></div>' : ''; }
 function 배정판(id){
   const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
   const 메 = FC나눔(x.fc_memo), kv = 줄 => 줄.length ? '<dl class="asp-kv">' + 줄.map(([k, v]) => '<dt>' + esc(k) + '</dt><dd>' + v + '</dd>').join('') + '</dl>' : '';
@@ -14553,7 +14665,6 @@ function 배정판(id){
   const 원 = 메.tg.map(t => kv(t.칸.map(([k, v]) => [k, esc(v)])) + (t.말 ? '<div class="asp-say">' + esc(t.말) + '</div>' : '')).join('') + 메.기타.map(t => '<div class="asp-say">' + esc(t) + '</div>').join('');
   const 진행 = kv([].concat(
     [['회차', 배정점(x) + ' <span class="sub3">' + esc(['r1', 'r2', 'r3'].map(k => x[k] || '').filter(Boolean).join(' · ') || (배정쓴(x) + ' / ' + 배정회수(x))) + '</span>']],
-    !배정미배(x) && x.assigned_on ? [['배정', esc(String(x.assigned_on).slice(5).replace('-', '/')) + (x.assign_note ? ' <span class="sub3">' + esc(x.assign_note) + '</span>' : '')]] : x.assign_note ? [['배정', '<span class="sub3">' + esc(x.assign_note) + '</span>']] : [],
     x.survey_sent ? [['설문', 결과딱지(x.survey_sent) + (x.survey_resp ? ' <span class="sub3">' + esc(x.survey_resp) + '</span>' : '') + (x.survey_sent === '못 감' ? ' <span class="sub3">카톡 · 문자 실패 — 다시 보내거나 전화</span>' : '')]] : []))
     + '<div class="as-pair"><div><small>진행상황</small>' + 배정상태단추(x).replace('<span class="as-st">', '<span class="as-st big">') + '</div>' + 설문끔칸(x) + '</div>' + 재연락기록(x);
   const 등록 = kv([].concat(
@@ -14565,9 +14676,10 @@ function 배정판(id){
     '<div class="asp-top">' + 상 + '<span class="asp-ph">' + (번 ? '<a href="tel:' + esc(번) + '">' + esc(번보) + '</a>' : '<span class="sub3">전화 없음</span>') + '</span><span class="asp-dam">' + 담칸 + '</span></div>'
     + 배정할일(x) + 배정확인칸(x)
     + '<div class="asp-two">' + (블('고객이 원하는 것', 원 + 배정신청칸(x), 메.tg.length ? '팝업 TG 메모' : '', 'var(--teal)', '고') || 블('고객이 원하는 것', '<div class="sub3">아직 적힌 것이 없어요</div>', '', 'var(--teal)', '고'))
-    + 블('최근 출석', (출석글 && !배정출석.열림.has(String(x.id)) ? '<div class="as-att-l pre">' + 출석글.split(/\s*,\s*/).filter(Boolean).map(a => '<span>' + esc(a) + '</span>').join('') + '</div>' : '') + 배정출석칸(x), '전산 · 이 한 곳만', '#62b386', '출') + '</div>'
+    + 블('최근 출석', (출석글 && !배정출석.열림.has(String(x.id)) ? '<div class="as-att-l pre">' + 출석글.split(/\s*,\s*/).filter(Boolean).map(a => '<span>' + esc(a) + '</span>').join('') + '</div>' : '') + 배정출석칸(x), '최근 30일', '#62b386', '출') + '</div>'
     + 블('배정 참고', kv(참고), '', '#a99bf0', '배')
     + 블('수업 · 등록', 진행 + 등록, '', 'var(--gold)', '수')
+    + 블('지금 상태 · 지난 기록', 배정기록(x), '', '#e9cf9b', '기')
     + '<div class="asp-fold">'      /* 접힘(원문) — 메모 카드 앞에 둔다 · 뒤에 두면 lbl 카드에 붙거나 칩 줄이 생긴다 */
     + (x.fc_memo ? '<details class="asp-raw"><summary>FC 메모 원문</summary><div>' + esc(x.fc_memo) + '</div></details>' : '')
     + (x.updated_by ? '<div class="sub3">마지막으로 고친 사람 ' + esc(x.updated_by) + '</div>' : '') + '</div>'
@@ -15081,7 +15193,6 @@ async function txAct(a, el){
   if(a==='applinksv'){ 앱링크저장(k); return; }
   if(a==='applinkpr'){ 앱링크인쇄(k); return; }
   if(a==='asatt'){ await 배정출석열기(k); return; }      /* 최근 출석 펼침 ↔ 접기 (2026-10-22) */
-  if(a==='asattd'){ 배정출석날(k); return; }
   if(a==='lsrec'){ const [mid, 날] = String(k).split('|'); popClose(); 현황판 = null; S.mid = mid; S.view = 'member'; S.tab = 'record'; S.kind = '수업'; S.wnewDate = 날; render(); loadMember(mid);
     setTimeout(() => { const b = document.querySelector('[data-act="wnew"]'); if(b) b.click(); }, 300); return; }
   if(a==='rttab'){ S.rtTab = k; render(); return; }
@@ -15281,6 +15392,11 @@ async function txAct(a, el){
   if(a==='clack'){ await 청소확인(k); return; }
   if(a==='asmemowait' || a==='asmemoback'){ const 대 = a === 'asmemowait', 때 = new Date().toISOString().slice(5, 16).replace('T', ' ').replace('-', '/');      /* 메모만 있는 고객 — 대기로 / 담당 정하기로 (2026-10-29 대표) */
     if(await 배정고침(k, { memo_wait: 대 ? ((ME && ME.name) || '') + ' · ' + 때 : null }, 대 ? '「대기로」 — 사람 메모만 있어 신청 전으로 봐요 · 신청이 오면 담당 정하기로 올라와요' : '「담당 정하기」로 다시 올려요') && $('#pop').classList.contains('on')) 배정판(k); return; }
+  if(a==='asjudge' || a==='asjudgeno'){ const x = (배정.줄 || []).find(r => String(r.id) === String(k)); if(!x) return; const 판 = a === 'asjudge', 날 = (+TODAY.slice(5, 7)) + '/' + (+TODAY.slice(8, 10)), 누 = (ME && ME.name) || '';
+    const 글 = String(x.assign_note || '').replace(/\s+$/, ''), 줄 = 날 + (판 ? 중앙글판정.닫음 : 중앙글판정.취소) + 누;
+    if(await 배정고침(k, { progress: 판 ? '종료' : '진행중', assign_note: (글 ? 글 + '\n' : '') + 줄 }, 판 ? '수업 다 받음으로 닫아요 · 전산에 TG가 남으면 「TG 회수 · 추가」에 떠요' : '종료를 취소하고 진행중으로 돌려요') && $('#pop').classList.contains('on')) 배정판(k); return; }
+  if(a==='tgfixtab'){ TG정리.탭 = k === '추가' ? '추가' : '회수'; TG정리판(); return; }
+  if(a==='tgfixkeep' || a==='tgfixundo' || a==='tgfixprod'){ TG정리고침(a === 'tgfixkeep' ? '둠' : a === 'tgfixundo' ? '풀기' : '상품', k); return; }
   if(a==='asrecall'){ 배정재연락판(k); return; }
   if(a==='asrcq'){ const e = $('#asrcd'); if(e) e.value = 날더함(TODAY, +k); return; }
   if(a==='asrecallgo'){ if(await 배정나중저장(k, (($('#asrcd') || {}).value || '').trim())) 배정판(k); return; }
