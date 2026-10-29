@@ -1319,7 +1319,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-egrp{font-size:12px;font-weight:700;color:#6f6a63;grid-column:1/-1;padding:6px 4px 2px}
 #txself{position:fixed;z-index:75}#txself .tx-selall.on{position:static;margin:0;background:#1f1d1a;border:1.5px solid #000;box-shadow:0 8px 22px rgba(0,0,0,.35)}
 #txself .tx-selall.on b{color:#f3d9a8}#txself .tx-selall .acts button{background:#2c2925;color:#efe7d9;border:1px solid #4a4239}#txself .tx-selall .acts button.wn{background:#5a2a24;color:#ffd6cf;border-color:#a5473a}      /* 흰 표 위에서도 티 나게 — 검은 바탕 · 검은 테 (2026-10-28 저녁 노션) */
-.mrd-big{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;max-width:520px;padding:12px 18px;border-radius:14px;animation:mrdpulse 1.8s ease-in-out infinite}.mrd-big b{font-size:16px;font-weight:900}.mrd-big small{font-size:13px;font-weight:700;opacity:.8}
+.mrd-big{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;align-self:stretch;padding:12px 18px;border-radius:14px;animation:mrdpulse 1.8s ease-in-out infinite}.mrd-big b{font-size:16px;font-weight:900}.mrd-big small{font-size:13px;font-weight:700;opacity:.8}
 @keyframes mrdpulse{0%{box-shadow:0 0 0 0 rgba(226,193,132,.6)}70%{box-shadow:0 0 0 12px rgba(226,193,132,0)}100%{box-shadow:0 0 0 0 rgba(226,193,132,0)}}      /* 크기는 안 바꿈 — 빛만 퍼짐 */
 @media(prefers-reduced-motion:reduce){.mrd-big{animation:none}}
 .tx-sec.mrd{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
@@ -2878,7 +2878,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '481';
+const BUILD = '482';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
