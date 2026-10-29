@@ -2962,7 +2962,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '498';
+const BUILD = '499';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -14646,7 +14646,7 @@ const 배정날키 = s => { const m = String(s || '').match(/^\d{4}-\d{2}-\d{2}/
 const 배정출처 = { 노션옮김:'노션에서 옮겨 온 고객', 전산결제:'전산 결제로 생긴 줄', 직접:'데스크에서 추가한 고객', CRM보충:'전산 자료로 채운 줄' };
 function 배정기록말(s){ let m;
   if((m = s.match(/나중에 진행 · 전 담당 (.+?) · 전 상태 (.+?) · TG 남음 (\d+)\/(\d+)/))) return '전산에 TG가 ' + m[3] + '회 남아 있어 <b>「나중에 진행」</b>으로 옮겼어요 <span class="who">· ' + (m[1] && m[1] !== '-' ? '전에는 ' + esc(m[1]) + ' 선생님 · ' : '전 상태 ') + esc(m[2]) + '</span>';
-  if((m = s.match(/^\d{4}-\d{2}-\d{2} 종료 · (.+?) \((.+?)\)\s*$/))) return esc(m[2]) + ' 선생님이 <b>「담당 종료 — ' + esc(m[1]) + '」</b>로 닫았어요';
+  if((m = s.match(/^\d{4}-\d{2}-\d{2} 종료 · (.+?) \((.+?)\)\s*$/))) return esc(m[2]) + ' 선생님이 <b>담당을 종료</b>했어요 <span class="who">· ' + esc(m[1]) + '</span>';      /* 담당 종료 = 담당만 끝냄 · TG 남으면 나중에 진행 · 없으면 끝 (2026-10-29 20:21 대표) */
   if((m = s.match(/회차 정리 · (.+?) 는 지금 수업권\((\d{4}-\d{2}-\d{2}) 시작\) 전/))) return esc(m[1].split(',').map(z => 짧날(z.trim())).join(' · ')) + ' 수업은 지금 수업권(' + 짧날(m[2]) + ' 시작) 전이라 <b>회차에서 뺐어요</b>';
   if((m = s.match(/자동 종료 · 마지막 TG (\d{4}-\d{2}-\d{2}) 뒤 (\d+)일 동안/))) return '마지막 수업(' + 짧날(m[1]) + ') 뒤 ' + m[2] + '일 동안 수업이 없어 <b>자동으로 닫혔어요</b>';
   if((m = s.match(/관리자 판정 · 수업 다 받음 → 종료 · (.+)$/))) return esc(m[1]) + ' 님이 <b>「수업 다 받음 → 종료」</b>로 닫았어요';
@@ -14663,9 +14663,7 @@ function 배정기록(x){
   if(!배정미배(x) && x.assigned_on && !들.some(z => z.k === String(x.assigned_on).slice(0, 10))) 들.push({ k:String(x.assigned_on).slice(0, 10), i:-1, h:'담당 <b>' + esc(배정담당(x)) + '</b> 선생님 배정' });
   if(생) 들.push({ k:생, i:-2, h:esc(배정출처[x.source] || (x.source || '') + ' 줄') });
   들.sort((a, b) => a.k === b.k ? b.i - a.i : (a.k < b.k ? 1 : -1));
-  const 다받 = String(x.assign_note || '').match(/(\d{4}-\d{2}-\d{2}) 종료 · 수업을 다 받음/);
-  const 경고 = 다받 && t && t.cls !== 'C' && +t.left > 0 && (!t.start || 다받[1] >= t.start) ? '<div class="asp-warn">⚠ 선생님은 「수업을 다 받음」인데 전산은 TG ' + esc(String(t.left)) + '회 남음 — 둘이 달라요 · 전산에서 확인해 주세요</div>' : '';
-  return 지금 + (들.length ? '<ul class="asp-tl">' + 들.map((z, j) => '<li' + (j ? '' : ' class="n"') + '><span class="dt">' + esc(짧날(z.k)) + '</span> ' + z.h + '</li>').join('') + '</ul>' : '') + 경고 + 배정판정칸(x); }
+  return 지금 + (들.length ? '<ul class="asp-tl">' + 들.map((z, j) => '<li' + (j ? '' : ' class="n"') + '><span class="dt">' + esc(짧날(z.k)) + '</span> ' + z.h + '</li>').join('') + '</ul>' : '') + 배정판정칸(x); }
 /* 관리자 판정 — 오늘부터 CRM 이 정본 · 수업 처리가 빠진 줄은 관리자가 종료 (2026-10-29 18:58 대표 · 중앙) · assign_note 「관리자 판정」 줄을 중앙이 읽고 다시 안 엶 */
 const 중앙글판정 = { 닫음:' 관리자 판정 · 수업 다 받음 → 종료 · ', 취소:' 관리자 판정 취소 · ' };      /* assign_note 에 저장하는 글자 — 중앙이 읽는다 · 바꾸지 않는다 · 화면엔 배정기록말이 쉬운 말로 */
 const TG정리권 = () => !!(ME && (ME.super === true || ['대표자', '최고관리자'].includes(등급of(ME))));
