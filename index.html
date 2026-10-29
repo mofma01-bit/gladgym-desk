@@ -2167,6 +2167,7 @@ body{word-break:keep-all}
 .asp-tl{list-style:none;border-left:2px solid var(--line);margin:0 0 0 6px;padding:0 0 0 14px}.asp-tl li{position:relative;margin:0 0 8px;font-size:13.5px;color:#d9d3c9}
 .asp-tl li::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--line)}.asp-tl li.n::before{background:var(--gold)}
 .asp-tl .dt{display:inline-block;min-width:44px;color:var(--gold);font-weight:900}.asp-tl .who{color:var(--sub);font-size:12.5px}.asp-tl b{color:var(--cream)}
+.da-row .da-b{font-size:13px;color:#d9d3c9;white-space:pre-line;margin:4px 0 6px}.da-row .da-t{margin-left:auto;font-size:12.5px;color:var(--sub);white-space:nowrap}
 .tf-seg{display:flex;gap:6px;margin:0 0 10px}.tf-seg button{flex:1;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:10px;padding:8px 0;font:inherit;font-weight:800;cursor:pointer}.tf-seg button.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}
 .tf-row .tf-why{font-size:12.5px;font-weight:800;border-radius:6px;padding:1px 7px;margin-left:8px;border:1px solid var(--line);color:#d9d3c9}.tf-row .tf-in{font-size:13px;color:var(--sub);margin:4px 0 6px}.tf-row .tf-b{display:flex;gap:6px;flex-wrap:wrap}
 .tf-row.keep .a,.tf-row.keep .tf-in{opacity:.5}
@@ -2961,7 +2962,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '497';
+const BUILD = '498';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10263,6 +10264,28 @@ async function 락커받기(){ if(락커.중 || Date.now() - 락커.때 < 600000
   try{ 락커.r = await crm('locker_status', {}); }catch(e){ 락커.r = null; }
   락커.중 = false; 락커.때 = Date.now(); if(S.view === 'home') render(); }
 const 락커줄 = k => (락커.r && Array.isArray(락커.r[k])) ? 락커.r[k] : [];
+/* ══ 데스크 알림 ══ 중앙 desk_alerts — 데스크 자리 알림(상담 · 예약 · 배정 · 비품 · TG 회수 등)은 대시보드 대신 여기 · 직원 모두 · 닫으면 모두에게서 닫힘 (2026-10-29 19:2x 대표 「데스크에 뜨는 걸 대시보드에 띄울 필요 없음 · 분류해서 정리」) */
+const 데스크알림 = { r:null, 중:false, 때:0 };
+async function 데스크알림받기(강){ if(데스크알림.중 || (!강 && Date.now() - 데스크알림.때 < 600000)) return; 데스크알림.중 = true;
+  try{ const r = await crm('desk_alerts', {}); 데스크알림.r = r && r.ok !== false && Array.isArray(r['알림']) ? r : null; }catch(e){ 데스크알림.r = null; }
+  데스크알림.중 = false; 데스크알림.때 = Date.now(); if(S.view === 'home') render(); }
+const 데스크알림줄 = () => (데스크알림.r && 데스크알림.r['알림']) || [];
+const 알림갈래 = [['실패', '안 된 일'], ['할일', '할 일'], ['확인', '확인할 것'], ['완료', '끝난 일']];
+function 데스크알림판(){
+  const L = 데스크알림줄(), 때 = a => String(a || '').slice(5, 16).replace('T', ' ').replace('-', '/');
+  const 줄 = a => '<div class="bp-row2 da-row"><div class="a"><b>' + esc(a.title || '') + '</b><span class="da-t">' + esc(때(a.at)) + '</span></div>'
+    + (a.body ? '<div class="da-b">' + esc(a.body) + '</div>' : '') + '<div class="tf-b"><button class="btn ghost sm" data-act="tx:dadone" data-k="' + esc(String(a.id)) + '">확인했어요</button></div></div>';
+  const 남 = 알림갈래.map(g => g[0]), 기타 = L.filter(a => !남.includes(a.kind));
+  판열기('데스크 알림', '<div class="ck-act">센터 일 알림이에요<small>처리했으면 「확인했어요」 · 모든 직원에게서 같이 사라져요</small></div>'
+    + (L.length ? 알림갈래.concat(기타.length ? [['__', '그 밖']] : []).map(([k, 말]) => { const 들 = k === '__' ? 기타 : L.filter(a => a.kind === k); return 들.length ? '<div class="lk-g">' + 말 + '<span class="n">' + 들.length + '건</span></div>' + 들.map(줄).join('') : ''; }).join('')
+      : '<div class="empty why"><b>새 알림이 없습니다</b>상담 · 예약 · 배정 · 비품 알림이 여기에 떠요</div>'));
+}
+async function 데스크알림닫기(id){
+  const a = 데스크알림줄().find(z => String(z.id) === String(id)); if(!a) return;
+  if(!await 묻기('「' + (a.title || '알림') + '」 — 확인했어요?\n모든 직원에게서 사라져요')) return;
+  try{ const r = await crm('desk_alert_done', { id:a.id }); if(!r || r.ok === false || !Array.isArray(r['알림'])) throw new Error((r && (r.why || r.error)) || '저장하지 못했어요');
+    데스크알림.r = r; 데스크알림.때 = Date.now(); toast('확인했어요'); 데스크알림판(); if(S.view === 'home') render(); }
+  catch(e){ toast(e.message || '저장하지 못했어요'); } }
 /* ══ TG 회수 · 추가 ══ 중앙 tg_fix — 전산(브로제이)에서 무료 수업권을 회수하거나 추가할 줄 · 관리자만 · 처리하면 다음 매시 저절로 빠짐 (2026-10-29 18:58 대표 「데스크 팝업 · 회수와 추가 한 탭에서 분류해서 내가 할 수 있게」) */
 const TG정리 = { r:null, 중:false, 때:0, 탭:'회수' };
 async function TG정리받기(강){ if(!TG정리권() || TG정리.중 || (!강 && Date.now() - TG정리.때 < 600000)) return; TG정리.중 = true;
@@ -13706,6 +13729,7 @@ const 현황칸 = [
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
   /* 락커 — 중앙 locker_status 그대로 (2026-10-25 대표 「현황판에는 락커만료자 · 락커TM」) · 셈 = 명단 길이 */
+  { k:'데스크알림', 이름:'데스크 알림', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r },      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
   { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
   { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r },
   { k:'락커TM', 이름:'락커 TM', 색:'warn', 셈: () => 락커줄('TM').length, 직접: () => 락커판('TM'), 보임: () => !!락커.r },
@@ -13736,7 +13760,7 @@ const 현황셈하기 = k => {
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
-  setTimeout(락커받기, 0); setTimeout(못감받기, 0); setTimeout(TG정리받기, 0);
+  setTimeout(락커받기, 0); setTimeout(못감받기, 0); setTimeout(TG정리받기, 0); setTimeout(데스크알림받기, 0);
   if((!배정.줄 || Date.now() - (배정.때 || 0) > 120000) && !배정.중 && 할수('assign')) setTimeout(배정받기, 0);      /* 2분마다 다시 받음 — 못감받기 안(10분 거름 뒤)에 두어 10분에 한 번만 받았다 (2026-10-28 19:07 대표 「배정해도 알림이 없다」) */      /* 현황판 「락커 만료자 · 락커 TM」 (2026-10-25 · 안에서 10분 거름) */      /* 10분 지났으면 오늘 수업 다시 (안에서 거른다) */
   /* ⭐ 두 단 — **할 일이 있는 것이 윗줄**, 0 인 것은 아랫줄로 내린다
        (2026-09-30 대표 「죽어있는건 아래줄 · 살아있는건 윗줄로」).
@@ -15396,6 +15420,7 @@ async function txAct(a, el){
   if(a==='asjudge' || a==='asjudgeno'){ const x = (배정.줄 || []).find(r => String(r.id) === String(k)); if(!x) return; const 판 = a === 'asjudge', 날 = (+TODAY.slice(5, 7)) + '/' + (+TODAY.slice(8, 10)), 누 = (ME && ME.name) || '';
     const 글 = String(x.assign_note || '').replace(/\s+$/, ''), 줄 = 날 + (판 ? 중앙글판정.닫음 : 중앙글판정.취소) + 누;
     if(await 배정고침(k, { progress: 판 ? '종료' : '진행중', assign_note: (글 ? 글 + '\n' : '') + 줄 }, 판 ? '수업 다 받음으로 닫아요 · 전산에 TG가 남으면 「TG 회수 · 추가」에 떠요' : '종료를 취소하고 진행중으로 돌려요') && $('#pop').classList.contains('on')) 배정판(k); return; }
+  if(a==='dadone'){ 데스크알림닫기(k); return; }
   if(a==='tgfixtab'){ TG정리.탭 = k === '추가' ? '추가' : '회수'; TG정리판(); return; }
   if(a==='tgfixkeep' || a==='tgfixundo' || a==='tgfixprod'){ TG정리고침(a === 'tgfixkeep' ? '둠' : a === 'tgfixundo' ? '풀기' : '상품', k); return; }
   if(a==='asrecall'){ 배정재연락판(k); return; }
