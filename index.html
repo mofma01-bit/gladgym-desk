@@ -1427,7 +1427,6 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-form .fld .inp{width:100%}
 .tx-form textarea.inp{min-height:88px;resize:vertical;line-height:1.55}
 .tx-pchips{display:flex;flex-wrap:wrap;gap:6px}
-.tx-pchip.tx-pfold{padding:5px 12px;font-weight:700}.tx-pchip.tx-pfold .tx-nm,.tx-pchip.tx-pfold>span{margin-left:2px}
 .empty .tx-hid{margin-top:10px;font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
 .tx-pchip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;border-radius:999px;
   border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--sub)}
@@ -2301,6 +2300,17 @@ body{word-break:keep-all}
 .as-qc button.qh b::after{content:' ›';color:var(--sub)}.as-qc button.qh{width:100%;background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-align:left;padding:0}.as-qc button.qh:hover b{text-decoration:underline}
 button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub);font:inherit;font-size:13px;cursor:pointer;text-align:left;padding:8px 2px}button.as-more:hover{color:var(--fg)}
 .as-tbl td.as-act{white-space:nowrap;text-align:right}
+/* 담당 고르기 단추 · 메뉴 (2026-10-29) */
+.dsel{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:10px;padding:6px 12px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;white-space:nowrap;max-width:100%}.dsel:hover{border-color:var(--gold)}
+.dsel i{width:10px;height:10px;border-radius:50%;flex:none}.dsel span{overflow:hidden;text-overflow:ellipsis}.dsel b{font-size:11px;color:var(--sub);margin-left:2px}
+#body.lite .dsel,.lite .dsel{background:#fff;color:#37352f;border-color:#e9e9e7}
+.tk-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-right:6px}.tk-seg > button{border:0;border-right:1px solid var(--line);background:transparent;color:inherit;padding:6px 12px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;white-space:nowrap}.tk-seg > button:last-child{border-right:0}
+.tk-seg > button.on{background:#37352f;color:#fff}.tk-seg b{margin-left:4px;font-weight:900;opacity:.8}.tk-seg .dsel{border:0;border-right:1px solid var(--line);border-radius:0;background:#37352f;color:#fff}.tk-seg .dsel b{color:#fff;opacity:.8}
+#body:not(.lite) .tk-seg > button.on,#body:not(.lite) .tk-seg .dsel{background:var(--gold);color:#2a1c14}
+#body.lite .tk-seg .dsel{background:#37352f;color:#fff;border-color:transparent;border-right:1px solid #e9e9e7}
+.dsel.big{padding:10px 16px;font-size:15px;border-radius:12px;width:100%;justify-content:space-between}
+.dsel-m button{display:flex;align-items:center;gap:8px;width:100%}.dsel-m .dot{width:10px;height:10px;border-radius:50%;flex:none;background:transparent;border:1px solid var(--line)}.dsel-m .dot[style]{border:0}
+.dsel-m .t{flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dsel-m small{color:var(--sub);font-weight:700}.dsel-m em{font-style:normal;color:var(--gold);font-weight:900}.dsel-m button[data-on]{font-weight:900}
 .as-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .as-pk{border-radius:14px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:2px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 16%,#1c1a17);color:var(--fg)}
 .as-pk b{font-size:20px;font-weight:900;color:var(--c)}.as-pk small{font-size:12.5px;color:var(--sub)}.as-pk.on{border-color:var(--c);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 40%,transparent)}.as-pk.dim{opacity:.5}
@@ -2931,7 +2941,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '489';
+const BUILD = '494';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4127,6 +4137,16 @@ const 선생님반전 = n => { const c = 명단받은 && 명단받은.색, o = c
 const 선생님칩 = (n, 빈말) => { const t = String(n || '').trim(), 색 = 선생님색(t), 반 = 선생님반전(t);
   if(!t) return '<span class="sub3">' + esc(빈말 || '담당 없음') + '</span>';
   return '<span class="trc' + (반 ? ' inv' : '') + '"' + (반 ? ' style="--c:' + esc(반.색) + ';--t:' + esc(반['글자'] || '#131312') + '"' : 색 ? ' style="--c:' + esc(색) + '"' : '') + ' title="' + esc(t) + '">' + esc(보임이름(t)) + '</span>'; };
+/* ══ 담당 고르기 단추 ══ 2026-10-29 대표 「담당 선택 버튼을 나열하지 말고 · 누르면 선택 메뉴가 펼쳐지는 형식 · 담당자 선택하는 버튼 있는 모든 곳」
+   담당단추(열쇠, 지금 글, 지금 색, 메뉴 줄들) — 메뉴 줄 = 담당옵(그 줄의 손잡이 속성, 글, 색, 고름, 덧) 또는 '-'(구분선) · 손잡이는 예전 칩과 같아 하는 일은 그대로 · 고르면 메뉴는 닫힘 */
+const 담당칸 = {};
+function 담당단추(열쇠, 글, 색, 줄들, 덧){ 담당칸[열쇠] = 줄들;
+  return '<button type="button" class="dsel' + (덧 ? ' ' + 덧 : '') + '" data-act="tx:dsel" data-k="' + esc(열쇠) + '">' + (색 ? '<i style="background:' + esc(색) + '"></i>' : '') + '<span>' + 글 + '</span><b>▾</b></button>'; }
+const 담당옵 = (속성, 글, 색, on, 덧) => ({ 속성, 글, 색, on, 덧 });
+function 담당메뉴(el, 열쇠){ const L = 담당칸[열쇠]; if(!L) return;
+  const d = 쪽지열기(el, '<div class="tx-pmenu dsel-m">' + L.map(o => o === '-' ? '<div class="tx-pdiv"></div>' : '<button ' + o.속성 + (o.on ? ' data-on="1"' : '') + '>' + '<i class="dot"' + (o.색 ? ' style="background:' + esc(o.색) + '"' : '') + '></i><span class="t">' + o.글 + '</span>' + (o.덧 != null && o.덧 !== '' ? '<small>' + o.덧 + '</small>' : '') + (o.on ? '<em>✓</em>' : '') + '</button>').join('') + '</div>', el.classList.contains('big') ? Math.max(240, el.offsetWidth) : 240);      /* 큰 단추면 단추 폭 그대로 */
+  d.classList.add('dselpop'); }
+document.addEventListener('click', e => { const b = e.target && e.target.closest && e.target.closest('#txpop.dselpop .dsel-m button'); if(b) setTimeout(() => { const p = document.getElementById('txpop'); if(p && p.classList.contains('dselpop')) 쪽지닫기(); }, 0); }, true);      /* 고르면 닫힘 */
 const 선생님점 = n => { const 색 = 선생님색(n); return 색 ? '<i class="trdot" style="--c:' + esc(색) + '"></i>' : ''; };
 const 재직선생님 = () => (명단받은 && 명단받은.선생님) || [];      /* 중앙 재직 트레이너 명단 — 아직 담당 회원이 없는 새 선생님도 고를 수 있게 */
 function 담당정본(m, x){ return 퇴사뺌(담당맞춤값(m.trainer, (x && x['담당']) || '', x && x['담당재직'])); }
@@ -7870,7 +7890,8 @@ function v점검(){
   const 거름 = R.관 ? 점검.거름 : '', 나키 = R.관 ? (거름 || '센터') : (cv['TG최근'] || {})['센터'] ? ((ME && ME.name) || '') : (Object.keys(cv['TG최근'] || {}).find(k => !점검특.includes(k)) || ''), 나이름 = R.관 ? (거름 || '센터') : '나';
   /* 칩 차례 (2026-10-20 대표 「조민철 = 기본 본인 · 다른 트레이너 · 가장 오른쪽 전체 / 대표 = 전체 다음 이름 나열」) */
   const 칩이름 = (d2['선생님'] || []).map(x => x.name).filter(Boolean), 본인먼저 = 관리자칩꼴() && ME && 칩이름.includes(ME.name);
-  const 선생줄 = R.관 ? '<div class="chips ck-trs">' + (본인먼저 ? [ME.name].concat(칩이름.filter(t => t !== ME.name), ['']) : [''].concat(칩이름)).map(t => '<button class="chip ' + (거름 === t ? 'on' : '') + '" data-act="tx:cktr" data-k="' + esc(t) + '">' + (t ? esc(t) : '전체') + '</button>').join('') + '</div>' : '';
+  const 선생줄 = R.관 ? '<div class="ck-trs">' + 담당단추('ck', 거름 ? esc(거름) : '전체 선생님', 거름 ? 선생님색(거름) : '', (() => { const 전 = 담당옵('data-act="tx:cktr" data-k=""', '전체', '', !거름), 이 = n => 담당옵('data-act="tx:cktr" data-k="' + esc(n) + '"', esc(n), 선생님색(n), 거름 === n);
+        return 본인먼저 ? [ME.name].concat(칩이름.filter(t => t !== ME.name)).map(이).concat(['-', 전]) : [전, '-'].concat(칩이름.map(이)); })())      /* 차례 그대로 — 최고관리자 = 본인 먼저 · 전체 끝 (2026-10-20) */ + '</div>' : '';      /* 펼침 메뉴 (2026-10-29) */
   const nd = x => x ? [x.n, x.d] : null, 끝 = (o, k) => ((o || {})[k] || {})['최근10'] || ((o || {})[k] || {})['최근'] || null;
   const 히어로 = 점검카드('TG 전환률', '', nd((cv['TG최근'] || {})[나키]), 끝(cv['TG최근'], '최저'), 끝(cv['TG최근'], '최고'), 목표.TG, 나이름)
     + 점검카드('PT 재등록률', '', nd(rr[나키]), (cv['PT재등록최저'] || {})['최근10'] || null, (cv['PT재등록최고'] || {})['최근10'] || null, 목표.PT, 나이름, false, !R.관 && rr[나키] && rr[나키].flag === '🔴')
@@ -10014,12 +10035,8 @@ function vReports(){
     + '</div>';
 
   const 칩 = 전부 && 선생들.length
-    ? '<div class="chips" style="margin-bottom:9px">'
-      + '<button class="chip' + (RS선생 ? '' : ' on') + '" data-act="tx:rsteach" data-i="">전부 '
-        + 내것.length + '</button>'
-      + 선생들.map(t => '<button class="chip' + (RS선생 === t ? ' on' : '') + '" data-act="tx:rsteach" data-i="'
-          + esc(t) + '">' + esc(t) + ' ' + RS.filter(r => (r.trainer||'') === t).length + '</button>').join('')
-      + '</div>'
+    ? '<div class="chips" style="margin-bottom:9px">' + 담당단추('rs', RS선생 ? esc(RS선생) + ' ' + RS.filter(r => (r.trainer||'') === RS선생).length : '전부 ' + 내것.length, RS선생 ? 선생님색(RS선생) : '',
+        [담당옵('data-act="tx:rsteach" data-i=""', '전부', '', !RS선생, 내것.length), '-'].concat(선생들.map(t => 담당옵('data-act="tx:rsteach" data-i="' + esc(t) + '"', esc(t), 선생님색(t), RS선생 === t, RS.filter(r => (r.trainer||'') === t).length)))) + '</div>'      /* 펼침 메뉴 (2026-10-29) */
     : '';
   const 찾기 = '<input class="inp" id="rsq" placeholder="회원 이름 · 선생님 · 운동으로 검색"'
       + ' value="' + esc(RS찾 || '') + '" style="width:100%;margin-bottom:10px">';
@@ -10721,7 +10738,15 @@ const 공지보임 = r => !(r.owners || []).length || 내것(r.owners) || 할수
 const 공지중 = r => r.kind === '대표공지' && !r.done && (!r.due || r.due >= TODAY);      /* 올라가 있는 공지 = 안 내림 + 기한 없음 또는 기한 안 (2026-10-27 대표) */
 const 공지대상 = r => (W.staff || []).filter(p => p.active !== false && p.name && !퇴사명().has(String(p.name).trim()) && (!(r.owners || []).length || (r.owners || []).includes(p.id))).map(p => p.name);
 const 공지읽음 = (r, 이름) => (W.mread || []).some(x => x.manual_id === r.id && x.name === 이름);
-const 볼줄 = key => key === 'tasks' && !할수('taskall') ? (W.tasks || []).filter(r => 내것(r.owners) || (r.kind === '대표공지' && 공지보임(r) && (공지중(r) || 할수('popup')))) : (W[key] || []);
+const 업무내것 = r => 내것(r.owners) || (r.kind === '대표공지' && 공지보임(r) && (공지중(r) || 할수('popup')));
+const 볼줄 = key => key === 'tasks' && (!할수('taskall') || (표상태.tasks.범위 || '내') === '내') ? (W.tasks || []).filter(업무내것) : (W[key] || []);      /* 업무 처음 = 내 담당 (2026-10-29 대표) · 선생님별 · 전체는 업무 전체 보기 권한만 */
+/* 업무 위 「내 담당 · 선생님별 ▾ · 전체」 (2026-10-29 시안 업무탭_시안 · 대표 「담당 선택 버튼 방금 바꾼 것처럼」) — 선생님별 = 펼침 메뉴 */
+function 업무범위줄(){ if(!할수('taskall')) return '';
+  const st = 표상태.tasks, 범 = st.범위 || '내', 열 = r => !r.done, 고 = st.사람 ? 사람(st.사람) : null, 셈 = id => (W.tasks || []).filter(r => 열(r) && (r.owners || []).includes(id)).length;
+  return '<span class="tk-seg"><button class="' + (범 === '내' ? 'on' : '') + '" data-act="tx:tscope" data-k="내">내 담당<b>' + (W.tasks || []).filter(r => 열(r) && 업무내것(r)).length + '</b></button>'
+    + (범 === '선생' ? 담당단추('tb_tasks', 고 ? esc(보임이름(고.name) || '?') + ' <b>' + 셈(고.id) + '</b>' : '선생님 고르기', 고 ? (선생님색(고.name) || '') : '', W.staff.filter(p => p.active !== false).map(p => 담당옵('data-act="tx:who" data-k="tasks" data-v2="' + p.id + '"', esc(보임이름(p.name) || '?'), 선생님색(p.name) || '', st.사람 === p.id, 셈(p.id))), 'on')
+       : '<button data-act="tx:tscope" data-k="선생">선생님별 ▾</button>')
+    + '<button class="' + (범 === '전체' ? 'on' : '') + '" data-act="tx:tscope" data-k="전체">전체<b>' + (W.tasks || []).filter(열).length + '</b></button></span>'; }
 function txTop(key){
   const T = 표정의[key], st = 표상태[key];
   const 전체 = 볼줄(key);
@@ -10732,18 +10757,17 @@ function txTop(key){
 /* 표 도구 — 표 바로 위 줄 오른쪽 (2026-10-26 대표 「필터나 이런 것들을 데이터베이스 안에 · 외곽선」) */
 function txTools(key){
   const T = 표정의[key], st = 표상태[key];
-  const 고 = 고정막힘(key), 순 = st.정렬 && st.정렬.k, 검 = st.검색열림 || st.q, 잠 = 잠겼나(key);
+  const 고 = 고정막힘(key), 순 = st.정렬 && st.정렬.k, 검 = st.검색열림 || st.q || key === 'tasks', 잠 = 잠겼나(key);      /* 업무 검색칸은 늘 열림 · 모두 (2026-10-29) */
   return '<div class="tx-tools">'
     + (할수('table') ? '<button class="tx-ib tx-lockb'+(잠?' on':'')+'" data-act="tx:lock" data-k="'+key+'" title="'+(잠?'잠김 — 눌러서 풀기':'풀림 — 눌러서 잠그기 · 모두 지금 화면 그대로')+'">'+(잠?'🔒':'🔓')+'</button>'
         : 잠 ? '<span class="tx-ib tx-lockb on" title="잠긴 표 — 대표가 저장한 그대로 보여요">🔒</span>' : '')
     + '<button class="tx-ib'+((st.규칙||[]).length?' on':'')+(고?' fix':'')+'" data-act="tx:fnew" data-k="'+key+'" title="'+(고?'필터 고정됨':'필터')+'"><svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg></button>'
     + '<button class="tx-ib'+(순?' on':'')+(고?' fix':'')+'" data-act="tx:sortmenu" data-k="'+key+'" title="정렬"><svg viewBox="0 0 24 24"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg></button>'
-    + (검 ? '<input class="srch" id="txq" type="text" placeholder="'+T.제목+' 검색" value="'+esc(st.q)+'"><button class="tx-ib" data-act="tx:qclose" data-k="'+key+'" title="검색 닫기">✕</button>'
+    + (검 ? '<input class="srch" id="txq" type="text" placeholder="'+(key === 'tasks' ? '업무 검색 — 제목 · 내용 · 담당 · 구분' : T.제목+' 검색')+'" value="'+esc(st.q)+'">' + (key === 'tasks' && !st.q ? '' : '<button class="tx-ib" data-act="tx:qclose" data-k="'+key+'" title="검색 닫기">✕</button>')
          : '<button class="tx-ib" data-act="tx:qopen" data-k="'+key+'" title="검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>')
     + '<button class="tx-ib" data-act="tx:vset" data-k="'+key+'" title="보기 설정"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>'
     + '<button class="btn gold sm" data-act="tx:new" data-k="'+key+'">＋ 새로 만들기 ▾</button></div>';
 }
-const 담당칩열림 = key => { try{ return localStorage.getItem('gg_pchip_' + key) === '1'; }catch(e){ return false; } };
 function txList(key){ return '<div class="tx-db">' + txList0(key) + '</div>'; }      /* 표 전체 외곽선 (2026-10-26) */
 function txList0(key){
   const T = 표정의[key], st = 표상태[key];
@@ -10767,11 +10791,10 @@ function txList0(key){
         + esc(x.이름) + '<b>' + 겉거름(볼줄(key).filter(r => 보기맞나(x, r, key))).length + '</b></button>').join('')
     + (할수('table') && !잠겼나(key) ? '<button class="tx-vplus" data-act="tx:views" data-k="'+key+'" title="새 보기 추가">＋</button>' : '')
     + '</div><div class="sp2">'
-    + (key === 'tasks' && !할수('taskall') ? ''
-       : key === 'leads' && !담당칩열림(key) ? '<span class="tx-pchips"><button class="tx-pchip tx-pfold'+(st.사람?' on':'')+'" data-act="tx:pfold" data-k="'+key+'" title="담당자로 거르기">담당자'+(st.사람 ? ' · '+이름딱지(st.사람) : '')+' ▾</button></span>'      /* 상담은 담당자 칩을 접어 둔다 (2026-10-26 대표 「상담에서는 많이 쓰는 기능이 아니라서 · 펼쳤다 숨겼다」) */
-       : '<span class="tx-pchips"><button class="tx-pchip '+(!st.사람?'on':'')+'" data-act="tx:who" data-k="'+key+'" data-v2="">모두</button>'
-    + W.staff.filter(p=>p.active!==false).map(p => '<button class="tx-pchip '+(st.사람===p.id?'on':'')+'" data-act="tx:who" data-k="'+key+'" data-v2="'+p.id+'">'+이름딱지(p.id)+'</button>').join('')
-    + (key === 'leads' ? '<button class="tx-pchip tx-pfold" data-act="tx:pfold" data-k="'+key+'" title="담당자 칩 접기">접기 ▴</button>' : '')
+    + (key === 'tasks' ? 업무범위줄()
+       : '<span class="tx-pchips">' + (() => { const 고 = st.사람 ? 사람(st.사람) : null;      /* 담당자 = 펼침 메뉴 하나 (2026-10-29 대표 「나열하지 말고」) */
+           return 담당단추('tb_' + key, 고 ? esc(보임이름(고.name) || '?') : '담당 전체', 고 ? (선생님색(고.name) || '') : '', [담당옵('data-act="tx:who" data-k="' + key + '" data-v2=""', '모두', '', !st.사람), '-']
+             .concat(W.staff.filter(p => p.active !== false).map(p => 담당옵('data-act="tx:who" data-k="' + key + '" data-v2="' + p.id + '"', esc(보임이름(p.name) || '?'), 선생님색(p.name) || '', st.사람 === p.id)))); })()
     + '</span>')
     + txTools(key) + '</div></div>';
   const 달력 = T.달력 ? txCal(key, rows) : '';
@@ -13977,10 +14000,14 @@ document.addEventListener('visibilitychange', () => { if(document.visibilityStat
 function 배정배지(){ const b = $('#asbdg'); if(!b) return; const 나 = (ME && ME.name) || '', n = 나 ? (배정.줄 || []).filter(x => (x.trainers || []).includes(나) && 배정첫(x)).length : 0;      /* 내 담당 · 첫 수업 안 잡은 TG = 새로 받은 배정 (2026-10-28) */
   if(n){ b.textContent = n; b.style.display = ''; } else b.style.display = 'none'; }
 /* 열린 미배정 = 「담당 없음」 또는 「메모 · 신청 기다림」 — 둘 밖으로 빠지는 줄이 없게 한 곳에서 (2026-10-28 20:38 대표 「조용히 묻히잖아」) */
-const 배정담당없음줄 = x => 배정미배(x) && 배정열림(x) && (x.kind === '체험' || 배정TG있음(x) || !!x.apply_at || x.ask === '담당 넣기' || !!String(x.trainer_memo || '').trim());      /* 사람 메모가 있으면 대기 고객이 아님 (2026-10-29 대표 「대기 고객」 정의 · 중앙) */
-const 배정기다림줄 = x => 배정미배(x) && 배정열림(x) && !배정담당없음줄(x);
+const 배정담당없음줄 = x => 배정분(x) ? (배정분(x) === 'A0') : 배정담당없음줄식(x);
+const 배정메모만 = x => !!String(x.trainer_memo || '').trim() && x.kind !== '체험' && !배정TG있음(x) && !x.apply_at && x.ask !== '담당 넣기';      /* 사람 메모만 있는 담당 없는 줄 (2026-10-29 18:17 대표) */
+const 배정담당없음줄식 = x => 배정미배(x) && 배정열림(x) && (x.kind === '체험' || 배정TG있음(x) || !!x.apply_at || x.ask === '담당 넣기' || (!!String(x.trainer_memo || '').trim() && !x.memo_wait));      /* 메모만 있으면 기본 담당 정하기 · 「대기로」 고르면(memo_wait) 대기 */      /* 사람 메모가 있으면 대기 고객이 아님 (2026-10-29 대표 「대기 고객」 정의 · 중앙) */
+const 배정기다림줄 = x => 배정분(x) ? (['B1', 'B2'].includes(배정분(x))) : 배정기다림줄식(x);
+const 배정기다림줄식 = x => 배정미배(x) && 배정열림(x) && !배정담당없음줄(x);
 const 배정설문계획 = x => x && x.apply_plan && typeof x.apply_plan === 'object' && 'on' in x.apply_plan ? x.apply_plan : null;      /* 중앙 판정(94단계) — {on, next, n, why, at} */
-const 배정나중진행줄 = x => 배정기다림줄(x) && (배정설문계획(x) || {}).on === false;      /* 정본 B2 나중에 진행 — 자동 설문 안 나감 */
+const 배정나중진행줄 = x => 배정분(x) ? (배정분(x) === 'B2') : 배정나중진행줄식(x);
+const 배정나중진행줄식 = x => 배정기다림줄(x) && (배정설문계획(x) || {}).on === false;      /* 정본 B2 나중에 진행 — 자동 설문 안 나감 */
 /* 카드 색 = 옆 판 네임텍(구분머리)과 같은 팔레트 · 카드마다 고정(끌어서 차례를 바꿔도 색은 따라감) (2026-10-29 대표 「팝업 네임텍과 톤 맞추면」) */
 /* 배정 · 진행 = 긴급도 색 (2026-10-29 14:58 대표 「긴급한 건 빨강 · 그다음 주황 · 그다음 초록」) — 색이 곧 얼마나 급한가 · 카드도 급한 차례로 */
 const 배정급 = { 재연락:1, 미배정:1, 교체:1, 첫:2, 멈:2, 물:3 }, 배정급색 = { 1:'#e07069', 2:'#df8f55', 3:'#62b386' }, 배정급말 = { 1:'오늘 꼭', 2:'이번 주 안', 3:'확인만' };
@@ -13994,8 +14021,10 @@ document.addEventListener('scroll', () => { if(document.getElementById('asmore')
 const 배정끝수업 = x => ['r3', 'r2', 'r1'].map(k => x[k]).find(Boolean) || '';
 const 배정멈춤끝 = x => !배정미배(x) && !배정PT중(x) && x.progress !== '재연락 필요' && !!x.r1 && ['r1', 'r2', 'r3'].filter(k => x[k]).length < 배정회수(x)
   && Math.round((new Date(TODAY) - new Date(String(배정끝수업(x)).slice(0, 10))) / 86400000) > 14;      /* 정본 A3 — 회차 1+ · 마지막 수업 뒤 14일 넘게 다음 수업 없음 (2026-10-29 TG_고객분류_정본) */
-const 배정멈춤 = x => 배정멈춤끝(x) && (!x.mem_end || x.mem_end >= TODAY);      /* 회원권 남은 분만 — 끝나면 소멸 (2026-10-29 대표 「회원권이 유효한 사람들만」) · 끝난 분은 카드에 숫자 한 줄 */      /* 수업 멈춤 카드 · 금요일 돌아보기가 같이 씀 */
-const 배정첫 = x => 배정열림(x) && !배정미배(x) && !x.r1 && x.progress !== '재연락 필요' && !배정PT중(x) && (!x.mem_end || x.mem_end >= TODAY);      /* 나중에 희망은 그 카드로 (10/28) */      /* 첫 수업 안 잡음 — TG 탭 칸 · 현황판 숫자가 같은 식 */
+const 배정멈춤 = x => 배정분(x) ? (배정분(x) === 'A3' && !배정PT중(x)) : 배정멈춤식(x);
+const 배정멈춤식 = x => 배정멈춤끝(x) && (!x.mem_end || x.mem_end >= TODAY);      /* 회원권 남은 분만 — 끝나면 소멸 (2026-10-29 대표 「회원권이 유효한 사람들만」) · 끝난 분은 카드에 숫자 한 줄 */      /* 수업 멈춤 카드 · 금요일 돌아보기가 같이 씀 */
+const 배정첫 = x => 배정분(x) ? (배정분(x) === 'A1' && !배정PT중(x)) : 배정첫식(x);      /* PT 중이면 재촉 안 함(중앙 18:07 「A·PT중」) */
+const 배정첫식 = x => 배정열림(x) && !배정미배(x) && !x.r1 && x.progress !== '재연락 필요' && !배정PT중(x) && (!x.mem_end || x.mem_end >= TODAY);      /* 나중에 희망은 그 카드로 (10/28) */      /* 첫 수업 안 잡음 — TG 탭 칸 · 현황판 숫자가 같은 식 */
 /* ⛔ 정본 스위치 — 대표 20:54(중앙 창) 「아직 데스크로 완전 이전이 아니니 우선 노션으로 · 기존 작업이 멈추거나 꼬이면 안 된다」
    지금은 노션이 정본(서버 월요일 장 · 회차 · 설문이 노션을 읽고 씀). 데스크에서 노션옮김 줄을 고치면 노션에 안 가고, 넘기는 날 중앙이 노션 내용으로 다시 덮어 **사라진다**
    20:59 대표 확정 「모든 직원이 데스크로 갈아타면 그때 옮긴다」 → 데스크에서 넣거나 고친 것도 노션에 안 가 갈라진다(시트 · 체험 결제 자동 추가도 같은 이유로 그날 켬 · 중앙)
@@ -14005,12 +14034,15 @@ const 배정넘김날 = '2026-10-25';      /* 2026-10-25 19:45 대표 「전환�
 const 배정오늘 = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); };
 let 배정정본 = 배정오늘() >= 배정넘김날 ? '표' : '노션';
 const 배정쓰기 = x => 배정정본 === '표' || !!(x && typeof x === 'object' && (x.source === '전산결제' || x.source === '직접'));      /* 전산결제 · 직접 추가 줄은 노션 정본이어도 고친다 (2026-10-21) */
-const 배정열림 = x => x.progress === '진행중' || x.progress === '재연락 필요';
+/* TG 분류 칸(95단계) — 중앙이 줄마다 한 번 적은 정본 분류 · 있으면 이것만 본다 (2026-10-29 대표 「규칙을 서로 다르게 알지 말고」) */
+const 배정분 = x => (x && x.tg_class && typeof x.tg_class === 'object' && x.tg_class.cls) || '';
+const 배정열림 = x => (x.progress === '진행중' || x.progress === '재연락 필요') && 배정분(x) !== 'C';      /* C(끝) = 진행상황이 아직 안 닫혀도 열린 줄 아님 */
 const 배정미배 = x => x.assigned === '미배정' || !(x.trainers || []).length;      /* 담당이 비면 「배정완료」로 적혀 있어도 미배정 — 노션에서 옮긴 20건이 그랬다(2026-10-15) */
 const 배정범위 = () => (배정.줄 || []).filter(x => 할수('assignall') || (x.trainers || []).includes((ME && ME.name) || ''));
 const 배정일 = x => { const d = x.assigned_on || String(x.created_at || '').slice(0, 10); return d ? Math.round((new Date(TODAY) - new Date(d)) / 86400000) : 0; };
-const 배정회수 = x => { const n = parseInt(x.lessons, 10) || +((String(x.ticket || '').match(/(\d)\s*회/) || [])[1] || 0); return n >= 1 && n <= 3 ? n : 3; };      /* 상품 회차 — 수업 횟수 칸 → 이용권 글 「(pt 2회)」 → 모르면 3 (2026-10-26 대표) */
-const 배정점 = x => '<span class="as-dots">' + ['r1', 'r2', 'r3'].slice(0, 배정회수(x)).map(k => '<i class="' + (x[k] ? 'y' : '') + '" title="' + (x[k] ? k.slice(1) + '회차 ' + x[k] : k.slice(1) + '회차 아직') + '"></i>').join('') + '</span>';
+const 배정회수 = x => { const t = x && x.tg_class, o = t && typeof t === 'object' ? +t.of : 0; const n = (o >= 1 && o <= 3 ? o : 0) || parseInt(x.lessons, 10) || +((String(x.ticket || '').match(/(\d)\s*회/) || [])[1] || 0); return n >= 1 && n <= 3 ? n : 3; };      /* 상품 회차 — 중앙 분류(of) → 수업 횟수 칸 → 이용권 글 「(pt 2회)」 → 모르면 3 (2026-10-26 대표) */
+const 배정쓴 = x => { const t = x && x.tg_class, 날 = ['r1', 'r2', 'r3'].filter(k => x[k]).length; return t && typeof t === 'object' && +t.of >= 1 && t.left != null ? Math.max(날, +t.of - (+t.left || 0)) : 날; };      /* 쓴 회차 — 같은 수업권의 앞 줄에서 쓴 것까지(중앙 tg_class) · 날짜 수보다 적게는 안 셈 (2026-10-29) */
+const 배정점 = x => { const 쓴 = 배정쓴(x); return '<span class="as-dots">' + ['r1', 'r2', 'r3'].slice(0, 배정회수(x)).map((k, i) => '<i class="' + (x[k] || i < 쓴 ? 'y' : '') + '" title="' + (x[k] ? k.slice(1) + '회차 ' + x[k] : i < 쓴 ? k.slice(1) + '회차 · 같은 수업권 앞 줄에서 받았어요' : k.slice(1) + '회차 아직') + '"></i>').join('') + '</span>'; };
 const 배정담당 = x => (x.trainers || []).join(' · ');
 /* 담당으로 고를 수 있는 사람 = 지금 일하는 트레이너만 — 대표 · 퇴사 · FC · 인턴 빼고 (2026-10-22 대표 「담당자는 현재 근무중인 트레이너만」) · 거름(담당 전체)은 옛 이름도 그대로 */
 const 배정고를선생 = () => [...new Set((W.staff || []).filter(p => p.active !== false && ['최고관리자', '중간관리자', '트레이너'].includes(등급of(p)) && !퇴사명().has(String(p.name || '').trim())).map(p => String(p.name || '').trim()))].filter(Boolean).sort(선생순);
@@ -14021,8 +14053,8 @@ function v배정(){
     ? (/404|42P01|does not exist/.test(배정.왜) ? '<div class="empty why"><b>배정을 아직 준비 중이에요</b>관리자에게 알려 주세요</div>'
        : '<div class="empty why"><b>배정 내용을 불러오지 못했어요</b>' + esc(배정.왜) + ' · 잠시 뒤 다시 열어 주세요</div>')
     : '<div class="ck-load"><b>불러오는 중이에요</b>잠시만 기다려 주세요</div>';
-  const D = 배정범위(), 열 = D.filter(배정열림), 미배 = 할수('assignall') ? (배정.줄 || []).filter(배정담당없음줄) : [], 기다 = 할수('assignall') ? (배정.줄 || []).filter(배정기다림줄) : []      /* 담당 없음 = TG 메모 있음 · 설문 신청한 분만 (2026-10-28 대표 「메모 있는 건 말고는 담당 없음에 올리지 마」) */, 나중 = 열.filter(x => !배정미배(x) && x.progress === '재연락 필요' && (!x.recall_on || x.recall_on > TODAY));      /* 담당 있는 줄만 (2026-10-28 결정함 later=a) */
-  const 재연 = 열.filter(x => x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY);      /* 다시 연락할 날 (2026-10-25 대표 a1) */
+  const D = 배정범위(), 열 = D.filter(배정열림), 미배 = 할수('assignall') ? (배정.줄 || []).filter(배정담당없음줄) : [], 기다 = 할수('assignall') ? (배정.줄 || []).filter(배정기다림줄) : []      /* 담당 없음 = TG 메모 있음 · 설문 신청한 분만 (2026-10-28 대표 「메모 있는 건 말고는 담당 없음에 올리지 마」) */, 나중 = 열.filter(x => (배정분(x) ? 배정분(x) === 'A4' : !배정미배(x) && x.progress === '재연락 필요') && (!x.recall_on || x.recall_on > TODAY));      /* 담당 있는 줄만 (2026-10-28 결정함 later=a) */
+  const 재연 = 열.filter(x => (배정분(x) ? 배정분(x) === 'A4' : x.progress === '재연락 필요') && x.recall_on && x.recall_on <= TODAY);      /* 다시 연락할 날 (2026-10-25 대표 a1) */
   /* 카드 다시 짬 (2026-10-27 대표 결정함 b1 「설문 신청자 위주 — 담당 없는 고객 · 첫 수업 진행 안 된 고객 · 수업이 멈춰 있는 고객」)
      담당 없음 = 미배정 중 TG 메모 · 설문 신청 · 확인 요청 「담당 넣기」 있는 분만 (2026-10-28 대표 「메모 있는 건 말고는 올리지 마」 · 나중에 희망은 뺌 · 설문 쓴 분 먼저) / 첫 수업 안 잡음 = 회원권 남은 분만 /
      수업 멈춤 = 확인 요청 「진행중인데 수업 없음」 + 오래 멈춤(60일) / 확인 = 남은 확인 요청 중 「확인」 안 한 것 / 나중에 희망 = 「나중에 희망」을 누른 분만 · 맨 오른쪽 */
@@ -14039,7 +14071,7 @@ function v배정(){
       오른: x => '<span class="as-tag">' + esc(String(x.recall_on).slice(5).replace('-', '/')) + ' 알림</span>' },
     { k:'교체', 이름:'담당 바꾸기', 설:'담당 선생님이 다른 선생님으로 바꿔 달라고 했어요', 할:'새 담당을 골라 주세요', hot:1, L: 교, 오른: x => '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">새 담당</button>' },
     { k:'미배정', 이름:'담당 정하기', 설:'체험수업 · TG 메모 · 설문 신청이 있는데 담당이 없어요', 할:'담당 선생님을 골라 주세요', hot:1, 늘: 할수('assignall'), L: 미배.slice().sort((a, b) => ((b.kind === '체험') - (a.kind === '체험')) || (!!b.apply_at - !!a.apply_at) || String(b.apply_at || '').localeCompare(String(a.apply_at || ''))), 빈:'담당 없는 분이 없습니다',
-      오른: x => (x.apply_at ? '<span class="as-tag ok">설문</span>' : '') + 메모딱(x) + (배정쓰기(x) ? (배정PT중(x) && x.pt_trainer ? '<button class="as-btn g" data-act="tx:asassign" data-k="' + esc(x.id + '|' + x.pt_trainer) + '">' + esc(x.pt_trainer) + ' 확인</button>' : '') + (할수('assignset') ? '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : '') : '') },
+      오른: x => (x.apply_at ? '<span class="as-tag ok">설문</span>' : '') + 메모딱(x) + (배정쓰기(x) ? (배정PT중(x) && x.pt_trainer ? '<button class="as-btn g" data-act="tx:asassign" data-k="' + esc(x.id + '|' + x.pt_trainer) + '">' + esc(x.pt_trainer) + ' 확인</button>' : '') + (할수('assignset') ? '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : '') + (배정메모만(x) && 할수('assignall') ? '<button class="as-btn g" data-act="tx:asmemowait" data-k="' + esc(x.id) + '" title="사람 메모만 있어요 · 신청 전이면 대기로">대기로</button>' : '') : '') },
     { k:'첫', 이름:'첫 수업 잡기', 설:'담당은 정해졌는데 1회차가 아직 없어요 · 회원권 남은 분만', 할:'연락해서 1회차를 예약해 주세요', hot:1, 늘:1, L: 첫.slice().sort((a, b) => 배정일(b) - 배정일(a)), 오른: 메모딱 },
     { k:'멈', 이름:'수업 멈춤', 설:'마지막 수업 뒤 14일 넘게 다음 수업이 없어요 · 회원권 남은 분만' + (멈춤끝 ? ' · 회원권 끝 ' + 멈춤끝 + '명(곧 자동 종료)' : ''), 할:'진행중 · 나중에 희망 · 종료 중 하나로 정해 주세요', 늘:1, L: 멈춤.slice().sort((a, b) => 배정일(b) - 배정일(a)), 정리:1,
       오른: x => 메모딱(x) + (배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asst" data-k="' + esc(x.id) + '|종료">종료</button>' : '') },
@@ -14500,7 +14532,7 @@ function FC나눔(t){ const s = String(t || ''), 조 = s.split(/\[([^\]]+)\]/), 
 function 배정할일(x){
   const 희 = (FC나눔(x.fc_memo).tg.flatMap(t => t.칸).find(c => c[0] === '희망시간') || [])[1] || '';
   if(배정PT중(x)) return '';
-  if(배정미배(x) && 배정열림(x)) return 할수('assignset') && 배정쓰기(x) ? '<div class="asp-todo"><span><b>담당을 정해 주세요</b><small>' + esc(희 ? '희망시간 · ' + 희 : x.apply_at ? '설문 신청이 와 있어요' : x.kind === '체험' ? '체험수업 등록 · 배정 전' : '담당이 아직 없어요') + '</small></span><button class="btn gold" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button></div>'
+  if(배정미배(x) && 배정열림(x)) return 할수('assignset') && 배정쓰기(x) ? '<div class="asp-todo"><span><b>담당을 정해 주세요</b><small>' + esc(희 ? '희망시간 · ' + 희 : x.apply_at ? '설문 신청이 와 있어요' : x.kind === '체험' ? '체험수업 등록 · 배정 전' : '담당이 아직 없어요') + '</small></span>' + (배정메모만(x) && !x.memo_wait && 할수('assignall') ? '<button class="btn ghost" data-act="tx:asmemowait" data-k="' + esc(x.id) + '">대기로</button>' : '') + (x.memo_wait && 할수('assignall') ? '<button class="btn ghost" data-act="tx:asmemoback" data-k="' + esc(x.id) + '" title="' + esc(x.memo_wait) + '">담당 정하기로</button>' : '') + '<button class="btn gold" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button></div>'
     : '<div class="asp-todo dim"><span><b>담당 배정을 기다리고 있어요</b><small>관리자가 정해요</small></span></div>';
   if(x.progress === '재연락 필요' && x.recall_on) return '<div class="asp-todo"><span><b>' + esc(String(x.recall_on).slice(5).replace('-', '/')) + '에 다시 연락하기로 했어요</b><small>나중에 희망 · 담당 ' + esc(배정담당(x)) + '</small></span></div>';
   if(배정첫(x)) return '<div class="asp-todo"><span><b>첫 수업을 잡아 주세요</b><small>담당 ' + esc(배정담당(x)) + (x.assigned_on ? ' · ' + esc(String(x.assigned_on).slice(5).replace('-', '/')) + ' 배정' : '') + '</small></span></div>';
@@ -14520,7 +14552,7 @@ function 배정판(id){
     x.pt_state ? [['PT', (배정PT중(x) ? 'PT 진행 중' : 'PT 끝남') + (x.pt_note ? ' · ' + esc(x.pt_note) : '')]] : []);
   const 원 = 메.tg.map(t => kv(t.칸.map(([k, v]) => [k, esc(v)])) + (t.말 ? '<div class="asp-say">' + esc(t.말) + '</div>' : '')).join('') + 메.기타.map(t => '<div class="asp-say">' + esc(t) + '</div>').join('');
   const 진행 = kv([].concat(
-    [['회차', 배정점(x) + ' <span class="sub3">' + esc(['r1', 'r2', 'r3'].map(k => x[k] || '').filter(Boolean).join(' · ') || ((['r1', 'r2', 'r3'].filter(k => x[k]).length) + ' / ' + 배정회수(x))) + '</span>']],
+    [['회차', 배정점(x) + ' <span class="sub3">' + esc(['r1', 'r2', 'r3'].map(k => x[k] || '').filter(Boolean).join(' · ') || (배정쓴(x) + ' / ' + 배정회수(x))) + '</span>']],
     !배정미배(x) && x.assigned_on ? [['배정', esc(String(x.assigned_on).slice(5).replace('-', '/')) + (x.assign_note ? ' <span class="sub3">' + esc(x.assign_note) + '</span>' : '')]] : x.assign_note ? [['배정', '<span class="sub3">' + esc(x.assign_note) + '</span>']] : [],
     x.survey_sent ? [['설문', 결과딱지(x.survey_sent) + (x.survey_resp ? ' <span class="sub3">' + esc(x.survey_resp) + '</span>' : '') + (x.survey_sent === '못 감' ? ' <span class="sub3">카톡 · 문자 실패 — 다시 보내거나 전화</span>' : '')]] : []))
     + '<div class="as-pair"><div><small>진행상황</small>' + 배정상태단추(x).replace('<span class="as-st">', '<span class="as-st big">') + '</div>' + 설문끔칸(x) + '</div>' + 재연락기록(x);
@@ -14549,7 +14581,9 @@ function 배정담당판(id){
     + (원함 ? '<div class="note" style="margin-top:8px">회원이 원하는 트레이너 · <b>' + esc(원함) + '</b></div>' : '')
     + (피 ? '<div class="note" style="margin-top:8px"><b>' + esc(x.pt_note || ('현재 ' + 피 + ' 트레이너가 PT 진행 중')) + '</b></div><button class="card click rowc gold" data-act="tx:asassign" data-k="' + esc(x.id + '|' + 피) + '"><div><div class="t1">' + esc(피) + ' <span class="tag gold">PT 담당</span></div><div class="t2">확인을 누르면 이 선생님으로 배정해요</div></div><span class="rt">확인 ›</span></button>' : '')
     + '<div style="height:10px"></div>'
-    + '<div class="as-pick">' + 배정고를선생().map(t => [t, 정지중().some(p => String(p.name || '').trim() === t)]).sort((a, b) => a[1] - b[1]).map(([t, 정]) => '<button class="as-pk' + ((x.trainers || []).includes(t) ? ' on' : '') + (정 ? ' dim' : '') + '" data-act="tx:asassign" data-k="' + esc(x.id) + '|' + esc(t) + '" style="--c:' + esc(선생님색(t) || '#b9b1a2') + '"><b>' + esc(보임이름(t)) + '</b>' + ((x.trainers || []).includes(t) ? '<small>지금 담당</small>' : 정 ? '<small>배정 정지</small>' : '') + '</button>').join('') + '</div>');      /* 입사 순 · 고유색 큰 단추 · 이름 가운데 (2026-10-25 대표 「이름은 가운데로 버튼식으로 좀 더 크게 · 여백 크게 활용」) */
+    + '<div class="as-pick1">' + 담당단추('as_' + x.id, (x.trainers || []).length ? esc(배정담당(x)) + ' · 지금 담당' : '담당 선택', (x.trainers || []).length ? 선생님색((x.trainers || [])[0]) : '', 배정고를선생().map(t => [t, 정지중().some(p => String(p.name || '').trim() === t)]).sort((a, b) => a[1] - b[1])
+        .map(([t, 정]) => 담당옵('data-act="tx:asassign" data-k="' + esc(x.id) + '|' + esc(t) + '"', esc(보임이름(t)), 선생님색(t) || '#b9b1a2', (x.trainers || []).includes(t), (x.trainers || []).includes(t) ? '지금 담당' : 정 ? '배정 정지' : '')), 'big') + '</div>');      /* 펼침 메뉴 · 열면 바로 펼침 (2026-10-29 대표 「나열하지 말고」) */
+  setTimeout(() => { const b = document.querySelector('#popbox .as-pick1 .dsel'); if(b && !document.getElementById('txpop')) 담당메뉴(b, 'as_' + x.id); }, 60);      /* 입사 순 · 고유색 큰 단추 · 이름 가운데 (2026-10-25 대표 「이름은 가운데로 버튼식으로 좀 더 크게 · 여백 크게 활용」) */
 }
 function 배정추가판(){
   if(!배정쓰기()) return;
@@ -15245,6 +15279,8 @@ async function txAct(a, el){
   if(a==='asassign'){ const [id, t] = String(k).split('|'), x0 = (배정.줄 || []).find(r => String(r.id) === String(id)); if(await 배정고침(id, Object.assign({ trainers:[t], assigned:'배정완료', assigned_on:TODAY, assign_note:TODAY + ' ' + ((ME && ME.name) || '') + ' → ' + t, swap_by:null, swap_why:null, swap_at:null }, x0 && 배정PT중(x0) && 'pt_ok' in x0 && 배정관리자() ? { pt_ok: ((ME && ME.name) || '') + ' ' + new Date().toISOString().slice(0, 16).replace('T', ' ') + ' 담당 바꿈' } : {}), '담당 ' + t + ' · 배정완료')){ if(판길.length) 배정판(id); else popClose(); } return; }      /* 상세에서 왔으면 상세로(새 담당) — 뒤로 길도 거기까지 걷힘 */
   if(a==='asst'){ const [id, st] = String(k).split('|'); await 배정고침(id, Object.assign({ progress:st }, st === '진행중' ? { recall_on:null, later_at:null } : {}), '진행상황 「' + st + '」'); if($('#pop').classList.contains('on')) 배정판(id); return; }
   if(a==='clack'){ await 청소확인(k); return; }
+  if(a==='asmemowait' || a==='asmemoback'){ const 대 = a === 'asmemowait', 때 = new Date().toISOString().slice(5, 16).replace('T', ' ').replace('-', '/');      /* 메모만 있는 고객 — 대기로 / 담당 정하기로 (2026-10-29 대표) */
+    if(await 배정고침(k, { memo_wait: 대 ? ((ME && ME.name) || '') + ' · ' + 때 : null }, 대 ? '「대기로」 — 사람 메모만 있어 신청 전으로 봐요 · 신청이 오면 담당 정하기로 올라와요' : '「담당 정하기」로 다시 올려요') && $('#pop').classList.contains('on')) 배정판(k); return; }
   if(a==='asrecall'){ 배정재연락판(k); return; }
   if(a==='asrcq'){ const e = $('#asrcd'); if(e) e.value = 날더함(TODAY, +k); return; }
   if(a==='asrecallgo'){ if(await 배정나중저장(k, (($('#asrcd') || {}).value || '').trim())) 배정판(k); return; }
@@ -15320,6 +15356,9 @@ async function txAct(a, el){
       속성판(k); render(); toast('이름을 바꿨어요'); }
     catch(e){ toast('바꾸지 못했어요 — '+String(e.message||'').slice(0,60)); }
     return; }
+  if(a==='dsel'){ 담당메뉴(el, k); return; }      /* 담당 고르기 단추 → 펼침 메뉴 (2026-10-29) */
+  if(a==='tscope'){ const st = 표상태.tasks; st.범위 = k; st.사람 = null; 고른행 = { key:null, ids:[] }; render();      /* 업무 내 담당 · 선생님별 · 전체 */
+    if(k === '선생') setTimeout(() => { const b = document.querySelector('#body .tk-seg .dsel'); if(b) 담당메뉴(b, 'tb_tasks'); }, 30); return; }
   if(a==='who'){ 표상태[k].사람 = v2 || null; 고른행 = { key:null, ids:[] }; render(); return; }
   if(a==='logf'){ 기록판[k] = v2 || ''; render(); return; }
   if(a==='logp'){ 기록판.기간 = k; 기록판.줄 = null; render(); return; }
@@ -15344,7 +15383,6 @@ async function txAct(a, el){
   if(a==='kpindel'){ await 회원공지내리기(k); return; }
   if(a==='fbtalk'){ const m = memOf(k) || {}, 판중 = $('#pop').classList.contains('on') && $('#pop').classList.contains('tx-side');      /* 피드백톡 크게 — 옆 판 크기 · 왼쪽 위 뒤로(판 위에서 열면 판 뒤로) · 오른쪽 위 ✕ (2026-10-27 대표) */
     판열기('피드백톡 · ' + esc(m.name || ''), (판중 ? '' : '<button class="btn ghost sm" data-act="popclose" style="margin-bottom:8px">‹ 뒤로</button>') + '<div class="fbtalk big">' + 피드백톡방(k, 'ktroom3', 1) + '</div>'); return; }
-  if(a==='pfold'){ try{ localStorage.setItem('gg_pchip_' + k, 담당칩열림(k) ? '0' : '1'); }catch(e){} render(); return; }
   if(a==='fclear'){ Object.assign(표상태[k], { 사람:null, 규칙:[], q:'', 검색열림:false }); 고른행 = { key:null, ids:[] }; render(); return; }
   /* ── 목록 고르기 ── */
   if(a==='pick'){
@@ -16373,10 +16411,8 @@ function render0(){
     const trs = 선생님만(all.map(담당of));      /* 선생님 칩 = 정본 담당 (2026-10-15) · 퇴사 선생님 뺌 (2026-10-19) */
     top.innerHTML = '<h1>회원</h1><span class="cnt">회원관리 ' + 관리.length + '명</span>'
       + '<div class="chips">'
-      + '<button class="chip ' + (S.who==='전체'?'on':'') + '" data-who="전체">전체 '
-        + 관리.length + '</button>'
-      + trs.filter(t => 관리.some(x => 담당of(x) === t)).map(t => '<button class="chip ' + (S.who===t?'on':'') + '" data-who="' + esc(t) + '">'
-          + 선생님점(t) + esc(t) + ' ' + (() => { const 별 = new Set((D.favs||[]).filter(f => f.trainer === t).map(f => f.member_id)); return all.filter(x => (PT관리(x) && 담당of(x) === t) || 별.has(x.id)).length; })() + '</button>').join('')
+      + (() => { const 셈 = t => { const 별 = new Set((D.favs||[]).filter(f => f.trainer === t).map(f => f.member_id)); return all.filter(x => (PT관리(x) && 담당of(x) === t) || 별.has(x.id)).length; }, 선 = trs.filter(t => 관리.some(x => 담당of(x) === t)), 고 = S.who && S.who !== '전체' && S.who !== '담당없음' ? S.who : '';      /* 펼침 메뉴 (2026-10-29) */
+          return 담당단추('mem', 고 ? esc(고) + ' ' + 셈(고) : S.who === '담당없음' ? '담당 없음' : '전체 ' + 관리.length, 고 ? 선생님색(고) : '', [담당옵('data-who="전체"', '전체', '', S.who === '전체', 관리.length), '-'].concat(선.map(t => 담당옵('data-who="' + esc(t) + '"', esc(t), 선생님색(t), S.who === t, 셈(t))))); })()
       /* 담당이 아직 없는 분 — 안 보이면 **아무도 가져갈 수가 없다** (2026-09-22 대표
          「아직 담당 지정이 안 된 사람은 내가 담당이라고 지정할 수 있고 뜨게 한다는 거지」) */
       + (function(){ const n = all.filter(담당빈).length;
