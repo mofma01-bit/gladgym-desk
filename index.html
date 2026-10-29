@@ -2304,6 +2304,8 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .as-q.nt .as-qc .qh{justify-content:flex-start;gap:9px;align-items:center}.as-q.nt .as-qc .qh b{font-size:16px}
 .as-q.nt .as-qc .qh .gi{display:inline-flex;width:30px;height:30px;flex:none;border-radius:9px;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:900;color:#121211;background:var(--c)}
 .as-q.nt .as-qc .qh span,.as-q.nt .as-qc.hot .qh span{margin-left:auto;color:var(--c)}
+.as-q.nt .as-qc .qh .urg{font-style:normal;font-size:12px;font-weight:900;border-radius:999px;padding:1px 9px;color:#121211;background:var(--c)}
+.urgleg{margin-left:12px;display:inline-flex;gap:10px;font-size:12.5px;font-weight:700;color:var(--sub)}.urgleg i{font-style:normal;display:inline-flex;align-items:center;gap:4px}.urgleg i::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
 .as-qc .qh .gi{display:none}
 .qdo{display:flex;gap:6px;align-items:baseline;font-size:13px;font-weight:800;color:var(--teal);margin:-2px 0 8px}.qdo i{font-style:normal;font-size:11.5px;font-weight:900;color:#1b2a2e;background:var(--teal);border-radius:6px;padding:0 6px;flex:none}
 .as-sum .qdo{display:inline-flex;margin:0 0 0 6px}
@@ -2876,7 +2878,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '480';
+const BUILD = '481';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -13876,7 +13878,9 @@ function 배정배지(){ const b = $('#asbdg'); if(!b) return; const 나 = (ME &
 const 배정담당없음줄 = x => 배정미배(x) && 배정열림(x) && (x.kind === '체험' || 배정TG있음(x) || !!x.apply_at || x.ask === '담당 넣기' || !!String(x.trainer_memo || '').trim());      /* 사람 메모가 있으면 대기 고객이 아님 (2026-10-29 대표 「대기 고객」 정의 · 중앙) */
 const 배정기다림줄 = x => 배정미배(x) && 배정열림(x) && !배정담당없음줄(x);
 /* 카드 색 = 옆 판 네임텍(구분머리)과 같은 팔레트 · 카드마다 고정(끌어서 차례를 바꿔도 색은 따라감) (2026-10-29 대표 「팝업 네임텍과 톤 맞추면」) */
-const 배정카드색 = k => { const 팔 = new Map(속성팔레트()), 이름 = { 미배정:'청록', 첫:'파랑', 멈:'남보라', 물:'연두', 재연락:'살구', 교체:'라일락' }[k]; return 팔.get(이름) || ({ 미배정:'#40C1BD', 첫:'#6f98d8', 멈:'#A8A2E1', 물:'#B0E299', 재연락:'#CC8552', 교체:'#c3aee8' })[k] || '#9a938a'; };
+/* 배정 · 진행 = 긴급도 색 (2026-10-29 14:58 대표 「긴급한 건 빨강 · 그다음 주황 · 그다음 초록」) — 색이 곧 얼마나 급한가 · 카드도 급한 차례로 */
+const 배정급 = { 재연락:1, 미배정:1, 교체:1, 첫:2, 멈:2, 물:3 }, 배정급색 = { 1:'#e07069', 2:'#df8f55', 3:'#62b386' }, 배정급말 = { 1:'오늘 꼭', 2:'이번 주 안', 3:'확인만' };
+const 배정카드색 = k => 배정급색[배정급[k]] || '#9a938a';
 function 배정더표시(){ let p = document.getElementById('asmore'); const 카 = [...document.querySelectorAll('#body .as-qc, #body .as-wait')];
   const 밑 = 카.filter(e => e.getBoundingClientRect().top > innerHeight - 40);
   if(S.view !== 'assign' || !밑.length){ if(p) p.remove(); return; }
@@ -13937,7 +13941,7 @@ function v배정(){
     { k:'나중', 이름:'나중에 희망', 설:'바빠서 첫 수업을 미룬 분 · 알림 날 전이에요', 할:'지금은 없음 · 알림 날 「오늘 연락」으로 올라와요', 대기:1, 늘: true, L: 나중, 빈:'나중에 희망이 없습니다', 오른: x => 메모딱(x) + '<span class="as-tag">' + esc(String(x.recall_on || '').slice(5, 10).replace('-', '/')) + ' 알림</span>' },
   ].filter(g => g.늘 || g.L.length);
   const 묶순 = (() => { try{ return JSON.parse(localStorage.getItem('gg_as_ord') || '[]') || []; }catch(e){ return []; } })();      /* 카드 순서 — 사람마다 이 기기에 (끌어서 바꿈) */
-  const 묶 = 묶순.length ? 묶0.slice().sort((p, q) => { const i = 묶순.indexOf(p.k), j = 묶순.indexOf(q.k); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || 묶0.indexOf(p) - 묶0.indexOf(q); }) : 묶0;
+  const 묶 = 묶0.slice().sort((p, q) => { const i = 묶순.indexOf(p.k), j = 묶순.indexOf(q.k); return ((배정급[p.k] || 9) - (배정급[q.k] || 9)) || (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || 묶0.indexOf(p) - 묶0.indexOf(q); });      /* 급한 차례 먼저 · 같은 급 안에서만 끌어 둔 차례 (10/29) */
   const 셈 = g => g.수 != null ? g.수 : g.L.length;
   if(!['할일', '진행', '전체'].includes(배정.탭) && !묶.some(g => g.k === 배정.탭)) 배정.탭 = '할일';
   const 탭 = [['할일', '할 일', 묶.filter(g => !g.대기).reduce((a, g) => a + 셈(g), 0)]]      /* 기다리는 것은 할 일 숫자에 안 셈 (2026-10-29) */.concat(묶.map(g => [g.k, g.이름, 셈(g)]), [['진행', '진행 중', 열.length], ['전체', '전체', D.length]]);
@@ -13962,10 +13966,10 @@ function v배정(){
       + '</tbody></table></div>' + (목.length > 300 ? '<div class="as-more">300건까지 보입니다 · 「전체」 탭에서 찾아 주세요</div>' : '')
     : '<div class="empty why"><b>' + esc(g.L.length ? '조건에 맞는 줄이 없습니다' : (g.빈 || (g.이름 + '이 없습니다'))) + '</b>' + (g.L.length ? '찾기 · 「회원권 유효만」을 풀어 보세요' : '새로 생기면 여기에 뜹니다') + '</div>'); };
   if(배정.탭 === '할일'){
-    const 카드 = g => '<div class="as-qc' + (g.hot ? ' hot' : '') + (g.k === '나중' ? ' later' : '') + '" style="--c:' + 배정카드색(g.k) + '" draggable="true" data-asg="' + g.k + '" title="끌어서 순서 바꾸기"><button class="qh" data-act="tx:astab" data-k="' + g.k + '" title="「' + g.이름 + '」 탭으로"><i class="gi">' + esc(g.이름.slice(0, 1)) + '</i><b>' + g.이름 + '</b><span>' + 셈(g) + '</span></button><div class="qd">' + g.설 + '</div>' + (g.할 ? '<div class="qdo"><i>할 일</i>' + esc(g.할) + '</div>' : '')
+    const 카드 = g => '<div class="as-qc' + (g.hot ? ' hot' : '') + (g.k === '나중' ? ' later' : '') + '" style="--c:' + 배정카드색(g.k) + '" draggable="true" data-asg="' + g.k + '" title="끌어서 순서 바꾸기"><button class="qh" data-act="tx:astab" data-k="' + g.k + '" title="「' + g.이름 + '」 탭으로"><i class="gi">' + esc(g.이름.slice(0, 1)) + '</i><b>' + g.이름 + '</b>' + (배정급말[배정급[g.k]] ? '<em class="urg">' + 배정급말[배정급[g.k]] + '</em>' : '') + '<span>' + 셈(g) + '</span></button><div class="qd">' + g.설 + '</div>' + (g.할 ? '<div class="qdo"><i>할 일</i>' + esc(g.할) + '</div>' : '')
         + (g.칩 ? 물칩 : '') + (g.L.length ? 줄(g.L, g.오른, g) : '<div class="sub3">' + esc(g.빈 || '없습니다') + '</div>') + (g.정리 ? 정리단추 : '') + '</div>';      /* 카드 하나 — 아래에서 「할 일」 줄을 덧붙임 */
     const 할일묶 = 묶.filter(g => !g.대기 && 셈(g) > 0), 다됨 = 묶.filter(g => !g.대기 && 셈(g) === 0), 대기묶 = 묶.filter(g => g.대기);
-    h += (할일묶.length ? '<div class="as-sec">지금 할 일 <b>' + 할일묶.reduce((a, g) => a + 셈(g), 0) + '</b></div><div class="as-q nt">' + 할일묶.map(카드).join('') + '</div>' : '<div class="as-sec">지금 할 일 없음 ✓</div>')
+    h += (할일묶.length ? '<div class="as-sec">지금 할 일 <b>' + 할일묶.reduce((a, g) => a + 셈(g), 0) + '</b><span class="urgleg"><i style="--c:#e07069">오늘 꼭</i><i style="--c:#df8f55">이번 주 안</i><i style="--c:#62b386">확인만</i><i style="--c:#9a938a">기다림</i></span></div><div class="as-q nt">' + 할일묶.map(카드).join('') + '</div>' : '<div class="as-sec">지금 할 일 없음 ✓</div>')
       + (다됨.length ? '<div class="as-done">다 됨 · ' + 다됨.map(g => '<span>' + esc(g.이름) + ' 0</span>').join(' · ') + '</div>' : '')
       + (대기묶.length ? '<div class="as-sec dim">기다리는 것</div><div class="as-wait">' + 대기묶.map(g => '<button class="as-wb" data-act="tx:astab" data-k="' + g.k + '"><b>' + esc(g.이름) + '</b><span class="n">' + 셈(g) + '</span><span class="w">' + esc(g.설) + '</span><span class="go">보기 ›</span></button>').join('') + '</div>' : '');
     setTimeout(배정더표시, 0);      /* 아랫카드가 화면 밖이면 「아래에 카드 n개 더」 (2026-10-28 저녁 노션) */
