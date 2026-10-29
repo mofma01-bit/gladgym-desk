@@ -444,6 +444,12 @@ textarea.inp{min-height:76px;resize:vertical;line-height:1.6}
 
 /* 위 요약 띠 */
 .sumbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+/* 본문 네임텍 (2026-10-29) — 옆 판 구분머리(.tgrp) · 배정 카드(.as-q.nt)와 같은 꼴 */
+#body .sumit.nt{background:color-mix(in srgb,var(--c) 7%,var(--dark-2));border-color:color-mix(in srgb,var(--c) 32%,transparent)}
+#body .sumit.nt .k2{display:flex;align-items:center;gap:7px}#body .sumit.nt .k2::before{content:attr(data-gi);display:inline-flex;width:20px;height:20px;flex:none;border-radius:6px;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#121211;background:var(--c)}
+#body .sumit.nt .v2{color:var(--c)}
+#body .sec > .lbl.nt{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:800;color:var(--cream)}#body .sec > .lbl.nt::before{content:attr(data-gi);display:inline-flex;width:24px;height:24px;flex:none;border-radius:7px;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#121211;background:var(--c)}
+#body .sec > .lbl.nt .r{margin-left:auto}
 .sumit{flex:1;min-width:118px;background:var(--dark-2);border:1px solid var(--line);
   border-radius:11px;padding:11px 13px;display:flex;flex-direction:column;gap:2px}
 .sumit .k2{font-size:13px;font-weight:700;color:var(--sub)}
@@ -2870,7 +2876,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '479';
+const BUILD = '480';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -16350,6 +16356,16 @@ const 판칩열쇠 = t => t.replace(/[\s·]*\d+\s*(건|개|명)?$/, '').trim();
    구분(.lbl)마다 그 아래 것까지 옅은 색 판(.tgrp)으로 묶고 머리 = 색 네모(첫 글자) · 제목 · 끝 숫자(오른쪽 · 판 색)
    색 = 중앙 정본 속성팔레트 가운데 중앙 팝업이 쓴 청록 · 살구 · 남보라 · 연두 · 파랑 · 라일락 차례(분홍 · 산호 · 골드 안 씀) */
 const 구분색 = () => { const 팔 = new Map(속성팔레트()); const P = ['청록', '살구', '남보라', '연두', '파랑', '라일락'].map(n => 팔.get(n)).filter(Boolean); return P.length ? P : ['#40C1BD', '#CC8552', '#A8A2E1', '#B0E299']; };
+/* 본문 네임텍 — #body 를 다시 그릴 때마다 숫자 칸 · 구역 머리에 같은 꼴을 입힌다 (2026-10-29 대표 「톤앤매너 맞추고 앞으로도」)
+   색 = 구분색() 팔레트 · 같은 이름은 늘 같은 색(이름으로 고름) · 첫 글자는 data-gi 로(::before) — 글자로 안 넣어 innerText · 찾기는 그대로 */
+const 네임텍색 = 이름 => { const P = 구분색(); let h = 0; for(const ch of String(이름 || '')) h = (h * 31 + ch.codePointAt(0)) >>> 0; return P[h % P.length]; };
+const 네임텍글자 = 이름 => String(이름 || '').replace(/^[^0-9A-Za-z가-힣]+/, '').trim().slice(0, 1);
+function 네임텍입히기(){ const b = document.getElementById('body'); if(!b || b.classList.contains('lite')) return;
+  b.querySelectorAll('.sumit:not(.nt)').forEach(t => { const k = t.querySelector('.k2'); if(!k) return; const 이름 = k.textContent.replace(/[›>]/g, '').trim(); if(!이름) return;
+    t.classList.add('nt'); t.style.setProperty('--c', t.style.getPropertyValue('--c') || 네임텍색(이름)); k.dataset.gi = 네임텍글자(이름); });
+  b.querySelectorAll('.sec > .lbl:first-child:not(.nt)').forEach(l => { const s = l.parentElement; if(s.closest('.tgrp, .as-qc, .pop')) return; const 이름 = (l.childNodes[0] && l.childNodes[0].textContent || l.textContent).replace(/[\d,]+\s*(건|명|개|일)?\s*$/, '').trim(); if(!이름 || /^\d/.test(이름)) return;      /* 날짜 머리(2026. 10. 27)는 네임텍 안 붙임 */
+    l.classList.add('nt'); s.classList.add('ntsec'); s.style.setProperty('--c', s.style.getPropertyValue('--c') || 네임텍색(이름)); l.dataset.gi = 네임텍글자(이름); }); }
+new MutationObserver(() => { clearTimeout(네임텍입히기.t); 네임텍입히기.t = setTimeout(네임텍입히기, 0); }).observe(document.getElementById('body') || document.body, { childList:true, subtree:true });
 function 구분머리꾸밈(h, 이름){
   const 글 = [...h.childNodes].filter(x => x.nodeType === 3 && x.textContent.trim()), 끝 = 글[글.length - 1];
   const m = 끝 && 끝.textContent.match(/^(.*?)[\s·]*(\d+)\s*(건|개|명)?\s*$/);
