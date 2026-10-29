@@ -2717,6 +2717,39 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 .ck-cell .d2 .y{color:#8fd19e} .ck-cell .d2 .n{color:#5b5750}
 .ck-cell em{font-style:normal;font-size:11px;color:var(--sub);margin-left:auto;white-space:nowrap}
 .ck-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+/* 점검 큰 단추 셋 · 등급 옆 판 (2026-10-29) */
+.ck-big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media (max-width:900px){.ck-big3{grid-template-columns:1fr}}
+.ck-big{text-align:left;border:1px solid color-mix(in srgb,var(--u) 40%,transparent);background:color-mix(in srgb,var(--u) 9%,var(--dark-2));border-radius:16px;padding:14px 16px;color:var(--cream);font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px}.ck-big:hover{border-color:var(--u)}
+.ck-big .t{display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:900}.ck-big .gi{display:inline-flex;width:24px;height:24px;border-radius:7px;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#121211;background:var(--u)}
+.ck-big .go{margin-left:auto;font-size:13px;color:var(--gold);font-weight:800}.ck-big .num{font-size:34px;font-weight:900;color:var(--u);line-height:1.1}.ck-big .num small{font-size:14px;margin-left:3px}
+.ck-big .sp{display:flex;gap:6px;flex-wrap:wrap;font-size:13px}.ck-big .sp span{background:var(--dark-3);border-radius:999px;padding:2px 9px;color:var(--sub);font-weight:700}.ck-big .sp b{color:var(--cream);margin-left:3px}.ck-big .w{font-size:13px;color:var(--sub)}
+.ck-lvr{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 6px;padding:9px 12px;border-radius:11px;background:var(--dark-3);border:1px solid var(--line);color:var(--cream);font:inherit;text-align:left;cursor:pointer}.ck-lvr:hover{border-color:var(--u)}
+.ck-lvr .gi{display:inline-flex;width:22px;height:22px;flex:none;border-radius:6px;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#121211;background:var(--c)}
+.ck-lvr .nm{flex:1;min-width:0}.ck-lvr .nm b{font-size:14px;font-weight:800;white-space:nowrap}.ck-lvr .nm small{display:block;font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ck-lvr .n{font-size:18px;font-weight:900;color:var(--u);font-variant-numeric:tabular-nums}.ck-lvr .go{color:var(--gold);font-weight:800}.ck-lvr.calm{background:transparent;border-style:dashed}.ck-lvr.calm .n{color:var(--sub)}
+#popbox .ck-memo:has(.ck-qb){min-width:300px}.ck-qb{display:flex;gap:4px;flex-wrap:nowrap;margin-top:4px}.ck-qb button{border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:8px;padding:2px 8px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}.ck-qb button.on{background:var(--teal);color:#121211;border-color:var(--teal)}
+.ck-nm{color:var(--gold);text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap}
+#popbox .hmore{justify-content:flex-start;align-items:center;flex-wrap:wrap;margin:8px 0 4px}#popbox .hmore .btn b{color:var(--gold)}      /* 판 · 팝업 안 5줄씩 — 홈 .hmore 는 그대로 */
+/* 새 담당 · 금요일 돌아보기 팝업 (2026-10-29) — 위 안내 · 아래 단추 줄은 늘 보임 */
+.ps-pop.rv{padding-top:0;padding-bottom:0}.rv-top{position:sticky;top:0;z-index:2;margin:0 -22px 12px;padding:10px 60px 10px 22px;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:700;color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--dark-2));border-bottom:1px solid color-mix(in srgb,var(--teal) 30%,transparent)}
+.rv-top i{font-style:normal;font-size:11.5px;font-weight:900;color:#1b2a2e;background:var(--teal);border-radius:6px;padding:0 6px}
+#popbox:has(.rv) > .popx{position:absolute;top:4px;right:10px;margin:0;z-index:4;width:30px;height:30px;float:none}.rv-foot{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;align-items:center;margin:12px -22px 0;padding:12px 22px;background:var(--dark-2);border-top:1px solid var(--line)}
+.rv-new{display:flex;gap:10px;align-items:flex-start;margin:0 0 8px;padding:10px 12px;border-radius:12px;border:1px solid color-mix(in srgb,var(--c) 32%,transparent);background:color-mix(in srgb,var(--c) 7%,var(--dark-3))}
+.rv-new .gi{display:inline-flex;width:24px;height:24px;flex:none;border-radius:7px;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#121211;background:var(--c)}.rv-new .t{flex:1;min-width:0}.rv-new b{font-size:14.5px}
+.rv-new .s{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rv-new .m{font-size:13px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv .urg{font-style:normal;font-size:11.5px;font-weight:900;border-radius:6px;padding:1px 7px;color:#121211;background:var(--u);white-space:nowrap}
+.rv-sec{font-size:13.5px;font-weight:900;margin:4px 2px 6px}.rv-sec b{color:#e07069;margin-left:3px}.rv-sec.dim{color:var(--sub);margin-top:12px}
+.rv-tab{display:flex;align-items:center;gap:8px;margin:10px 2px 6px;font-size:13.5px;font-weight:900;color:var(--c)}.rv-tab .gi{display:inline-flex;width:20px;height:20px;border-radius:6px;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#121211;background:var(--c)}.rv-tab small{margin-left:auto;font-size:12px;font-weight:700;color:var(--sub)}
+.rv-row{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 6px;padding:9px 12px;border-radius:11px;background:var(--dark-3);border:1px solid var(--line);color:var(--cream);font:inherit;text-align:left;cursor:pointer}.rv-row.on{border-color:var(--u)}.rv-row.done{opacity:.7}
+.rv-row .nm{flex:1;min-width:0}.rv-row .nm b{font-size:14px;font-weight:800}.rv-row .nm small{display:block;font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-row .n{font-size:18px;font-weight:900;color:var(--u);font-variant-numeric:tabular-nums}.rv-row .go{font-size:13px;font-weight:800;color:var(--gold);white-space:nowrap}
+.rv-in{margin:-2px 0 8px 4px;padding:6px 0 2px 8px;border-left:2px solid var(--u)}
+.rv-m{margin:0 0 6px;padding:8px 10px;border-radius:11px;background:var(--dark-3);border:1px solid var(--line)}.rv-m .a{display:flex;align-items:center;gap:8px;min-width:0}.rv-m .a b{font-size:14px;white-space:nowrap}.rv-m .a .s{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.rv-m.lock{opacity:.8}.rv-m .ok{font-size:13px;font-weight:800;color:#62b386;margin-top:4px}
+.rv-st{display:flex;gap:6px;margin-top:7px}.rv-st button{flex:1;border:1px solid var(--line);background:var(--dark-2);color:var(--cream);border-radius:9px;padding:6px 0;font:inherit;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap}
+.rv-st button.p{color:#62b386;border-color:color-mix(in srgb,#62b386 50%,transparent)}.rv-st button.l{color:#df8f55;border-color:color-mix(in srgb,#df8f55 50%,transparent)}.rv-st button.e{color:var(--sub)}.rv-st button.on{background:#df8f55;color:#121211}
+.rv-ed{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:7px}.rv-ed .srch{flex:1;min-width:120px}.rv-ed .chip{font-size:12.5px}
+.rv-calm{font-size:13px;color:var(--sub);border:1px dashed var(--line);border-radius:11px;padding:8px 12px}
 .ck-col{background:var(--dark-2);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .ck-col .hd{display:flex;align-items:baseline;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}
 .ck-col .hd b{font-size:16px;font-weight:900}
@@ -2878,7 +2911,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '482';
+const BUILD = '484';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -7646,7 +7679,7 @@ function 점검받기(주){
   if(먼저 && S.view === 'check') setTimeout(() => { if(S.view === 'check' && 점검.새로중 === k) render(); }, 0);      /* 「바꾸는 중」을 바로 그린다 — 다른 받기가 화면을 다시 그려 줄 때만 떴다 (2026-10-20) */
   crm('weekly', 주 ? { 주 } : {}).then(d2 => { 점검.답[k] = d2; 점검.받음[k] = true; 점검.때[k] = Date.now(); 점검두기(k, d2); if(d2 && d2['주']){ 점검.답[d2['주']] = d2; 점검.받음[d2['주']] = true; 점검.때[d2['주']] = Date.now(); } 점검.방금 = Date.now(); })
     .catch(e => { if(먼저) 점검.새로왜 = (e && e.message) || '받지 못했어요'; else 점검.왜 = (e && e.message) || '받지 못했어요'; })
-    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check') render(); if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
+    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check') render(); try{ 돌아보기열기(); }catch(e){} if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
 }
 /* 칩 줄 오른쪽 표시 — 바꾸는 중(금색 고리) / 방금 바뀜(초록 · 6초) / 못 바꿈(다시 받기) / 평소(○시 ○분 기준) */
 function 점검표시(){ const k = 점검.주 || '이번', 때 = 점검.때[k];
@@ -7829,10 +7862,8 @@ function v점검(){
     + 선.map(t => '<tr><td class="nm" data-act="tx:ckls" data-k="' + esc(t) + '|" title="최근 결과 명단">' + esc(t) + ' ›</td>' + 칸누름(칸그림((cv['TG최근'] || {})[t], 목표.TG), t, 'TG') + 칸누름(칸그림(rr[t], 목표.PT), t, 'PT') + 칸누름(칸그림((cv['체험최근'] || {})[t], 목표.체험, true), t, '체험') + '</tr>').join('')
     + '<tr><td class="nm" style="color:var(--gold)">센터</td>' + 칸그림((cv['TG최근'] || {})['센터'], 목표.TG) + 칸그림(rr['센터'], 목표.PT) + 칸그림((cv['체험최근'] || {})['센터'], 목표.체험, true) + '</tr></table></div>' : '';
   const 딱지 = g => '<em class="ck-tag" style="color:' + (점검딱[g] || 'var(--sub)') + ';border-color:' + (점검딱[g] || 'var(--line)') + '">' + esc(g) + '</em>';
-  const 줄들 = [[2, '긴급', 'r'], [1, '집중관리', 'g'], [0, '지속관리', 'n']];
-  const 판 = '<div class="ck-cols">' + 줄들.map(([h, 이름, c]) => { const 목 = R.칸.filter(x => x.단 === h && x.줄.length).sort((a, b) => b.줄.length - a.줄.length), 합 = 목.reduce((a, x) => a + x.줄.length, 0), 큰 = Math.max(1, ...목.map(x => x.줄.length));
-      return '<div class="ck-col ' + c + '"><div class="hd"><b>' + 이름 + '</b><span>' + 합 + '<small>명</small></span></div>'
-        + (목.map(x => '<button class="ck-it" data-act="tx:ckit" data-k="' + esc(x.k) + '"><div class="l">' + 딱지(x.갈) + '<span class="nm">' + esc(x.이름) + '</span>' + (메모종류(x.k) && x.줄.some(o => { const m = 메모마지막(o.key, 메모종류(x.k)); return m && m.week === 점검주(); }) ? '<span class="ck-pen2" title="이번 주에 적은 기록이 있어요">✎</span>' : '') + '<span class="num">' + x.줄.length + '</span></div><div class="bar"><i style="width:' + (x.줄.length / 큰 * 100) + '%"></i></div></button>').join('') || '<div class="ck-none">없어요</div>') + '</div>'; }).join('') + '</div>';
+  const 큰셋 = '<div class="ck-big3">' + 점검급.map(([h, 이름, 색, 말]) => { const 목 = R.칸.filter(x => x.단 === h && x.줄.length), 합 = 목.reduce((a, c) => a + c.줄.length, 0), 정 = 목.filter(점검정할).reduce((a, c) => a + c.줄.length, 0);
+    return '<button class="ck-big" data-act="tx:cklv" data-k="' + h + '" style="--u:' + 색 + '"><span class="t"><span class="gi">' + 이름[0] + '</span>' + 이름 + '<span class="go">열기 ›</span></span><span class="num">' + 합 + '<small>명</small></span><span class="sp"><span>정할 것<b>' + 정 + '</b></span><span>연락만<b>' + (합 - 정) + '</b></span></span><span class="w">' + 말 + '</span></button>'; }).join('') + '</div>';
   const 긴급 = R.칸.filter(x => x.단 === 2).reduce((a, x) => a + x.줄.length, 0);
   점검메모받기();
   /* 분기 · 올해 KPI — 실시간 카드 위에 글 표로 나란히 (2026-10-22 대표 「실시간만 보면 너무 절망적이거나 너무 잘한 것처럼 보이는 오류를 줄이기」)
@@ -7846,23 +7877,43 @@ function v점검(){
     + '<tr><td class="k now">실시간</td>' + 지표.map(([, x]) => 률칸(x, true)).join('') + '</tr></table></div>' : '';
   let 번 = 0;
   return ('<div class="ck-row1">' + (선생줄 || '<span></span>') + 점검표시() + '</div>'
-    + '<div class="ck-sec" style="margin-top:6px"><div class="ck-h">§ 이번 주 연락할 회원 <span style="color:#e8927c">· 긴급 ' + 긴급 + '명</span></div><div class="ck-lead">' + (거름 ? esc(거름) + ' 선생님 것만 · ' : R.관 ? '' : '내 회원만 · ') + '누르면 옆에 명단과 할 일이 뜹니다</div>' + 판
+    + (점검메모.줄 && !점검메모.없음 ? '<div class="ck-sec" style="margin-top:6px"><div class="ck-h">§ 이번 달 예상 매출</div><div class="ck-lead">' + (R.관 ? (거름 ? esc(거름) + ' 선생님이 적은 이번 달 예상입니다' : '선생님들이 적은 예상의 합계입니다') : '내가 적은 이번 달 예상입니다') + '</div>' + 예상카드(R) + '</div>' : '')      /* 예상 매출 맨 위 (2026-10-29 노션 「1번은 예상매출 카드로」) */
+    + '<div class="ck-sec"><div class="ck-h">§ 이번 주 연락할 회원 <span style="color:#e07069">· 긴급 ' + 긴급 + '명</span></div><div class="ck-lead">' + (거름 ? esc(거름) + ' 선생님 것만 · ' : R.관 ? '' : '내 회원만 · ') + '누르면 옆에 명단이 떠요 · 「눌러서 정할 것」을 먼저</div>' + 큰셋
     + '<div class="ck-foot">지금 TG 받는 중 <b>' + R.정보.TG진행 + '</b>명 · 지난주 TG → PT 등록 <b>' + R.정보.PT등록 + '</b>명 · 최근 90일 체험 → 등록 <b>' + R.정보.체험등록 + '</b>명</div></div>'
-    + (점검메모.줄 && !점검메모.없음 ? '<div class="ck-sec"><div class="ck-h">§ 이번 달 예상 매출</div><div class="ck-lead">' + (R.관 ? (거름 ? esc(거름) + ' 선생님이 적은 이번 달 예상입니다' : '선생님들이 적은 예상의 합계입니다') : '내가 적은 이번 달 예상입니다') + '</div>' + 예상카드(R) + '</div>' : '')
     + 기간표
     + '<div class="ck-sec"><div class="ck-h">§ 실시간 KPI</div><div class="ck-lead">' + (R.관 ? (거름 ? esc(거름) + ' 선생님 · 금색 점선이 센터 목표예요' : '센터 전체 · 금색 점선이 센터 목표예요') : '내 회원 · 금색 점선이 센터 목표예요') + '</div><div class="ck-hero">' + 히어로 + '</div></div>'
     + 비교).replace(/§/g, () => '①②③④⑤⑥'[번++]);      /* 순서 (2026-10-22 대표 「이 카드가 가장 상단 · 아래 예상매출 · 아래 KPI」) */
 }
+/* 이름 › — TG · 체험 칸은 배정 판(담당 이력 · 메모) · 그 밖은 회원 페이지 (2026-10-29 대표) */
+function 점검이름(c, v, m){ const t = String(v || ''), mm = /^(.*?)\s*\((\d{4})\)\s*$/.exec(t), 이름 = (mm ? mm[1] : t).trim(), p4 = mm ? mm[2] : '';
+  const 배 = ['TG', '체험'].includes(c.갈) && 배정.줄 ? (배정.줄.filter(x => (x.name || '').trim() === 이름 && (!p4 || x.phone4 === p4)).sort((a, b) => 배정열림(b) - 배정열림(a))[0]) : null;
+  return 배 ? '<b class="ck-nm" data-act="tx:asopen" data-k="' + esc(배.id) + '">' + esc(t) + ' ›</b>' : m ? '<b class="ck-nm" data-mfull="' + esc(m.id) + '">' + esc(t) + ' ›</b>' : '<b>' + esc(t) + '</b>'; }
+/* 긴급 · 집중관리 · 지속관리 — 큰 단추 → 이 옆 판 (2026-10-29 노션 「처음부터 리스트를 쭉 주지 말고 · 버튼과 숫자만 · 눌러서 사이드 페이지」) */
+const 점검급 = [[2, '긴급', '#e07069', '오늘 꼭'], [1, '집중관리', '#df8f55', '이번 주 안'], [0, '지속관리', '#62b386', '시간 날 때 안부']];
+const 점검갈글 = { TG:['T', 'var(--teal)'], PT:['P', 'var(--gold)'], 체험:['체', '#e8927c'], 담당:['담', '#a99bf0'] };
+const 점검정할 = c => !!메모종류(c.k);      /* 눌러서 정할 것 = 상태를 눌러야 빠지는 칸 · 나머지(연락만) = 수업이 잡히거나 담당이 정해지면 저절로 빠짐 */
+function 점검등급판(h){
+  const d2 = 점검.답[점검.주 || '이번']; if(!d2) return; const R = 점검정리(d2), g = 점검급.find(x => x[0] === +h); if(!g) return;
+  const 목 = R.칸.filter(x => x.단 === g[0] && x.줄.length).sort((a, b) => b.줄.length - a.줄.length), 정 = 목.filter(점검정할), 연 = 목.filter(c => !점검정할(c)), 합 = L => L.reduce((a, c) => a + c.줄.length, 0);
+  const 줄 = (c, 조용) => { const gg = 점검갈글[c.갈] || [String(c.갈 || '?').slice(0, 1), 'var(--sub)'];
+    return '<button class="ck-lvr' + (조용 ? ' calm' : '') + '" data-act="tx:ckit" data-k="' + esc(c.k) + '" style="--c:' + gg[1] + ';--u:' + g[2] + '"><span class="gi">' + esc(gg[0]) + '</span><span class="nm"><b>' + esc(c.이름) + '</b><small>' + esc(점검글(c.할 || '')) + '</small></span><span class="n">' + c.줄.length + '</span><span class="go">›</span></button>'; };
+  판열기(g[1] + ' ' + 합(목) + '명', '<div class="ck-act">' + (정.length ? '「눌러서 정할 것」부터 봐 주세요' : '연락해서 수업을 잡아 주세요') + '<small>칸을 누르면 명단 · 상태는 줄마다 바로 · 「연락만」은 저절로 빠져요</small></div>'
+    + (정.length ? '<div class="sec"><div class="lbl">눌러서 정할 것 ' + 합(정) + '</div>' + 정.map(c => 줄(c)).join('') + '</div>' : '')
+    + (연.length ? '<div class="sec"><div class="lbl">연락만 ' + 합(연) + '</div>' + 연.map(c => 줄(c, 1)).join('') + '</div>' : '')
+    + (목.length ? '' : '<div class="empty why"><b>없어요</b>' + g[1] + ' 회원이 없습니다</div>'));
+}
 function 점검옆판(k){
-  const d2 = 점검.답[점검.주 || '이번']; if(!d2) return; const R = 점검정리(d2), c = R.칸.find(x => x.k === k); if(!c) return; 점검.옆 = c;
+  const d2 = 점검.답[점검.주 || '이번']; if(!d2) return; const R = 점검정리(d2), c = R.칸.find(x => x.k === k); if(!c) return; if(!점검.옆 || 점검.옆.k !== k) 점검.옆수 = 5; 점검.옆 = c;
+  const 수 = 점검.옆수 || 5, 남 = c.줄.length - 수;
   const 종 = 메모종류(c.k);
   const 사람 = s => { const m = /^(.*?)\s*\((\d{4})\)\s*$/.exec(String(s || '')); return m ? D.m.find(x => (x.name || '').trim() === m[1].trim() && x.phone4 === m[2]) : null; };
-  const 머리 = (R.관 ? ['선생님'] : []).concat(c.머리 || []).concat(종 ? ['기록'] : []);
+  const 머리 = (R.관 ? ['선생님'] : []).concat((c.머리 || []).slice(0, 1), 종 ? ['기록'] : [], (c.머리 || []).slice(1));      /* 기록(상태 단추)은 이름 바로 옆 — 끝에 두면 표가 넓어 단추가 화면 밖이었다 (2026-10-29) */
   const 표 = '<table class="ck-tb"><thead><tr>' + 머리.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>'
-    + c.줄.map((o, i) => { const m = 사람(o.r[0]); return '<tr' + (m ? ' class="go" data-mfull="' + esc(m.id) + '"' : '') + '>' + (R.관 ? '<td>' + esc(o.선 || '') + '</td>' : '') + o.r.map((v, j) => '<td>' + (v && typeof v === 'object' ? (v.u ? '<a href="' + esc(v.u) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--gold)">' + esc(v.t || '열기') + '</a>' : esc(v.t || '')) : j ? esc(String(v == null ? '' : v)) : '<b>' + esc(String(v || '')) + '</b>') + '</td>').join('') + 메모칸(c, o, i) + '</tr>'; }).join('') + '</tbody></table>';      /* {t, u} = 링크(노션 카드) */
-  const 메모말 = 종 === 'TG' ? '✎ 를 눌러 상태를 적어 주세요. 「재연락 필요」는 다음 주에도 맨 위에 떠요' : 종 === '재등록' ? '✎ 를 눌러 상담 상태를 적어 주세요. 재등록하면 자동으로 표시돼요' : 종 === '소진' ? '①은 진행만 하면 돼요. ②③은 ✎ 를 눌러 상태와 사유를 적어 주세요' : '';
-  판열기(esc(c.이름) + ' ' + c.줄.length + '명', '<div class="ck-act">' + esc(c.할 || c.이름) + (c.도움 ? '<small>' + esc(점검글(c.도움)) + '</small>' : '') + (메모말 ? '<small>' + 메모말 + (점검메모.없음 ? ' · ⚠ 지금은 메모를 적을 수 없어요' : '') + '</small>' : '') + '</div><div style="overflow-x:auto">' + 표 + '</div>'
-    + '<div class="note" style="margin-top:10px">줄을 누르면 회원 페이지로 가요</div>');
+    + c.줄.slice(0, 수).map((o, i) => '<tr>' + (R.관 ? '<td>' + esc(o.선 || '') + '</td>' : '') + o.r.map((v, j) => '<td>' + (v && typeof v === 'object' ? (v.u ? '<a href="' + esc(v.u) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--gold)">' + esc(v.t || '열기') + '</a>' : esc(v.t || '')) : j ? esc(String(v == null ? '' : v)) : 점검이름(c, String(v || ''), 사람(v))) + '</td>' + (j ? '' : 메모칸(c, o, i))).join('') + '</tr>').join('') + '</tbody></table>'      /* {t, u} = 링크(노션 카드) */
+    + (c.줄.length > 5 ? '<div class="hmore">' + (수 > 5 ? '<button class="btn ghost sm" data-act="tx:ckless" data-k="' + esc(c.k) + '">접기</button>' : '') + (남 > 0 ? '<button class="btn ghost sm" data-act="tx:ckmore" data-k="' + esc(c.k) + '">더보기 <b>' + Math.min(5, 남) + '</b></button>' : '') + '<span class="sub3">' + Math.min(수, c.줄.length) + ' / ' + c.줄.length + '명</span></div>' : '');      /* 5줄씩 — 홈 명단과 같은 규칙 (2026-10-29 대표) */
+  const 안내 = 종 === 'TG' ? '줄마다 진행중 · 나중에 희망 · 종료를 바로 눌러요. 「나중에 희망」은 다음 주에도 맨 위에 떠요' : 종 === '재등록' ? '줄마다 상담 상태를 바로 눌러요. 재등록하면 자동으로 표시돼요' : 종 === '소진' ? '①은 진행만 하면 돼요. ②③은 상태를 눌러 주세요' : '';
+  판열기(esc(c.이름) + ' ' + c.줄.length + '명', '<div class="ck-act">' + esc(c.할 || c.이름) + (c.도움 ? '<small>' + esc(점검글(c.도움)) + '</small>' : '') + (안내 ? '<small>' + 안내 + (점검메모.없음 ? ' · ⚠ 지금은 메모를 적을 수 없어요' : '') + ' · 사유 · 다른 상태 · 지난 기록은 ✎</small>' : '') + '</div><div style="overflow-x:auto">' + 표 + '</div>'
+    + '<div class="note" style="margin-top:10px">이름 › 을 누르면 ' + (['TG', '체험'].includes(c.갈) ? '배정 판(담당 이력 · 메모)' : '회원 페이지') + '로 가요 · 「‹ 뒤로」로 돌아와요</div>');
 }
 
 
@@ -7876,18 +7927,24 @@ function 점검메모받기(){
   if(점검메모.중 || 점검메모.줄) return; 점검메모.중 = true; const 달 = TODAY.slice(0, 7);
   Promise.all([sget('weekly_notes?select=*&order=created_at.asc&limit=20000').catch(() => null), sget('sales_forecast?select=*&month=eq.' + 달 + '&order=created_at.asc').catch(() => null)])
     .then(([a, b]) => { 점검메모.없음 = a === null || b === null; 점검메모.줄 = a || []; 점검메모.예상 = b || []; })
-    .finally(() => { 점검메모.중 = false; if(S.view === 'check') render(); });
+    .finally(() => { 점검메모.중 = false; if(S.view === 'check') render(); try{ 돌아보기열기(); }catch(e){} });
 }
 const 점검회원키 = s => { const m = /^(.*?)\s*\((\d{4})\)\s*$/.exec(String(s || '')), mm = m && D.m.find(x => (x.name || '').trim() === m[1].trim() && x.phone4 === m[2]); return mm && /^c/.test(mm.id) ? mm.id.slice(1) : ''; };
 const 메모종류 = k => /^TG(첫|다음|재연락|끝|등록)$/.test(k) ? 'TG' : k === 'PT재등록' ? '재등록' : k === '소진' ? '소진' : '';
 const 메모고름 = { TG:['진행중', '재연락 필요', '수업거부', '기타사유', '종료'], 재등록:['아직', '상담함', '재등록 예정', '보류', '거절'], 소진:['진행 예정', '보류', '기타'] };
 const 메모마지막 = (key, kind) => { if(!key) return null; const xs = (점검메모.줄 || []).filter(m => m.member_key === key && m.kind === kind); return xs[xs.length - 1] || null; };
 const 점검주 = () => { const d2 = 점검.답[점검.주 || '이번']; if(d2 && d2['주']) return d2['주']; const t = new Date(TODAY + 'T00:00:00'), w = (t.getDay() + 6) % 7; t.setDate(t.getDate() - w); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); };
+const 메모단추 = { TG:[['진행중', '진행중'], ['재연락 필요', '나중에 희망'], ['종료', '종료']], 재등록:[['상담함', '상담함'], ['재등록 예정', '재등록 예정'], ['보류', '보류'], ['거절', '거절']], 소진:[['진행 예정', '진행 예정'], ['보류', '보류'], ['기타', '기타']] };      /* 줄마다 바로 누름 · 나머지 상태 · 사유 · 지난 기록은 ✎ (2026-10-29) */
+const 메모말 = (종, s) => 종 === 'TG' && s === '재연락 필요' ? '나중에 희망' : s;      /* 저장 값은 그대로(중앙이 읽음) · 보이는 말만 배정 탭과 같게 */
+const 메모사유 = s => ['재등록 예정', '보류', '거절', '기타사유', '기타', '수업거부'].includes(s);
+const 메모이번 = (c, o) => { const m = 메모마지막(o.key, 메모종류(c.k)); return !!(m && m.week === 점검주()); };
 const 메모적나 = (c, o) => { const 종 = 메모종류(c.k); return !!(종 && o.key && !(종 === '소진' && o.묶 === '①')); };
 function 메모칸(c, o, i){ const 종 = 메모종류(c.k); if(!종) return '';
-  const m = 메모마지막(o.key, 종), 빨 = 종 === '재등록' && (!m || m.status === '아직') && o.남 != null && +o.남 <= 1;
-  return '<td class="ck-memo">' + (빨 ? '<span class="ck-red">🔴 아직 상담 전</span> ' : '') + (m ? '<b>' + esc(m.status) + '</b>' + (m.reason ? ' · ' + esc(m.reason) : '') + '<small>' + esc(String(m.created_at || '').slice(5, 10).replace('-', '/')) + ' ' + esc(m.trainer || '') + '</small>' : '<span class="sub3">' + (메모적나(c, o) ? '기록 없음' : o.묶 === '①' ? '진행만' : '—') + '</span>')
-    + (메모적나(c, o) && !점검메모.없음 ? ' <button class="ck-pen" data-act="tx:cknote" data-k="' + i + '" title="상태 적기">✎</button>' : '') + '</td>'; }
+  const m = 메모마지막(o.key, 종), 이번 = 메모이번(c, o), 빨 = 종 === '재등록' && (!m || m.status === '아직') && o.남 != null && +o.남 <= 1;
+  const 단 = 메모적나(c, o) && !점검메모.없음 ? '<span class="ck-qb">' + 메모단추[종].map(([v, t]) => '<button class="' + (이번 && m.status === v ? 'on' : '') + '" data-act="tx:ckq" data-k="' + i + '|' + esc(v) + '">' + esc(t) + '</button>').join('')
+    + '<button class="ck-pen" data-act="tx:cknote" data-k="' + i + '" title="다른 상태 · 사유 · 지난 기록">✎</button></span>' : '';
+  return '<td class="ck-memo">' + (빨 ? '<span class="ck-red">🔴 아직 상담 전</span> ' : '') + (m ? '<b>' + esc(메모말(종, m.status)) + '</b>' + (m.reason ? ' · ' + esc(m.reason) : '') + '<small>' + esc(String(m.created_at || '').slice(5, 10).replace('-', '/')) + ' ' + esc(m.trainer || '') + '</small>' : '<span class="sub3">' + (메모적나(c, o) ? '기록 없음' : o.묶 === '①' ? '진행만' : '—') + '</span>')
+    + 단 + '</td>'; }
 /* 점검 ② 최근 결과 명단 — 중앙 10판 명단(dots 와 같은 차례) 그대로 그린다. 판정은 중앙 정본 · 데스크는 안 센다 */
 function 점검명단(t, g){
   const d2 = 점검.답[점검.주 || '이번']; if(!d2 || !t) return; const cv = d2['전환률'] || {}, rr = d2['재등록률'] || {};
@@ -7913,7 +7970,7 @@ function 메모편집(i, el){
   const c = 점검.옆; if(!c) return; const o = c.줄[+i], 종 = 메모종류(c.k), tr = el.closest('tr'); if(!o || !tr) return;
   const 옛 = tr.nextElementSibling; if(옛 && 옛.classList.contains('ck-edrow')){ 옛.remove(); return; }
   const m = 메모마지막(o.key, 종), n = tr.children.length, ed = document.createElement('tr'); ed.className = 'ck-edrow';
-  ed.innerHTML = '<td colspan="' + n + '"><div class="ck-ed">' + 메모고름[종].map(s => '<button class="chip' + (m && m.status === s ? ' on' : '') + '" data-act="tx:ckst" data-k="' + esc(s) + '">' + esc(s) + '</button>').join('')
+  ed.innerHTML = '<td colspan="' + n + '"><div class="ck-ed">' + 메모고름[종].map(s => '<button class="chip' + (m && m.status === s ? ' on' : '') + '" data-act="tx:ckst" data-k="' + esc(s) + '">' + esc(메모말(종, s)) + '</button>').join('')
     + '<input class="srch" data-ckrs placeholder="' + (종 === '재등록' ? '예정이면 날짜 · 보류/거절이면 사유' : '사유 한 줄') + '" value="' + esc(m ? m.reason || '' : '') + '">'
     + '<button class="btn main sm" data-act="tx:cksave" data-k="' + i + '">저장</button></div>' + 메모지난(o.key, 종) + '</td>';
   tr.after(ed); const inp = ed.querySelector('input'); if(inp) inp.focus();
@@ -7924,13 +7981,17 @@ async function 메모저장(i, el){
   if(!st){ toast('상태를 먼저 골라 주세요'); return; }
   if(st.k === '재등록 예정' && !rs){ toast('예정 날짜를 적어 주세요'); return; }
   if(['보류', '거절', '기타사유', '기타'].includes(st.k) && !rs){ toast('사유를 한 줄 적어 주세요'); return; }
+  if(await 메모기록(c, o, st.k, rs)){ 점검옆판(c.k); render(); }
+}
+/* 메모 한 줄 저장 — 옆 판 ✎ · 줄 단추 · 금요일 돌아보기가 같이 씀 */
+async function 메모기록(c, o, st, rs){ const 종 = 메모종류(c.k); if(!종 || !o) return false;
   const 이름 = String(o.r[0] || '').replace(/\s*\(\d{4}\)\s*$/, '');
-  if(!await 묻기(이름 + ' — 「' + st.k + '」' + (rs ? ' · ' + rs : '') + String.fromCharCode(10) + '이대로 저장할까요? 지난 기록은 그대로 남아요')) return;
-  const row = { member_key: o.key, member_name: 이름, kind: 종, status: st.k, reason: rs, trainer: (ME && ME.name) || '', week: 점검주() };
+  if(!await 묻기(이름 + ' — 「' + 메모말(종, st) + '」' + (rs ? ' · ' + rs : '') + String.fromCharCode(10) + '이대로 저장할까요? 지난 기록은 그대로 남아요')) return false;
+  const row = { member_key: o.key, member_name: 이름, kind: 종, status: st, reason: rs || '', trainer: (ME && ME.name) || '', week: 점검주() };
   try{ await ssend('weekly_notes', 'POST', [row], 'return=minimal');
     (점검메모.줄 = 점검메모.줄 || []).push(Object.assign({ created_at: new Date().toISOString() }, row));
-    toast('저장했어요'); 점검옆판(c.k); render(); }
-  catch(e){ toast('저장하지 못했어요 — ' + (e.message || '').slice(0, 60)); }
+    toast('저장했어요'); return true; }
+  catch(e){ toast('저장하지 못했어요 — ' + (e.message || '').slice(0, 60)); return false; }
 }
 
 /* ══ 쉬면 새로고침 알림 ══ 2026-10-16 대표 「띄워만 놓고 일정 시간 작업이 없으면 새로고침해서 다시 신호를 받게」 → 13:42 「저절로 새로고침~!? 동작이 멈추고 작동하려는 사람이 새로고침하게 · 하단에 알림 표시 · 직접 새로고침」
@@ -13870,7 +13931,8 @@ async function 배정받기(){
   try{ 배정.줄 = await 모두가져('assign_leads?select=*&order=created_at.desc'); 배정.왜 = '';
     배정.끔 = new Set(((await sget('guide_optout?select=k').catch(() => [])) || []).map(r => r.k)); }      /* 자동 설문 끈 회원 (63단계) */
   catch(e){ 배정.줄 = null; 배정.왜 = (e && e.message) || '안 되었어요'; }
-  배정.중 = false; 배정.때 = Date.now(); 배정배지(); if(S.view === 'assign' || S.view === 'home' || S.view === 'members') render(); }
+  배정.중 = false; 배정.때 = Date.now(); 배정배지(); if(S.view === 'assign' || S.view === 'home' || S.view === 'members') render();
+  try{ 새담당팝업(); 돌아보기열기(); }catch(e){ console.warn('배정 팝업 —', e && e.message); } }
 document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && 배정.줄 && !배정.중 && Date.now() - (배정.때 || 0) > 60000 && 할수('assign')) 배정받기(); });      /* 창으로 돌아오면 다시 받음 */
 function 배정배지(){ const b = $('#asbdg'); if(!b) return; const 나 = (ME && ME.name) || '', n = 나 ? (배정.줄 || []).filter(x => (x.trainers || []).includes(나) && 배정첫(x)).length : 0;      /* 내 담당 · 첫 수업 안 잡은 TG = 새로 받은 배정 (2026-10-28) */
   if(n){ b.textContent = n; b.style.display = ''; } else b.style.display = 'none'; }
@@ -13887,6 +13949,7 @@ function 배정더표시(){ let p = document.getElementById('asmore'); const 카
   if(!p){ p = document.createElement('button'); p.id = 'asmore'; p.type = 'button'; p.onclick = () => { const e = [...document.querySelectorAll('#body .as-qc, #body .as-wait')].find(z => z.getBoundingClientRect().top > innerHeight - 40); if(e) e.scrollIntoView({ behavior:'smooth', block:'center' }); }; document.body.appendChild(p); }
   const n = 밑.filter(e => e.classList.contains('as-qc')).length; p.textContent = n ? '아래에 카드 ' + n + '개 더' : '아래에 기다리는 것 더'; }
 document.addEventListener('scroll', () => { if(document.getElementById('asmore')) 배정더표시(); }, true);
+const 배정멈춤 = x => !배정미배(x) && !배정PT중(x) && ((x.ask === '진행중인데 수업 없음' && !배정확인됨(x)) || 배정일(x) >= 60);      /* 수업 멈춤 카드 · 금요일 돌아보기가 같이 씀 */
 const 배정첫 = x => 배정열림(x) && !배정미배(x) && !x.r1 && x.progress !== '재연락 필요' && !배정PT중(x) && (!x.mem_end || x.mem_end >= TODAY);      /* 나중에 희망은 그 카드로 (10/28) */      /* 첫 수업 안 잡음 — TG 탭 칸 · 현황판 숫자가 같은 식 */
 /* ⛔ 정본 스위치 — 대표 20:54(중앙 창) 「아직 데스크로 완전 이전이 아니니 우선 노션으로 · 기존 작업이 멈추거나 꼬이면 안 된다」
    지금은 노션이 정본(서버 월요일 장 · 회차 · 설문이 노션을 읽고 씀). 데스크에서 노션옮김 줄을 고치면 노션에 안 가고, 넘기는 날 중앙이 노션 내용으로 다시 덮어 **사라진다**
@@ -13921,7 +13984,7 @@ function v배정(){
   const 회원권남음 = x => !x.mem_end || x.mem_end >= TODAY;
   const 첫 = 열.filter(배정첫);
   const 오래 = 열.filter(x => 배정일(x) >= 60 && !배정PT중(x)), 멈 = 오래;
-  const 멈춤 = 열.filter(x => !배정미배(x) && !배정PT중(x) && ((x.ask === '진행중인데 수업 없음' && !배정확인됨(x)) || 배정일(x) >= 60));
+  const 멈춤 = 열.filter(배정멈춤);
   const 물 = 열.filter(x => x.ask && !['담당 넣기', '진행중인데 수업 없음'].includes(x.ask) && !배정확인됨(x));
   const 교 = 할수('assignall') ? D.filter(x => x.swap_at && 배정열림(x)) : [];
   const 걸 = 배정.물 ? 물.filter(x => x.ask === 배정.물) : 물;
@@ -14182,6 +14245,113 @@ const 설문끔키 = x => x.crm_key ? 'c' + x.crm_key : (String(x.phone || '').r
 const 설문끔칸 = x => { if(x.kind === '체험') return '<div><small>자동 설문</small><span class="as-tag">없음 · 체험수업</span></div>';      /* 체험은 자동 설문 없음 — 사전 설문은 「보내기」로만 (2026-10-28 대표 「체험수업은 설문 자동발송 꺼야 돼」) */
   const k = 설문끔키(x); if(!k || !배정쓰기(x)) return ''; const 끔 = !!(배정.끔 && 배정.끔.has(k));
   return '<div><small>자동 설문</small><button class="sw' + (끔 ? '' : ' on') + '" data-act="tx:asoptout" data-k="' + esc(x.id) + '" role="switch" aria-checked="' + (끔 ? 'false' : 'true') + '"><i></i><b>' + (끔 ? '꺼짐' : '켜짐') + '</b></button></div>'; };      /* 켜고 끄는 스위치 (2026-10-28 대표 「눌린 건지 한눈에 안 보여」) */
+/* ══ 새 담당 알림 ══ 2026-10-29 노션 「담당자 배정하면 현황판에도 뜨지만 놓칠 수 있어서 팝업으로 · 어느 탭에서 볼 수 있는지 위에」
+   담당으로 정해진 선생님 본인에게만 · 「확인했어요」를 누를 때까지(✕ 는 30분 뒤 다시) · 여러 명은 한 장에 5명씩 · 팝업에서 탭으로 넘어가지 않는다(대표 「일이 꼬인다」)
+   본 것 = assign_leads.seen {이름: 때}(93단계) — 칸이 아직 없으면 이 기기에만 기억 · 이날 뒤 배정만(옛 배정이 한꺼번에 뜨지 않게) */
+const 새담당 = { 시작:'2026-10-29', 수:5 };
+const 새담당본 = x => { const 나 = (ME && ME.name) || ''; if(x.seen && typeof x.seen === 'object' && x.seen[나]) return true; try{ return JSON.parse(localStorage.getItem('gg_asseen') || '[]').includes(String(x.id)); }catch(e){ return false; } };
+const 새담당줄 = () => { const 나 = (ME && ME.name) || ''; if(!나 || !배정.줄) return []; return 배정.줄.filter(x => (x.trainers || []).includes(나) && !배정미배(x) && 배정열림(x) && String(x.assigned_on || '') >= 새담당.시작 && !새담당본(x)).sort((a, b) => String(b.assigned_on || '').localeCompare(String(a.assigned_on || ''))); };
+function 새담당팝업(강제){
+  if(!ME || 진짜ME) return; const L = 새담당줄(); if(!L.length) return;
+  const 열림 = $('#pop').classList.contains('on');
+  if(열림 && 지금팝업 === '새담당' && !강제) return;      /* 보는 중엔 다시 그리지 않는다 */
+  if(열림 && 지금팝업 !== '새담당'){ 팝업차례('새담당', () => 새담당팝업()); return; }
+  팝업줄빼기('새담당'); 다음강제 = !!강제;
+  const 누가 = x => { const m = /\d{4}-\d{2}-\d{2} (\S+) → /.exec(String(x.assign_note || '').split(String.fromCharCode(10)).filter(s => / → /.test(s)).slice(-1)[0] || ''); return m ? m[1] : ''; };
+  const 칸 = x => { const 체 = x.kind === '체험', 희 = (String(x.fc_memo || '').match(/희망시간\s*:\s*([^\n]+)/) || [])[1] || '', 급 = 체 ? 1 : 2;
+    return '<div class="rv-new" style="--c:' + (체 ? '#e8927c' : 'var(--teal)') + '"><span class="gi">' + esc(String(x.name || '?').slice(0, 1)) + '</span><div class="t"><b>' + esc(x.name || '') + '</b> <em class="urg" style="--u:' + 배정급색[급] + '">' + 배정급말[급] + '</em>'
+      + '<div class="s">' + esc([체 ? '체험수업' : 'TG', x.lessons ? x.lessons + '회' : '', x.ticket || ''].filter(Boolean).join(' · ')) + ' · ' + esc(String(x.assigned_on || '').slice(5).replace('-', '/')) + ' 배정' + (누가(x) ? ' · ' + esc(누가(x)) : '') + '</div>'
+      + (희 ? '<div class="m">희망 시간 · ' + esc(희.trim()) + '</div>' : x.trainer_memo ? '<div class="m">' + esc(String(x.trainer_memo).split(String.fromCharCode(10))[0]) + '</div>' : '') + '</div></div>'; };
+  const 보 = L.slice(0, 새담당.수); 새담당.보 = 보.map(x => String(x.id));
+  popOpen('<div class="ps-pop rv"><div class="rv-top"><i>다시 보는 곳</i>TG · 체험 배정 탭 › 지금 할 일</div><div class="ps-h">새로 맡은 고객 ' + L.length + '명</div><div class="sub3" style="margin-bottom:10px">담당으로 정해졌어요 · 확인했다면 아래 단추를 눌러 주세요</div>'
+    + 보.map(칸).join('') + (L.length > 보.length ? '<div class="hmore"><button class="btn ghost sm" data-act="tx:asseenmore">더보기 <b>' + Math.min(5, L.length - 보.length) + '</b></button><span class="sub3">' + 보.length + ' / ' + L.length + '명</span></div>' : '')
+    + '<div class="rv-foot"><button class="btn main" data-act="tx:asseen" style="flex:1">확인했어요' + (L.length > 보.length ? ' · ' + 보.length + '명' : '') + '</button></div></div>');
+}
+async function 새담당확인(){ const 나 = (ME && ME.name) || '', 때 = new Date().toISOString(), ids = 새담당.보 || [];
+  let 기기 = []; try{ 기기 = JSON.parse(localStorage.getItem('gg_asseen') || '[]'); }catch(e){}
+  for(const id of ids){ const x = (배정.줄 || []).find(r => String(r.id) === id); if(!x) continue;
+    if('seen' in x){ const s = Object.assign({}, x.seen || {}, { [나]: 때 }); try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(id), 'PATCH', { seen: s }, 'return=minimal'); x.seen = s; continue; }catch(e){ console.warn('새 담당 확인 저장 —', e && e.message); } }
+    기기.push(id); }
+  try{ localStorage.setItem('gg_asseen', JSON.stringify([...new Set(기기)].slice(-500))); }catch(e){}
+  지금팝업 = null; popClose(); 새담당.수 = 5; if(새담당줄().length) setTimeout(() => 새담당팝업(true), 300); }
+
+/* ══ 금요일 돌아보기 ══ 2026-10-29 노션 「매주 금요일 돌아보기 팝업 · 오늘 하루 닫기 · 점검 탭에서 다시 확인할 수 있습니다 · 가이드 배정 · 점검 탭에서 확인해야 하는 것」
+   본인 것만 · 눌러서 정할 것만 크게(탭별 머리 = 메뉴 이름 그대로) · 팝업 안에서 다 정함(펼침 · 5줄씩) · 탭으로 넘어가는 단추 없음 · 정할 것 0 이면 안 뜸
+   「오늘 하루 닫기」 = 이 기기에 그날 기억 · ✕ = 30분 뒤 다시(팝업 줄 규칙) · 예상 매출만 입력 창을 열고 닫으면 돌아온다 */
+const 돌아 = { 펼:'', 수:{}, 편:{}, 정:new Map(), 묶:[], 열림:false };
+const 돌아정 = (열쇠, t) => { const g = (돌아.묶 || []).find(z => z.L.some(r => r.열쇠 === 열쇠)); 돌아.정.set(열쇠, { g: g ? g.k : '', t }); };
+const 돌아닫은날 = () => { try{ return localStorage.getItem('gg_rv_day') || ''; }catch(e){ return ''; } };
+const 금요일 = () => new Date(TODAY + 'T12:00:00').getDay() === 5;
+function 돌아보기묶음(){
+  const 나 = (ME && ME.name) || '', 묶 = [], 연 = [];
+  if(배정.줄){ const 열 = 배정.줄.filter(x => (x.trainers || []).includes(나) && 배정열림(x)), 정묶 = 열쇠 => (돌아.정.get(열쇠) || {}).g || '';
+    const 재 = 열.filter(x => x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY), 멈 = 열.filter(배정멈춤).filter(x => !재.includes(x));
+    [['b재연', '오늘 연락', '알림 날이 됐어요 · 진행중 · 나중에 희망 · 종료', 1, 재], ['b멈', '수업 멈춤', '진행중 · 나중에 희망 · 종료 중 하나', 2, 멈]]
+      .forEach(([k, 이름, 설, 급, L]) => { const 여기 = L.filter(x => !정묶('b' + x.id) || 정묶('b' + x.id) === k).concat(배정.줄.filter(x => 정묶('b' + x.id) === k && !L.includes(x)));      /* 이 팝업에서 정한 줄은 정한 묶음에 ✓ 로 남는다 */
+        const LL = 여기.map(x => ({ x, i: x.id, 열쇠: 'b' + x.id, 정: (돌아.정.get('b' + x.id) || {}).t || '' })); if(LL.length) 묶.push({ k, 이름, 설, 급, 탭:'배정', L: LL }); });
+    const 첫 = 열.filter(배정첫); if(첫.length) 연.push('첫 수업 잡기 ' + 첫.length); }
+  const d2 = 점검.답[점검.주 || '이번']; let 예상 = false;
+  if(d2 && 점검메모.줄 && !점검메모.없음){ const R = 점검정리(d2);
+    R.칸.filter(c => c.줄.length).sort((a, b) => b.단 - a.단 || b.줄.length - a.줄.length).forEach(c => { const 내 = c.줄.map((o, i) => ({ o, i })).filter(r => !R.관 || r.o.선 === 나);
+      if(!내.length) return;
+      if(점검정할(c)){ const LL = 내.filter(r => 메모적나(c, r.o)).map(r => Object.assign(r, { 열쇠: 'c' + c.k + '_' + r.o.key, 정: (돌아.정.get('c' + c.k + '_' + r.o.key) || {}).t || '' })).filter(r => r.정 || !메모이번(c, r.o));
+        if(LL.length) 묶.push({ k:'c' + c.k, 이름:c.이름, 설:점검글(c.할 || ''), 급: c.단 === 2 ? 1 : c.단 === 1 ? 2 : 3, 탭:'점검', c, L: LL }); }
+      else 연.push(c.이름 + ' ' + 내.length); });
+    예상 = !(점검메모.예상 || []).some(x => x.trainer === 나 && x.month === TODAY.slice(0, 7)); }
+  return { 묶, 연, 예상 };
+}
+function 돌아보기열기(강제){
+  if(!ME || 진짜ME) return; if(!강제 && (!금요일() || 돌아닫은날() === TODAY)) return;
+  if(할수('check') && !점검메모.없음){ const 키 = 점검.주 || '이번'; if(!점검.답[키]){ 점검받기(점검.주); if(!강제) return; } if(!점검메모.줄){ 점검메모받기(); if(!강제) return; } }      /* 점검 자료가 올 때까지 기다렸다 한 번에 */
+  if(!배정.줄 && 할수('assign')){ if(!배정.중) 배정받기(); if(!강제) return; }
+  const 열림 = $('#pop').classList.contains('on');
+  if(!강제 && 열림 && 지금팝업 === '돌아보기') return;      /* 보는 중엔 뒤에서 다시 그리지 않는다(적던 날짜 · 사유가 날아감) */
+  const G = 돌아보기묶음(); if(!강제 && !G.묶.some(g => g.L.some(r => !r.정)) && !G.예상) return;
+  if(!강제 && 열림){ 팝업차례('돌아보기', () => 돌아보기열기()); return; }
+  팝업줄빼기('돌아보기'); 다음강제 = !!강제; 돌아.열림 = true; 돌아보기그리기(true);
+}
+function 돌아보기그리기(처음){
+  if(!처음 && 지금팝업 !== '돌아보기') return; const G = 돌아보기묶음(); 돌아.묶 = G.묶;
+  const 남 = G.묶.reduce((a, g) => a + g.L.filter(r => !r.정).length, 0), 정한 = G.묶.reduce((a, g) => a + g.L.filter(r => r.정).length, 0);
+  const 단추 = (k, t, on, c) => '<button class="' + (c || '') + (on ? ' on' : '') + '" data-act="tx:' + k + '">' + t + '</button>';
+  const 회원 = (g, r) => { const id = String(r.i);
+    if(g.탭 === '배정'){ const x = r.x, 편 = 돌아.편[x.id] || '';
+      const 머 = '<div class="a"><b>' + esc(x.name || '') + '</b><span class="s">' + esc((x.kind === '체험' ? '체험' : 'TG') + ' · ' + String(x.assigned_on || '').slice(5).replace('-', '/') + ' 배정' + (x.recall_on && x.progress === '재연락 필요' ? ' · ' + String(x.recall_on).slice(5).replace('-', '/') + ' 알림' : '')) + '</span>' + 배정점(x) + '</div>';
+      if(r.정) return '<div class="rv-m lock">' + 머 + '<div class="ok">✓ ' + esc(r.정) + '</div></div>';
+      return '<div class="rv-m">' + 머 + '<div class="rv-st">' + '<button class="p" data-act="tx:rvas" data-k="' + esc(x.id) + '">진행중</button><button class="l' + (편 === 'later' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|later">나중에 희망</button><button class="e' + (편 === 'end' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|end">종료</button></div>'
+        + (편 === 'later' ? '<div class="rv-ed"><span class="sub3">알림 날</span>' + [3, 7, 14, 30].map(n => '<button class="chip" data-rvday="' + esc(x.id) + '" data-act="tx:rvday" data-k="' + esc(x.id) + '|' + n + '">' + n + '일 뒤</button>').join('') + '<input class="srch" id="rvd_' + esc(x.id) + '" type="date" min="' + 날더함(TODAY, 1) + '" max="' + 날더함(TODAY, 30) + '"><button class="btn main sm" data-act="tx:rvlatergo" data-k="' + esc(x.id) + '">저장</button></div>' : '')
+        + (편 === 'end' ? '<div class="rv-ed"><input class="srch" id="rvm_' + esc(x.id) + '" placeholder="메모 (선택) · 예) 이사 · 연락 안 됨">' + Object.entries(배정종료말).map(([v, t]) => '<button class="btn ghost sm" data-act="tx:rvendgo" data-k="' + esc(x.id) + '|' + v + '">' + t + '</button>').join('') + '</div>' : '') + '</div>'; }
+    const c = g.c, 종 = 메모종류(c.k), o = r.o, 편 = 돌아.편['c' + r.열쇠] || '', m = 메모마지막(o.key, 종);
+    const 머 = '<div class="a"><b>' + esc(String(o.r[0] || '')) + '</b><span class="s">' + esc(o.r.slice(1, 3).map(v => v && typeof v === 'object' ? v.t || '' : String(v == null ? '' : v)).filter(Boolean).join(' · ')) + (m ? ' · 지난 기록 ' + esc(메모말(종, m.status)) : '') + '</span></div>';
+    if(r.정) return '<div class="rv-m lock">' + 머 + '<div class="ok">✓ ' + esc(r.정) + '</div></div>';
+    return '<div class="rv-m">' + 머 + '<div class="rv-st">' + 메모단추[종].map(([v, t], j) => '<button class="' + ['p', 'l', 'e', 'e'][j] + (편 === v ? ' on' : '') + '" data-act="tx:rvq" data-k="' + esc(g.k + '|' + id + '|' + v) + '">' + esc(t) + '</button>').join('') + '</div>'
+      + (편 ? '<div class="rv-ed"><input class="srch" id="rvr_' + esc(r.열쇠) + '" placeholder="' + (편 === '재등록 예정' ? '예정 날짜 · 예) 11/10' : '사유 한 줄') + '"><button class="btn main sm" data-act="tx:rvqgo" data-k="' + esc(g.k + '|' + id) + '">저장</button></div>' : '') + '</div>'; };
+  const 줄 = g => { const n = g.L.filter(r => !r.정).length, 열 = 돌아.펼 === g.k, 수 = 돌아.수[g.k] || 5, 색 = 배정급색[g.급];
+    return '<button class="rv-row' + (열 ? ' on' : '') + (n ? '' : ' done') + '" data-act="tx:rvopen" data-k="' + esc(g.k) + '" style="--u:' + 색 + '"><span class="nm"><b>' + esc(g.이름) + '</b><small>' + esc(g.설) + '</small></span><span class="n">' + (n || '✓') + '</span><span class="go">' + (열 ? '접기 ▴' : '펼치기 ▾') + '</span></button>'
+      + (열 ? '<div class="rv-in" style="--u:' + 색 + '">' + g.L.slice(0, 수).map(r => 회원(g, r)).join('')
+        + (g.L.length > 5 ? '<div class="hmore">' + (수 > 5 ? '<button class="btn ghost sm" data-act="tx:rvless" data-k="' + esc(g.k) + '">접기</button>' : '') + (g.L.length > 수 ? '<button class="btn ghost sm" data-act="tx:rvmore" data-k="' + esc(g.k) + '">더보기 <b>' + Math.min(5, g.L.length - 수) + '</b></button>' : '') + '<span class="sub3">' + Math.min(수, g.L.length) + ' / ' + g.L.length + '명</span></div>' : '') + '</div>' : ''); };
+  const 탭 = (t, 이름, 색, 글) => { const L = G.묶.filter(g => g.탭 === t); if(!L.length && !(t === '점검' && G.예상)) return '';
+    return '<div class="rv-tab" style="--c:' + 색 + '"><span class="gi">' + 글 + '</span>' + 이름 + ' 탭<small>메뉴 「' + 이름 + '」</small></div>' + L.map(줄).join('')
+      + (t === '점검' && G.예상 ? '<div class="rv-row" style="--u:' + 배정급색[2] + '"><span class="nm"><b>이번 달 예상 매출</b><small>아직 안 적었어요 · 입력 창을 닫으면 여기로 돌아와요</small></span><span class="n">!</span><button class="btn ghost sm" data-act="tx:rvfc">입력</button></div>' : ''); };
+  const 다 = !남 && !G.예상;
+  const 판 = $('#popbox'), 자리 = 판 ? 판.scrollTop : 0;
+  다음팝업 = '돌아보기'; 다음강제 = !처음 || 다음강제;      /* popOpen 이 이 팝업 이름을 잊지 않게 — 다시 그릴 때마다 지금팝업이 비었다 */
+  popOpen('<div class="ps-pop rv"><div class="rv-top"><i>안내</i>점검 탭에서 다시 확인할 수 있습니다</div><div class="ps-h">이번 주 돌아보기 · ' + esc(TODAY.slice(5).replace('-', '/')) + '</div>'
+    + '<div class="sub3" style="margin-bottom:8px">이 창에서 다 정할 수 있어요 · 줄을 누르면 펼쳐져요 · 다른 탭으로 넘어가지 않아요</div>'
+    + '<div class="rv-sec">눌러서 정할 것 <b>' + 남 + '</b>' + (정한 ? ' <span class="sub3">· ' + 정한 + ' 정함</span>' : '') + '</div>'
+    + 탭('배정', 'TG · 체험 배정', 'var(--teal)', 'T') + 탭('점검', '점검', 'var(--gold)', '점')
+    + (G.연.length ? '<div class="rv-sec dim">확인 · 연락만 — 수업이 잡히면 저절로 빠져요</div><div class="rv-calm">' + esc(G.연.join(' · ')) + '</div>' : '')
+    + '<div class="rv-foot">' + (다 ? '<span class="sub3" style="margin-right:auto">모두 처리했어요</span>' : '') + '<button class="btn ghost" data-act="tx:rvday1" style="flex:1">오늘 하루 닫기</button>' + (다 ? '' : '<button class="btn main" data-act="popclose" style="flex:1">닫기</button>') + '</div></div>');
+  if(판 && !처음) 판.scrollTop = 자리;
+}
+/* 나중에 희망 · 종료 저장 — 배정 옆 판과 금요일 돌아보기 팝업이 같이 씀 (2026-10-29) */
+async function 배정나중저장(id, 날){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return false; const 나 = (ME && ME.name) || '';
+  if(!날){ toast('알림 날짜를 정해 주세요'); return false; } if(날 <= TODAY || 날 > 날더함(TODAY, 30)){ toast('알림 날짜는 내일부터 30일 뒤(' + 날더함(TODAY, 30).slice(5).replace('-', '/') + ')까지예요'); return false; }
+  const n = Math.round((new Date(날) - new Date(TODAY)) / 86400000);
+  return await 배정고침(id, { progress:'재연락 필요', later_at:new Date().toISOString(), recall_on:날, recall_by:나, recall_log:(Array.isArray(x.recall_log) ? x.recall_log : []).concat([{ at:new Date().toISOString(), by:나, on:날, n }]) }, '나중에 희망 · ' + 날.slice(5).replace('-', '/') + '에 알림(' + n + '일 뒤)'); }
+const 배정종료말 = { 종료:'수업을 다 받음', 수업거부:'수업을 원하지 않음', 기타사유:'그 밖의 사유' };
+async function 배정종료저장(id, v, m){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return false; const 사 = 배정종료말[v] || v;
+  return await 배정고침(id, { progress:v, recall_on:null, later_at:null, assign_note:(x.assign_note ? x.assign_note + String.fromCharCode(10) : '') + TODAY + ' 종료 · ' + 사 + (m ? ' · ' + m : '') + ' (' + ((ME && ME.name) || '') + ')' }, '종료 · ' + 사); }
 function 배정재연락판(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;      /* 나중에 희망 = 알림일 필수 · 최장 30일 (2026-10-28 대표) */
   판열기(esc(x.name) + ' · 나중에 희망', '<div class="ck-act">언제 다시 연락할까요?<small>알림 날짜는 꼭 정해요 · 최대 30일 뒤까지 · 그날 「다시 연락할 날」과 현황판에 뜹니다</small></div>'
     + '<div class="l1row" style="margin-top:12px"><input class="srch" id="asrcd" type="date" min="' + 날더함(TODAY, 1) + '" max="' + 날더함(TODAY, 30) + '" style="width:170px">'
@@ -14189,7 +14359,7 @@ function 배정재연락판(id){ const x = (배정.줄 || []).find(r => String(r
     + '<button class="btn main" data-act="tx:asrecallgo" data-k="' + esc(x.id) + '" style="width:100%;margin-top:12px">저장</button>'); }
 function 배정종료판(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
   판열기(esc(x.name) + ' · 종료', '<div class="ck-act">종료 사유를 골라 주세요<small>사유는 배정 기록에 남습니다</small></div><div style="height:10px"></div>'
-    + [['종료', '수업을 다 받음'], ['수업거부', '수업을 원하지 않음'], ['기타사유', '그 밖의 사유']].map(([v, t]) => '<button class="card click rowc" data-act="tx:asendgo" data-k="' + esc(x.id) + '|' + v + '"><div><div class="t1">' + t + '</div></div><span class="rt">›</span></button>').join('')
+    + Object.entries(배정종료말).map(([v, t]) => '<button class="card click rowc" data-act="tx:asendgo" data-k="' + esc(x.id) + '|' + v + '"><div><div class="t1">' + t + '</div></div><span class="rt">›</span></button>').join('')
     + '<input class="srch" id="asendm" placeholder="메모 (선택) · 예) 이사 · 연락 안 됨" style="width:100%;margin-top:8px">'); }
 /* 배정 카드 순서 — 끌어서 놓기 · 이 기기에 기억 (2026-10-27 대표 「카드 위치 변경도 가능하게」) */
 let 배정끄는 = null;
@@ -15028,13 +15198,9 @@ async function txAct(a, el){
   if(a==='clack'){ await 청소확인(k); return; }
   if(a==='asrecall'){ 배정재연락판(k); return; }
   if(a==='asrcq'){ const e = $('#asrcd'); if(e) e.value = 날더함(TODAY, +k); return; }
-  if(a==='asrecallgo'){ const x = (배정.줄 || []).find(r => String(r.id) === String(k)); if(!x) return; const 날 = (($('#asrcd') || {}).value || '').trim(), 나 = (ME && ME.name) || '';
-    if(!날){ toast('알림 날짜를 정해 주세요'); return; } if(날 <= TODAY || 날 > 날더함(TODAY, 30)){ toast('알림 날짜는 내일부터 30일 뒤(' + 날더함(TODAY, 30).slice(5).replace('-', '/') + ')까지예요'); return; }
-    const n = Math.round((new Date(날) - new Date(TODAY)) / 86400000);
-    if(await 배정고침(k, { progress:'재연락 필요', later_at:new Date().toISOString(), recall_on:날, recall_by:나, recall_log:(Array.isArray(x.recall_log) ? x.recall_log : []).concat([{ at:new Date().toISOString(), by:나, on:날, n }]) }, '나중에 희망 · ' + 날.slice(5).replace('-', '/') + '에 알림(' + n + '일 뒤)')) 배정판(k); return; }
+  if(a==='asrecallgo'){ if(await 배정나중저장(k, (($('#asrcd') || {}).value || '').trim())) 배정판(k); return; }
   if(a==='asend'){ 배정종료판(k); return; }
-  if(a==='asendgo'){ const [id, v] = String(k).split('|'), x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return; const m = (($('#asendm') || {}).value || '').trim(), 사 = { 종료:'수업을 다 받음', 수업거부:'수업을 원하지 않음', 기타사유:'그 밖의 사유' }[v] || v;
-    if(await 배정고침(id, { progress:v, recall_on:null, later_at:null, assign_note:(x.assign_note ? x.assign_note + String.fromCharCode(10) : '') + TODAY + ' 종료 · ' + 사 + (m ? ' · ' + m : '') + ' (' + ((ME && ME.name) || '') + ')' }, '종료 · ' + 사)) 배정판(id); return; }
+  if(a==='asendgo'){ const [id, v] = String(k).split('|'); if(await 배정종료저장(id, v, (($('#asendm') || {}).value || '').trim())) 배정판(id); return; }
   if(a==='sctas'){ const f = 매확.TGF[k]; if(!f) return; f.배정 = f.배정 === v2 ? '' : v2; if(f.배정 !== '배정') f.배정담당 = ''; 매확.TG바뀜[k] = true; 매확다시(); return; }      /* 매출 팝업 TG 배정 칩 */
   if(a==='asaskok'){ await 배정확인저장(k); return; }      /* 확인 요청 · 사유 필수 (2026-10-27) */
   /* aslater(나중에 희망 토글) 뺌 — 진행상황 「나중에 희망」으로 (2026-10-28) */
@@ -15060,6 +15226,31 @@ async function txAct(a, el){
   if(a==='ckwk'){ 점검.주 = k || ''; render(); return; }      /* 점검 — 주 고르기 */
   if(a==='cktr'){ 점검.거름 = 점검.거름 === k && !관리자칩꼴() ? '' : (k || ''); 점검.거름정함 = (ME && ME.name) || true; popClose(); render(); return; }      /* 점검 — 선생님 거르기(관리자) */
   if(a==='ckit'){ 점검옆판(k); return; }      /* 점검 — 칸 → 옆 판 */
+  if(a==='cklv'){ 점검등급판(k); return; }      /* 긴급 · 집중관리 · 지속관리 → 옆 판 (2026-10-29) */
+  if(a==='ckmore'){ 점검.옆수 = (점검.옆수 || 5) + 5; 점검옆판(k); return; }
+  if(a==='ckless'){ 점검.옆수 = 5; 점검옆판(k); return; }
+  if(a==='ckq'){ const [i, st] = String(k).split('|'), c = 점검.옆; if(!c) return;      /* 줄 단추 — 사유가 필요한 것만 ✎ 줄을 열어 그 상태를 골라 둔다 */
+    if(메모사유(st)){ const tr = el.closest('tr'), 옛 = tr && tr.nextElementSibling; if(!(옛 && 옛.classList.contains('ck-edrow'))) 메모편집(i, el);
+      const ed = tr && tr.nextElementSibling; if(ed && ed.classList.contains('ck-edrow')){ ed.querySelectorAll('.ck-ed .chip').forEach(z => z.classList.toggle('on', z.dataset.k === st)); const inp = ed.querySelector('[data-ckrs]'); if(inp) inp.focus(); } return; }
+    if(await 메모기록(c, c.줄[+i], st, '')){ 점검옆판(c.k); render(); } return; }
+  if(a==='asseen'){ await 새담당확인(); return; }
+  if(a==='asseenmore'){ 새담당.수 += 5; 새담당팝업(true); return; }
+  if(a==='rvopen'){ 돌아.펼 = 돌아.펼 === k ? '' : k; 돌아보기그리기(); return; }
+  if(a==='rvmore'){ 돌아.수[k] = (돌아.수[k] || 5) + 5; 돌아보기그리기(); return; }
+  if(a==='rvless'){ 돌아.수[k] = 5; 돌아보기그리기(); return; }
+  if(a==='rvedit'){ const [id, w] = String(k).split('|'); 돌아.편[id] = 돌아.편[id] === w ? '' : w; 돌아보기그리기(); return; }
+  if(a==='rvday'){ const [id, n] = String(k).split('|'), e = document.getElementById('rvd_' + id); if(e) e.value = 날더함(TODAY, +n); document.querySelectorAll('[data-rvday="' + id + '"]').forEach(z => z.classList.toggle('on', z === el)); return; }
+  if(a==='rvas'){ if(await 배정고침(k, { progress:'진행중', recall_on:null, later_at:null }, '진행상황 「진행중」')) 돌아정('b' + k, '진행중'); 돌아보기그리기(); return; }
+  if(a==='rvlatergo'){ const 날 = ((document.getElementById('rvd_' + k) || {}).value || '').trim(); if(await 배정나중저장(k, 날)){ 돌아정('b' + k, '나중에 희망 · ' + 날.slice(5).replace('-', '/') + ' 알림'); 돌아.편[k] = ''; } 돌아보기그리기(); return; }
+  if(a==='rvendgo'){ const [id, v] = String(k).split('|'); if(await 배정종료저장(id, v, ((document.getElementById('rvm_' + id) || {}).value || '').trim())){ 돌아정('b' + id, '종료 · ' + (배정종료말[v] || v)); 돌아.편[id] = ''; } 돌아보기그리기(); return; }
+  if(a==='rvq'){ const [gk, i, st] = String(k).split('|'), g = (돌아.묶 || []).find(x => x.k === gk), r = g && g.L.find(z => String(z.i) === i); if(!r) return;
+    if(메모사유(st)){ 돌아.편['c' + r.열쇠] = st; 돌아보기그리기(); const e = document.getElementById('rvr_' + r.열쇠); if(e) e.focus(); return; }
+    if(await 메모기록(g.c, r.o, st, '')) 돌아정(r.열쇠, 메모말(메모종류(g.c.k), st)); 돌아보기그리기(); return; }
+  if(a==='rvqgo'){ const [gk, i] = String(k).split('|'), g = (돌아.묶 || []).find(x => x.k === gk), r = g && g.L.find(z => String(z.i) === i); if(!r) return; const st = 돌아.편['c' + r.열쇠], rs = ((document.getElementById('rvr_' + r.열쇠) || {}).value || '').trim();
+    if(!rs){ toast(st === '재등록 예정' ? '예정 날짜를 적어 주세요' : '사유를 한 줄 적어 주세요'); return; }
+    if(await 메모기록(g.c, r.o, st, rs)){ 돌아정(r.열쇠, 메모말(메모종류(g.c.k), st) + ' · ' + rs); 돌아.편['c' + r.열쇠] = ''; } 돌아보기그리기(); return; }
+  if(a==='rvfc'){ 팝업차례('돌아보기', () => 돌아보기열기(true)); 예상판열기(); return; }      /* 예상 매출 입력 창 → 닫거나 저장하면 돌아보기로 돌아옴 */
+  if(a==='rvday1'){ try{ localStorage.setItem('gg_rv_day', TODAY); }catch(e){} 돌아.열림 = false; popClose(); return; }
   if(a==='ckre'){ const k = 점검.주 || '이번'; 점검.왜 = ''; 점검.새로왜 = ''; 점검.받음[k] = false; if(!점검.때[k]) delete 점검.답[k]; 점검받기(점검.주); render(); return; }      /* 점검 — 다시 받기 */
   if(a==='go'){ S.view = k; document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on', b.dataset.v===k)); render(); return; }
   if(a==='lsgo'){ if(k === 'today'){ 기록회원창(); return; }      /* 수업 기록하기 = 회원 검색 → 바로 기록 (2026-10-24 대표) */
@@ -16302,11 +16493,12 @@ async function 판뒤로(){
     if(판머리 === e.머리 && $('#pop').classList.contains('tx-side')) return; }
   판머리 = e.머리; 판원인 = e.원인; $('#popbox').innerHTML = e.속; $('#pop').classList.add('on', 'tx-side');      /* 그때 화면 그대로 */
 }
+/* 2026-10-29 대표 15:39 — 네이버 단축 주소로(데스크 2jPMl → gladgym-desk · 회원 앱 2jo80 → gladgym-app) · 주소가 바뀌어도 단축 주소만 고치면 QR 그대로 */
 /* ══ 앱 설치 링크 ══ 2026-10-23 대표 노션 「앱 설치 링크 데스크 상단에 링크 복사 버튼」 · 시안 B-1 「이대로」(브로제이 QR 창처럼)
    링크 둘은 고정 → QR 은 미리 만든 모양(SVG 경로)을 그대로 그린다 (밖 라이브러리 없이) */
 const 앱링크 = {
-  m: { 이름:'회원 앱', 주소:'https://mofma01-bit.github.io/gladgym-app/', n:29, p:'M0 0h7v1h-7zM9 0h2v1h-2zM13 0h1v1h-1zM16 0h1v1h-1zM19 0h2v1h-2zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h2v1h-2zM14 1h3v1h-3zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h5v1h-5zM14 2h2v1h-2zM18 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h3v1h-3zM12 3h2v1h-2zM16 3h2v1h-2zM19 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h4v1h-4zM16 4h5v1h-5zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM12 5h1v1h-1zM14 5h3v1h-3zM18 5h1v1h-1zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM18 7h3v1h-3zM0 8h1v1h-1zM2 8h5v1h-5zM9 8h1v1h-1zM11 8h5v1h-5zM17 8h1v1h-1zM22 8h5v1h-5zM0 9h2v1h-2zM4 9h1v1h-1zM7 9h2v1h-2zM12 9h1v1h-1zM16 9h1v1h-1zM19 9h6v1h-6zM28 9h1v1h-1zM1 10h3v1h-3zM5 10h2v1h-2zM8 10h2v1h-2zM15 10h1v1h-1zM21 10h1v1h-1zM23 10h2v1h-2zM0 11h1v1h-1zM2 11h4v1h-4zM7 11h1v1h-1zM9 11h2v1h-2zM12 11h1v1h-1zM14 11h3v1h-3zM19 11h2v1h-2zM23 11h1v1h-1zM25 11h1v1h-1zM27 11h1v1h-1zM2 12h1v1h-1zM6 12h2v1h-2zM9 12h3v1h-3zM13 12h3v1h-3zM17 12h1v1h-1zM19 12h1v1h-1zM21 12h1v1h-1zM25 12h2v1h-2zM0 13h1v1h-1zM3 13h1v1h-1zM7 13h5v1h-5zM14 13h1v1h-1zM16 13h1v1h-1zM18 13h2v1h-2zM22 13h3v1h-3zM28 13h1v1h-1zM0 14h3v1h-3zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h1v1h-1zM12 14h1v1h-1zM15 14h4v1h-4zM21 14h1v1h-1zM25 14h2v1h-2zM0 15h1v1h-1zM2 15h3v1h-3zM8 15h1v1h-1zM10 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM20 15h2v1h-2zM23 15h2v1h-2zM27 15h1v1h-1zM1 16h2v1h-2zM5 16h2v1h-2zM8 16h1v1h-1zM11 16h1v1h-1zM13 16h3v1h-3zM17 16h2v1h-2zM20 16h2v1h-2zM25 16h2v1h-2zM0 17h5v1h-5zM7 17h3v1h-3zM11 17h1v1h-1zM14 17h1v1h-1zM16 17h5v1h-5zM22 17h3v1h-3zM26 17h1v1h-1zM28 17h1v1h-1zM0 18h1v1h-1zM2 18h5v1h-5zM15 18h1v1h-1zM17 18h1v1h-1zM20 18h2v1h-2zM23 18h1v1h-1zM26 18h1v1h-1zM0 19h1v1h-1zM2 19h4v1h-4zM8 19h1v1h-1zM10 19h2v1h-2zM15 19h2v1h-2zM18 19h1v1h-1zM23 19h1v1h-1zM27 19h1v1h-1zM0 20h1v1h-1zM3 20h1v1h-1zM6 20h2v1h-2zM9 20h2v1h-2zM13 20h1v1h-1zM17 20h1v1h-1zM19 20h6v1h-6zM26 20h3v1h-3zM8 21h2v1h-2zM11 21h1v1h-1zM13 21h1v1h-1zM16 21h3v1h-3zM20 21h1v1h-1zM24 21h5v1h-5zM0 22h7v1h-7zM9 22h3v1h-3zM13 22h4v1h-4zM18 22h3v1h-3zM22 22h1v1h-1zM24 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM12 23h1v1h-1zM14 23h1v1h-1zM16 23h1v1h-1zM19 23h2v1h-2zM24 23h1v1h-1zM27 23h2v1h-2zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM8 24h2v1h-2zM11 24h1v1h-1zM15 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM26 24h3v1h-3zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h1v1h-1zM10 25h4v1h-4zM16 25h3v1h-3zM20 25h2v1h-2zM25 25h4v1h-4zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h4v1h-4zM13 26h1v1h-1zM15 26h3v1h-3zM21 26h7v1h-7zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h2v1h-2zM13 27h1v1h-1zM16 27h1v1h-1zM20 27h1v1h-1zM22 27h4v1h-4zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h3v1h-3zM12 28h3v1h-3zM17 28h3v1h-3zM23 28h1v1h-1zM26 28h1v1h-1z' },
-  d: { 이름:'트레이너 데스크', 주소:'https://mofma01-bit.github.io/gladgym-desk/', n:33, p:'M0 0h7v1h-7zM8 0h1v1h-1zM10 0h5v1h-5zM16 0h3v1h-3zM21 0h1v1h-1zM24 0h1v1h-1zM26 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM13 1h2v1h-2zM16 1h1v1h-1zM18 1h2v1h-2zM26 1h1v1h-1zM32 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h3v1h-3zM13 2h2v1h-2zM20 2h2v1h-2zM24 2h1v1h-1zM26 2h1v1h-1zM28 2h3v1h-3zM32 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM11 3h1v1h-1zM14 3h3v1h-3zM18 3h1v1h-1zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM26 3h1v1h-1zM28 3h3v1h-3zM32 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h6v1h-6zM15 4h2v1h-2zM21 4h3v1h-3zM26 4h1v1h-1zM28 4h3v1h-3zM32 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM13 5h7v1h-7zM22 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h7v1h-7zM11 7h1v1h-1zM13 7h1v1h-1zM15 7h2v1h-2zM23 7h1v1h-1zM0 8h1v1h-1zM3 8h6v1h-6zM11 8h2v1h-2zM14 8h1v1h-1zM16 8h2v1h-2zM22 8h4v1h-4zM28 8h1v1h-1zM30 8h3v1h-3zM0 9h1v1h-1zM3 9h2v1h-2zM8 9h1v1h-1zM10 9h1v1h-1zM13 9h3v1h-3zM17 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM28 9h3v1h-3zM0 10h2v1h-2zM5 10h2v1h-2zM8 10h4v1h-4zM13 10h1v1h-1zM15 10h2v1h-2zM20 10h1v1h-1zM22 10h2v1h-2zM25 10h2v1h-2zM28 10h5v1h-5zM1 11h1v1h-1zM3 11h3v1h-3zM9 11h1v1h-1zM11 11h1v1h-1zM13 11h1v1h-1zM16 11h1v1h-1zM18 11h6v1h-6zM27 11h1v1h-1zM30 11h2v1h-2zM0 12h2v1h-2zM3 12h1v1h-1zM5 12h2v1h-2zM8 12h1v1h-1zM11 12h3v1h-3zM17 12h1v1h-1zM21 12h1v1h-1zM24 12h1v1h-1zM26 12h2v1h-2zM31 12h2v1h-2zM0 13h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM9 13h1v1h-1zM13 13h2v1h-2zM18 13h3v1h-3zM24 13h2v1h-2zM27 13h1v1h-1zM29 13h2v1h-2zM1 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM13 14h3v1h-3zM19 14h4v1h-4zM26 14h1v1h-1zM28 14h1v1h-1zM30 14h1v1h-1zM3 15h3v1h-3zM7 15h1v1h-1zM9 15h3v1h-3zM16 15h1v1h-1zM18 15h1v1h-1zM20 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM27 15h1v1h-1zM29 15h2v1h-2zM32 15h1v1h-1zM1 16h3v1h-3zM6 16h1v1h-1zM8 16h4v1h-4zM14 16h2v1h-2zM20 16h1v1h-1zM24 16h6v1h-6zM3 17h3v1h-3zM7 17h1v1h-1zM9 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM17 17h3v1h-3zM22 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM30 17h1v1h-1zM32 17h1v1h-1zM2 18h1v1h-1zM5 18h2v1h-2zM11 18h1v1h-1zM13 18h1v1h-1zM15 18h10v1h-10zM26 18h2v1h-2zM29 18h2v1h-2zM32 18h1v1h-1zM0 19h1v1h-1zM3 19h3v1h-3zM9 19h2v1h-2zM14 19h3v1h-3zM19 19h1v1h-1zM22 19h2v1h-2zM26 19h1v1h-1zM28 19h5v1h-5zM1 20h1v1h-1zM5 20h5v1h-5zM11 20h3v1h-3zM16 20h1v1h-1zM18 20h2v1h-2zM21 20h2v1h-2zM24 20h1v1h-1zM27 20h1v1h-1zM29 20h1v1h-1zM32 20h1v1h-1zM0 21h2v1h-2zM5 21h1v1h-1zM8 21h1v1h-1zM14 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM23 21h3v1h-3zM28 21h3v1h-3zM0 22h1v1h-1zM3 22h1v1h-1zM5 22h2v1h-2zM9 22h1v1h-1zM11 22h1v1h-1zM13 22h2v1h-2zM17 22h7v1h-7zM25 22h1v1h-1zM31 22h2v1h-2zM0 23h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM7 23h3v1h-3zM11 23h1v1h-1zM13 23h3v1h-3zM17 23h4v1h-4zM24 23h2v1h-2zM27 23h1v1h-1zM30 23h3v1h-3zM0 24h2v1h-2zM3 24h2v1h-2zM6 24h6v1h-6zM13 24h1v1h-1zM16 24h1v1h-1zM24 24h5v1h-5zM31 24h1v1h-1zM8 25h3v1h-3zM12 25h4v1h-4zM17 25h1v1h-1zM21 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM30 25h2v1h-2zM0 26h7v1h-7zM8 26h1v1h-1zM10 26h8v1h-8zM19 26h2v1h-2zM23 26h2v1h-2zM26 26h1v1h-1zM28 26h1v1h-1zM30 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM8 27h5v1h-5zM15 27h4v1h-4zM20 27h5v1h-5zM28 27h4v1h-4zM0 28h1v1h-1zM2 28h3v1h-3zM6 28h1v1h-1zM8 28h2v1h-2zM12 28h6v1h-6zM19 28h1v1h-1zM21 28h8v1h-8zM31 28h2v1h-2zM0 29h1v1h-1zM2 29h3v1h-3zM6 29h1v1h-1zM8 29h2v1h-2zM16 29h3v1h-3zM22 29h1v1h-1zM25 29h1v1h-1zM27 29h1v1h-1zM29 29h1v1h-1zM32 29h1v1h-1zM0 30h1v1h-1zM2 30h3v1h-3zM6 30h1v1h-1zM10 30h1v1h-1zM15 30h1v1h-1zM17 30h1v1h-1zM19 30h1v1h-1zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h2v1h-2zM30 30h3v1h-3zM0 31h1v1h-1zM6 31h1v1h-1zM10 31h3v1h-3zM19 31h2v1h-2zM25 31h8v1h-8zM0 32h7v1h-7zM8 32h5v1h-5zM15 32h3v1h-3zM19 32h1v1h-1zM23 32h2v1h-2zM26 32h3v1h-3z' },      /* 새 주소 (2026-10-29) */
+  m: { 이름:'회원 앱', 주소:'https://m.site.naver.com/2jo80', n:29, p:'M0 0h7v1h-7zM9 0h3v1h-3zM15 0h2v1h-2zM18 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h5v1h-5zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h1v1h-1zM10 2h4v1h-4zM15 2h1v1h-1zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h3v1h-3zM16 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h4v1h-4zM15 4h6v1h-6zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h2v1h-2zM15 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM10 7h2v1h-2zM14 7h3v1h-3zM19 7h2v1h-2zM0 8h1v1h-1zM6 8h1v1h-1zM8 8h4v1h-4zM16 8h4v1h-4zM21 8h2v1h-2zM25 8h3v1h-3zM0 9h2v1h-2zM4 9h2v1h-2zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM16 9h6v1h-6zM23 9h2v1h-2zM26 9h2v1h-2zM1 10h2v1h-2zM4 10h3v1h-3zM9 10h1v1h-1zM13 10h5v1h-5zM23 10h2v1h-2zM0 11h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM8 11h2v1h-2zM12 11h2v1h-2zM19 11h1v1h-1zM25 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h2v1h-2zM10 12h4v1h-4zM15 12h2v1h-2zM18 12h2v1h-2zM22 12h2v1h-2zM28 12h1v1h-1zM0 13h2v1h-2zM7 13h2v1h-2zM10 13h3v1h-3zM16 13h1v1h-1zM19 13h2v1h-2zM22 13h3v1h-3zM27 13h2v1h-2zM0 14h1v1h-1zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h2v1h-2zM12 14h1v1h-1zM17 14h2v1h-2zM20 14h1v1h-1zM23 14h1v1h-1zM25 14h2v1h-2zM1 15h5v1h-5zM7 15h3v1h-3zM11 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM0 16h2v1h-2zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM16 16h2v1h-2zM21 16h1v1h-1zM23 16h1v1h-1zM25 16h2v1h-2zM0 17h1v1h-1zM5 17h1v1h-1zM9 17h1v1h-1zM11 17h4v1h-4zM17 17h4v1h-4zM22 17h3v1h-3zM26 17h3v1h-3zM0 18h2v1h-2zM3 18h5v1h-5zM11 18h1v1h-1zM15 18h1v1h-1zM18 18h3v1h-3zM23 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM0 19h1v1h-1zM7 19h2v1h-2zM10 19h1v1h-1zM13 19h1v1h-1zM18 19h3v1h-3zM22 19h2v1h-2zM0 20h1v1h-1zM6 20h1v1h-1zM8 20h1v1h-1zM11 20h1v1h-1zM14 20h2v1h-2zM17 20h1v1h-1zM20 20h5v1h-5zM26 20h3v1h-3zM8 21h3v1h-3zM12 21h1v1h-1zM14 21h1v1h-1zM17 21h4v1h-4zM24 21h2v1h-2zM0 22h7v1h-7zM9 22h3v1h-3zM17 22h1v1h-1zM19 22h2v1h-2zM22 22h1v1h-1zM24 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM11 23h2v1h-2zM14 23h3v1h-3zM19 23h2v1h-2zM24 23h1v1h-1zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h6v1h-6zM16 24h1v1h-1zM18 24h8v1h-8zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM10 25h2v1h-2zM14 25h1v1h-1zM17 25h1v1h-1zM19 25h1v1h-1zM21 25h1v1h-1zM25 25h3v1h-3zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM10 26h4v1h-4zM15 26h1v1h-1zM18 26h1v1h-1zM21 26h2v1h-2zM24 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h2v1h-2zM13 27h2v1h-2zM16 27h1v1h-1zM18 27h1v1h-1zM21 27h1v1h-1zM23 27h4v1h-4zM28 27h1v1h-1zM0 28h7v1h-7zM8 28h2v1h-2zM11 28h2v1h-2zM15 28h5v1h-5zM21 28h3v1h-3zM26 28h1v1h-1z' },
+  d: { 이름:'트레이너 데스크', 주소:'https://m.site.naver.com/2jPMl', n:29, p:'M0 0h7v1h-7zM10 0h2v1h-2zM15 0h2v1h-2zM18 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h3v1h-3zM12 1h3v1h-3zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h4v1h-4zM13 2h1v1h-1zM15 2h1v1h-1zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h1v1h-1zM16 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM15 4h6v1h-6zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM12 7h1v1h-1zM14 7h3v1h-3zM19 7h2v1h-2zM0 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1zM10 8h3v1h-3zM16 8h4v1h-4zM21 8h2v1h-2zM25 8h3v1h-3zM1 9h4v1h-4zM9 9h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM16 9h6v1h-6zM23 9h2v1h-2zM26 9h2v1h-2zM0 10h1v1h-1zM2 10h2v1h-2zM5 10h4v1h-4zM13 10h5v1h-5zM23 10h2v1h-2zM3 11h3v1h-3zM7 11h1v1h-1zM9 11h1v1h-1zM11 11h3v1h-3zM19 11h1v1h-1zM25 11h1v1h-1zM1 12h2v1h-2zM4 12h4v1h-4zM9 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM15 12h2v1h-2zM18 12h2v1h-2zM22 12h2v1h-2zM28 12h1v1h-1zM0 13h1v1h-1zM4 13h2v1h-2zM7 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM16 13h1v1h-1zM19 13h2v1h-2zM22 13h3v1h-3zM27 13h2v1h-2zM0 14h1v1h-1zM2 14h2v1h-2zM5 14h3v1h-3zM11 14h2v1h-2zM17 14h2v1h-2zM20 14h1v1h-1zM23 14h1v1h-1zM25 14h2v1h-2zM0 15h3v1h-3zM4 15h1v1h-1zM7 15h4v1h-4zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM2 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM16 16h2v1h-2zM21 16h1v1h-1zM23 16h1v1h-1zM25 16h2v1h-2zM0 17h3v1h-3zM4 17h1v1h-1zM7 17h2v1h-2zM10 17h1v1h-1zM12 17h3v1h-3zM17 17h4v1h-4zM22 17h3v1h-3zM26 17h3v1h-3zM0 18h2v1h-2zM3 18h2v1h-2zM6 18h3v1h-3zM12 18h1v1h-1zM15 18h1v1h-1zM18 18h3v1h-3zM23 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM0 19h1v1h-1zM4 19h2v1h-2zM8 19h4v1h-4zM13 19h1v1h-1zM18 19h3v1h-3zM22 19h2v1h-2zM0 20h1v1h-1zM2 20h2v1h-2zM6 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM14 20h2v1h-2zM20 20h5v1h-5zM26 20h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM19 21h2v1h-2zM24 21h2v1h-2zM0 22h7v1h-7zM11 22h1v1h-1zM18 22h3v1h-3zM22 22h1v1h-1zM24 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h3v1h-3zM14 23h3v1h-3zM18 23h3v1h-3zM24 23h1v1h-1zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h6v1h-6zM16 24h2v1h-2zM19 24h7v1h-7zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM9 25h2v1h-2zM14 25h1v1h-1zM17 25h3v1h-3zM21 25h1v1h-1zM25 25h3v1h-3zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM9 26h7v1h-7zM21 26h2v1h-2zM24 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM21 27h1v1h-1zM23 27h4v1h-4zM28 27h1v1h-1zM0 28h7v1h-7zM8 28h4v1h-4zM17 28h1v1h-1zM19 28h1v1h-1zM21 28h3v1h-3zM26 28h1v1h-1z' },      /* 새 주소 (2026-10-29) */
 };
 const 앱QR = (k, 크기) => { const o = 앱링크[k] || 앱링크.m, q = 4;
   return '<svg class="aq-svg" xmlns="http://www.w3.org/2000/svg" viewBox="' + (-q) + ' ' + (-q) + ' ' + (o.n + q * 2) + ' ' + (o.n + q * 2) + '" width="' + 크기 + '" height="' + 크기 + '" shape-rendering="crispEdges"><rect x="' + (-q) + '" y="' + (-q) + '" width="' + (o.n + q * 2) + '" height="' + (o.n + q * 2) + '" fill="#fff"/><path d="' + o.p + '" fill="#000"/></svg>'; };
