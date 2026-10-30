@@ -2982,7 +2982,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '515';
+const BUILD = '516';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10368,20 +10368,21 @@ const TG칸말 = [['수업권', '수업권'], ['지금권', '지금 수업권'],
 function TG정리판(){
   const 탭 = TG정리.탭, L = TG정리줄(탭), 수 = k => TG정리줄(k).filter(o => !o['둠']).length;
   const 칸 = o => TG칸말.filter(([k]) => o[k] != null && o[k] !== '').map(([k, 말]) => 말 + ' ' + esc(String(o[k]))).join(' · ');
-  const 줄 = o => '<div class="bp-row2 tf-row' + (o['둠'] ? ' keep' : '') + '"><div class="a"><b>' + esc(o['이름'] || '') + '</b>' + (o['전화4'] ? '<span class="sub3" style="margin-left:6px">' + esc(String(o['전화4'])) + '</span>' : '') + (o['둠'] ? '<span class="tf-why">그대로 둠</span>' : '') + '</div>'
+  const 줄 = o => '<div class="bp-row2 tf-row' + (o['둠'] ? ' keep' : '') + '"><div class="a"><b>' + esc(o['이름'] || '') + '</b>' + (o['전화4'] ? '<span class="sub3" style="margin-left:6px">' + esc(String(o['전화4'])) + '</span>' : '') + (o['둠'] ? '<span class="tf-why">' + (탭 === '추가' ? 'TG추가 제외함' : '그대로 둠') + '</span>' : '') + '</div>'
     + '<div class="tf-in">' + 칸(o) + '</div><div class="tf-b">'
     + (o['둠'] ? '<button class="btn ghost sm" data-act="tx:tgfixundo" data-k="' + esc(o['키']) + '">되돌리기</button>'
-      : '<button class="btn ghost sm" data-act="tx:tgfixkeep" data-k="' + esc(o['키']) + '">그대로 두기</button>' + (탭 === '추가' && o['상품'] ? '<button class="btn ghost sm" data-act="tx:tgfixprod" data-k="' + esc(o['키']) + '">이 상품 제외</button>' : ''))
+      : '<button class="btn ghost sm" data-act="tx:tgfixkeep" data-k="' + esc(o['키']) + '">' + (탭 === '추가' ? 'TG추가 제외' : '그대로 두기') + '</button>' + (탭 === '추가' && o['상품'] ? '<button class="btn ghost sm" data-act="tx:tgfixprod" data-k="' + esc(o['키']) + '">이 상품 TG 없음</button>' : ''))
     + '</div></div>';
   const 갈 = [...new Set(L.map(o => o['왜'] || '기타'))];
-  판열기('TG 회수 · 추가', '<div class="ck-act">' + (탭 === '회수' ? '전산에서 무료 수업권을 회수해 주세요' : '전산에서 운동가이드 수업권을 추가해 주세요') + '<small>전산에서 처리하면 다음 매시 저절로 빠져요 · 손대지 않을 줄은 「그대로 두기」' + (TG정리.r && TG정리.r['만든때'] ? ' · ' + esc(String(TG정리.r['만든때']).slice(5, 16).replace('-', '/')) + ' 기준' : '') + '</small></div>'
+  판열기('TG 회수 · 추가', '<div class="ck-act">' + (탭 === '회수' ? '전산에서 무료 수업권을 회수해 주세요' : '전산에서 운동가이드 수업권을 추가해 주세요') + '<small>전산에서 처리하면 다음 매시 저절로 빠져요 · 손대지 않을 줄은 「' + (탭 === '추가' ? 'TG추가 제외' : '그대로 두기') + '」' + (TG정리.r && TG정리.r['만든때'] ? ' · ' + esc(String(TG정리.r['만든때']).slice(5, 16).replace('-', '/')) + ' 기준' : '') + '</small></div>'
     + '<div class="tf-seg">' + ['회수', '추가'].map(k => '<button class="' + (k === 탭 ? 'on' : '') + '" data-act="tx:tgfixtab" data-k="' + k + '">' + k + ' ' + 수(k) + '</button>').join('') + '</div>'
     + (L.length ? 갈.map(w => { const 들 = L.filter(o => (o['왜'] || '기타') === w).sort((a, b) => (a['둠'] ? 1 : 0) - (b['둠'] ? 1 : 0)); return '<div class="lk-g">' + esc(w) + '<span class="n">' + 들.filter(o => !o['둠']).length + '건</span></div>' + 들.map(줄).join(''); }).join('')
       : '<div class="empty why"><b>' + 탭 + '할 줄이 없습니다</b>전산과 배정이 맞으면 여기가 비어요</div>'));
 }
 async function TG정리고침(act, key){
   const o = TG정리줄('회수').concat(TG정리줄('추가')).find(z => String(z['키']) === String(key)); if(!o) return;
-  const 말 = act === '둠' ? o['이름'] + ' — 회수 · 추가 안 하고 그대로 둘까요?' : act === '풀기' ? o['이름'] + ' — 「그대로 두기」를 되돌릴까요?' : '「' + o['상품'] + '」 상품을 제외할까요?\n이 상품 결제 줄이 모두 「추가」에서 빠져요(운동가이드 없는 상품)';
+  const 추 = TG정리줄('추가').includes(o);      /* 2026-10-30 13:11 대표 확정 — 추가 탭 = 「TG추가 제외」 · 「이 상품 TG 없음」 */
+  const 말 = act === '둠' ? (추 ? o['이름'] + ' 회원은 TG를 넣지 않고 넘길까요?\n나중에 되돌릴 수 있어요' : o['이름'] + ' — 회수 안 하고 그대로 둘까요?') : act === '풀기' ? o['이름'] + ' — 「' + (추 ? 'TG추가 제외' : '그대로 두기') + '」를 되돌릴까요?' : '「' + o['상품'] + '」은 TG가 없는 상품으로 정할까요?\n앞으로 이 상품 결제는 목록에 안 떠요';
   if(!await 묻기(말)) return;
   try{ const r = await crm('tg_fix_set', Object.assign({ act, key:o['키'] }, act === '상품' ? { product:o['상품'] } : {}));
     if(!r || r.ok === false) throw new Error((r && (r.why || r.error)) || '저장하지 못했어요');
