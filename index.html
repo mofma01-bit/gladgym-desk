@@ -1889,6 +1889,7 @@ body .figbox2{background:radial-gradient(80% 50% at 50% 30%,rgba(240,211,160,.09
 .pkg2{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;grid-auto-rows:max-content;align-content:start}      /* 높이 막힌 칸(루틴표 종목 고르기 62vh · 세트창) 안에서 카드가 납작해져 그림 칸이 사라졌다 — 줄 높이 = 카드 내용 (2026-10-29 대표 「루틴표 만들기가 좀 이상한데」) */
 .pzlist.pkg2{max-height:420px;padding:8px;align-content:start;flex:none;grid-auto-rows:max-content}      /* 세트창 칸 안 — 높이가 줄면 카드가 납작해졌다(그림 칸이 사라짐) */
 .pkc2{position:relative;display:flex;flex-direction:column;text-align:left;background:linear-gradient(180deg,#1f1e1b,#171615);border:1.5px solid #34332d;border-radius:14px;padding:0 0 10px;color:var(--cream);overflow:hidden;cursor:pointer;font:inherit}
+.pkg2.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.pkg2.c3{grid-template-columns:repeat(3,minmax(0,1fr))}.pkg2.c4{grid-template-columns:repeat(4,minmax(0,1fr))}.pkg2.c8{grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}.pkg2.c8 .pkt small,.pkg2.c8 .pkad{display:none}.pkg2.c8 .pkt{padding:4px 5px 0}.pkg2.c8 .pkc2{padding-bottom:5px}.pkc2 .my-star{left:6px;right:auto;top:6px;width:26px;height:26px;line-height:26px;font-size:14px;text-align:center;z-index:2}.pkg2.c8 .pkc2 .my-star{width:20px;height:20px;line-height:20px;font-size:11px;left:3px;top:3px}
 .pkc2:hover{border-color:#5a4c33}.pkc2.on{border-color:#e2c184}.pkc2.on .pkt b{color:var(--gold)}
 .pkc2 .pkt{display:flex;flex-direction:column;padding:8px 10px 0;min-width:0}
 .pkc2 .pkt b{font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -3019,7 +3020,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '526';
+const BUILD = '527';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3463,7 +3464,11 @@ async function uget(path, 재){
   if(!r.ok) throw new Error(path.split('?')[0]+' → '+r.status);
   return r.json();
 }
-async function usend(path, method, body, pref, 재){
+let 표쓰기번호 = 0, 표쓰는중 = 0;      /* 저장이 받기와 겹치면 옛 자료가 덮어써 체크가 되살아났다 (2026-10-30 대표 「좀비」) */
+async function 쓰기표시(f){ 표쓰기번호++; 표쓰는중++; try{ return await f(); } finally{ 표쓰는중--; } }
+const 받는새낡음 = 번호 => 표쓰기번호 !== 번호 || 표쓰는중 > 0;
+async function usend(path, method, body, pref, 재){ return method === 'GET' || 재 ? usend속(path, method, body, pref, 재) : 쓰기표시(() => usend속(path, method, body, pref, 재)); }
+async function usend속(path, method, body, pref, 재){
   const t = await 토큰();
   const h = { apikey:SB_KEY, Authorization:'Bearer '+t, 'Content-Type':'application/json' };
   if(pref) h.Prefer = pref;
@@ -3480,7 +3485,8 @@ async function sget(path){
   if(!r.ok) throw new Error(path.split('?')[0]+' → '+r.status);
   return r.json();
 }
-async function ssend(path, method, body, pref){
+async function ssend(path, method, body, pref){ return method === 'GET' ? ssend속(path, method, body, pref) : 쓰기표시(() => ssend속(path, method, body, pref)); }
+async function ssend속(path, method, body, pref){
   if(AUTH && Date.now() > (AUTH.exp || 0)) await refreshAuth().catch(() => {});
   const h = Object.assign({}, HD);
   if(pref) h.Prefer = pref;
@@ -4208,7 +4214,7 @@ let 퇴사캐시 = { 본:null, 값:null };
 function 퇴사명(){ if(퇴사캐시.본 === 명단받은 && 퇴사캐시.값) return 퇴사캐시.값; const 다 = new Set(((명단받은 && 명단받은.퇴사) || []).map(n => String(n).trim()).filter(Boolean));
   ((명단받은 && 명단받은.사람) || []).forEach(x => { if(x['담당'] && x['담당재직'] === false) 다.add(String(x['담당']).trim()); }); 퇴사캐시 = { 본: 명단받은, 값: 다 }; return 다; }
 const 퇴사뺌 = n => n && 퇴사명().has(String(n).trim()) ? '' : (n || '');
-const 선생님만 = 목 => { const 퇴 = 퇴사명(); return [...new Set(목.map(n => String(n || '').trim()))].filter(n => n && !퇴.has(n) && !['센터', '최저', '최고', '미정', '공통'].includes(n)); };
+const 선생님만 = 목 => { const 퇴 = 퇴사명(); return [...new Set(목.map(n => String(n || '').trim()))].filter(n => n && !퇴.has(n) && !/^퇴사자/.test(n) && !['센터', '최저', '최고', '미정', '공통'].includes(n)); };
 /* 선생님 차례 = 입사 순 — 칩 · 고르기 · 거르기 어디서나 같은 차례 (2026-10-25 대표 「담당 고유색상으로 입사 순으로 배열 · 이건 항상 모든 곳에 맞춰」) · 명단에 없는 분은 뒤에 이름 순 */
 const 입사순 = ['조민철', '장승훈', '송영림', '양인혁', '곽준형'];
 const 선생순 = (a, b) => { const i = n => { const k = 입사순.indexOf(String(n || '').trim()); return k < 0 ? 99 : k; }; return (i(a) - i(b)) || String(a || '').localeCompare(String(b || ''), 'ko'); };
@@ -5736,19 +5742,20 @@ function 종목픽판(){ const p = 종목픽; if(!p) return; const r = (D.r || [
   if(p.ex){ const e = (D.ex || []).find(z => z.id === p.ex), vs = (D.va || []).filter(v => v.ex_id === p.ex).sort((a, b) => (a.sort || 0) - (b.sort || 0));
     판열기('「' + esc((e || {}).name || '') + '」 그림 선택', '<div class="sub3" style="margin-bottom:8px">추가할 그림(하는 법)을 눌러 주세요</div><div class="pkg2 rsv-pk">' + vs.map(v => '<button class="pkc2" data-act="tx:rspkv" data-k="' + esc(v.id) + '">' + 종목그림(v.id) + '<span class="pkt"><b>' + esc(vaName(v.id) || '') + '</b></span></button>').join('') + '</div>'
       + '<button class="btn ghost sm" data-act="tx:rspkback" style="margin-top:10px">‹ 종목 목록</button>'); return; }
-  const 부 = p.부위 || RT부위들[0], 다 = 고를종목().filter(e => 첫벌(e)), 칩 = RT부위들.concat(다.some(e => e.owner) ? ['추가한 종목'] : []);
+  const 부 = p.부위 || '전체', 다 = 고를종목().filter(e => 첫벌(e)).sort(내종목순()), 칩 = ['전체'].concat(RT부위들, 다.some(e => e.owner) ? ['추가한 종목'] : []), 별 = 내별들();
   판열기('루틴 ' + (표루틴들((D.rs || []).find(s => s.id === r.sheet_id) || {}).findIndex(x => x.id === r.id) + 1) + ' · ' + esc(r.name || '') + ' — 종목 추가',
-    '<input class="inp" id="rspkq" type="search" value="' + esc(p.q || '') + '" placeholder="종목 검색 — 스쿼트 · 레그컬 · 덤벨" autocomplete="off" style="margin-bottom:8px">'
+    '<input class="inp" id="rspkq" type="search" value="' + esc(p.q || '') + '" placeholder="전체 종목 검색 — 스쿼트 · 레그컬 · 덤벨" autocomplete="off" style="margin-bottom:8px">'
     + '<div class="chips rsv-chips">' + 칩.map(c => '<button class="chip' + (!p.q && c === 부 ? ' on' : '') + '" data-act="tx:rspkp" data-k="' + esc(c) + '">' + esc(c) + '</button>').join('') + '</div>'
-    + '<div class="pkg2 rsv-pk" id="rspkg">' + 다.map(e => { const 보 = p.q ? exKey(e).includes(검색키(p.q)) : (부 === '추가한 종목' ? !!e.owner : e.part === 부), n = (D.va || []).filter(v => v.ex_id === e.id).length;
-        return '<button class="pkc2' + (든.has(e.id) ? ' on' : '') + '" data-act="tx:rspk" data-k="' + esc(e.id) + '" data-pk="' + esc(exKey(e)) + '" data-pp="' + esc(e.owner ? '추가한 종목|' + e.part : e.part) + '" style="' + (보 ? '' : 'display:none') + '">' + 종목그림(첫벌(e).id)
+    + 내보기단추()
+    + '<div class="pkg2 rsv-pk c' + esc(내보기.칸) + '" id="rspkg">' + 다.map(e => { const 보 = p.q ? exKey(e).includes(검색키(p.q)) : (부 === '전체' || (부 === '추가한 종목' ? !!e.owner : e.part === 부)), n = (D.va || []).filter(v => v.ex_id === e.id).length;
+        return '<button class="pkc2' + (든.has(e.id) ? ' on' : '') + '" data-act="tx:rspk" data-k="' + esc(e.id) + '" data-pk="' + esc(exKey(e)) + '" data-pp="' + esc(e.owner ? '추가한 종목|' + e.part : e.part) + '" style="' + (보 ? '' : 'display:none') + '">' + 종목그림(첫벌(e).id) + '<span class="my-star' + (별.has(e.id) ? ' on' : '') + '" data-act="tx:myfav" data-k="' + esc(e.id) + '" title="즐겨찾기">★</span>'
           + '<span class="pkt"><b>' + esc(e.name || '') + '</b><small>' + esc(e.equip || e.part || '') + (n > 1 ? ' · 그림 ' + n : '') + '</small></span><em class="pkad">' + (든.has(e.id) ? '✓' : '＋') + '</em></button>'; }).join('') + '</div>'
     + '<div class="sub3" style="margin-top:8px">누르면 이 루틴 끝에 바로 들어가요 · 여러 개 연달아 골라도 돼요</div>');
   setTimeout(() => { const q = document.getElementById('rspkq'); if(q && p.q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }, 20); }
 document.addEventListener('keydown', ev => { const t = ev.target; if(!t || ev.key !== 'Enter' || ev.isComposing) return;
   if(t.id === 'rsrnin' || t.id === 'rsrnsub'){ ev.preventDefault(); const b = document.querySelector('[data-act="tx:rsrnok"]'); if(b) b.click(); } });
-document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'rspkq' || !종목픽) return; 종목픽.q = ev.target.value; const q = 검색키(ev.target.value), 부 = 종목픽.부위 || RT부위들[0];
-  document.querySelectorAll('#rspkg .pkc2').forEach(b => { const pp = (b.dataset.pp || '').split('|'); b.style.display = (q ? (b.dataset.pk || '').includes(q) : (부 === '추가한 종목' ? pp[0] === '추가한 종목' : pp[pp.length - 1] === 부)) ? '' : 'none'; });
+document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'rspkq' || !종목픽) return; 종목픽.q = ev.target.value; const q = 검색키(ev.target.value), 부 = 종목픽.부위 || '전체';
+  document.querySelectorAll('#rspkg .pkc2').forEach(b => { const pp = (b.dataset.pp || '').split('|'); b.style.display = (q ? (b.dataset.pk || '').includes(q) : (부 === '전체' || (부 === '추가한 종목' ? pp[0] === '추가한 종목' : pp[pp.length - 1] === 부))) ? '' : 'none'; });
   document.querySelectorAll('.rsv-chips .chip').forEach(c => c.classList.toggle('on', !q && c.dataset.k === 부)); });
 async function 종목픽넣기(vid){ const p = 종목픽, r = p && (D.r || []).find(x => x.id === p.rid); if(!r) return;
   const 끝 = Math.max(-1, ...(D.ri || []).filter(x => x.routine_id === r.id).map(x => x.sort || 0)) + 1;
@@ -6039,10 +6046,11 @@ const 내별들 = () => new Set((D.exfavs || []).filter(f => f.trainer === 나�
 const 내종목칩 = () => ['전체'].concat(RT부위들, ['내가 만든 것', '추가한 종목']), 내종목부 = () => 내종목칩().includes(S.myPart) ? S.myPart : '전체';
 const 내종목보임 = (부, 파트, 추가, 내것) => 부 === '전체' || (부 === '추가한 종목' ? 추가 : 부 === '내가 만든 것' ? 내것 : 파트 === 부);
 const 내종목머리 = (부, q, n) => (q ? '검색 결과' : 부 === '전체' ? '전체 종목' : 부 === '추가한 종목' ? '추가한 웨이트 종목' : 부 === '내가 만든 것' ? '내가 만든 웨이트 종목' : 부 + ' 종목') + ' ' + n + '개';
+const 내종목순 = () => { const 별 = 내별들(), 이름순 = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko'), 그림 = e => 종목그림있음.has(e.id) ? 1 : 0;
+  return 내보기.순 === '그림' ? (a, b) => 그림(b) - 그림(a) || 이름순(a, b) : 내보기.순 === '기구' ? (a, b) => 기구번호(a) - 기구번호(b) || 이름순(a, b) : 내보기.순 === '별' ? (a, b) => 별.has(b.id) - 별.has(a.id) || 이름순(a, b) : 이름순; };
+const 내보기단추 = () => '<div class="my-opts"><span class="sub3">순서</span><div class="mn-chips">' + 내보기순.map(([k, 말]) => '<button class="' + (내보기.순 === k ? 'on' : '') + '" data-act="tx:mysort" data-k="' + k + '">' + 말 + '</button>').join('') + '</div><span class="sub3">보기</span><div class="mn-chips">' + 내보기칸.map(([k, 말]) => '<button class="' + (내보기.칸 === k ? 'on' : '') + '" data-act="tx:mycols" data-k="' + k + '">' + 말 + '</button>').join('') + '</div></div>';
 function v내종목(){ const 나 = 나이름(), 칩들 = 내종목칩(), 부 = 내종목부(), 글 = S.myQ || '', q = 검색키(글), 별 = 내별들();
-  const 이름순 = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko'), 그림 = e => 종목그림있음.has(e.id) ? 1 : 0;
-  const 순 = 내보기.순 === '그림' ? (a, b) => 그림(b) - 그림(a) || 이름순(a, b) : 내보기.순 === '기구' ? (a, b) => 기구번호(a) - 기구번호(b) || 이름순(a, b) : 내보기.순 === '별' ? (a, b) => 별.has(b.id) - 별.has(a.id) || 이름순(a, b) : 이름순;
-  const W = 고를종목().filter(e => 첫벌(e)).sort(순), T = 추가동작();
+  const W = 고를종목().filter(e => 첫벌(e)).sort(내종목순()), T = 추가동작();
   const 단추 = e => 종목고침(e) ? '<button class="btn ghost sm" data-act="exedit" data-v2="' + esc(e.id) + '">수정</button>' : !e.owner ? '<button class="btn ghost sm" data-act="tx:exreqf" data-k="' + esc(e.id) + '">수정 요청</button>' : '<span class="sub3">보기만</span>';
   const 칸 = (그림칸, 이름, 작은, 누가, 수정, 덧, 보, 키) => '<div class="my-card" data-myk="' + esc(키) + '"' + 덧 + (보 ? '' : ' style="display:none"') + '>' + 그림칸 + '<b>' + esc(이름) + '</b><small>' + esc([작은, 누가 === 나 ? '' : 누가 + 'T'].filter(Boolean).join(' · ')) + '</small>' + 수정 + '</div>';
   const 키of = e => 검색키((e.name || '') + [e.part, e.equip].filter(Boolean).join(' · ') + (e.owner || '센터'));
@@ -6054,8 +6062,7 @@ function v내종목(){ const 나 = 나이름(), 칩들 = 내종목칩(), 부 = �
   return '<div class="rs-top"><label class="rl-srch my-srch"><span>⌕</span><input id="myq" type="search" placeholder="전체 종목 검색" autocomplete="off" value="' + esc(글) + '"></label><span class="sp" style="flex:1"></span>'
     + '<button class="btn ghost sm" data-act="pinew">＋ 새 스트레칭 동작</button><button class="btn gold sm" data-act="exnew">＋ 새 웨이트 종목</button></div>'
     + '<div class="mn-chips" style="margin:2px 0 8px">' + 칩들.map(k => '<button class="' + (부 === k ? 'on' : '') + '" data-act="tx:mypart" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') + '</div>'
-    + '<div class="my-opts"><span class="sub3">순서</span><div class="mn-chips">' + 내보기순.map(([k, 말]) => '<button class="' + (내보기.순 === k ? 'on' : '') + '" data-act="tx:mysort" data-k="' + k + '">' + 말 + '</button>').join('') + '</div>'
-    + '<span class="sub3">보기</span><div class="mn-chips">' + 내보기칸.map(([k, 말]) => '<button class="' + (내보기.칸 === k ? 'on' : '') + '" data-act="tx:mycols" data-k="' + k + '">' + 말 + '</button>').join('') + '</div></div>'
+    + 내보기단추()
     + '<div class="lbl" id="mylbl">' + esc(내종목머리(부, q, 수)) + '</div>' + 묶음
     + '<div class="empty why" id="myempty"' + (수 ? ' style="display:none"' : '') + '><b>' + (부 === '내가 만든 것' && !q ? '아직 내가 만든 종목이 없습니다' : '이 칸에 종목이 없습니다') + '</b>루틴 만들기 · 앱 종목 선택에서 검색해 없으면 바로 추가돼요</div>'
     + (T.length ? '<div class="my-grp my-st"' + (T수 ? '' : ' style="display:none"') + '><div class="lbl" style="margin-top:18px">스트레칭 동작 <span class="my-n">' + T수 + '개</span></div><div class="my-grid c' + esc(내보기.칸) + '">' + T.map(x => 칸(스트칸그림({ k:'my', i:x.id }), x.name || '', x.time || '', x.trainer || '', 동작고침(x) ? '<button class="btn ghost sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>' : '', ' data-mys="1"', T보임(x), 검색키((x.name || '') + (x.time || '') + (x.trainer || '')))).join('') + '</div></div>'
@@ -6067,7 +6074,7 @@ function 내종목거름(){ const q = 검색키(S.myQ || ''), 부 = 내종목부
   const 머 = $('#mylbl'), 빈 = $('#myempty'); if(머) 머.textContent = 내종목머리(부, q, 수); if(빈) 빈.style.display = 수 ? 'none' : ''; }
 async function 내별바꿈(id){ const 나 = 나이름(), 켬 = !내별들().has(id), b = document.querySelector('.my-star[data-k="' + CSS.escape(id) + '"]'); if(!나) return;
   D.exfavs = (D.exfavs || []).filter(f => !(f.trainer === 나 && f.ex_id === id)); if(켬) D.exfavs.push({ trainer:나, ex_id:id }); if(b) b.classList.toggle('on', 켬);
-  try{ if(켬) await ssend('ex_favs?on_conflict=trainer,ex_id', 'POST', [{ trainer:나, ex_id:id }], 'resolution=merge-duplicates'); else await ssend('ex_favs?trainer=eq.' + encodeURIComponent(나) + '&ex_id=eq.' + encodeURIComponent(id), 'DELETE'); if(내보기.순 === '별') render(); }
+  try{ if(켬) await ssend('ex_favs?on_conflict=trainer,ex_id', 'POST', [{ trainer:나, ex_id:id }], 'resolution=merge-duplicates'); else await ssend('ex_favs?trainer=eq.' + encodeURIComponent(나) + '&ex_id=eq.' + encodeURIComponent(id), 'DELETE'); if(내보기.순 === '별'){ render(); if($('#rspkg')) 종목픽판(); } }
   catch(e){ D.exfavs = D.exfavs.filter(f => !(f.trainer === 나 && f.ex_id === id)); if(!켬) D.exfavs.push({ trainer:나, ex_id:id }); if(b) b.classList.toggle('on', !켬); toast('즐겨찾기를 저장하지 못했어요'); } }
 /* 센터 종목 수정 요청 — ex_requests(kind 수정 · vkey a · new_name = 바꿀 이름) → 요청함 · 현황판 「종목 수정 요청」 → 관리자 승인 */
 function 종목요청창(id){ const e = exOf(id), v = (D.va || []).find(z => z.ex_id === id && z.vkey === 'a'); if(!e) return;
@@ -10492,7 +10499,7 @@ const 승인대기 = r => r.status === 'req' && r.kind !== '당직';      /* 당
 const 쉼확정 = r => r.status === 'ok' || (r.kind === '당직' && r.status !== 'no' && r.status !== 'req');
 const 쉼짧은이름 = id => { const p = (W.staff || []).find(x => x.id === id), n = String((p && p.name) || '').trim(); return n.length === 3 ? n.slice(1) : n; };
 function 쉼날들(시작, 끝){ const d = []; const 월 = 날더함(TODAY, -((new Date(TODAY + 'T12:00:00').getDay() + 6) % 7)), a = 날더함(월, 시작), b = 날더함(월, 끝);
-  (W.leave || []).filter(쉼확정).forEach(r => { for(let t = r.day; t && t <= (r.day_end || r.day); t = 날더함(t, 1)) if(t >= a && t <= b) d.push({ r, t }); });
+  (W.leave || []).filter(r => 쉼확정(r) && r.kind !== '당직 교체').forEach(r => { for(let t = r.day; t && t <= (r.day_end || r.day); t = 날더함(t, 1)) if(t >= a && t <= b) d.push({ r, t }); });
   return d.sort((x, y) => x.t < y.t ? -1 : x.t > y.t ? 1 : 0); }
 const 쉼한칸 = o => esc(쉼짧은이름(o.r.staff_id)) + '(' + 요일of(o.t) + (['OFF', '연차', '월차', '당직'].includes(o.r.kind) ? '' : ' ' + esc(o.r.kind || '')) + ')';
 function 이번주쉼글(){
@@ -10692,7 +10699,7 @@ const 표정의 = {
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
       {k:'nshow', 이름:'연출용', 고정:false,
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
-      {k:'ns2',  이름:'2차 설문톡', 고정:false, 필터:r=>!!(r.extra||{}).s2, ord:{k:'extra.s2', dir:'desc'},      /* 2차 설문톡이 나간 분만 — 연락하고 체크 (2026-10-30 대표) */
+      {k:'ns2',  이름:'2차 설문톡', 고정:false, 규칙:[{ k:'extra.s2', cmp:'filled', v:null }], ord:{k:'extra.s2', dir:'desc'},      /* 2차 설문톡이 나간 분만 — 연락하고 체크 (2026-10-30 대표) */
         칸:['name','phone','extra.s2','extra.c2','counselors','content','reg','note','created_at']},
     ],
     템플릿:[
@@ -10986,6 +10993,7 @@ function 보기띠(){ const e = document.getElementById('asview'); if(!e) return
   if(!진짜ME && 관리모드 && 관리모드대상(ME)){ e.innerHTML = '<div class="admband">🛡 관리자 화면<small>센터 전체를 보는 중</small></div>'; return; }      /* 2026-10-23 대표 「아예 분리」 */
   e.innerHTML = 진짜ME ? '<button class="asv" data-act="asexit" title="누르면 내 화면으로 돌아갑니다">👁 <b>' + esc(ME.name) + '</b> 선생님으로 보는 중<small>보기만 · 누르면 내 화면으로</small></button>' : ''; }
 async function loadWork(){
+  const 번호 = 표쓰기번호;
   const g = await Promise.all([
     uget('staff?select=*&order=name'),
     모두가져('tr_tasks?select=*&order=created_at.desc'),
@@ -11000,7 +11008,7 @@ async function loadWork(){
     uget('tr_manual?select=*&order=created_at').catch(()=>[]),      /* 매뉴얼 (70단계 전이면 빈 채로) */
     uget('tr_manual_read?select=*').catch(()=>[]),
   ]);
-  W.staff = (g[0] || []).slice().sort((p, q) => 선생순(p.name, q.name)); W.tasks = g[1]; W.leads = (g[2] || []).filter(r => !(r.extra || {}).archived); W.leave = g[3]; W.cm = g[4] || [];      /* 숨긴 상담(extra.archived)은 목록 · 집계 · 검색에서 뺀다 (2026-10-25 · 노션 휴지통과 같은 뜻) */
+  W.staff = (g[0] || []).slice().sort((p, q) => 선생순(p.name, q.name)); if(!W.tasks || !받는새낡음(번호)){ W.tasks = g[1]; W.leads = (g[2] || []).filter(r => !(r.extra || {}).archived); W.leave = g[3]; W.cm = g[4] || []; }      /* 숨긴 상담(extra.archived)은 목록 · 집계 · 검색에서 뺀다 (2026-10-25 · 노션 휴지통과 같은 뜻) */
   try{ const pp = await uget('desk_perm?select=perm&id=eq.main'); 권한값 = (pp && pp[0] && pp[0].perm) || {}; }catch(e){ 권한값 = {}; }      /* 42단계 SQL 전이면 기본값 */
   if(진짜ME){ ['tasks', 'leads', 'leave', 'voc', 'manual'].forEach(k => { W[k] = (W[k] || []).filter(보기보임); }); 보기끼움(); }      /* 선생님 계정으로 보기 — 서버 can_see 와 같은 규칙 */
   try{ await 사진채우기(); }catch(e){}
@@ -11143,7 +11151,7 @@ function txList0(key){
   const 사람맞나 = r => { const p = r[T.사람열]; return Array.isArray(p) ? p.indexOf(st.사람)>=0 : p===st.사람; };
   const 겉거름 = 줄 => 줄.filter(r => (!st.사람 || 사람맞나(r)) && (!q || JSON.stringify(r).toLowerCase().indexOf(q)>=0));      /* 담당 칩 · 검색은 모든 보기에 같이 걸린다 — 보기 숫자도 같이 셈 (2026-10-26 대표 「월 예약자 2 인데 결과 없음」) */
   const 보기줄들 = 볼줄(key).filter(r => 보기맞나(v, r, key));
-  let rows = 보기줄들;
+  let rows = 볼줄(key).filter(r => !v.필터 || v.필터(r));      /* 보기 규칙은 st.규칙으로 얹혀 있다 — 칩을 지우면 풀려야 한다 (2026-10-30 대표 「내가 필터를 수정 · 삭제」) */
   if(st.규칙 && st.규칙.length) rows = rows.filter(r => 규칙들맞나(st.규칙, st.op, r, key));
   rows = 겉거름(rows);
   if(key === 'leave' && v.k !== 'req'){ const t = new Date(TODAY); t.setDate(1); t.setMonth(t.getMonth() + 달력달); const 머리 = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0');      /* 달을 넘기면 목록도 그 달 (2026-10-27 4차) */
@@ -14114,7 +14122,7 @@ const 현황목록 = {
           .filter(r => 전체봄() || (r.trainer || '') === ((ME && ME.name) || '')),
   연월차: () => (W.leave || []).filter(승인대기)
           .sort((a, b) => (a.day || '') > (b.day || '') ? 1 : -1),
-  업무: () => W.tasks.filter(r=>!r.done && r.kind!=='대표공지' && 내것(r.owners)).sort(표정의.tasks.정렬),
+  업무: () => W.tasks.filter(r=>!r.done && r.kind && r.kind!=='대표공지' && 내것(r.owners)).sort(표정의.tasks.정렬),      /* 구분을 안 고른 업무는 현황판에 안 띄움 (2026-10-30 대표) */
   요청: () => D.asks.filter(a=>!a.done_at && 내담당(a.member_id)),
   운동: () => D.w.filter(w=>w.on_date===TODAY && 내담당(w.member_id) && !빈운동(w)),      /* 빈 기록(종목 0)은 기록 완료가 아니다 (2026-10-20) */
   상담: () => W.leads.filter(r=>오늘인가(r.at) && !r.done)
@@ -14445,7 +14453,7 @@ const 배정상태 = ['진행중', '재연락 필요', '종료', '수업거부',
 async function 배정받기(){
   if(배정오늘() >= 배정넘김날) 배정정본 = '표';      /* 주말 내내 켜 둔 데스크도 월요일엔 표로 (한 방향) */
   if(배정.중) return; 배정.중 = true;
-  try{ 배정.줄 = await 모두가져('assign_leads?select=*&order=created_at.desc'); 배정.왜 = '';
+  try{ const 번호 = 표쓰기번호, 새줄 = await 모두가져('assign_leads?select=*&order=created_at.desc'); if(!배정.줄 || !받는새낡음(번호)) 배정.줄 = 새줄; 배정.왜 = '';
     배정.끔 = new Set(((await sget('guide_optout?select=k').catch(() => [])) || []).map(r => r.k)); }      /* 자동 설문 끈 회원 (63단계) */
   catch(e){ 배정.줄 = null; 배정.왜 = (e && e.message) || '안 되었어요'; }
   배정.중 = false; 배정.때 = Date.now(); 배정배지(); if(S.view === 'assign' || S.view === 'home' || S.view === 'members') render();
@@ -15962,8 +15970,8 @@ async function txAct(a, el){
   if(a==='astgm'){ 배정TG창열기(k); return; }
   if(a==='astgmsave'){ await 배정TG저장(); return; }
   if(a==='mypart'){ S.myPart = k; S.myQ = ''; render(); return; }
-  if(a==='mysort'){ 내보기.순 = k; 내보기저장(); render(); return; }
-  if(a==='mycols'){ 내보기.칸 = k; 내보기저장(); render(); return; }
+  if(a==='mysort'){ 내보기.순 = k; 내보기저장(); render(); if($('#rspkg')) 종목픽판(); return; }
+  if(a==='mycols'){ 내보기.칸 = k; 내보기저장(); render(); if($('#rspkg')) 종목픽판(); return; }
   if(a==='myfav'){ 내별바꿈(k); return; }
   if(a==='exreqf'){ 종목요청창(k); return; }
   if(a==='exreqsend'){ await 종목요청보내기(k); return; }
@@ -17093,9 +17101,9 @@ function 화면길단추(){ const t = document.getElementById('top'); if(!t || t
   t.insertAdjacentHTML('afterbegin', '<span class="vnav"><button type="button" data-act="tx:vback" aria-label="뒤로"' + (화면길.i > 0 ? '' : ' disabled') + '>‹</button><button type="button" data-act="tx:vfwd" aria-label="앞으로"' + (화면길.i < 화면길.줄.length - 1 ? '' : ' disabled') + '>›</button></span>'); }
 function render(){
   화면길적기();
-  const 앞뷰 = S.view, 가로 = [...document.querySelectorAll('#body .tx-tw')].map(e => e.scrollLeft);
+  const 앞뷰 = S.view, 쌈 = document.getElementById('body'), 판자리 = [...document.querySelectorAll('#body .tx-tw')].map(e => [e.scrollLeft, e.scrollTop]), 몸자리 = 쌈 ? 쌈.scrollTop : 0, 창자리 = scrollY;      /* 가로만 지켜서 다시 그릴 때마다 표가 맨 위로 튀었다 (2026-10-30 대표 「상단으로 이동」) */
   const 났 = render0.apply(null, arguments);
-  if(S.view === 앞뷰) document.querySelectorAll('#body .tx-tw').forEach((e, i) => { if(가로[i]) e.scrollLeft = 가로[i]; });
+  if(S.view === 앞뷰){ document.querySelectorAll('#body .tx-tw').forEach((e, i) => { const z = 판자리[i]; if(z && z[0]) e.scrollLeft = z[0]; if(z && z[1]) e.scrollTop = z[1]; }); if(몸자리){ const 쌈2 = document.getElementById('body'); if(쌈2) 쌈2.scrollTop = 몸자리; } if(창자리) scrollTo(scrollX, 창자리); }      /* 0 이면 건드리지 않는다 — 큰 표에서 자리 읽고 쓰기가 그리기를 늦췄다 */
   화면길단추(); if(S.view === 'kcal' && typeof 계산기높이 === 'function') 계산기높이();      /* ‹ › 단추가 윗줄 높이를 바꾼 뒤 다시 잰다 (2026-10-23 데스크칼로리 시험) */
   /* 왼쪽 메뉴 표시를 지금 화면에 맞춘다 — 뒤로(‹) · 옆 판 「회원 페이지로」 처럼 메뉴를 안 거치고 화면이 바뀌면 표시가 앞 메뉴에 남았다 (2026-10-15 대표 「탭은 점검인데 메뉴는 회원」) */
   { const 공통중 = (S.view === 'routine' && ((D.r || []).find(x => x.id === S.rid) || {}).member_id == null && S.rtFrom) || (S.view === 'rtedit' && RT && RT.mid == null), 메뉴 = 공통중 ? 'lesson' : S.view === 'rtedit' ? 'members' : (({ member:'members', routine:'members', cmall:'lesson', today:'lesson', reports:'lesson', rtmake:'lesson' })[S.view] || S.view);      /* 넷은 「수업 기록」에 불 (2026-10-23) */      /* 공통 루틴을 고치는 중이면 「루틴 만들기」에 불 (2026-10-16) */
