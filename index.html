@@ -194,6 +194,10 @@ img{max-width:100%;display:block}
 .topline{border-bottom:1px solid var(--line);padding:0 26px;background:var(--dark)}
 .top h1{font-size:19px;font-weight:800;letter-spacing:-.03em}
 .top .cnt{font-size:13px;font-weight:600;color:var(--sub)}
+.top .ld-auto{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 320px;margin-left:12px;padding:5px 10px;border-left:3px solid var(--gold,#d4b06a);background:rgba(212,176,106,.07);border-radius:0 8px 8px 0;font-size:13px;line-height:1.45;color:var(--sub)}
+.top .ld-auto i{font-style:normal;font-weight:800;color:var(--gold,#d4b06a)}.top .ld-auto .r{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.top .ld-auto .r b{color:var(--text,#f2ead9);margin-right:6px}
+.top .ld-auto button{margin-left:6px;border:0;background:none;padding:0;font:inherit;font-weight:700;color:var(--gold,#d4b06a);text-decoration:underline;cursor:pointer}
+.rb-card.rb-hit{outline:2px solid var(--gold,#d4b06a);outline-offset:2px}
 .top .sp{margin-left:auto;display:flex;gap:9px;align-items:center}
 /* 찾기 묶음 — 있는 회원 추리기 | 브로제이에서 데려오기 를 한 테두리로 묶는다 */
 .findbox{background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:5px 6px;gap:6px}
@@ -2078,6 +2082,7 @@ body{word-break:keep-all}
 .cl-row.on .bx{background:var(--gold);border-color:var(--gold)}.cl-row.on b{color:#a39c8e;text-decoration:line-through;text-decoration-color:#6b665c}
 .cl-row b{font-weight:800;font-size:14px;flex:1;min-width:0}.cl-row .cl-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.cl-row .cl-t b{flex:none}.cl-row .cl-how{font-size:13px;color:#8f887e;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cl-row small{font-size:13px;color:#a39c8e;white-space:nowrap}.cl-row em{font-style:normal;font-size:13px;font-weight:800;color:#a9d8e6;white-space:nowrap}
 .cl-big{display:flex;flex-direction:column;gap:2px;background:linear-gradient(90deg,#2a2318,#1d1c1a 80%);border:1px solid rgba(230,196,135,.45);border-radius:10px;padding:9px 12px;margin-bottom:8px}
+.cl-chg .cl-hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cl-chg .cl-hr .z2{font-weight:800;min-width:0}.cl-chg .cl-hr .btn{margin-left:auto}
 .cl-igl{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px;cursor:pointer}.cl-igl .cl-ig{margin-left:0}
 .cl-no .cl-days button.no{border-color:var(--warn);color:var(--warn);background:color-mix(in srgb,var(--warn) 12%,transparent)}
 .cl-row .cl-t .cl-ig{align-self:flex-start;margin:3px 0 0}
@@ -2999,7 +3004,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '521';
+const BUILD = '522';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8717,8 +8722,9 @@ async function 청소받기(){
   try{
     const 부터 = 할수('cleanlog') ? 날더함(TODAY, -13) : 날더함(TODAY, -7);      /* 이월(지난 정한 요일 뒤 체크) 보려면 한 주 (2026-10-30) */
     const g = await Promise.all([uget('tr_clean?select=*&order=sort,created_at'), uget('tr_clean_zone?select=*&order=sort,created_at'), uget('tr_clean_turn?select=*'),
-      uget('tr_clean_big?select=*'), uget('tr_clean_log?select=*&day=gte.' + 부터 + '&order=day.desc'), uget('tr_clean_ack?select=*&day=gte.' + 날더함(TODAY, -3)).catch(() => [])]);
-    청소.목 = g[0] || []; 청소.구역 = g[1] || []; 청소.배정 = g[2] || []; 청소.대 = g[3] || []; 청소.기록 = g[4] || []; 청소.확인 = g[5] || []; 청소.없음 = false;
+      uget('tr_clean_big?select=*'), uget('tr_clean_log?select=*&day=gte.' + 부터 + '&order=day.desc'), uget('tr_clean_ack?select=*&day=gte.' + 날더함(TODAY, -3)).catch(() => []),
+      uget('tr_clean_hand?select=*&day=gte.' + TODAY.slice(0, 8) + '01').catch(() => [])]);      /* 넘김 기록 — 이번 달(받은 수 셈) · 101단계 전이면 빈 것 */
+    청소.목 = g[0] || []; 청소.구역 = g[1] || []; 청소.배정 = g[2] || []; 청소.대 = g[3] || []; 청소.기록 = g[4] || []; 청소.확인 = g[5] || []; 청소.넘김 = g[6] || []; 청소.없음 = false;
   }catch(e){ 청소.없음 = true; 청소.목 = []; 청소.구역 = []; 청소.배정 = []; 청소.대 = []; 청소.기록 = []; console.warn('청소 못 받음 —', e && e.message); }      /* 49 · 53단계 SQL 전이면 블록 · 칸을 그리지 않는다 */
   청소.중 = false; 청소.때 = Date.now();
   if(S.view === 'home' && !$('#pop').classList.contains('on') && !$('#txpop')) render();
@@ -8732,7 +8738,7 @@ const 오늘대신 = () => { if(!ME || !청소.목 || 청소.없음) return []; 
   return Object.entries(배.결과 || {}).filter(([k, z]) => z && z.대신 && z.원 && z.p && z.p.id === ME.id).map(([k, z]) => ({ x:할일of(k), 원:z.원 })).filter(o => o.x); };
 function 대신청소팝업(강제){
   if(!ME || 진짜ME) return; if(!강제 && 돌아시험막음()) return;
-  const L = 오늘대신(); if(!L.length) return; if(!강제 && 청소확인함(TODAY, '대신', ME.name || '')) return;
+  const L = 오늘대신(); if(!L.length) return; if(!강제 && 청소확인함(TODAY, '대신:' + (ME.name || ''), ME.name || '')) return;
   if($('#pop').classList.contains('on')){ if(지금팝업 === '대신청소') return; 팝업차례('대신청소', () => 대신청소팝업()); return; }
   팝업줄빼기('대신청소'); 다음강제 = !!강제; const 원들 = [...new Set(L.map(o => 보임이름(o.원.name)))];
   popOpen('<div class="ps-pop"><div class="ps-h">오늘 인계받은 청소 ' + L.length + '</div><div class="sub3" style="margin:4px 0 12px">' + esc(원들.join(' · ')) + ' 선생님 휴무로 나눠 받았어요 · 홈 「오늘 내 청소」에 「인계」로 보여요</div>'
@@ -8740,7 +8746,7 @@ function 대신청소팝업(강제){
     + '<div class="rv-foot"><button class="btn main" data-act="tx:clsubok" style="flex:1">확인했어요</button></div></div>');
 }
 async function 대신청소확인(){ const 나 = (ME && ME.name) || '';
-  try{ await usend('tr_clean_ack', 'POST', { day:TODAY, grp:'대신', by:나 }); (청소.확인 = 청소.확인 || []).push({ day:TODAY, grp:'대신', by:나 }); popClose(); toast('확인했어요'); }
+  try{ await usend('tr_clean_ack', 'POST', { day:TODAY, grp:'대신:' + 나, by:나 }); (청소.확인 = 청소.확인 || []).push({ day:TODAY, grp:'대신:' + 나, by:나 });      /* 사람마다 — unique(day, grp) 라 「대신」 하나면 둘째 사람이 막혔다 */ popClose(); toast('확인했어요'); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 const 청소오래됨 = () => 청소.목 === null || Date.now() - (청소.때 || 0) > 10 * 60 * 1000;
 /* 사람 — 대표 포함(17:30) · 인턴 · 퇴사 빼고 */
@@ -8757,6 +8763,7 @@ const 청소생긴날 = x => { if(!x.created_at) return ''; const t = new Date(x
 const 청소날 = (x, d) => x.active !== false && (!(x.days || []).length || x.days.indexOf(요일of(d)) >= 0) && (!청소생긴날(x) || 청소생긴날(x) <= d);
 const 구역들 = () => (청소.구역 || []).filter(z => z.active !== false).slice().sort((a, b) => ((+a.sort || 0) - (+b.sort || 0)) || String(a.name || '').localeCompare(String(b.name || ''), 'ko'));
 const 할일of = id => (청소.목 || []).find(x => x.id === id);
+const 성별청소 = (x, z) => !!(z && z.sex) && /탈의실|샤워|여자|남자/.test(String((x && x.title) || ''));      /* 성별이 필요한 청소만 같은 성별에게 — 나머지는 출근자 모두 (2026-10-30 대표) */
 /* 이월 — 요일을 정한 청소에 「안 하면 다음 날로 이월」을 켜 두면 그 요일에 체크가 없을 때 다음 날 · 그다음 날 … 체크할 때까지 다시 뜬다(다음 정한 요일 전까지) · 돌려주는 값 = 원래 날 (2026-10-30 대표) */
 const 청소이월날 = (x, d) => { if(!x || !x.carry || !(x.days || []).length || 청소날(x, d)) return '';
   for(let k = 1; k <= 6; k++){ const p = 날더함(d, -k); if(청소날(x, p)){ for(let j = k; j >= 1; j--) if(청소체크of(x.id, 날더함(d, -j))) return ''; return p; } } return ''; };
@@ -8798,10 +8805,11 @@ function 청소배정(d, 월){
     /* 먼저 받을 사람을 정한 구역은 그 사람들이 다 없으면 다른 선생님(성별 상관없이 · FC 빼고 — 저녁에만 나옴) (2026-10-23 23:22 대표 「영림쌤 청소도 분배는 되게 · FC 는 저녁에만 나오니까 · 우선순위 분배」) */
     /* 23:24 대표 「먼저 받는 사람 양인수 → off 면 조민철 → off 면 또 누군가가 받는다」 · 23:36 「청소 항목마다」 — 그 청소의 먼저 받을 사람 중 차례대로 첫 출근자 · 다 쉬면 다른 선생님(FC 빼고) */
     구목[z.id].forEach(x => { if(x.off_mode === '건너뜀'){ 뺄.add(x.id); return; }
-      const 뺌 = new Set(x.cover_no || []), cv = (x.cover || []).filter(id => !뺌.has(id)), 먼저 = cv.map(찾).filter(s => s && !청소쉼(s, d)),
-        후보 = (먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC') : 출근.filter(s => !z.sex || s.sex === z.sex)).filter(s => !뺌.has(s.id));      /* 인계 제외 (2026-10-30 대표) */
-      const p = 차례(후보);
-      결과[x.id] = { p, 구역: z, 대신: !!p, 원, 왜: p ? '' : z.sex ? z.sex + '자 선생님 중 출근자 없음' : '출근자 없음' };
+      const 뺌 = new Set(x.cover_no || []), cv = (x.cover || []).filter(id => !뺌.has(id)), 먼저 = cv.map(찾).filter(s => s && !청소쉼(s, d)), 성별 = 성별청소(x, z),
+        후보 = (먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC' && (!성별 || s.sex === z.sex)) : 출근.filter(s => !성별 || s.sex === z.sex)).filter(s => !뺌.has(s.id));      /* 인계 제외 · 성별은 성별 청소만 (2026-10-30 대표 「한 사람한테 몰아주기가 아니야 · 여자 구역은 여자에게 · 우선순위가 있으면 우선순위대로」) */
+      const 넘 = (청소.넘김 || []).find(h => h.day === d && h.clean_id === x.id), 넘p = 넘 && 찾(넘.staff_id);
+      const p = 넘p && !청소쉼(넘p, d) ? 넘p : 차례(후보);
+      결과[x.id] = { p, 구역: z, 대신: !!p, 원, 넘김: !!(넘p && p === 넘p), 왜: p ? '' : 성별 ? z.sex + '자 선생님 중 출근자 없음' : '출근자 없음' };
       if(p){ 받음[p.id] = (받음[p.id] || 0) + 1; 더(p, 1); 대신들.push(p.id); } }); });
   for(let i = 목.length - 1; i >= 0; i--) if(뺄.has(목[i].id)) 목.splice(i, 1);
   return { 목, 결과, 대신들 };
@@ -8927,8 +8935,8 @@ function 청소카드(){
   const 줄 = x => { const 됨 = !!청소체크of(x.id, TODAY), b = 배.결과[x.id];
     return '<button class="cl-row' + (됨 ? ' on' : '') + '" data-act="tx:clck" data-v2="' + esc(x.id) + '"><span class="bx">' + (됨 ? '✓' : '') + '</span><span class="cl-t"><b>' + esc(x.title || '') + '</b>' + (x.how ? '<span class="cl-how">' + esc(x.how) + '</span>' : '') + (b.대신 && b.원 ? '<span class="cl-ig">인계<small>' + esc(보임이름(b.원.name)) + ' 휴무</small></span>' : '') + (청소이월날(x, TODAY) ? '<span class="cl-ig cy">이월<small>' + esc(요일of(청소이월날(x, TODAY))) + '요일 안 함</small></span>' : '') + '</span>'
       + 청소시각(x.slot) + '</button>'; };      /* 인계 딱지는 이름 아래 — 오른쪽에 두면 100% 화면에서 카드 밖으로 넘쳤다 (2026-10-30 대표) */      /* 구역 이름은 뺐다 — 시각이 두 번 · 낮 청소가 마감처럼 보임 (2026-10-23 대표) · 설명(하는 방법)은 이름 아래 작게 */
-  const 인계묶 = {}; if(할수('clean') || 할수('cleanlog')) Object.keys(배.결과 || {}).forEach(id => { const o = 배.결과[id]; if(!(o && o.대신 && o.원 && o.p)) return; const k = o.원.name + '→' + o.p.name; (인계묶[k] = 인계묶[k] || { 원:o.원.name, 받:o.p.name, n:0 }).n++; });
-  const 인계띠 = Object.values(인계묶).length ? '<div class="cl-igl" data-act="tx:clset">' + Object.values(인계묶).map(g => '<span class="cl-ig">인계<small>' + esc(보임이름(g.원)) + ' 휴무 → ' + esc(보임이름(g.받)) + ' ' + g.n + '개</small></span>').join('') + '</div>' : '';      /* 관리하는 사람 홈에도 오늘 인계 (2026-10-30 대표 「없는데?」) */
+  const 인계목 = 할수('clean') || 할수('cleanlog') ? 배.목.filter(x => { const o = 배.결과[x.id]; return o && o.대신 && o.원 && o.p; }) : [];
+  const 인계띠 = 인계목.length ? '<div class="cl-igl" data-act="tx:clset">' + 인계목.map(x => { const o = 배.결과[x.id]; return '<span class="cl-ig">인계<small>' + esc(x.title || '') + ' → ' + esc(보임이름(o.p.name)) + '</small></span>'; }).join('') + '</div>' : '';      /* 무엇이 누구에게 (2026-10-30 대표 「어떤 거 인계됐는지 표기」) */      /* 관리하는 사람 홈에도 오늘 인계 (2026-10-30 대표 「없는데?」) */
   return '<div class="tx-home one"><div class="sec"><div class="lbl">오늘 내 청소' + (내.length ? ' <span class="tx-tag' + (한 < 내.length ? ' gold' : '') + '">' + 한 + ' / ' + 내.length + '</span>' : '') + 링크 + '</div>' + 인계띠 + 대띠
     + (내.length ? '<div class="cl-hl">' + 내.map(줄).join('') + '</div>'
       : '<div class="empty why">' + (배.휴무 ? '<b>오늘은 정기휴무입니다</b>' : 배.당직 ? '<b>오늘은 당직 청소만 있습니다</b>' : '<b>오늘 맡은 청소가 없습니다</b>') + (할수('clean') ? '구역 · 담당은 「관리」에서 정해요' : '구역 · 담당은 청소 관리자가 정해요') + '</div>') + '</div></div>';
@@ -8960,6 +8968,18 @@ function 청소누락판(){
         + g.L.map(({ x, 배 }) => '<div class="cl-miss"><b>' + 청소글(x) + '</b>' + (배.대신 && 배.원 ? '<small>' + esc(보임이름(배.원.name)) + ' 선생님이 쉬어서 대신</small>' : '') + '</div>').join('') + '</div>').join('')
       : '<div class="empty why"><b>어제 빠진 체크가 없습니다</b>모두 체크했거나 확인했어요</div>'));
 }
+/* 인계 넘기기 — 그날 그 청소를 다른 출근자에게(관리자 · 받은 사람) · tr_clean_hand 한 줄(날 · 청소마다 하나 · 다시 넘기면 바꿈) (2026-10-30 대표) */
+function 인계넘기기창(id){ const 배 = 청소배정(TODAY), o = 배.결과[id], x = 할일of(id); if(!o || !x) return;
+  const 뺌 = new Set(x.cover_no || []), 사람 = 청소사람().filter(p => !청소쉼(p, TODAY) && p.id !== (o.p && o.p.id) && !뺌.has(p.id) && (!성별청소(x, o.구역) || p.sex === o.구역.sex));
+  가운데창('<div class="tx-ph"><b>' + 청소글(x) + ' · 다른 선생님에게</b><button data-act="popclose">✕</button></div><div class="cl-ed"><div class="sub3">오늘 출근한 선생님 · ' + (성별청소(x, o.구역) ? o.구역.sex + '자 선생님만 · ' : '') + '인계 제외는 빼고</div><div class="cl-days" style="flex-wrap:wrap">'
+    + (사람.length ? 사람.map(p => '<button data-act="tx:clhandgo" data-v2="' + esc(id + '|' + p.id) + '">' + esc(보임이름(p.name)) + '</button>').join('') : '<div class="sub3">넘길 수 있는 출근자가 없어요</div>') + '</div></div>', 400); }
+async function 인계넘기기(id, sid){ const x = 할일of(id), p = (W.staff || []).find(s => s.id === sid); if(!x || !p) return;
+  if(!await 묻기('「' + (x.title || '') + '」 오늘 청소를 ' + 보임이름(p.name) + ' 선생님에게 넘길까요?' + String.fromCharCode(10) + '그 선생님 「오늘 내 청소」에 「인계」로 떠요')) return;
+  try{ await usend('tr_clean_hand?on_conflict=day,clean_id', 'POST', [{ day:TODAY, clean_id:id, staff_id:sid, by:(ME && ME.name) || '' }], 'resolution=merge-duplicates');
+    청소.넘김 = (청소.넘김 || []).filter(h => !(h.day === TODAY && h.clean_id === id)).concat([{ day:TODAY, clean_id:id, staff_id:sid, by:(ME && ME.name) || '' }]);
+    기록남기기({ area:'청소', action:'수정', tbl:'tr_clean_hand', row_id:id, detail:'인계 넘김 — ' + (x.title || '') + ' → ' + p.name });
+    popClose(); toast(보임이름(p.name) + ' 선생님에게 넘겼어요'); 청소관리판(); render(); }
+  catch(e){ toast(/tr_clean_hand|404|42P01/.test(String(e.message)) ? '아직 넘길 수 없어요 · 서버 준비(101단계)가 아직이에요' : '저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 async function 청소확인(grp){ const d = 날더함(TODAY, -1), n = 청소누락().filter(o => o.grp === grp).length; if(!n) return;
   if(!await 묻기('누락 ' + n + '개를 확인했나요?' + String.fromCharCode(10) + '확인하면 내 청소 누락에서 사라집니다')) return;
   try{ await usend('tr_clean_ack', 'POST', { day:d, grp, by:(ME && ME.name) || '' }); (청소.확인 = 청소.확인 || []).push({ day:d, grp, by:(ME && ME.name) || '' }); toast('확인했어요'); 청소누락판(); render(); }
@@ -8974,7 +8994,7 @@ function 청소기록판(){
   const 칸 = (x, d) => { const b = 배들[d].결과[x.id]; if(!b) return '<td class="dim">—</td>'; const r = 청소체크of(x.id, d);
     if(r) return '<td class="ok" title="' + esc(이름(r.staff_id)) + '">' + 시각of(r.done_at) + (b.p && r.staff_id !== b.p.id ? '<br><span class="sub3">' + esc(이름(r.staff_id)) + '</span>' : '') + 인계(b) + '</td>';
     return (d < TODAY ? '<td class="no">안 함' : '<td class="no">') + 인계(b) + '</td>'; };
-  판열기('청소 기록', '<div class="sub3" style="margin-bottom:10px">체크를 누른 시각 · 담당이 아닌 사람이 했으면 이름이 같이 나와요 · 담당이 쉬어 나눠 받은 날은 「인계」 · 최근 7일</div>'
+  판열기('청소 기록', '<div class="sub3" style="margin-bottom:10px">체크한 시각 · 담당 아닌 사람이 하면 이름도 · 쉬어서 나눠 받은 날은 「인계」 · 최근 7일</div>'
     + '<div class="tx-scroll" style="overflow-x:auto"><table class="cl-tb"><tr><th>할 일</th>' + 날.map(d => '<th>' + (+d.slice(5, 7)) + '/' + (+d.slice(8)) + '<br>' + 요일of(d) + '</th>').join('') + '</tr>'
     + 목.map(x => { const b = 배들[TODAY].결과[x.id]; return '<tr><td><b>' + 청소글(x) + '</b><br><span class="sub3">' + esc(b && b.p ? 보임이름(b.p.name) + (b.대신 && b.원 ? ' · ' + 보임이름(b.원.name) + ' 대신' : '') : b ? (b.왜 || '담당 없음') : '오늘 없음') + '</span></td>' + 날.map(d => 칸(x, d)).join('') + '</tr>'; }).join('')
     + '</table></div>');
@@ -9015,8 +9035,9 @@ function 청소관리판(){
   const 바뀜 = 미리 ? 순환.filter(z => (지금배[z.id] || null) !== (배[z.id] || null)) : [];
   const 달라짐 = 미리 ? '<div class="cl-chg"><div class="t">이번 분기와 달라지는 것 · 순환 ' + 바뀜.length + '곳</div>' + (바뀜.length ? 바뀜.map(z => '<div class="r">' + 딱(지금배[z.id]) + '<i>→</i>' + 딱(배[z.id]) + '<span class="z">' + (z.slot ? esc(z.slot) + ' ' : '') + 시간칠(z.name) + '</span></div>').join('') : '<div class="sub3">달라지는 것이 없어요</div>') + '</div>'
     + '<div class="sub3" style="margin:-2px 0 10px">미리보기는 보기만 해요' + (고칠0 ? ' · 바꾸려면 「이번 분기」에서 「담당 수정」' : '') + '</div>' : '';
-  const 인계묶 = {}; if(오늘배) Object.keys(오늘배.결과 || {}).forEach(id => { const o = 인계of(id); if(!o) return; const k = o.원.name + '→' + o.p.name; (인계묶[k] = 인계묶[k] || { 원:o.원.name, 받:o.p.name, n:0 }).n++; });
-  const 인계띠 = Object.keys(인계묶).length ? '<div class="cl-chg"><div class="t">오늘 인계 · 휴무로 나눠 받은 청소</div>' + Object.values(인계묶).map(g => '<div class="r">' + esc(보임이름(g.원)) + ' 휴무<i>→</i>' + esc(보임이름(g.받)) + '<span class="z">' + g.n + '개</span></div>').join('') + '</div>' : '';
+  const 인계들 = 오늘배 ? 오늘배.목.filter(x => 인계of(x.id)) : [];
+  const 인계띠 = 인계들.length ? '<div class="cl-chg"><div class="t">오늘 인계 · 휴무로 나눠 받은 청소 ' + 인계들.length + '</div>' + 인계들.map(x => { const o = 인계of(x.id), 넘수 = 고칠0 || (ME && o.p.id === ME.id);
+      return '<div class="r cl-hr"><span class="z2">' + 청소글(x) + '</span><span>' + esc(보임이름(o.원.name)) + ' 휴무<i>→</i><b>' + esc(보임이름(o.p.name)) + '</b>' + (o.넘김 ? ' <span class="sub3">넘겨받음</span>' : '') + '</span>' + (넘수 ? '<button class="btn ghost sm" data-act="tx:clhand" data-v2="' + esc(x.id) + '">다른 선생님에게</button>' : '') + '</div>'; }).join('') + '</div>' : '';
   판열기('청소 담당', 칩 + 인계띠 + 달라짐
     + 머('순환 구역 ' + 순환.length, '분기마다 한 칸씩 돌아요', '<button class="btn sub sm" style="margin-left:auto" data-act="tx:clzone" data-k="순환" data-v2="">＋ 구역 추가</button>')
     + (순환.length ? 순환.map(구줄).join('') : 빈('순환 구역이', '「＋ 구역 추가」로 만들어 주세요'))
@@ -10951,12 +10972,17 @@ function 업무범위줄(){ if(!할수('taskall')) return '';
     + (범 === '선생' ? 담당단추('tb_tasks', 고 ? esc(보임이름(고.name) || '?') + ' <b>' + 셈(고.id) + '</b>' : '선생님 고르기', 고 ? (선생님색(고.name) || '') : '', W.staff.filter(p => p.active !== false).map(p => 담당옵('data-act="tx:who" data-k="tasks" data-v2="' + p.id + '"', esc(보임이름(p.name) || '?'), 선생님색(p.name) || '', st.사람 === p.id, 셈(p.id))), 'on')
        : '<button data-act="tx:tscope" data-k="선생">선생님별 ▾</button>')
     + '<button class="' + (범 === '전체' ? 'on' : '') + '" data-act="tx:tscope" data-k="전체">전체<b>' + (W.tasks || []).filter(열).length + '</b></button></span>'; }
+/* 상담 탭 「자동 발송」 — 관리자만 · 정본은 중앙 규칙판 카드(send_lead1 · send_survey2) · 「자세히」 = 규칙 화면 그 카드 (2026-10-30 대표 「관리자가 보는 상담탭에는 간단하게 자동 발송규칙」) */
+function 상담자동줄(){ if(!할수('rules')) return '';
+  const 줄 = (b, 글, id) => '<span class="r"><b>' + b + '</b>' + 글 + '<button data-act="tx:rbgo" data-k="' + id + '">자세히</button></span>';
+  return '<span class="ld-auto"><i>자동 발송</i>' + 줄('1차 안내', '「1차 발송상태 = 발송」 + 「발송여부」 체크 → 1분 안 알림톡(안 되면 문자)', 'send_lead1')
+    + 줄('2차 설문톡', '매일 14:10 · 상담 5~14일 · 미등록 · 1차 완료 → 자동(3차 없음)', 'send_survey2') + '</span>'; }
 function txTop(key){
   const T = 표정의[key], st = 표상태[key];
   const 전체 = 볼줄(key);
   /* 노션 도구줄 — ≡ 필터 · ⇅ 정렬 · ⌕ 검색 · ⚙ 보기 설정 · 새로 만들기 (2026-10-20 대표 「필터를 누르면 사이드 페이지로 · 노션과 인터페이스 차이」) */
   const 고 = 고정막힘(key), 순 = st.정렬 && st.정렬.k, 검 = st.검색열림 || st.q;
-  return (key === 'manual' ? '<button class="btn ghost sm" data-act="tx:mtab" data-k="홈" style="margin-right:8px">‹ 매뉴얼 보기</button>' : '') + '<h1>'+T.제목+'</h1><span class="cnt">'+전체.length+'건</span>';
+  return (key === 'manual' ? '<button class="btn ghost sm" data-act="tx:mtab" data-k="홈" style="margin-right:8px">‹ 매뉴얼 보기</button>' : '') + '<h1>'+T.제목+'</h1><span class="cnt">'+전체.length+'건</span>' + (key === 'leads' ? 상담자동줄() : '');
 }
 /* 표 도구 — 표 바로 위 줄 오른쪽 (2026-10-26 대표 「필터나 이런 것들을 데이터베이스 안에 · 외곽선」) */
 function txTools(key){
@@ -11388,7 +11414,7 @@ function v규칙(){
   const 칩 = ['전체'].concat(파트).includes(규칙판.칩) ? 규칙판.칩 : '전체';
   const 상딱 = s => s === '최신' ? '<span class="tag rb-ok">최신</span>' : s === '최신화 필요' ? '<span class="tag rb-need">최신화 필요</span>' : '<span class="tag">' + esc(s || '') + '</span>';
   return '<div class="chips rb-chips">' + ['전체'].concat(파트).map(p => '<button class="chip' + (칩 === p ? ' on' : '') + '" data-act="tx:rbchip" data-k="' + esc(p) + '">' + esc(p) + ' <i>' + 수(p).length + '</i>' + (필요(p) ? '<span class="rb-dot" title="최신화 필요"></span>' : '') + '</button>').join('') + '</div>'
-    + '<div class="rb-grid">' + 수(칩).map(c => '<div class="rb-card' + (c['상태'] === '최신화 필요' ? ' need' : '') + '">'
+    + '<div class="rb-grid">' + 수(칩).map(c => '<div class="rb-card' + (c['상태'] === '최신화 필요' ? ' need' : '') + '" data-rb="' + esc(c['id'] || '') + '">'
       + '<div class="rb-hd"><b>' + esc(c['제목']) + '</b>' + ((c['검사기'] || []).length ? '<span class="tag rb-lock" title="' + esc((c['검사기'] || []).join(' · ')) + '">🔒 검사기</span>' : '') + 상딱(c['상태']) + '</div>'
       + '<div class="rb-one">' + esc(c['한줄'] || '') + '</div>'
       + '<div class="rb-flow">' + (c['흐름'] || []).map(x => '<span>' + esc(x) + '</span>').join('<em>→</em>') + '</div>'
@@ -15440,6 +15466,8 @@ async function txAct(a, el){
   if(a==='ibedit'){ S.ibEdit = !S.ibEdit; render(); return; }
   if(a==='ibpull'){ toast('루킨바디 지난 기록 가져오기는 연결 준비중이에요 · 새로 잰 인바디는 자동으로 들어와요'); return; }
   if(a==='rbchip'){ 규칙판.칩 = k; render(); return; }      /* 규칙 탭 파트 칩 */
+  if(a==='rbgo'){ 규칙판.칩 = '전체'; 규칙판.펼.add(k); S.view = 'rules'; render();
+    const 감 = n => { const c = document.querySelector('.rb-card[data-rb="' + k + '"]'); if(c){ c.scrollIntoView({ block:'center' }); c.classList.add('rb-hit'); } else if(n < 20) setTimeout(() => 감(n + 1), 250); }; 감(0); return; }
   if(a==='rbsrc'){ 규칙판.펼.has(k) ? 규칙판.펼.delete(k) : 규칙판.펼.add(k); render(); return; }
   if(a==='lsgorec'){ if(AUTH && AUTH.token){ 앱기록창(k); 쪽지닫기(); } else { 쪽지닫기(); 회원판열기(k); } return; }      /* 회원 검색 · 오늘 예약 → 바로 기록 */
   if(a==='arclose'){ 앱기록닫기(); if(S.mid) loadMember(S.mid); return; }
@@ -15646,6 +15674,8 @@ async function txAct(a, el){
   if(a==='clordok'){ if(!할수('clean')) return; await 청소순서저장(); return; }
   if(a==='clmove'){ if(!할수('clean')) return; 청소옮김창(el, v2); return; }
   if(a==='clmoveok'){ if(!할수('clean')) return; await 청소옮김(k, v2); return; }
+  if(a==='clhand'){ 인계넘기기창(v2); return; }
+  if(a==='clhandgo'){ const [id, sid] = String(v2).split('|'); await 인계넘기기(id, sid); return; }
   if(a==='clcarry'){ 청소편.carry = !청소편.carry; el.classList.toggle('on', 청소편.carry); el.setAttribute('aria-checked', 청소편.carry ? 'true' : 'false'); el.querySelector('b').textContent = 청소편.carry ? '켜짐' : '꺼짐'; return; }
   if(a==='clzno'){ const 뺌 = 청소편.no = 청소편.no || [], i = 뺌.indexOf(v2); if(i >= 0) 뺌.splice(i, 1); else { 뺌.push(v2); 청소편.cover = 청소편.cover.filter(id => id !== v2); }
     const 칸 = document.querySelector('#txpop .cl-cov:not(.cl-no)'), 뺀칸 = document.querySelector('#txpop .cl-no'); if(칸 && 뺀칸){ const t = document.createElement('div'); t.innerHTML = 청소쉬는칸(); 칸.replaceWith(t.querySelector('.cl-cov:not(.cl-no)')); 뺀칸.replaceWith(t.querySelector('.cl-no')); } return; }
