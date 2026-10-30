@@ -2982,7 +2982,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '516';
+const BUILD = '517';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8707,7 +8707,24 @@ async function 청소받기(){
   if(S.view === 'home' && !$('#pop').classList.contains('on') && !$('#txpop')) render();
   if($('#pop').classList.contains('on') && $('#pop').classList.contains('tx-side') && /^청소/.test(판머리 || '')) 청소판다시();
   if(!청소.알림본){ 청소.알림본 = true; 대청소알림(); }
+  try{ 대신청소팝업(); }catch(e){ console.warn('대신 청소 팝업 —', e && e.message); }
 }
+/* ══ 대신 맡는 청소 팝업 ══ 2026-10-30 대표 「오늘 송영림 off 인데 청소구역 나눠졌어? 그리고 팝업으로 떠야 하는데」
+   담당이 쉬어(연차 승인) 오늘 내가 대신 맡은 청소가 있으면 뜬다 · 「확인했어요」 = tr_clean_ack(grp 「대신」) → 그날은 어느 기기에서도 안 뜸 · ✕ = 30분 뒤 다시 */
+const 오늘대신 = () => { if(!ME || !청소.목 || 청소.없음) return []; const 배 = 청소배정(TODAY);
+  return Object.entries(배.결과 || {}).filter(([k, z]) => z && z.대신 && z.원 && z.p && z.p.id === ME.id).map(([k, z]) => ({ x:할일of(k), 원:z.원 })).filter(o => o.x); };
+function 대신청소팝업(강제){
+  if(!ME || 진짜ME) return; if(!강제 && 돌아시험막음()) return;
+  const L = 오늘대신(); if(!L.length) return; if(!강제 && 청소확인함(TODAY, '대신', ME.name || '')) return;
+  if($('#pop').classList.contains('on')){ if(지금팝업 === '대신청소') return; 팝업차례('대신청소', () => 대신청소팝업()); return; }
+  팝업줄빼기('대신청소'); 다음강제 = !!강제; const 원들 = [...new Set(L.map(o => 보임이름(o.원.name)))];
+  popOpen('<div class="ps-pop"><div class="ps-h">오늘 대신 맡는 청소 ' + L.length + '</div><div class="sub3" style="margin:4px 0 12px">' + esc(원들.join(' · ')) + ' 선생님이 쉬는 날이라 오늘은 내가 맡아요</div>'
+    + L.map(o => '<div class="bp-row2"><div class="a"><b>' + 청소글(o.x) + '</b><span class="sub3" style="margin-left:8px">' + esc(보임이름(o.원.name)) + ' 대신</span></div></div>').join('')
+    + '<div class="rv-foot"><button class="btn main" data-act="tx:clsubok" style="flex:1">확인했어요</button></div></div>');
+}
+async function 대신청소확인(){ const 나 = (ME && ME.name) || '';
+  try{ await usend('tr_clean_ack', 'POST', { day:TODAY, grp:'대신', by:나 }); (청소.확인 = 청소.확인 || []).push({ day:TODAY, grp:'대신', by:나 }); popClose(); toast('확인했어요'); }
+  catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 const 청소오래됨 = () => 청소.목 === null || Date.now() - (청소.때 || 0) > 10 * 60 * 1000;
 /* 사람 — 대표 포함(17:30) · 인턴 · 퇴사 빼고 */
 const 청소사람 = () => (W.staff || []).filter(p => p.active !== false && 등급of(p) !== '인턴' && !퇴사명().has(String(p.name || '').trim()));
@@ -15498,6 +15515,7 @@ async function txAct(a, el){
   if(a==='clbigok'){ if(!할수('clean')) return; await 대메모저장(v2); return; }
   if(a==='clday'){ const i = 청소편.days.indexOf(v2); if(i >= 0) 청소편.days.splice(i, 1); else 청소편.days.push(v2); el.classList.toggle('on', i < 0); return; }
   if(a==='clsave'){ if(!할수('clean')) return; await 청소저장(v2); return; }
+  if(a==='clsubok'){ 대신청소확인(); return; }
   if(a==='cloff'){ if(!할수('clean')) return; await 청소켬(v2, false); return; }
   if(a==='clon'){ if(!할수('clean')) return; await 청소켬(v2, true); return; }
   if(a==='clstaff'){ if(!할수('staff')) return; 청소사람창(el, v2); return; }
