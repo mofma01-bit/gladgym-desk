@@ -457,6 +457,16 @@ textarea.inp{min-height:76px;resize:vertical;line-height:1.6}
 .sumit.gold{border-color:#4a3d22} .sumit.gold .v2{color:var(--gold)}
 .sumit.teal{border-color:#2d4750} .sumit.teal .v2{color:var(--teal)}
 .sumit.warn{border-color:#4d2f27} .sumit.warn .v2{color:var(--warn)}
+.hc .sumrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.hc .hc-t{font-size:15px}
+.hc-note{font-size:13px;color:var(--sub);background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
+.hc-list{display:flex;flex-direction:column;gap:6px}
+.hc-row{display:grid;grid-template-columns:34px minmax(0,1.1fr) 56px minmax(0,1.4fr);align-items:center;gap:12px;background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.hc-row.hc-bad{border-color:#4d2f27}.hc-row.hc-late{border-color:#4a3d22}
+.hc-sq{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.hc-nm,.hc-why{display:flex;flex-direction:column;min-width:0}.hc-nm b,.hc-why b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hc-nm small,.hc-why small{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hc-st{justify-self:start;font-size:13px;font-weight:700;color:var(--c);border:1px solid var(--c);border-radius:99px;padding:2px 10px}
+@media (max-width:760px){.hc-row{grid-template-columns:34px minmax(0,1fr) auto}.hc-why{grid-column:2/4}}
 
 /* 자료 한 장 */
 .kitbox{background:var(--dark-2);border:1px solid var(--line);border-radius:13px;padding:6px 14px}
@@ -2938,7 +2948,10 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
       규칙</button>
     <button class="nav" data-v="log">
       <svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="8.5"/></svg>
-      작업기록</button></div></div>
+      작업기록</button>
+    <button class="nav" data-v="health">
+      <svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg>
+      건강검진</button></div></div>
     <button class="nav" data-v="trash" id="navtrash" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
       휴지통</button>
@@ -2969,7 +2982,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '511';
+const BUILD = '515';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3138,6 +3151,7 @@ const 권한줄 = [
   ['메뉴', 'rules', '규칙', '자동화 규칙 한눈에', [1, 0, 0, 0, 0]],
   ['메뉴', 'botqa', '챗봇 답', '도우미가 꺼내 주는 정해 둔 질문 · 답', [1, 0, 0, 0, 0]],
   ['메뉴', 'log', '작업기록', '데스크 · 자동화에서 바뀐 것 전부(누가 · 언제 · 무엇을)', [1, 0, 0, 0, 0]],      /* 2026-10-27 대표 「작업기록 관리자만 보이게」 */      /* 2026-10-26 챗봇 */      /* 2026-10-26 대표 「관리자만 보이게」 · 중앙 창구도 super · boss 만 */
+  ['메뉴', 'health', '건강검진', '서버 · 앱 점검 결과 한 장', [1, 0, 0, 0, 0]],      /* 2026-10-30 대표 「만들어」 — 대표자 · 최고관리자만 */
   ['메뉴', 'trash', '휴지통', '삭제한 것 복원', [1, 0, 0, 0, 0]],
   ['회원 · 기록', 'scope', '회원 보기 범위', '전체 = 다른 트레이너 회원 · 리포트 · 예약률까지 (읽기)', ['a', 'm', 'm', 'm', 'a']],
   ['회원 · 기록', 'otherrec', '남의 담당 회원 기록 수정', '잠수 사유 등', [1, 0, 0, 0, 0]],
@@ -3695,7 +3709,13 @@ const ST = [
  {i:'s29', v:'pr25:a', n:'다운독',                  t:'30초',      d:'엉덩이를 천장으로 올리고 뒤꿈치를 번갈아 눌러 줍니다'},
  {i:'s30', v:'pr26:a', n:'월드 그레이티스트 스트레칭', t:'좌우 5회', d:'런지에서 팔꿈치를 바닥으로, 그다음 팔을 열어 위로 회전합니다'},
  {i:'s31', v:'pr27:a', n:'어깨 돌리기',        t:'앞뒤 10회', d:'팔꿈치로 큰 원을 그리듯 어깨를 돌립니다'},
- {i:'s32', v:'pr28:a', n:'몸통 회전 스트레칭',        t:'좌우 8회',  d:'앉은 채로 가슴을 좌우로 크게 돌립니다. 골반은 고정'},
+ {i:'s32', v:'pr28:a', n:'몸통 회전 스트레칭',        t:'좌우 8회',  d:'앉은 채로 가슴을 좌우로 크게 돌립니다. 골반은 고정'}, {i:'s33', v:'pr46:a', n:'밴드 가슴 펴기', t:'10회', d:'밴드를 넓게 잡고 팔을 편 채 머리 위로 넘겼다 돌아옵니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s34', v:'pr47:a', n:'크로스바디 어깨 스트레칭', t:'좌우 20초', d:'팔을 가슴 앞으로 뻗고 반대 팔로 몸 쪽으로 당깁니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s35', v:'pr48:a', n:'앉아서 4자 스트레칭', t:'좌우 30초', d:'의자에 앉아 발목을 반대 무릎에 올리고 상체를 앞으로 숙입니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s36', v:'pr49:a', n:'전사 자세', t:'좌우 20초', d:'다리를 앞뒤로 벌려 앞 무릎을 굽히고 두 팔을 위로 뻗습니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s37', v:'pr50:a', n:'말라사나 (요가 스쿼트)', t:'30초', d:'발을 넓게 벌려 깊게 앉고 팔꿈치로 무릎을 바깥으로 밉니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s38', v:'pr51:a', n:'골반 돌려주기', t:'좌우 8회', d:'무릎을 들어 바깥으로 크게 돌린 뒤 내려놓습니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
+ {i:'s39', v:'pr52:a', n:'무릎 돌리기', t:'좌우 10회', d:'무릎을 모으고 손을 얹어 원을 그리듯 돌립니다'},      /* 3차 그림 · 97단계 (2026-10-30) */
 ];
 const MS = [
  {i:'m01', v:'et01:a', n:'흉추 마사지',        t:'60초',      d:'날개뼈 아래에 가로로 놓고 위아래로. 허리까지 내려가지 마세요'},
@@ -3740,11 +3760,11 @@ const 카드그림 = e => { if(그림있음.has(e.id)) return 그림칸(e.id);
   return 부위번(e) != null ? '<span class="pkim ph"><span class="pti p' + 부위번(e) + '"><i></i></span></span>' : '<span class="pkim ph">' + 사람그림 + '</span>'; };
 const 스트그림 = x => { const id = String(x.v || '').split(':')[0]; return id && 그림있음.has(id) ? 그림칸(id) : '<span class="pkim ph">' + 사람그림 + '</span>'; };
 const 스트칸들 = ['목·어깨', '가슴·팔', '등·허리', '엉덩이', '다리', '추가한 동작'];
-const 스트칸 = { s01:'목·어깨', s02:'목·어깨', s03:'목·어깨', s06:'목·어깨', s31:'목·어깨', m04:'목·어깨', m05:'목·어깨', m08:'목·어깨',
-  s04:'가슴·팔', s05:'가슴·팔', s07:'가슴·팔', s08:'가슴·팔', m06:'가슴·팔', m18:'가슴·팔',
+const 스트칸 = { s01:'목·어깨', s02:'목·어깨', s03:'목·어깨', s06:'목·어깨', s31:'목·어깨', m04:'목·어깨', m05:'목·어깨', m08:'목·어깨', s34:'목·어깨',
+  s04:'가슴·팔', s05:'가슴·팔', s07:'가슴·팔', s08:'가슴·팔', m06:'가슴·팔', m18:'가슴·팔', s33:'가슴·팔',
   s09:'등·허리', s10:'등·허리', s11:'등·허리', s12:'등·허리', s13:'등·허리', s14:'등·허리', s27:'등·허리', s28:'등·허리', s32:'등·허리', m01:'등·허리', m02:'등·허리', m03:'등·허리', m07:'등·허리', m19:'등·허리', m20:'등·허리',
-  s15:'엉덩이', s16:'엉덩이', s17:'엉덩이', s18:'엉덩이', s20:'엉덩이', s25:'엉덩이', s30:'엉덩이', m12:'엉덩이', m13:'엉덩이',
-  s19:'다리', s21:'다리', s22:'다리', s23:'다리', s24:'다리', s26:'다리', s29:'다리', m09:'다리', m10:'다리', m11:'다리', m14:'다리', m15:'다리', m16:'다리', m17:'다리' };
+  s15:'엉덩이', s16:'엉덩이', s17:'엉덩이', s18:'엉덩이', s20:'엉덩이', s25:'엉덩이', s30:'엉덩이', m12:'엉덩이', m13:'엉덩이', s35:'엉덩이', s37:'엉덩이', s38:'엉덩이',
+  s19:'다리', s21:'다리', s22:'다리', s23:'다리', s24:'다리', s26:'다리', s29:'다리', m09:'다리', m10:'다리', m11:'다리', m14:'다리', m15:'다리', m16:'다리', m17:'다리', s36:'다리', s39:'다리' };
 /* 스트레칭 · 마사지 검색어 — 화면엔 안 보이고 검색에만 (2026-10-28 대표 「진행」 · 옛 이름 + 쉬운 말 ↔ 전문어 + 증상 + 도구) */
 const 스트검색어 = {"s01": "목 옆으로 늘이기 · 목 옆 · 목 측면 · 사각근 · 목 뻐근 · 거북목 · 목 결림", "s02": "목 대각선으로 늘이기 · 목 뒤 · 목 대각선 · 견갑거근 · 거북목 · 승모 · 목 뻐근 · 어깨 결림", "s03": "턱 당기기 · 턱 · 목 정렬 · 거북목 · 일자목 · 자세 교정 · 심부 목", "s04": "문틀 가슴 늘이기 · 가슴 · 가슴 앞 · 대흉근 · 문틀 · 라운드숄더 · 말린 어깨 · 굽은 등", "s05": "뒤로 깍지 끼고 가슴 열기 · 가슴 열기 · 깍지 · 대흉근 · 어깨 앞 · 라운드숄더 · 말린 어깨", "s06": "팔 교차 어깨 뒤 늘이기 · 어깨 뒤 · 후면 삼각 · 후면 어깨 · 팔 교차 · 어깨 결림", "s07": "삼두 늘이기 · 삼두 · 팔 뒤 · 위팔 뒤 · 팔뚝 뒤", "s08": "손목 앞뒤 늘이기 · 손목 · 전완 · 팔뚝 · 손목 통증 · 마우스 손목", "s09": "기둥 잡고 광배 늘이기 · 광배 · 등 옆 · 겨드랑이 · 기둥 · 등 펴기", "s10": "캣카우 · 캣카우 · 고양이 소 · 척추 · 허리 · 등 · 허리 뻐근 · 네발기기", "s11": "흉추 회전 (네발기기) · 흉추 · 등 회전 · 네발기기 · 굽은 등 · 등 뻐근", "s12": "스레드 더 니들 · 스레드 더 니들 · 흉추 · 어깨 뒤 · 등 회전 · 네발기기", "s13": "차일드 포즈 · 차일드 포즈 · 아기 자세 · 허리 · 등 · 광배 · 허리 뻐근 · 휴식", "s14": "옆구리 늘이기 · 옆구리 · 측면 · 요방형근 · 허리 옆 · 사이드 벤드", "s15": "무릎 꿇고 고관절 앞 늘이기 · 고관절 앞 · 장요근 · 힙 플렉서 · 엉덩이 앞 · 골반 · 오래 앉음 · 허리 뻐근 · 무릎 꿇고", "s16": "90/90 고관절 · 90/90 · 고관절 · 골반 · 엉덩이 · 고관절 회전", "s17": "비둘기 자세 · 비둘기 · 엉덩이 · 둔근 · 이상근 · 고관절 · 골반", "s18": "누워서 4자 둔근 늘이기 · 둔근 · 엉덩이 · 4자 · 이상근 · 누워서 · 골반 · 좌골신경", "s19": "선 자세 햄스트링 늘이기 · 햄스트링 · 뒷허벅지 · 허벅지 뒤 · 선 자세 · 허리 숙이기 · 유연성", "s20": "개구리 스트레칭 · 개구리 · 내전근 · 허벅지 안쪽 · 사타구니 · 골반 · 고관절", "s21": "옆으로 내전근 늘이기 · 내전근 · 허벅지 안쪽 · 사타구니 · 옆으로", "s22": "선 자세 앞허벅지 늘이기 · 대퇴사두 · 앞허벅지 · 허벅지 앞 · 쿼드 · quad · 무릎 앞 · 선 자세", "s23": "벽 짚고 종아리 늘이기 · 종아리 · 비복근 · 가자미근 · 아킬레스 · 벽 · 다리 붓기", "s24": "무릎 앞으로 밀기 (발목) · 발목 · 발목 가동성 · 무릎 앞으로 · 스쿼트 깊게 · 종아리 아래", "s25": "힙 서클 (네발기기) · 힙 서클 · 고관절 · 골반 · 네발기기 · 워밍업", "s26": "다리 앞뒤로 흔들기 · 레그 스윙 · 다리 흔들기 · 고관절 · 워밍업 · 다이나믹", "s27": "월 슬라이드 · 월 슬라이드 · 벽 · 어깨 · 견갑 · 라운드숄더 · 자세", "s28": "브레이싱 호흡 · 브레이싱 · 호흡 · 복압 · 코어 · 허리 보호", "s29": "다운독 · 다운독 · 햄스트링 · 종아리 · 어깨 · 전신 · 요가", "s30": "월드 그레이티스트 스트레치 · 월드 그레이티스트 · 전신 · 고관절 · 흉추 · 워밍업 · 런지 회전", "s31": "어깨 크게 돌리기 · 어깨 돌리기 · 어깨 · 워밍업 · 어깨 결림 · 회전", "s32": "앉아서 상체 회전 · 몸통 회전 · 상체 회전 · 앉아서 · 흉추 · 허리", "m01": "폼롤러 등 (흉추) · 흉추 · 등 · 폼롤러 · 굽은 등 · 등 뻐근 · 마사지", "m02": "폼롤러 흉추 펴기 · 흉추 펴기 · 폼롤러 · 굽은 등 · 라운드숄더 · 신전", "m03": "땅콩볼 척추 옆 · 척추기립근 · 척추 옆 · 땅콩볼 · 허리 · 등 · 허리 뻐근 · 마사지", "m04": "땅콩볼 뒤통수 아래 · 후두하근 · 뒤통수 · 목 뒤 · 땅콩볼 · 두통 · 거북목 · 마사지", "m05": "볼 어깨 뒤 (벽) · 어깨 뒤 · 후면 어깨 · 볼 · 마사지볼 · 벽 · 어깨 결림", "m06": "볼 가슴 앞 (벽) · 소흉근 · 가슴 앞 · 볼 · 마사지볼 · 라크로스볼 · 벽 · 라운드숄더 · 말린 어깨 · 굽은 등", "m07": "폼롤러 광배 · 광배 · 등 옆 · 겨드랑이 · 폼롤러 · 마사지", "m08": "볼 목·어깨 사이 (벽) · 승모근 · 목 어깨 사이 · 볼 · 벽 · 어깨 결림 · 거북목 · 마사지", "m09": "폼롤러 허벅지 앞 · 대퇴사두 · 앞허벅지 · 허벅지 앞 · 폼롤러 · 마사지", "m10": "폼롤러 허벅지 옆 · 장경인대 · 허벅지 옆 · IT밴드 · 폼롤러 · 무릎 바깥 · 마사지", "m11": "폼롤러 허벅지 뒤 · 햄스트링 · 뒷허벅지 · 허벅지 뒤 · 폼롤러 · 마사지", "m12": "폼롤러 둔근 · 둔근 · 엉덩이 · 폼롤러 · 마사지", "m13": "볼 엉덩이 깊은 곳 · 이상근 · 엉덩이 깊은 곳 · 볼 · 좌골신경 · 마사지", "m14": "폼롤러 종아리 · 종아리 · 비복근 · 폼롤러 · 다리 붓기 · 마사지", "m15": "폼롤러 내전근 · 내전근 · 허벅지 안쪽 · 폼롤러 · 마사지", "m16": "폼롤러 정강이 앞 · 정강이 · 전경골근 · 폼롤러 · 마사지", "m17": "볼 발바닥 · 발바닥 · 족저근막 · 볼 · 발 통증 · 마사지", "m18": "폼롤러 팔뚝 · 전완 · 팔뚝 · 폼롤러 · 손목 · 마사지", "m19": "폼롤러 등 아래쪽 · 허리 · 등 아래 · 폼롤러 · 허리 뻐근 · 마사지", "m20": "볼 날개뼈 사이 (벽) · 능형근 · 날개뼈 사이 · 견갑 · 볼 · 벽 · 등 결림 · 마사지"};
 
@@ -7751,7 +7771,7 @@ function 점검받기(주){
   if(먼저 && S.view === 'check') setTimeout(() => { if(S.view === 'check' && 점검.새로중 === k) render(); }, 0);      /* 「바꾸는 중」을 바로 그린다 — 다른 받기가 화면을 다시 그려 줄 때만 떴다 (2026-10-20) */
   crm('weekly', 주 ? { 주 } : {}).then(d2 => { 점검.답[k] = d2; 점검.받음[k] = true; 점검.때[k] = Date.now(); 점검두기(k, d2); if(d2 && d2['주']){ 점검.답[d2['주']] = d2; 점검.받음[d2['주']] = true; 점검.때[d2['주']] = Date.now(); } 점검.방금 = Date.now(); })
     .catch(e => { if(먼저) 점검.새로왜 = (e && e.message) || '받지 못했어요'; else 점검.왜 = (e && e.message) || '받지 못했어요'; })
-    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check') render(); try{ 돌아보기열기(); }catch(e){} if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
+    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check') render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
 }
 /* 칩 줄 오른쪽 표시 — 바꾸는 중(금색 고리) / 방금 바뀜(초록 · 6초) / 못 바꿈(다시 받기) / 평소(○시 ○분 기준) */
 function 점검표시(){ const k = 점검.주 || '이번', 때 = 점검.때[k];
@@ -8000,7 +8020,7 @@ function 점검메모받기(){
   if(점검메모.중 || 점검메모.줄) return; 점검메모.중 = true; const 달 = TODAY.slice(0, 7);
   Promise.all([sget('weekly_notes?select=*&order=created_at.asc&limit=20000').catch(() => null), sget('sales_forecast?select=*&month=eq.' + 달 + '&order=created_at.asc').catch(() => null)])
     .then(([a, b]) => { 점검메모.없음 = a === null || b === null; 점검메모.줄 = a || []; 점검메모.예상 = b || []; })
-    .finally(() => { 점검메모.중 = false; if(S.view === 'check') render(); try{ 돌아보기열기(); }catch(e){} });
+    .finally(() => { 점검메모.중 = false; if(S.view === 'check') render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} });
 }
 const 점검회원키 = s => { const m = /^(.*?)\s*\((\d{4})\)\s*$/.exec(String(s || '')), mm = m && D.m.find(x => (x.name || '').trim() === m[1].trim() && x.phone4 === m[2]); return mm && /^c/.test(mm.id) ? mm.id.slice(1) : ''; };
 const 메모종류 = k => /^TG(첫|다음|재연락|끝|등록)$/.test(k) ? 'TG' : k === 'PT재등록' ? '재등록' : k === '소진' ? '소진' : '';
@@ -8406,6 +8426,7 @@ async function 매출고르기(id){
   const 몸 = Object.assign({ trainer:t, category:c, status:'선택됨', chosen_by:나 }, 다시 ? { change_kind:'사람수정', change_by:나, change_note:말 } : {});
   const 팝 = !!$('#popbox .ps-pop') && !$('#pop').classList.contains('tx-side') && !$('#popbox .sc-pop');
   if(!await 매출줄들고침(줄들, 몸, 다시 ? '사람수정' : '선택', 말)) return;
+  if(c === '체험' && t) await 체험배정맞춤(g.머리, t);
   if(팝 && !다시) 매출.방금.set(g.키, '새');
   매출.고침 = ''; toast(다시 ? '수정했어요. 관리자가 다시 확인해요' : '저장했어요. 관리자가 확인하면 확정돼요'); 매출다시();
 }
@@ -9242,6 +9263,18 @@ function 매확배정줄(열쇠){ const f = 매확.TGF[열쇠], v = (f && f.배�
   return '<div class="sc-tgf-r"><span class="sc-tgf-l">TG 배정</span><div class="sc-tgf-c">' + 칩('배정', '지금 배정', !관)
     + (v === '배정' ? '<select class="srch sc-tgsel" data-sctas="' + esc(열쇠) + '"><option value="">담당 고르기</option>' + 배정고를선생().map(n => '<option' + (담 === n ? ' selected' : '') + '>' + esc(n) + '</option>').join('') + '</select>' : '')
     + 칩('건너뜀', '건너뛰기') + '</div></div>'; }      /* 「연락 예정」 뺌 — 담당 없는 분은 자동 설문이 통로 (2026-10-28 결정함 later=a) */
+/* 체험 매출 담당 = 체험 배정 담당 (2026-10-30 노션 낮 대표 「팝업에서 담당자 정했는데 탭에 안 바뀌어 있음」) — 매출 팝업 담당과 배정 표 담당이 따로 저장돼 체험 줄이 「담당 정하기」에 남았다
+   같은 사람(이름 + 전화 뒤 4자리 · 한쪽에 전화가 없으면 이름) · 체험 · 담당 없는 열린 줄이 딱 하나일 때만 · 둘 이상이면 손대지 않는다(배정 탭에서 정함) */
+async function 체험배정맞춤(h, t){ if(!t || !h) return;
+  if(!배정.줄) await 배정받기();
+  const 이름 = String(h.name || '').trim(), 뒤 = String(h.phone4 || '').replace(/\D/g, '').slice(-4);
+  const L = (배정.줄 || []).filter(r => r.kind === '체험' && 배정열림(r) && 배정미배(r) && String(r.name || '').trim() === 이름 && (!뒤 || !r.phone || String(r.phone).replace(/\D/g, '').slice(-4) === 뒤));
+  if(L.length !== 1) return;
+  const x = L[0], 나 = (ME && ME.name) || '', 몸 = { trainers:[t], assigned:'배정완료', assigned_on:TODAY, later_at:null, assign_note:TODAY + ' ' + 나 + ' → ' + t, updated_by:나 };
+  try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(x.id), 'PATCH', 몸, 'return=minimal'); Object.assign(x, 몸);
+    기록남기기({ area:'배정', action:'담당 변경', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'체험 매출 담당에서 같이 정함 · 담당 ' + t });
+    toast('체험 배정 담당도 ' + t + ' 선생님으로 정했어요'); }
+  catch(e){ toast('배정 담당은 저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 async function 매확배정적용(열쇠, 줄){ const f = 매확.TGF[열쇠]; if(!f || !f.배정 || f.배정 === '건너뜀') return;
   if(!배정.줄) await 배정받기();
   const 키 = String((줄 && (줄['카드'] ||줄['crm'])) || ''), 번 = String((줄 && (줄['전화'] || 줄['번호'])) || '').replace(/\D/g, '').slice(-8);
@@ -9600,20 +9633,39 @@ function 예상판그리기(){
   E.후보 = 후보;
   판열기(esc(+TODAY.slice(5, 7) + '월 예상 매출 · ' + E.t), 속, '<div class="ck-foot2"><span class="tot">합계 <b id="ckftot">' + 예상만원(예상합(E.줄)) + '</b> · ' + E.줄.length + '건</span><button class="btn main" data-act="tx:ckfsave">저장</button></div>');
 }
-/* 예상 매출 없음 — 이번 달 0원으로 한 줄 남긴다(적은 것으로 셈 · 돌아보기 팝업이 멈춘다 · 다시 입력하면 새 줄이 이긴다) (2026-10-30 대표) */
+/* ══ 예상 매출 팝업 ══ 2026-10-30 노션 「10월 30일 낮」 대표 「월요일에 떠야 · 예상 매출이 없어도 버튼을 눌러 뭐라도 입력해야 안 뜨게 · 월요일에 연차면 무시되니까」 · 「본인 것만」
+   이번 주(월요일) 본인 줄이 sales_forecast 에 없으면 그 주 내내 뜬다(월요일 연차 → 화요일에 뜸) · 「입력」 또는 「예상 매출 없음」만 멈춘다 · 오늘 하루 닫기 없음 · ✕ = 30분 뒤 다시
+   대상 = 점검 표(중앙 weekly)에 이름이 있는 PT 선생님 본인 — 대표 · 관리만 하는 분은 안 뜸 · 금요일 돌아보기에는 이제 예상 매출이 없다 */
+const 이번주월 = () => { const d2 = 점검.답['이번']; if(d2 && d2['주']) return d2['주']; const t = new Date(TODAY + 'T00:00:00'), w = (t.getDay() + 6) % 7; t.setDate(t.getDate() - w); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); };
+const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답['이번']; return !!나 && !!d2 && Object.keys(d2['표'] || {}).includes(나); };
+const 예상이번주 = () => { const 나 = (ME && ME.name) || '', 주 = 이번주월(); return (점검메모.예상 || []).some(x => x.trainer === 나 && x.week === 주); };
+function 예상팝업열기(강제){
+  if(!ME || 진짜ME || !할수('check') || 점검메모.없음) return; if(!강제 && 돌아시험막음()) return;
+  if(!점검.답['이번']){ 점검받기(); if(!강제) return; }
+  if(!점검메모.줄){ 점검메모받기(); if(!강제) return; }
+  if(!강제 && (!예상대상() || 예상이번주())) return;
+  const 열림 = $('#pop').classList.contains('on');
+  if(!강제 && 열림 && 지금팝업 === '예상') return;
+  if(!강제 && 열림){ 팝업차례('예상', () => 예상팝업열기()); return; }
+  팝업줄빼기('예상'); 다음강제 = !!강제; const 주 = 이번주월();
+  popOpen('<div class="ps-pop fcp"><div class="ps-h">이번 주 예상 매출 · ' + (+주.slice(5, 7)) + '/' + (+주.slice(8, 10)) + ' 주</div>'
+    + '<div class="sub3" style="margin:4px 0 14px">매주 월요일에 이번 달 예상 매출을 확인해 주세요<br>바뀐 게 없으면 그대로 저장 · 들어올 매출이 없으면 「예상 매출 없음」</div>'
+    + '<div class="rv-foot"><button class="btn ghost" data-act="tx:fcp0" style="flex:1">예상 매출 없음</button><button class="btn main" data-act="tx:fcpin" style="flex:1">입력</button></div></div>');
+}
+/* 예상 매출 없음 — 이번 달 0원으로 한 줄 남긴다(이번 주 적은 것으로 셈 · 팝업이 멈춘다 · 다시 입력하면 새 줄이 이긴다) (2026-10-30 대표) */
 async function 예상없음저장(){
   const 나 = (ME && ME.name) || ''; if(!나) return;
   if(!await 묻기(+TODAY.slice(5, 7) + '월 예상 매출 없음' + String.fromCharCode(10) + '이번 달은 예상 매출 0원으로 저장할까요?')) return;
-  const row = { month: TODAY.slice(0, 7), week: 점검주(), trainer: 나, lines: [], total: 0, created_by: 나 };
+  const row = { month: TODAY.slice(0, 7), week: 이번주월(), trainer: 나, lines: [], total: 0, created_by: 나 };
   try{ await ssend('sales_forecast', 'POST', [row], 'return=minimal');
     (점검메모.예상 = 점검메모.예상 || []).push(Object.assign({ created_at: new Date().toISOString() }, row));
-    toast('저장했어요'); 돌아보기그리기(); render(); }
+    toast('저장했어요'); popClose(); render(); }
   catch(e){ toast('저장하지 못했어요 — ' + (e.message || '').slice(0, 60)); }
 }
 async function 예상저장(){
   예상읽기(); const E = 예상입력; if(!E) return; const 합 = 예상합(E.줄);
   if(!await 묻기(+TODAY.slice(5, 7) + '월 예상 매출 · ' + E.t + String.fromCharCode(10) + '합계 ' + 예상만원(합) + ' · ' + E.줄.length + '건' + String.fromCharCode(10) + '저장할까요?')) return;
-  const row = { month: TODAY.slice(0, 7), week: 점검주(), trainer: E.t, lines: E.줄.map(r => ({ name: r.name, kind: r.kind, sessions: +r.sessions || 0, amount: +r.amount || 0, member_key: r.key || '' })), total: 합, created_by: (ME && ME.name) || '' };
+  const row = { month: TODAY.slice(0, 7), week: 이번주월(), trainer: E.t, lines: E.줄.map(r => ({ name: r.name, kind: r.kind, sessions: +r.sessions || 0, amount: +r.amount || 0, member_key: r.key || '' })), total: 합, created_by: (ME && ME.name) || '' };
   try{ await ssend('sales_forecast', 'POST', [row], 'return=minimal');
     (점검메모.예상 = 점검메모.예상 || []).push(Object.assign({ created_at: new Date().toISOString() }, row));
     popClose(); toast('저장했어요'); render(); }
@@ -11249,6 +11301,31 @@ function 매뉴얼읽음칸(r, key, 대상){
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'txcmin') return; const t = ev.target, 앞 = t.value.slice(0, t.selectionStart || 0), at = document.getElementById('txat'); if(at && /(^|\s)@$/.test(앞)) at.classList.remove('fold'); });      /* 댓글 칸에 @ = 부르기 펼침 (2026-10-28 저녁 노션) */
 document.addEventListener('mouseover', ev => { const e = ev.target && ev.target.closest && ev.target.closest('.t1, .t2, .k, b, small, span'); if(!e || e.title) return;
   if(e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 2) e.title = (e.innerText || '').replace(/\s+/g, ' ').trim(); }, { passive:true });
+/* ══ 건강검진 ══ 2026-10-30 대표 「만들어」(중앙 전달) — 서버 점검(중앙 · 밤 22시대) + 데스크 점검(6번 · 「올려」 때) 한 표 · crm('health') 하나만 읽는다
+   줄 = { 이름, 뜻, 때, 어디, 상태(정상 · 문제 · 늦음 · 없음), 까닭, 자리 } · 문제 → 늦음 → 없음 → 정상 차례 · 직원 화면엔 메뉴 자체가 없다 */
+const 건강판 = { 답:null, 중:false, 왜:'' };
+const 건강차례 = { 문제:0, 늦음:1, 없음:2, 정상:3 };
+async function 건강받기(){ if(건강판.중) return; 건강판.중 = true;
+  try{ 건강판.답 = await crm('health', {}); 건강판.왜 = ''; }catch(e){ 건강판.왜 = String(e.message || '').slice(0, 60); }
+  건강판.중 = false; if(S.view === 'health') render(); }
+function 건강줄(z){ const 상 = z['상태'] || '없음', 색 = { 문제:'var(--warn)', 늦음:'var(--gold)', 없음:'var(--sub)', 정상:'var(--teal)' }[상] || 'var(--sub)';
+  return '<div class="hc-row hc-' + ({ 문제:'bad', 늦음:'late', 없음:'none', 정상:'ok' }[상] || 'none') + '"><span class="hc-sq" style="--c:' + 색 + '">' + esc(String(z['이름'] || '?').slice(0, 1)) + '</span>'
+    + '<span class="hc-nm"><b>' + esc(z['이름'] || '') + '</b><small>' + esc(z['뜻'] || '') + '</small></span>'
+    + '<span class="hc-st" style="--c:' + 색 + '">' + esc(상) + '</span>'
+    + '<span class="hc-why"><b>' + esc(z['까닭'] || '') + '</b><small>' + esc([z['때'] ? 시각한글(z['때']) : '', z['어디'] || ''].filter(Boolean).join(' · ')) + '</small></span></div>'; }
+function v건강검진(){
+  if(!건강판.답){ if(!건강판.중 && !건강판.왜) setTimeout(건강받기, 0);
+    return 건강판.왜 ? '<div class="empty why"><b>점검 결과를 아직 받지 못했습니다</b>서버 점검이 준비되면 여기에 뜹니다 · 잠시 뒤 다시 열어 주세요</div>' : '<div class="ck-load"><b>불러오는 중이에요</b></div>'; }
+  const H = 건강판.답, 줄 = (H['줄'] || []).slice().sort((a, b) => (건강차례[a['상태']] ?? 2) - (건강차례[b['상태']] ?? 2)), 수 = k => 줄.filter(z => z['상태'] === k).length;
+  const 칸 = (이름, L) => L.length ? '<div class="sec"><div class="lbl">' + 이름 + ' ' + L.length + '</div><div class="hc-list">' + L.map(건강줄).join('') + '</div></div>' : '';
+  return '<div class="hc">'
+    + '<div class="sumrow"><div class="sumit warn"><span class="k2">문제</span><span class="v2">' + 수('문제') + '</span></div><div class="sumit gold"><span class="k2">늦음</span><span class="v2">' + 수('늦음') + '</span></div>'
+    + '<div class="sumit teal"><span class="k2">정상</span><span class="v2">' + 수('정상') + '</span></div><div class="sumit"><span class="k2">만든 때</span><span class="v2 hc-t">' + esc(H['만든때'] ? 시각한글(H['만든때']) : '—') + '</span></div></div>'
+    + (H['병행'] ? '<div class="hc-note">11/5 까지는 함께 보는 주간이에요 · 문제가 있어도 알림은 안 가요</div>' : '')
+    + 칸('서버', 줄.filter(z => z['자리'] !== '데스크')) + 칸('데스크 · 회원 앱', 줄.filter(z => z['자리'] === '데스크'))
+    + (줄.length ? '' : '<div class="empty why"><b>점검 줄이 없습니다</b>서버가 밤 10시대에 새로 만듭니다</div>')
+    + '<div class="sub3" style="margin-top:10px">서버는 밤 10시대에 · 데스크 · 회원 앱은 올릴 때 새로 적혀요</div></div>';
+}
 /* ══ 규칙 탭 ══ 2026-10-26 대표 확정(시안 KoA5n · 「관리자만」) — 파트 칩 · 카드 = 제목 · 한줄 · 흐름 화살표 · 대상 ✓ · 제외 ✕ · 언제 · 누가 · 확정 + 대표말 · 🔒 검사기 · 상태 · 근거(펼침)
    자료 = 중앙 crm('rules_board') (규칙판.py · 정본은 지침 · 코드 — 여기는 한눈에 보기) */
 const 규칙판 = { 답:null, 중:false, 왜:'', 칩:'전체', 펼:new Set() };
@@ -14489,7 +14566,6 @@ const 돌아 = { 펼:'', 수:{}, 편:{}, 정:new Map(), 묶:[], 열림:false };
 const 돌아정 = (열쇠, t) => { const g = (돌아.묶 || []).find(z => z.L.some(r => r.열쇠 === 열쇠)); 돌아.정.set(열쇠, { g: g ? g.k : '', t }); };
 const 돌아닫은날 = () => { try{ return localStorage.getItem('gg_rv_day') || ''; }catch(e){ return ''; } };
 const 돌아시험막음 = () => { try{ return sessionStorage.getItem('gg_rv_skip') === '1'; }catch(e){ return false; } };      /* 시험틀만 씀 — 금요일마다 다른 시험의 클릭을 막지 않게 (돌아보기 시험은 강제로 엶) */
-const 돌아오늘닫힘 = G => 돌아닫은날() === TODAY && !G.예상;      /* 오늘 하루 닫기는 예상 매출을 적은(또는 없음) 뒤에만 먹는다 (2026-10-30 대표 「무조건 입력 · 뭐라도 눌러야 멈추게」) */
 const 금요일 = () => new Date(TODAY + 'T12:00:00').getDay() === 5;
 function 돌아보기묶음(){
   const 나 = (ME && ME.name) || '', 묶 = [], 연 = [];
@@ -14499,15 +14575,15 @@ function 돌아보기묶음(){
       .forEach(([k, 이름, 설, 급, L]) => { const 여기 = L.filter(x => !정묶('b' + x.id) || 정묶('b' + x.id) === k).concat(배정.줄.filter(x => 정묶('b' + x.id) === k && !L.includes(x)));      /* 이 팝업에서 정한 줄은 정한 묶음에 ✓ 로 남는다 */
         const LL = 여기.map(x => ({ x, i: x.id, 열쇠: 'b' + x.id, 정: (돌아.정.get('b' + x.id) || {}).t || '' })); if(LL.length) 묶.push({ k, 이름, 설, 급, 탭:'배정', L: LL }); });
     const 첫 = 열.filter(배정첫); if(첫.length) 연.push('첫 수업 잡기 ' + 첫.length); }
-  const d2 = 점검.답[점검.주 || '이번']; let 예상 = false;
+  const d2 = 점검.답[점검.주 || '이번'];
   if(d2 && 점검메모.줄 && !점검메모.없음){ const R = 점검정리(d2);
     R.칸.filter(c => c.줄.length).sort((a, b) => b.단 - a.단 || b.줄.length - a.줄.length).forEach(c => { const 내 = c.줄.map((o, i) => ({ o, i })).filter(r => !R.관 || r.o.선 === 나);
       if(!내.length) return;
       if(점검정할(c)){ const LL = 내.filter(r => 메모적나(c, r.o)).map(r => Object.assign(r, { 열쇠: 'c' + c.k + '_' + r.o.key, 정: (돌아.정.get('c' + c.k + '_' + r.o.key) || {}).t || '' })).filter(r => r.정 || !메모이번(c, r.o));
         if(LL.length) 묶.push({ k:'c' + c.k, 이름:c.이름, 설:점검글(c.할 || ''), 급: c.단 === 2 ? 1 : c.단 === 1 ? 2 : 3, 탭:'점검', c, L: LL }); }
       else 연.push(c.이름 + ' ' + 내.length); });
-    예상 = !(점검메모.예상 || []).some(x => x.trainer === 나 && x.month === TODAY.slice(0, 7)); }
-  return { 묶, 연, 예상 };
+  }
+  return { 묶, 연 };
 }
 function 돌아보기열기(강제){
   if(!ME || 진짜ME) return; if(!강제 && (!금요일() || 돌아시험막음())) return;
@@ -14515,8 +14591,8 @@ function 돌아보기열기(강제){
   if(!배정.줄 && 할수('assign')){ if(!배정.중) 배정받기(); if(!강제) return; }
   const 열림 = $('#pop').classList.contains('on');
   if(!강제 && 열림 && 지금팝업 === '돌아보기') return;      /* 보는 중엔 뒤에서 다시 그리지 않는다(적던 날짜 · 사유가 날아감) */
-  const G = 돌아보기묶음(); if(!강제 && !G.묶.some(g => g.L.some(r => !r.정)) && !G.예상) return;
-  if(!강제 && 돌아오늘닫힘(G)) return;
+  const G = 돌아보기묶음(); if(!강제 && !G.묶.some(g => g.L.some(r => !r.정))) return;
+  if(!강제 && 돌아닫은날() === TODAY) return;
   if(!강제 && 열림){ 팝업차례('돌아보기', () => 돌아보기열기()); return; }
   팝업줄빼기('돌아보기'); 다음강제 = !!강제; 돌아.열림 = true; 돌아보기그리기(true);
 }
@@ -14540,10 +14616,9 @@ function 돌아보기그리기(처음){
     return '<button class="rv-row' + (열 ? ' on' : '') + (n ? '' : ' done') + '" data-act="tx:rvopen" data-k="' + esc(g.k) + '" style="--u:' + 색 + '"><span class="nm"><b>' + esc(g.이름) + '</b><small>' + esc(g.설) + '</small></span><span class="n">' + (n || '✓') + '</span><span class="go">' + (열 ? '접기 ▴' : '펼치기 ▾') + '</span></button>'
       + (열 ? '<div class="rv-in" style="--u:' + 색 + '">' + g.L.slice(0, 수).map(r => 회원(g, r)).join('')
         + (g.L.length > 5 ? '<div class="hmore">' + (수 > 5 ? '<button class="btn ghost sm" data-act="tx:rvless" data-k="' + esc(g.k) + '">접기</button>' : '') + (g.L.length > 수 ? '<button class="btn ghost sm" data-act="tx:rvmore" data-k="' + esc(g.k) + '">더보기 <b>' + Math.min(5, g.L.length - 수) + '</b></button>' : '') + '<span class="sub3">' + Math.min(수, g.L.length) + ' / ' + g.L.length + '명</span></div>' : '') + '</div>' : ''); };
-  const 탭 = (t, 이름, 색, 글) => { const L = G.묶.filter(g => g.탭 === t); if(!L.length && !(t === '점검' && G.예상)) return '';
-    return '<div class="rv-tab" style="--c:' + 색 + '"><span class="gi">' + 글 + '</span>' + 이름 + ' 탭<small>메뉴 「' + 이름 + '」</small></div>' + L.map(줄).join('')
-      + (t === '점검' && G.예상 ? '<div class="rv-row" style="--u:' + 배정급색[2] + '"><span class="nm"><b>이번 달 예상 매출</b><small>적거나 「없음」을 눌러야 이 창이 멈춰요</small></span><span class="n">!</span><button class="btn ghost sm" data-act="tx:rvfc">입력</button><button class="btn ghost sm" data-act="tx:rvfc0">예상 매출 없음</button></div>' : ''); };
-  const 다 = !남 && !G.예상;
+  const 탭 = (t, 이름, 색, 글) => { const L = G.묶.filter(g => g.탭 === t); if(!L.length) return '';
+    return '<div class="rv-tab" style="--c:' + 색 + '"><span class="gi">' + 글 + '</span>' + 이름 + ' 탭<small>메뉴 「' + 이름 + '」</small></div>' + L.map(줄).join(''); };
+  const 다 = !남;
   const 판 = $('#popbox'), 자리 = 판 ? 판.scrollTop : 0;
   다음팝업 = '돌아보기'; 다음강제 = !처음 || 다음강제;      /* popOpen 이 이 팝업 이름을 잊지 않게 — 다시 그릴 때마다 지금팝업이 비었다 */
   popOpen('<div class="ps-pop rv"><div class="rv-top"><i>안내</i>점검 탭에서 다시 확인할 수 있습니다</div><div class="ps-h">이번 주 돌아보기 · ' + esc(TODAY.slice(5).replace('-', '/')) + '</div>'
@@ -14551,7 +14626,7 @@ function 돌아보기그리기(처음){
     + '<div class="rv-sec">눌러서 정할 것 <b>' + 남 + '</b>' + (정한 ? ' <span class="sub3">· ' + 정한 + ' 정함</span>' : '') + '</div>'
     + 탭('배정', 'TG · 체험 배정', 'var(--teal)', 'T') + 탭('점검', '점검', 'var(--gold)', '점')
     + (G.연.length ? '<div class="rv-sec dim">확인 · 연락만 — 수업이 잡히면 저절로 빠져요</div><div class="rv-calm">' + esc(G.연.join(' · ')) + '</div>' : '')
-    + '<div class="rv-foot">' + (다 ? '<span class="sub3" style="margin-right:auto">모두 처리했어요</span>' : '') + (G.예상 ? '<span class="sub3" style="margin-right:auto">예상 매출을 적어야 오늘 하루 닫을 수 있어요</span>' : '<button class="btn ghost" data-act="tx:rvday1" style="flex:1">오늘 하루 닫기</button>') + (다 ? '' : '<button class="btn main" data-act="popclose" style="flex:1">닫기</button>') + '</div></div>');
+    + '<div class="rv-foot">' + (다 ? '<span class="sub3" style="margin-right:auto">모두 처리했어요</span>' : '') + '<button class="btn ghost" data-act="tx:rvday1" style="flex:1">오늘 하루 닫기</button>' + (다 ? '' : '<button class="btn main" data-act="popclose" style="flex:1">닫기</button>') + '</div></div>');
   if(판 && !처음) 판.scrollTop = 자리;
 }
 /* 연락 예정 · 종료 저장 — 배정 옆 판과 금요일 돌아보기 팝업이 같이 씀 (2026-10-29) */
@@ -15510,8 +15585,8 @@ async function txAct(a, el){
   if(a==='rvqgo'){ const [gk, i] = String(k).split('|'), g = (돌아.묶 || []).find(x => x.k === gk), r = g && g.L.find(z => String(z.i) === i); if(!r) return; const st = 돌아.편['c' + r.열쇠], rs = ((document.getElementById('rvr_' + r.열쇠) || {}).value || '').trim();
     if(!rs){ toast(st === '재등록 예정' ? '예정 날짜를 적어 주세요' : '사유를 한 줄 적어 주세요'); return; }
     if(await 메모기록(g.c, r.o, st, rs)){ 돌아정(r.열쇠, 메모말(메모종류(g.c.k), st) + ' · ' + rs); 돌아.편['c' + r.열쇠] = ''; } 돌아보기그리기(); return; }
-  if(a==='rvfc'){ 팝업차례('돌아보기', () => 돌아보기열기(true)); 예상판열기(); return; }
-  if(a==='rvfc0'){ 예상없음저장(); return; }      /* 예상 매출 입력 창 → 닫거나 저장하면 돌아보기로 돌아옴 */
+  if(a==='fcpin'){ 팝업차례('예상', () => { if(!예상이번주()) 예상팝업열기(true); }); 예상판열기((ME && ME.name) || ''); return; }      /* 입력 창을 닫았는데 아직 안 적었으면 돌아온다 */
+  if(a==='fcp0'){ 예상없음저장(); return; }
   if(a==='rvday1'){ try{ localStorage.setItem('gg_rv_day', TODAY); }catch(e){} 돌아.열림 = false; popClose(); return; }
   if(a==='ckre'){ const k = 점검.주 || '이번'; 점검.왜 = ''; 점검.새로왜 = ''; 점검.받음[k] = false; if(!점검.때[k]) delete 점검.답[k]; 점검받기(점검.주); render(); return; }      /* 점검 — 다시 받기 */
   if(a==='go'){ S.view = k; document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on', b.dataset.v===k)); render(); return; }
@@ -16649,6 +16724,9 @@ function render0(){
   } else if(S.view==='log'){      /* 작업기록 — 관리자만 (2026-10-27) */
     top.innerHTML = '<h1>작업기록</h1><span class="cnt">' + (기록판.줄 ? 기록판.줄.length + '줄' : '') + '</span><div class="sp"><button class="btn ghost sm" data-act="tx:logre">새로 받기</button></div>';
     b.innerHTML = v작업기록();
+  } else if(S.view==='health'){
+    const H = 건강판.답; top.innerHTML = '<h1>건강검진</h1><span class="cnt">' + (H ? (H['문제수'] ? '문제 ' + H['문제수'] : '모두 정상') : '') + '</span>';
+    b.innerHTML = v건강검진();
   } else if(S.view==='rules'){
     top.innerHTML = '<h1>규칙</h1><span class="cnt">' + (규칙판.답 ? (규칙판.답['카드'] || []).length + '개' + (규칙판.답['최신화필요'] ? ' · 최신화 필요 ' + 규칙판.답['최신화필요'] : '') : '') + '</span>';
     b.innerHTML = v규칙();
