@@ -3019,7 +3019,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '525';
+const BUILD = '526';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -5647,7 +5647,7 @@ const 루틴표들 = () => (D.rs || []).filter(s => !s.hidden);
 const 루틴표루틴 = sid => (D.r || []).filter(r => r.member_id == null && r.sheet_id === sid).sort((a, b) => (a.no || 0) - (b.no || 0));
 const 옛공통 = () => (D.r || []).filter(r => r.member_id == null && !r.sheet_id && !/준비운동/.test(r.grp || ''));
 const 루틴표고침 = s => !!s && (s.owner === 나이름() || 할수('table'));
-const 표지그림 = [['beginner', '초보자'], ['middle', '중급자'], ['advanced', '상급자'], ['women', '여성전용']];      /* 앱 img/cover · 표지뽑기.py (2026-10-30 대표 「썸네일 색깔 말고 초보자 · 중급자 · 상급자 · 여성전용」) */
+const 표지그림 = [['beginner', '남성 초보자'], ['middle', '남성 중급자'], ['advanced', '남성 상급자'], ['wbeginner', '여성 초보자'], ['wmiddle', '여성 중급자'], ['wadvanced', '여성 상급자'], ['women', '여성루틴']];      /* 앱 img/cover · 표지뽑기.py (2026-10-30 대표 「썸네일 색깔 말고 초보자 · 중급자 · 상급자 · 여성전용」) */
 const 표지주소 = c => c.img ? 앱터 + 'img/cover/' + encodeURIComponent(c.img) + '.jpg' : c.path ? media(c.path) : '';
 function 루틴표표지(s, 큰){ const c = s.cover || {}, u = 표지주소(c);
   return '<span class="rsc' + (큰 ? ' big' : '') + '"' + (u ? '' : ' style="background:' + esc(c.color || 표지색들[0]) + '"') + '>' + (u ? '<img src="' + esc(u) + '" alt="" loading="lazy">' : '<b' + (c.color === '#2b2a27' ? ' class="lt"' : '') + '>' + esc(s.title || '루틴표') + '</b>')
