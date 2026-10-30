@@ -822,7 +822,7 @@ body.tx-moving .tx-x{cursor:grabbing}
 .tx-when{font-size:12px;color:#5f5a54;font-weight:500;white-space:nowrap}
 /* 표 보기 — 노션 데이터베이스 모양 */
 .tx-tw{overflow:auto;max-height:calc(100vh - 150px);border:1px solid var(--line);border-radius:12px 12px 0 0;background:var(--dark-2)}      /* 표 안에서 내리면 머리줄이 붙어 따라온다 — 바깥 쪽이 가로 스크롤 상자라 페이지 스크롤엔 sticky 가 안 먹었다 (2026-10-27 대표 「노션은 속성명이 따라오는데 데스크는 사라짐」) */
-.tx-table{display:grid;min-width:100%;font-size:13px}
+.tx-table{display:grid;min-width:100%;width:max-content;font-size:13px}      /* 너비 = 칸 합 — 화면 너비면 붙은 이름 칸이 표 끝에서 밀려 사라졌다 (2026-10-30 대표) */
 .tx-tr{display:contents}
 .tx-tr>.tx-td{border-bottom:1px solid var(--line);padding:8px 10px;min-height:38px;
   display:flex;align-items:center;gap:5px;flex-wrap:wrap;overflow:hidden}
@@ -1726,6 +1726,7 @@ body.resizing{cursor:col-resize;user-select:none}
 #body.lite{border-radius:12px;padding:16px 18px}
 #body.lite .tx-table,#body.lite .tx-tr,#body.lite .tx-td,#body.lite .tx-th,#body.lite .tx-row,#body.lite .tx-list{border-color:#e9e9e7!important;background-color:transparent}
 #body.lite .tx-tr:hover,#body.lite .tx-row:hover{background:#f7f7f5}
+#body.lite .tx-table.frz .tx-td.tx-tck,#body.lite .tx-table.frz .tx-td.tx-t1{background-color:#ffffff}#body.lite .tx-table.frz .tx-tr:hover>.tx-td.tx-tck,#body.lite .tx-table.frz .tx-tr:hover>.tx-td.tx-t1{background-color:#f7f7f5}      /* 붙은 칸은 바탕을 채움 — 투명이면 밑 칸 글이 비쳐 겹쳐 보였다 (2026-10-30 대표) */
 #body.lite .tx-th,#body.lite .tx-hd{color:#787774;background:#ffffff}
 #body.lite .chip,#pop.lite .chip{background:#ffffff;border-color:#e3e2e0;color:#37352f}#body.lite .chip.on,#pop.lite .chip.on{background:#37352f;color:#ffffff;border-color:#37352f}
 #body.lite .btn.ghost,#pop.lite .btn.ghost{color:#37352f;border-color:#e3e2e0}
@@ -1752,9 +1753,10 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-lockb{font-size:15px}.tx-lockb.on{border-color:var(--gold);background:var(--gold-dim)}
 #body.lite .tx-db{background:#fff;border-color:#e3e2de}#body.lite .tx-db .tx-tools{border-left-color:#e3e2de}
 .tx-cal .lv.pc{font-weight:800;border:0;opacity:1}.tx-cal .lv.pc.req{opacity:.55;outline:1.5px dashed currentColor;outline-offset:-2px}.tx-cal .lv i{font-style:normal;margin-right:3px}
-.tx-cal .lv{display:flex;align-items:center;gap:6px;padding:0 6px 0 0;min-height:22px;overflow:hidden;white-space:nowrap}
-.tx-cal .lv .lvtag{position:relative;flex:none;display:inline-flex;align-items:center;height:22px;padding:0 10px 0 13px;background:#fff;color:#1b1813;font-style:normal;font-weight:900;font-size:12px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 50%,calc(100% - 7px) 100%,0 100%)}
-.tx-cal .lv .lvtag::before{content:'';position:absolute;left:4px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#3a3630}
+.tx-cal .lv{display:flex;align-items:center;gap:4px;padding:0 5px 0 0;min-height:22px;overflow:hidden;white-space:nowrap}
+.tx-cal .lv .lvn{flex:none;font-weight:800}      /* 이름은 줄지 않음 — 좁은 칸은 종류 꼬리표가 줄어듦 (2026-10-30 대표 「카드가 잘려있어」) */
+.tx-cal .lv .lvtag{position:relative;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:clip;display:inline-flex;align-items:center;height:22px;padding:0 9px 0 11px;background:#fff;color:#1b1813;font-style:normal;font-weight:900;font-size:12px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 50%,calc(100% - 7px) 100%,0 100%)}
+.tx-cal .lv .lvtag::before{content:'';position:absolute;left:3px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#3a3630}
 .tx-cal .lv .lvtag i{margin-right:3px}
 .ib-tbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}.ibseg{display:inline-flex;flex:none;background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}.ibseg button{flex:none;min-width:110px}
 .ibtop{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;margin-left:auto}.ibtop .ibdis{opacity:.6}.ibtop small{font-weight:600;margin-left:4px}
@@ -2499,7 +2501,10 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 @keyframes newp{0%,100%{transform:scale(1);box-shadow:0 0 0 0 color-mix(in srgb,var(--teal) 45%,transparent)}50%{transform:scale(1.08);box-shadow:0 0 0 5px color-mix(in srgb,var(--teal) 0%,transparent)}}
 @media (prefers-reduced-motion:reduce){.newp{animation:none}}
 .svh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.svh .srch{flex:1;min-width:180px}
-.svl .sr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 2px;border-top:1px solid var(--line);font-size:14px}.svl .sr .n{display:flex;flex-direction:column;min-width:0}.svl .sr small{color:var(--sub);font-size:13px;font-variant-numeric:tabular-nums}.svl .sr .k{color:var(--sub);font-size:13px;min-width:0}
+.svl{display:grid;gap:6px}.svg{margin:4px 0 12px}.svg-h{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--cream);margin:0 0 6px}.svg-h i{width:4px;height:16px;border-radius:2px;background:var(--c)}.svg-h b{color:var(--c);font-variant-numeric:tabular-nums}
+.chip.svk i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:5px;vertical-align:1px}.chip.svk b{margin-left:3px;font-variant-numeric:tabular-nums}
+.svl .sr .kt{font-size:12.5px;font-weight:800;color:var(--c);letter-spacing:.01em}
+.svl .sr{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid color-mix(in srgb,var(--c) 30%,transparent);border-left:3px solid var(--c);border-radius:10px;background:color-mix(in srgb,var(--c) 7%,var(--dark-2));font-size:14px}.svl .sr .n{display:flex;flex-direction:column;min-width:0}.svl .sr small{color:var(--sub);font-size:13px;font-variant-numeric:tabular-nums}.svl .sr .k{color:var(--sub);font-size:13px;min-width:0}
 .svd{border:1px solid var(--line);border-radius:12px;background:var(--dark-2);padding:12px 14px;display:grid;gap:10px;margin-bottom:10px}.svd .dh{display:flex;gap:10px;align-items:flex-start}.svd .dh .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;align-items:flex-start}.svd .dh b{font-size:17px}.svd .dh small{color:var(--sub);font-size:13px}.svd .act{display:flex;gap:8px;flex-wrap:wrap}.asp-todo>span{flex:1;min-width:0}.asp-todo b{display:block;font-size:14.5px}.asp-todo small{color:var(--sub);font-size:13px}.asp-todo.dim{border-color:var(--line);background:none}
 .asp-b{display:grid;gap:6px}.asp-h{font-size:13px;font-weight:800;color:var(--sub)}.asp-h span{font-weight:600;opacity:.75}
 /* 배정 옆 판 네임텍 구역 (2026-10-29 시안 「배정판_매뉴얼_시안」 ①) */
@@ -2824,6 +2829,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 .ps-pop.rv{padding-top:0;padding-bottom:0}.rv-top{position:sticky;top:0;z-index:2;margin:0 -22px 12px;padding:10px 60px 10px 22px;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:700;color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--dark-2));border-bottom:1px solid color-mix(in srgb,var(--teal) 30%,transparent)}
 .rv-top i{font-style:normal;font-size:11.5px;font-weight:900;color:#1b2a2e;background:var(--teal);border-radius:6px;padding:0 6px}
 #popbox:has(.rv) > .popx{position:absolute;top:4px;right:10px;margin:0;z-index:4;width:30px;height:30px;float:none}.rv-foot{position:sticky;bottom:0;z-index:2;display:flex;gap:8px;align-items:center;margin:12px -22px 0;padding:12px 22px;background:var(--dark-2);border-top:1px solid var(--line)}
+.rv-new .rv-do{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .rv-new{display:flex;gap:10px;align-items:flex-start;margin:0 0 8px;padding:10px 12px;border-radius:12px;border:1px solid color-mix(in srgb,var(--c) 32%,transparent);background:color-mix(in srgb,var(--c) 7%,var(--dark-3))}
 .rv-new .gi{display:inline-flex;width:24px;height:24px;flex:none;border-radius:7px;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#121211;background:var(--c)}.rv-new .t{flex:1;min-width:0}.rv-new b{font-size:14.5px}
 .rv-new .s{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rv-new .m{font-size:13px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2957,7 +2963,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
     <div class="navgh">관리</div>
     <button class="nav" data-v="exreq">
       <svg viewBox="0 0 24 24"><path d="M3 12h3M18 12h3M6 8v8M18 8v8M6 12h12"/></svg>
-      종목 사전<span class="bdg" id="xrbdg" style="display:none"></span></button>
+      요청함<span class="bdg" id="xrbdg" style="display:none"></span></button>
     <button class="nav" data-v="kits">
       <svg viewBox="0 0 24 24"><path d="M4 4h7l2 2h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M9 13l2 2 4-4"/></svg>
       홍보 자료<span class="bdg" id="ktbdg" style="display:none"></span></button>
@@ -3004,7 +3010,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '522';
+const BUILD = '523';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3162,13 +3168,13 @@ const 권한줄 = [
   ['메뉴', 'assign', 'TG · 체험 배정', '', [1, 1, 1, 0, 1]],
   ['메뉴', 'kcal', '칼로리 계산기', '', [1, 1, 1, 0, 1]],
   ['메뉴', 'leave', '연월차', '', [1, 1, 1, 0, 1]],
-  ['메뉴', 'members', '회원', '', [1, 1, 1, 1, 1]],
+  ['메뉴', 'members', '회원', '', [1, 1, 1, 1, 0]],      /* FC 는 회원 탭 없음 (2026-10-30 결정함 d1029_fctab nomember · 권한 표도 꺼짐) */
   ['메뉴', 'check', '점검', '', [1, 1, 1, 0, 0]],
   ['메뉴', 'cmall', '피드백', '', [1, 1, 1, 1, 0]],
   ['메뉴', 'today', '오늘 운동', '', [1, 1, 1, 1, 0]],
   ['메뉴', 'reports', '자동 리포트 내역', '', [1, 1, 1, 0, 0]],
   ['메뉴', 'rtmake', '루틴표 · 스트레칭', '', [1, 1, 1, 0, 0]],
-  ['메뉴', 'exreq', '종목 사전', '', [1, 1, 1, 0, 0]],
+  ['메뉴', 'exreq', '요청함', '요청 · 버그 · 종목 수정 요청', [1, 1, 1, 0, 0]],
   ['메뉴', 'kits', '홍보 자료', '', [1, 1, 1, 0, 1]],
   ['메뉴', 'rules', '규칙', '자동화 규칙 한눈에', [1, 0, 0, 0, 0]],
   ['메뉴', 'botqa', '챗봇 답', '도우미가 꺼내 주는 정해 둔 질문 · 답', [1, 0, 0, 0, 0]],
@@ -3711,7 +3717,7 @@ const ST = [
  {i:'s09', v:'et26:a', n:'광배 스트레칭',   t:'좌우 25초', d:'기둥을 잡고 엉덩이를 뒤로 빼며 겨드랑이 옆을 늘입니다'},
  {i:'s10', v:'et06:a', n:'캣카우',                  t:'10회',      d:'네발기기에서 등을 둥글렸다 폈다. 숨에 맞춰 천천히'},
  {i:'s11', v:'et07:a', n:'흉추 회전 스트레칭',    t:'좌우 8회',  d:'한 손을 뒤통수에 대고 팔꿈치를 천장 쪽으로 열어 줍니다'},
- {i:'s12', v:'pr11:a', n:'스레드 더 니들',          t:'좌우 20초', d:'팔을 반대쪽 겨드랑이 밑으로 통과시켜 어깨를 바닥에 붙입니다'},
+ {i:'s12', v:'pr11:a', n:'흉추 가동성 ( 스레드 더 니들)', t:'좌우 20초', d:'팔을 반대쪽 겨드랑이 밑으로 통과시켜 어깨를 바닥에 붙입니다'},
  {i:'s13', v:'pr12:a', n:'차일드 포즈',             t:'30초',      d:'무릎을 벌리고 엉덩이를 발뒤꿈치로, 팔은 앞으로 멀리 뻗습니다'},
  {i:'s14', v:'pr13:a', n:'옆구리 스트레칭',           t:'좌우 20초', d:'한 팔을 머리 위로 넘겨 몸통을 옆으로 기울입니다'},
  {i:'s15', v:'et09:a', n:'장요근 스트레칭', t:'좌우 30초', d:'뒷다리 엉덩이에 힘을 주고 골반을 앞으로 밉니다. 허리를 젖히지 마세요'},
@@ -5528,7 +5534,7 @@ function RL미리(){ const r = (D.r || []).find(x => x.id === S.rtSel); if(!r) r
 function v루틴만들기(){
   const 탭 = S.rtTab || '운동', rs = 공통루틴들();
   /* 작은 탭 → 움직이는 그림 카드 둘 (2026-10-20 대표 「스트레칭 루틴 만들기가 너무 눈에 안 띔 · 애니메이션도 넣어서 한눈에」) */
-  const 탭줄 = '<div class="rtpick">' + [['운동', '웨이트 루틴표', 루틴표들().filter(s => 표종류(s) === '웨이트').length + '개', '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><g class="rtp-lift"><rect x="7" y="11" width="34" height="3" rx="1.5"/><rect x="5" y="7" width="4" height="11" rx="1.2"/><rect x="39" y="7" width="4" height="11" rx="1.2"/></g><circle cx="24" cy="21" r="3.6"/><path d="M24 25v11M24 36l-5 9M24 36l5 9M24 27l-8-14M24 27l8-14" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>'], ['스트레칭', '스트레칭 루틴표', 루틴표들().filter(s => 표종류(s) === '스트레칭').length + '개 · 추가한 동작 ' + (D.pi || []).length + '개', '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><g class="rtp-lean"><circle cx="24" cy="12" r="3.6"/><path d="M24 16v17" fill="none" stroke-width="2.6" stroke-linecap="round"/><path class="rtp-arm" d="M24 19h11" fill="none" stroke-width="2.6" stroke-linecap="round"/><path class="rtp-arm2" d="M24 19h-10" fill="none" stroke-width="2.6" stroke-linecap="round"/></g><path d="M24 33l-6 12M24 33l6 12" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>'], ['내종목', '추가한 종목', '웨이트 ' + 고를종목().filter(e => e.owner).length + ' · 스트레칭 ' + (D.pi || []).length, '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="9" width="26" height="32" rx="4" fill="none" stroke-width="2.6"/><path d="M17 18h14M17 25h14M17 32h8" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>']]
+  const 탭줄 = '<div class="rtpick">' + [['운동', '웨이트 루틴표', 루틴표들().filter(s => 표종류(s) === '웨이트').length + '개', '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><g class="rtp-lift"><rect x="7" y="11" width="34" height="3" rx="1.5"/><rect x="5" y="7" width="4" height="11" rx="1.2"/><rect x="39" y="7" width="4" height="11" rx="1.2"/></g><circle cx="24" cy="21" r="3.6"/><path d="M24 25v11M24 36l-5 9M24 36l5 9M24 27l-8-14M24 27l8-14" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>'], ['스트레칭', '스트레칭 루틴표', 루틴표들().filter(s => 표종류(s) === '스트레칭').length + '개 · 추가한 동작 ' + (D.pi || []).length + '개', '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><g class="rtp-lean"><circle cx="24" cy="12" r="3.6"/><path d="M24 16v17" fill="none" stroke-width="2.6" stroke-linecap="round"/><path class="rtp-arm" d="M24 19h11" fill="none" stroke-width="2.6" stroke-linecap="round"/><path class="rtp-arm2" d="M24 19h-10" fill="none" stroke-width="2.6" stroke-linecap="round"/></g><path d="M24 33l-6 12M24 33l6 12" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>'], ['내종목', '종목', '전체 ' + 고를종목().filter(e => 첫벌(e)).length + ' · 추가 ' + (고를종목().filter(e => e.owner).length + (D.pi || []).length), '<svg class="rtp-fig" viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="9" width="26" height="32" rx="4" fill="none" stroke-width="2.6"/><path d="M17 18h14M17 25h14M17 32h8" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>']]
     .map(([k, l, n, g]) => '<button class="rtp ' + (k === '운동' ? 'w' : k === '내종목' ? 'm' : 's') + (탭 === k ? ' on' : '') + '" data-act="tx:rttab" data-k="' + k + '">' + g + '<span><b>' + l + '</b><small>' + n + '</small></span></button>').join('') + '</div>';
   if(탭 === '내종목') return '<div class="rl-bar">' + 탭줄 + '</div>' + v내종목();
   if(탭 === '스트레칭') return '<div class="rl-bar">' + 탭줄 + '</div>' + (S.rtOldSt ? '<button class="btn ghost sm" data-act="tx:rsoldback" style="margin-bottom:10px">‹ 스트레칭 루틴표</button>' + 세트카드() : v루틴표('스트레칭'));
@@ -5579,7 +5585,7 @@ const 목적기본 = ['근력','근비대','근지구력','다이어트','체형
 function 목적목록(){ const 더 = [...new Set((D.r || []).map(r => String(r.purpose || '').trim()).filter(x => x && x.length <= 12))].filter(x => !목적기본.includes(x));
   const 목 = 목적기본.concat(더); if(RT && RT.purpose && !목.includes(RT.purpose)) 목.push(RT.purpose); return 목; }
 const 고를종목 = () => (D.ex || []);      /* 2026-10-27 대표 「트레이너가 바로 추가하고 모두가 검색」 — 승인 없음 · 정리는 종목 사전 */
-const 종목고침 = e => !!e && (!e.owner ? false : (e.owner === 나이름() || 종목급()));      /* 추가한 종목 수정 = 만든 사람 + 관리자 */
+const 종목고침 = e => !!e && (!e.owner ? 종목급() : (e.owner === 나이름() || 종목급()));      /* 수정 = 만든 사람 + 관리자 · 센터 종목은 관리자만 바로(그 밖은 「수정 요청」) (2026-10-30 결정함 d1030c_ex A · d1030_rename A) */
 const 동작고침 = x => !!x && (x.trainer === 나이름() || 종목급());
 const 추가동작 = () => (D.pi || []).slice().sort((a, b) => (b.trainer === 나이름()) - (a.trainer === 나이름()));      /* 트레이너가 추가한 스트레칭 동작 — 모두 · 내 것 먼저 */
 const 첫벌 = e => (D.va || []).filter(v => v.ex_id === e.id).sort((a, b) => (a.sort || 0) - (b.sort || 0))[0];
@@ -5967,17 +5973,36 @@ function 세트칸(){
        : '<div class="note" style="margin-top:9px">체크하면 이 회원 앱 <b>준비운동 맨 위</b>에 보입니다 · 새로 줄 때는 위 「＋ 루틴표 주기」</div>');
 }
 /* 내 종목 — 사전에 없는 운동을 트레이너가 만든 것 · 웨이트(exercises.owner) + 스트레칭(prep_items) 한 화면 (2026-10-27 대표 「쉽게 찾고 쉽게 만들게」) */
-function v내종목(){ const 나 = 나이름(), W = 고를종목().filter(e => e.owner && 첫벌(e)).sort((a, b) => (b.owner === 나) - (a.owner === 나)), T = 추가동작();
+function v내종목(){ const 나 = 나이름(), 칩들 = RT부위들.concat(['내가 만든 것', '추가한 종목']), 부 = 칩들.includes(S.myPart) ? S.myPart : '추가한 종목';
+  const W = 고를종목().filter(e => 첫벌(e) && (부 === '추가한 종목' ? !!e.owner : 부 === '내가 만든 것' ? e.owner === 나 : e.part === 부)).sort((a, b) => (b.owner === 나) - (a.owner === 나) || String(a.name || '').localeCompare(String(b.name || ''), 'ko')), T = 추가동작();
+  const 단추 = e => 종목고침(e) ? '<button class="btn ghost sm" data-act="exedit" data-v2="' + esc(e.id) + '">수정</button>' : !e.owner ? '<button class="btn ghost sm" data-act="tx:exreqf" data-k="' + esc(e.id) + '">수정 요청</button>' : '<span class="sub3">보기만</span>';
   const 칸 = (그림, 이름, 작은, 누가, 수정) => '<div class="my-card" data-myk="' + esc(검색키(이름 + 작은 + 누가)) + '">' + 그림 + '<b>' + esc(이름) + '</b><small>' + esc([작은, 누가 === 나 ? '' : 누가 + 'T'].filter(Boolean).join(' · ')) + '</small>' + 수정 + '</div>';
   return '<div class="rs-top"><label class="rl-srch my-srch"><span>⌕</span><input id="myq" type="search" placeholder="추가한 종목 검색" autocomplete="off"></label><span class="sp" style="flex:1"></span>'
     + '<button class="btn ghost sm" data-act="pinew">＋ 새 스트레칭 동작</button><button class="btn gold sm" data-act="exnew">＋ 새 웨이트 종목</button></div>'
-    + '<div class="lbl">웨이트 종목 ' + W.length + '개</div>'
-    + (W.length ? '<div class="my-grid">' + W.map(e => 칸(종목그림(첫벌(e).id), e.name || '', [e.part, e.equip].filter(Boolean).join(' · '), e.owner, 종목고침(e) ? '<button class="btn ghost sm" data-act="exedit" data-v2="' + esc(e.id) + '">수정</button>' : '')).join('') + '</div>'
-      : '<div class="empty why"><b>아직 추가한 웨이트 종목이 없습니다</b>루틴 만들기 · 앱 종목 선택에서 검색해 없으면 바로 추가돼요</div>')
+    + '<div class="mn-chips" style="margin:2px 0 10px">' + 칩들.map(k => '<button class="' + (부 === k ? 'on' : '') + '" data-act="tx:mypart" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') + '</div>'
+    + '<div class="lbl">' + esc(부 === '추가한 종목' ? '추가한 웨이트 종목' : 부 === '내가 만든 것' ? '내가 만든 웨이트 종목' : 부 + ' 종목') + ' ' + W.length + '개</div>'
+    + (W.length ? '<div class="my-grid">' + W.map(e => 칸(종목그림(첫벌(e).id), e.name || '', [e.part, e.equip].filter(Boolean).join(' · '), e.owner || '센터', 단추(e))).join('') + '</div>'
+      : '<div class="empty why"><b>' + (부 === '내가 만든 것' ? '아직 내가 만든 종목이 없습니다' : '이 칸에 종목이 없습니다') + '</b>루틴 만들기 · 앱 종목 선택에서 검색해 없으면 바로 추가돼요</div>')
     + '<div class="lbl" style="margin-top:18px">스트레칭 동작 ' + T.length + '개</div>'
     + (T.length ? '<div class="my-grid">' + T.map(x => 칸(스트칸그림({ k:'my', i:x.id }), x.name || '', x.time || '', x.trainer || '', 동작고침(x) ? '<button class="btn ghost sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>' : '')).join('') + '</div>'
       : '<div class="empty why"><b>아직 추가한 스트레칭 동작이 없습니다</b>스트레칭 루틴 편집 「추가한 동작」 칩에서 「＋ 새 동작」</div>')
-    + '<div class="note" style="margin-top:12px">추가한 종목은 모두가 검색해요 · 사진은 「수정」에서</div>'; }
+    + '<div class="note" style="margin-top:12px">센터 종목은 승인 뒤 반영 · 내 종목은 바로 수정 · 남의 종목은 보기만</div>'; }
+/* 센터 종목 수정 요청 — ex_requests(kind 수정 · vkey a · new_name = 바꿀 이름) → 요청함 · 현황판 「종목 수정 요청」 → 관리자 승인 */
+function 종목요청창(id){ const e = exOf(id), v = (D.va || []).find(z => z.ex_id === id && z.vkey === 'a'); if(!e) return;
+  가운데창('<div class="tx-ph"><b>' + esc(e.name || '') + ' · 수정 요청</b><button data-act="popclose">✕</button></div><div class="cl-ed">'
+    + '<div class="sub3">관리자가 승인하면 모두에게 바뀌어요</div>'
+    + '<label class="lbl" style="margin-top:10px">이름</label><input class="inp" id="xqn" maxlength="40" value="' + esc(e.name || '') + '">'
+    + '<label class="lbl" style="margin-top:10px">설명 · 수정할 점</label><textarea class="inp" id="xqb" rows="6" placeholder="자세 설명이나 수정할 점">' + esc((v && v.descr) || '') + '</textarea>'
+    + '<div class="sc-sum" style="margin-top:12px"><span class="sp"></span><button class="btn main sm" data-act="tx:exreqsend" data-k="' + esc(id) + '">요청 보내기</button></div></div>', 520); }
+async function 종목요청보내기(id){ const e = exOf(id), v = (D.va || []).find(z => z.ex_id === id && z.vkey === 'a'); if(!e) return;
+  const 이름 = (($('#xqn') || {}).value || '').trim(), 글 = (($('#xqb') || {}).value || '').trim();
+  if(!이름) return toast('이름을 입력해 주세요');
+  if(이름 === e.name && 글 === ((v && v.descr) || '').trim()) return toast('바뀐 것이 없어요');
+  if(!await 묻기('「' + e.name + '」 수정 요청을 보낼까요?' + String.fromCharCode(10) + '관리자가 승인하면 반영돼요')) return;
+  const 줄 = { id:'x' + Date.now(), kind:'바꿈', ex_id:id, vkey:'a', new_name: 이름 !== e.name ? 이름 : null, body:글, part:e.part || '', by:나이름(), status:'대기' };
+  try{ await ssend('ex_requests', 'POST', [줄]); (D.xr || (D.xr = [])).unshift(줄); 기록남기기({ area:'종목', action:'요청', tbl:'ex_requests', row_id:줄.id, detail:'수정 요청 — ' + e.name + (줄.new_name ? ' → ' + 줄.new_name : '') });
+    popClose(); toast('요청을 보냈어요'); 종목배지(); }
+  catch(x){ toast('보내지 못했어요 — ' + String(x.message || '').slice(0, 50)); } }
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'myq') return; const q = 검색키(ev.target.value || '');
   document.querySelectorAll('#body .my-card').forEach(c => { c.style.display = !q || (c.dataset.myk || '').includes(q) ? '' : 'none'; }); });
 function 세트카드(){ const ss = 내세트();
@@ -6109,18 +6134,20 @@ async function 운동종목손잡이(a, act){
         if(!r.ok) throw new Error(await r.text());
         media.push({ kind: 영상 ? 'video' : 'photo', path }); } }
     catch(e){ toast('파일을 못 올렸어요 — ' + (e.message||'').slice(0,60)); return true; }
-    const row = { id:EXN.id, name:EXN.name, part:EXN.part, equip:EXN.equip, cardio: EXN.part === '유산소', sort:9000, owner:(D.ex.find(z => z.id === EXN.id) || {}).owner || 나이름(), media };      /* 관리자가 고쳐도 만든 사람 그대로 */
-    const vrow = { id:EXN.id + ':a', ex_id:EXN.id, vkey:'a', name:'', descr:EXN.descr, demo:false, sort:0 };
+    const 옛 = D.ex.find(z => z.id === EXN.id), 센터 = !!옛 && !옛.owner;      /* 센터 종목 — 만든 사람(없음) · 차례 · 유산소 표시 그대로 (2026-10-30) */
+    const row = 센터 ? Object.assign({}, 옛, { name:EXN.name, part:EXN.part, equip:EXN.equip, media }) : { id:EXN.id, name:EXN.name, part:EXN.part, equip:EXN.equip, cardio: EXN.part === '유산소', sort:9000, owner:(옛 || {}).owner || 나이름(), media };      /* 관리자가 고쳐도 만든 사람 그대로 */
+    const 옛벌 = D.va.find(z => z.id === EXN.id + ':a'), vrow = 센터 && 옛벌 ? Object.assign({}, 옛벌, { descr:EXN.descr }) : { id:EXN.id + ':a', ex_id:EXN.id, vkey:'a', name:'', descr:EXN.descr, demo:false, sort:0 };
     try{ const 뺀 = ((D.ex.find(z => z.id === row.id)||{}).media||[]).map(m => m.path).filter(p => !media.some(m => m.path === p));
       await ssend('exercises?on_conflict=id', 'POST', [row], 'resolution=merge-duplicates'); await 파일지우기(뺀, 'exmedia/' + row.id + '/');
       await ssend('variants?on_conflict=id', 'POST', [vrow], 'resolution=merge-duplicates');
-      D.ex = D.ex.filter(z => z.id !== row.id).concat([row]);
+      D.ex = D.ex.filter(z => z.id !== row.id).concat([row]); if(센터 && 옛.name !== row.name) 기록남기기({ area:'종목', action:'수정', tbl:'exercises', row_id:row.id, detail:'이름 ' + 옛.name + ' → ' + row.name });
       const v0 = D.va.find(z => z.id === vrow.id); if(v0) Object.assign(v0, vrow); else D.va.push(vrow);
       const 새 = EXN.새, 루 = EXN.RT로; S.part = EXN.part; S.exq = ''; EXN = null; 세트창(); 팝업다시(); toast(새 ? '추가했어요 · 다음부터 모두가 검색해요' : '수정했어요');
       if(루 && RT && S.view === 'rtedit'){ RT넣기({ vid:vrow.id }, row.name); const q = $('#rteq'); if(q) q.value = ''; RT찾기(); }      /* 루틴 만들기에서 없는 종목 → 저장하면 루틴에 바로 */
       if(S.view === 'rtmake' || S.view === 'exreq') render(); }
     catch(e){ toast('못 저장했어요 — ' + e.message); } return true; }
-  if(a==='exdel'){ const 쓰는 = (D.ri||[]).some(x => String(x.variant_id||'').indexOf(EXN.id + ':') === 0) || (D.wi||[]).some(x => String(x.variant_id||'').indexOf(EXN.id + ':') === 0);
+  if(a==='exdel'){ if(!(D.ex.find(z => z.id === EXN.id) || {}).owner){ toast('센터 종목은 삭제할 수 없어요'); return true; }
+    const 쓰는 = (D.ri||[]).some(x => String(x.variant_id||'').indexOf(EXN.id + ':') === 0) || (D.wi||[]).some(x => String(x.variant_id||'').indexOf(EXN.id + ':') === 0);
     if(쓰는){ toast('루틴에 들어간 종목은 삭제할 수 없어요. 루틴에서 먼저 제거해 주세요'); return true; }
     if(!await 묻기('이 종목을 삭제할까요?')) return true;
     try{ const 옛파일 = ((D.ex.find(z => z.id === EXN.id)||{}).media||[]).map(m => m.path);
@@ -7098,14 +7125,14 @@ function 챗쓰기(){
     + (챗.방 === 'all' && 챗관리() ? '<label><input type="checkbox" id="gcntc"' + (챗.공지 ? ' checked' : '') + '> 오늘 공지로 띄우기</label>' : '') + '</div>'
     + '<div class="gc-in"><input id="gcin" placeholder="메시지 입력" autocomplete="off"><button class="gc-ic" data-act="tx:gcpic" title="사진">' + 챗아이콘.클 + '</button><button class="gc-ic' + (챗.링크 ? ' on' : '') + '" data-act="tx:gclink" title="지금 보는 화면 링크">' + 챗아이콘.링 + '</button><span class="sp"></span><button data-act="tx:gcsend" title="보내기">' + 챗아이콘.위 + '</button></div><div class="gc-foot"></div><input type="file" id="gcfile" accept="image/*" multiple hidden>';
 }
-function 챗요청(){
+function 챗요청(){      /* 쓰는 창 · 보는 창 따로 — 새 요청을 쓰는 동안은 지난 요청 목록을 안 보임 (2026-10-30 대표 「이전에 남긴 것도 떠서 헷갈려」) */
   const 폼 = 챗.새요청 ? '<div class="gc-form"><div class="gc-kinds">' + ['요청', '버그'].map(k => '<button class="' + (챗.새요청.kind === k ? 'on' : '') + '" data-act="tx:gcrk" data-k="' + k + '">' + k + '</button>').join('') + '</div>'
       + '<input id="gcrt" class="inp" placeholder="제목 — 한 줄로" value="' + esc(챗.새요청.title || '') + '"><textarea id="gcrb" class="inp" placeholder="무엇이 필요하거나 어디가 안 되는지">' + esc(챗.새요청.body || '') + '</textarea>'
       + '<div class="gc-att">' + (챗.사진.length ? '<span>사진 ' + 챗.사진.length + '장</span>' : '') + (챗.링크 ? '<span>🔗 ' + esc(챗.링크.title) + '</span>' : '') + '</div>'
       + '<div class="gc-fb"><button class="gc-ic" data-act="tx:gcpic" title="사진">' + 챗아이콘.클 + '</button><button class="gc-ic' + (챗.링크 ? ' on' : '') + '" data-act="tx:gclink" title="지금 보는 화면 링크">' + 챗아이콘.링 + '</button><span class="sp"></span><button class="btn ghost sm" data-act="tx:gcrnew" data-k="0">취소</button><button class="btn main sm" data-act="tx:gcrsend">보내기</button></div><input type="file" id="gcfile" accept="image/*" multiple hidden></div>'
     : '';
   const 딱 = { '받음':'b', '확인 중':'a', '끝남':'c' };
-  return '<div class="gc-title">요청 · 버그</div><div class="gc-body req">' + 폼 + (챗.요청.length ? 챗.요청.map(x => '<div class="gc-req' + (챗.펼 === x.id ? ' on' : '') + '"><button class="gc-rq" data-act="tx:gcropen" data-k="' + esc(x.id) + '"><b>' + esc(x.title || '(제목 없음)') + '<span class="gc-tg ' + (딱[x.status] || 'b') + '">' + esc(x.status) + '</span></b><small>' + esc([보임이름(x.staff_name || ''), x.kind, 챗때(x.created_at), (x.files || []).length ? '사진 ' + x.files.length : ''].filter(Boolean).join(' · ')) + '</small></button>'
+  return '<div class="gc-title">요청 · 버그</div><div class="gc-body req">' + 폼 + (챗.새요청 ? '' : 챗.요청.length ? 챗.요청.map(x => '<div class="gc-req' + (챗.펼 === x.id ? ' on' : '') + '"><button class="gc-rq" data-act="tx:gcropen" data-k="' + esc(x.id) + '"><b>' + esc(x.title || '(제목 없음)') + '<span class="gc-tg ' + (딱[x.status] || 'b') + '">' + esc(x.status) + '</span></b><small>' + esc([보임이름(x.staff_name || ''), x.kind, 챗때(x.created_at), (x.files || []).length ? '사진 ' + x.files.length : ''].filter(Boolean).join(' · ')) + '</small></button>'
       + (챗.펼 === x.id ? '<div class="gc-rd">' + esc(x.body || '') + (x.files || []).map(f => '<img class="gc-img" data-gcpath="' + esc(f.path) + '" alt="">').join('') + (x.link ? '<br><button class="gc-go" data-act="tx:gcgo" data-k="' + esc(x.link.view || '') + '">🔗 ' + esc(x.link.title || '') + ' ›</button>' : '')
           + (x.reply ? '<div class="gc-reply"><b>관리자 답</b> ' + esc(x.reply) + '</div>' : '')
           + (챗관리() ? '<div class="gc-kinds">' + ['받음', '확인 중', '끝남'].map(k => '<button class="' + (x.status === k ? 'on' : '') + '" data-act="tx:gcrst" data-k="' + esc(x.id + '|' + k) + '">' + k + '</button>').join('') + '</div><div class="gc-in"><input id="gcrr_' + esc(x.id) + '" placeholder="답 남기기" value="' + esc(x.reply || '') + '"><button data-act="tx:gcrreply" data-k="' + esc(x.id) + '">저장</button></div>' : '') + '</div>' : '') + '</div>').join('')
@@ -8183,8 +8210,8 @@ function 오늘기록없음(){ if(!오늘수업.줄) return []; const 나 = (ME 
     .sort((a, b) => String(a.L.시각 || '').localeCompare(String(b.L.시각 || ''))); }
 function 오늘없음판(){ const xs = 오늘기록없음();
   판열기('기록 없는 수업 ' + xs.length + '건', '<div class="note">오늘 수업은 했는데 앱에 기록이 없어요<small>「기록하기」로 오늘 수업 기록을 만들어 주세요</small></div>'
-    + (xs.length ? xs.map(o => '<div class="card rowc nmrow"><div style="flex:1;min-width:0"><div class="t1">' + esc(o.L.name || '') + ' <span class="sub3">···' + esc(o.L.phone4 || '') + '</span></div><div class="t2">' + esc([o.L.시각, o.L.종류, o.L.선생님 ? o.L.선생님 + ' 트레이너' : ''].filter(Boolean).join(' · ')) + '</div></div>'
-        + (o.m ? '<button class="btn gold sm" data-act="tx:lsrec" data-k="' + esc(o.m.id + '|' + TODAY) + '">기록하기 ›</button>' : '<span class="sub3">앱에 없는 회원</span>') + '</div>').join('')
+    + (xs.length ? [...new Set(xs.map(o => o.L.선생님 || '담당 없음'))].map(t => '<div class="lbl">' + esc(t) + ' ' + xs.filter(o => (o.L.선생님 || '담당 없음') === t).length + '건</div>' + xs.filter(o => (o.L.선생님 || '담당 없음') === t).map(o => '<div class="card rowc nmrow"><div style="flex:1;min-width:0"><div class="t1">' + esc(o.L.name || '') + ' <span class="sub3">···' + esc(o.L.phone4 || '') + '</span></div><div class="t2">' + esc([o.L.시각, o.L.종류, o.L.선생님 ? o.L.선생님 + ' 트레이너' : ''].filter(Boolean).join(' · ')) + '</div></div>'
+        + (o.m ? '<button class="btn gold sm" data-act="tx:lsrec" data-k="' + esc(o.m.id + '|' + TODAY) + '">기록하기 ›</button>' : '<span class="sub3">앱에 없는 회원</span>') + '</div>').join('')).join('')
       : '<div class="empty why"><b>기록 없는 수업이 없습니다</b>오늘 수업은 모두 앱에 기록돼 있어요</div>')); }
 const 다음날 = d => { const x = new Date(d + 'T00:00:00'); x.setDate(x.getDate() + 1); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
 const 수업회원 = L => (D.m || []).find(m => m.id === 'c' + L.key) || (D.m || []).find(m => String(m.name || '').trim() === String(L.name || '').trim() && String(m.phone4 || '') === String(L.phone4 || ''));
@@ -8935,7 +8962,7 @@ function 청소카드(){
   const 줄 = x => { const 됨 = !!청소체크of(x.id, TODAY), b = 배.결과[x.id];
     return '<button class="cl-row' + (됨 ? ' on' : '') + '" data-act="tx:clck" data-v2="' + esc(x.id) + '"><span class="bx">' + (됨 ? '✓' : '') + '</span><span class="cl-t"><b>' + esc(x.title || '') + '</b>' + (x.how ? '<span class="cl-how">' + esc(x.how) + '</span>' : '') + (b.대신 && b.원 ? '<span class="cl-ig">인계<small>' + esc(보임이름(b.원.name)) + ' 휴무</small></span>' : '') + (청소이월날(x, TODAY) ? '<span class="cl-ig cy">이월<small>' + esc(요일of(청소이월날(x, TODAY))) + '요일 안 함</small></span>' : '') + '</span>'
       + 청소시각(x.slot) + '</button>'; };      /* 인계 딱지는 이름 아래 — 오른쪽에 두면 100% 화면에서 카드 밖으로 넘쳤다 (2026-10-30 대표) */      /* 구역 이름은 뺐다 — 시각이 두 번 · 낮 청소가 마감처럼 보임 (2026-10-23 대표) · 설명(하는 방법)은 이름 아래 작게 */
-  const 인계목 = 할수('clean') || 할수('cleanlog') ? 배.목.filter(x => { const o = 배.결과[x.id]; return o && o.대신 && o.원 && o.p; }) : [];
+  const 인계목 = 배.목.filter(x => { const o = 배.결과[x.id]; return o && o.대신 && o.원 && o.p; });      /* 모두에게 — 내 담당이 아니어도 나뉜 걸 알아야 빠진 걸 찾는다 (2026-10-30 저녁 노션) */
   const 인계띠 = 인계목.length ? '<div class="cl-igl" data-act="tx:clset">' + 인계목.map(x => { const o = 배.결과[x.id]; return '<span class="cl-ig">인계<small>' + esc(x.title || '') + ' → ' + esc(보임이름(o.p.name)) + '</small></span>'; }).join('') + '</div>' : '';      /* 무엇이 누구에게 (2026-10-30 대표 「어떤 거 인계됐는지 표기」) */      /* 관리하는 사람 홈에도 오늘 인계 (2026-10-30 대표 「없는데?」) */
   return '<div class="tx-home one"><div class="sec"><div class="lbl">오늘 내 청소' + (내.length ? ' <span class="tx-tag' + (한 < 내.length ? ' gold' : '') + '">' + 한 + ' / ' + 내.length + '</span>' : '') + 링크 + '</div>' + 인계띠 + 대띠
     + (내.length ? '<div class="cl-hl">' + 내.map(줄).join('') + '</div>'
@@ -8963,9 +8990,9 @@ function 청소누락판(){
   /* 줄마다가 아니라 구역(담당) · 당직째 확인 (2026-10-25 대표 「영림 구역 → 통째로 · 누락된 것만 확인 · 당직도 마찬가지」) */
   const 묶 = []; 목.forEach(o => { let g = 묶.find(z => z.k === o.grp); if(!g){ g = { k:o.grp, 배:o.배, L:[] }; 묶.push(g); } g.L.push(o); });
   판열기('청소 누락', '<div class="sub3" style="margin-bottom:10px">' + 청소짧은날(d) + ' 체크가 안 된 것 · 구역(당직)째 확인하면 내 화면에서 사라집니다' + (할수('cleanlog') ? ' · 담당 선생님도 각자 확인해야 그 화면에서 사라집니다' : ' · 내 것만') + '</div>'
-    + (묶.length ? 묶.map(g => '<div class="cl-grp"><div class="cl-gh"><b>' + esc((g.배.구역 && g.배.구역.name) || '구역 없음') + (g.배.당직 ? ' · 당직' : '') + '</b><span>' + (g.배.p ? 이름딱지(g.배.p.id) : '<span class="sub3">' + esc(g.배.왜 || '담당 없음') + '</span>') + (g.배.p && g.배.p.name !== 청소나() && 청소확인함(d, g.k, g.배.p.name) ? '<span class="cl-ok">✓ 본인 확인</span>' : '') + '</span>'
-        + '<button class="as-btn g" data-act="tx:clack" data-k="' + esc(g.k) + '">확인 · ' + g.L.length + '개</button></div>'
-        + g.L.map(({ x, 배 }) => '<div class="cl-miss"><b>' + 청소글(x) + '</b>' + (배.대신 && 배.원 ? '<small>' + esc(보임이름(배.원.name)) + ' 선생님이 쉬어서 대신</small>' : '') + '</div>').join('') + '</div>').join('')
+    + (묶.length ? 묶.map(g => '<div class="lbl">' + esc((g.배.구역 && g.배.구역.name) || '구역 없음') + (g.배.당직 ? ' · 당직' : '') + ' ' + g.L.length + '개<span class="r cl-gw">' + (g.배.p ? 이름딱지(g.배.p.id) : '<span class="sub3">' + esc(g.배.왜 || '담당 없음') + '</span>') + (g.배.p && g.배.p.name !== 청소나() && 청소확인함(d, g.k, g.배.p.name) ? '<span class="cl-ok">✓ 본인 확인</span>' : '') + '</span>'
+        + '<button class="as-btn g" data-act="tx:clack" data-k="' + esc(g.k) + '">확인</button></div>'
+        + g.L.map(({ x, 배 }) => '<div class="cl-miss"><b>' + 청소글(x) + '</b>' + (배.대신 && 배.원 ? '<small>' + esc(보임이름(배.원.name)) + ' 선생님이 쉬어서 대신</small>' : '') + '</div>').join('')).join('')
       : '<div class="empty why"><b>어제 빠진 체크가 없습니다</b>모두 체크했거나 확인했어요</div>'));
 }
 /* 인계 넘기기 — 그날 그 청소를 다른 출근자에게(관리자 · 받은 사람) · tr_clean_hand 한 줄(날 · 청소마다 하나 · 다시 넘기면 바꿈) (2026-10-30 대표) */
@@ -9029,7 +9056,7 @@ function 청소관리판(){
   const 없줄 = x => '<div class="bp-row2"><div class="a"><b>' + 청소글(x) + '</b><span style="margin-left:auto"><button class="btn sub sm" data-act="tx:clmove" data-v2="' + esc(x.id) + '">구역에 넣기</button><button class="btn ghost sm" data-act="tx:cloff" data-v2="' + esc(x.id) + '">삭제</button></span></div></div>';
   const 대들 = 대청소날(+TODAY.slice(0, 4)).concat(대청소날(+TODAY.slice(0, 4) + 1)).filter(d => d >= TODAY).slice(0, 4);
   /* 칸 머리 — .lbl 이 아니라 .cl-grp (판 자동 칩이 또 생기지 않게 · 칩은 분기 둘만) */
-  const 머 = (제목, 설명, 단추) => '<div class="cl-grp">' + 제목 + ' <small>' + 설명 + '</small>' + (고칠 && 단추 || '') + '</div>';
+  const 머 = (제목, 설명, 단추) => '<div class="lbl">' + 제목 + ' <small>' + 설명 + '</small>' + (고칠 && 단추 || '') + '</div>';      /* 옆 판 규칙(.lbl → 갈래 색 판) · 칩은 분기 둘만이라 data-nochip (2026-10-30 대표 「밋밋」) */
   const 빈 = (b, 안내) => '<div class="empty why"><b>' + b + ' 없습니다</b>' + (고칠0 ? 안내 : '대표 · 지점장이 「관리」에서 정해요') + '</div>';
   const 칩 = '<div class="cl-qs"><button class="' + (미리 ? '' : 'on') + '" data-act="tx:clq" data-k="">이번 분기 · ' + 분기글(q) + '</button><button class="' + (미리 ? 'on' : '') + '" data-act="tx:clq" data-k="다음">다음 분기 미리보기 · ' + 분기글(다음분기(q)) + '</button></div>';
   const 바뀜 = 미리 ? 순환.filter(z => (지금배[z.id] || null) !== (배[z.id] || null)) : [];
@@ -9038,7 +9065,7 @@ function 청소관리판(){
   const 인계들 = 오늘배 ? 오늘배.목.filter(x => 인계of(x.id)) : [];
   const 인계띠 = 인계들.length ? '<div class="cl-chg"><div class="t">오늘 인계 · 휴무로 나눠 받은 청소 ' + 인계들.length + '</div>' + 인계들.map(x => { const o = 인계of(x.id), 넘수 = 고칠0 || (ME && o.p.id === ME.id);
       return '<div class="r cl-hr"><span class="z2">' + 청소글(x) + '</span><span>' + esc(보임이름(o.원.name)) + ' 휴무<i>→</i><b>' + esc(보임이름(o.p.name)) + '</b>' + (o.넘김 ? ' <span class="sub3">넘겨받음</span>' : '') + '</span>' + (넘수 ? '<button class="btn ghost sm" data-act="tx:clhand" data-v2="' + esc(x.id) + '">다른 선생님에게</button>' : '') + '</div>'; }).join('') + '</div>' : '';
-  판열기('청소 담당', 칩 + 인계띠 + 달라짐
+  판열기('청소 담당', '<i data-nochip hidden></i>' + 칩 + 인계띠 + 달라짐
     + 머('순환 구역 ' + 순환.length, '분기마다 한 칸씩 돌아요', '<button class="btn sub sm" style="margin-left:auto" data-act="tx:clzone" data-k="순환" data-v2="">＋ 구역 추가</button>')
     + (순환.length ? 순환.map(구줄).join('') : 빈('순환 구역이', '「＋ 구역 추가」로 만들어 주세요'))
     + 머('고정 구역 ' + 고정.length, '정한 선생님이 계속 해요', '<button class="btn sub sm" style="margin-left:auto" data-act="tx:clzone" data-k="고정" data-v2="">＋ 구역 추가</button>')
@@ -9322,7 +9349,7 @@ function 매확TG양식(열쇠, tg, 횟수, 저장단추){
     + '<div class="sc-tgf-r"><span class="sc-tgf-l">운동목적</span><div class="sc-tgf-c">' + 칩('목적', 매확목적) + '</div></div>'
     + '<div class="sc-tgf-r"><span class="sc-tgf-l">주의사항</span>' + 칸('주의', '예) 허리 디스크 · 없으면 비움', ' style="flex:1"') + '</div>'
     + '<div class="sc-tgf-r" style="align-items:flex-start"><span class="sc-tgf-l" style="padding-top:8px">메모</span><textarea class="sc-tgi" data-stk="' + esc(열쇠) + '" data-stf="메모" style="flex:1;min-height:64px" placeholder="길게 남길 내용 — 상담하며 들은 것 등">' + esc(f.메모) + '</textarea></div>'
-    + 매확배정줄(열쇠)
+    + (열쇠[0] === 'a' ? '' : 매확배정줄(열쇠))
     + '<div class="sc-tgf-p">배정 표에 이렇게 들어갑니다 — <b id="sctp_' + esc(열쇠) + '">' + esc(매확미리글(f, tg)).split(String.fromCharCode(10)).join('<br>') + '</b></div>'
     + (저장단추 ? '<div class="sc-sum"><span class="sp"></span>' + 저장단추 + '</div>' : '<div class="sc-tgf-p">아래 「저장」을 누르면 결제수단과 같이 저장돼요</div>') + '</div>'; }
 /* TG 배정 — 메모를 남기며 바로 정한다 (2026-10-27 대표 「나중에 받겠다고 한 사람을 여기서 바로 · 배정은 관리자만 · 나중에는 누구나 · 누가 정했는지 남는 건 당연」
@@ -9344,6 +9371,12 @@ async function 체험배정맞춤(h, t){ if(!t || !h) return;
     기록남기기({ area:'배정', action:'담당 변경', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'체험 매출 담당에서 같이 정함 · 담당 ' + t });
     toast('체험 배정 담당도 ' + t + ' 선생님으로 정했어요'); }
   catch(e){ toast('배정 담당은 저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
+/* TG메모 저장 직후 — 중앙이 배정 표 FC 메모에 덧붙이기 전에도 이 화면에서 보이게 · 5초 뒤 배정 자료 다시 받기 (2026-10-30 대표 「TG메모가 날아갔어」) */
+function 매확메모보임(열쇠, 줄, tg){ const f = 매확.TGF[열쇠]; if(!f || !매확TG있음(f) || !배정.줄) return;
+  const 키 = String((줄 && (줄['카드'] || 줄['crm'])) || ''), 번 = String((줄 && (줄['전화'] || 줄['번호'])) || '').replace(/\D/g, '').slice(-8);
+  const x = 배정.줄.find(r => r.kind !== '체험' && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)));
+  if(x){ const 글 = 매확미리글(f, tg); if(!String(x.fc_memo || '').includes(글.split(String.fromCharCode(10))[0])) x.fc_memo = (x.fc_memo ? x.fc_memo + String.fromCharCode(10) : '') + 글; }
+  setTimeout(() => { 배정.때 = 0; 배정받기().then(() => { if(S.view === 'assign') render(); }).catch(() => {}); }, 5000); }
 async function 매확배정적용(열쇠, 줄){ const f = 매확.TGF[열쇠]; if(!f || !f.배정 || f.배정 === '건너뜀') return;
   if(!배정.줄) await 배정받기();
   const 키 = String((줄 && (줄['카드'] ||줄['crm'])) || ''), 번 = String((줄 && (줄['전화'] || 줄['번호'])) || '').replace(/\D/g, '').slice(-8);
@@ -9386,7 +9419,7 @@ function 매확줄(o){
       + '<div class="sc-sum"><span class="sp"></span><button class="btn ghost sm" data-act="tx:scedit" data-v2="' + esc(o.id) + '">수정</button></div>';
     return h + '</div>';
   }
-  if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], ks.length > 0, '');
+  if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], true, '');      /* 처음부터 펼침 — 결제수단 · 배정 · TG메모를 한 화면에서 (2026-10-30 대표) */
   if(PT있음) h += 매확PT줄(o);
   h += '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="tx:scm" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
     + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '');
@@ -9397,7 +9430,8 @@ function 매확줄(o){
       + '<div class="sc-sum">' + (ks.length >= 2 ? (차 === 0 ? '<span class="ok">금액 맞음</span>' : '<span class="gap">' + 매확원(Math.abs(차)) + '원 ' + (차 > 0 ? '남음' : '넘침') + '</span>') : '') + '<span class="sp"></span>'
       + (v ? '<button class="btn ghost sm" data-act="tx:sccancel" data-v2="' + esc(o.id) + '">취소</button>' : '')
       + '<button class="btn main sm" data-act="tx:scsave" data-v2="' + esc(o.id) + '"' + (됨 ? '' : ' disabled title="합이 결제액과 같아야 저장할 수 있어요"') + '>저장</button></div>';
-  }
+  } else if(tg && 매확.TG바뀜[열쇠])      /* 결제수단 전에도 TG메모 · 배정은 저장 — 팝업은 결제수단을 고를 때까지 그대로 */
+    h += '<div class="sc-sum"><span class="sub3">결제수단을 고르면 이 결제는 끝나요</span><span class="sp"></span><button class="btn main sm" data-act="tx:sctsave" data-k="' + esc(열쇠) + '" data-v2="' + esc(o.id) + '">TG메모 저장</button></div>';
   return h + '</div>';
 }
 const 매확PT중 = x => x['PT중글'] ? '<div class="sc-pt">' + esc(x['PT중글']) + '</div>' : '';      /* 이미 PT 진행 중인 회원 — 중앙 PT중글 그대로 (2026-10-24 대표 「그렇게 해」) */
@@ -9534,6 +9568,7 @@ function 매확락커판(){
       : '<div class="empty why"><b>최근 락커 판매가 없습니다</b>락커를 팔면 여기에 나와요</div>'));
 }
 function 매확다시(){
+  if(배정TG창.k && document.getElementById('txpop') && 매확.TGF[배정TG창.k]){ 배정TG창그리기(); return; }      /* 고객 정보 화면 TG 메모 창 */
   const pop = $('#pop');
   if(pop.classList.contains('on') && !pop.classList.contains('tx-side') && 매확.팝) 매확팝업(true);
   else if(pop.classList.contains('on') && pop.classList.contains('tx-side')){ if(판머리 === '확인할 매출') 매확판(); else if(판머리 === '락커 배정 확인') 매확락커판(); }
@@ -9565,7 +9600,7 @@ async function 매확저장(id){
   const 금액 = {}; ks.forEach(k => 금액[k] = ks.length === 1 ? 0 : +임['금액'][k]);
   const 몸 = Object.assign({ id: o.id, 금액 }, ks.includes('기타') ? { 기타: 기타.slice(0, 30) } : {}, 새메모.indexOf('메모') >= 0 ? { 메모: 매확.펼침['메모' + id].trim() } : {}, 새메모.indexOf('TG메모') >= 0 ? { TG메모: 매확TG양식값(tf) } : {});
   try{ const r = await crm('sales_check_save', 몸); if(!r || r.ok === false) return toast((r && r.why) || '저장하지 못했어요');
-    delete 매확.고침[id]; 새메모.forEach(t => delete 매확.펼침[t + id]); await 매확배정적용(열쇠, o); if(새메모.indexOf('TG메모') >= 0){ delete 매확.TG바뀜[열쇠]; 매확.TG열림[열쇠] = '접힘'; } 매확.방금.add(String(o.id)); toast('저장했어요');
+    delete 매확.고침[id]; 새메모.forEach(t => delete 매확.펼침[t + id]); await 매확배정적용(열쇠, o); if(새메모.indexOf('TG메모') >= 0) 매확메모보임(열쇠, o, o.TG); if(새메모.indexOf('TG메모') >= 0){ delete 매확.TG바뀜[열쇠]; 매확.TG열림[열쇠] = '접힘'; } 매확.방금.add(String(o.id)); toast('저장했어요');
     if(r['결제']) Object.assign(o, r['결제']); else { o['고름'] = { 금액: ks.length === 1 ? { [ks[0]]: +o['합'] } : 금액, G: ks.length === 1 ? ks[0] : null, 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16), 전: o['고름'] ? [{ G: 매확G(o), 누가: o['고름']['누가'], 때: o['고름']['때'] }].concat(o['고름']['전'] || []) : [] }; }
     매확다시(); setTimeout(매확받기, 1500); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); }
@@ -9591,7 +9626,7 @@ async function 매확TG저장(열쇠, id){      /* 이미 고른 결제 · 따�
   try{ const r = await crm('sales_check_memo', { id, 종류:'TG메모', 양식 }); if(!r || r.ok === false) return toast((r && r.why) || '저장하지 못했어요');
     const 새 = { 양식, 글: 매확TG글(f, tg), 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16) };
     if(o){ if(r['결제']) Object.assign(o, r['결제']); else o['TG메모'] = 새; } else { if(r['TG만']) Object.assign(t, r['TG만']); else t['TG메모'] = 새; 매확.방금.add('t' + id); }
-    await 매확배정적용(열쇠, 줄); delete 매확.TG바뀜[열쇠]; delete 매확.TG수정[열쇠]; 매확.TG열림[열쇠] = '접힘'; toast('저장했어요'); 매확다시(); setTimeout(매확받기, 1500); }
+    await 매확배정적용(열쇠, 줄); 매확메모보임(열쇠, 줄, tg); delete 매확.TG바뀜[열쇠]; delete 매확.TG수정[열쇠]; 매확.TG열림[열쇠] = '접힘'; toast('저장했어요'); 매확다시(); setTimeout(매확받기, 1500); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); }
 }
 async function 매확TG확인(주문){
@@ -9648,11 +9683,17 @@ function 예상상태(합, 목){
   return 합 >= 목 ? '<span class="fcst ok"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg>목표 달성 · ' + 퍼 + '%' + (합 > 목 ? ' · <b>+' + 예상만원(합 - 목) + ' 초과</b>' : '') + '</span>'
     : '<span class="fcst no">목표까지 ' + 예상만원(목 - 합) + ' · ' + 퍼 + '%</span>';
 }
+/* 센터 PT 목표 — 중앙 관리자 일지 값(crm pt_goal) · 못 받으면 800만 × 선생님 (2026-10-30 대표 「5,600은 BEP · 예상 매출은 PT 매출만 · 관리자 일지 3,800」) */
+const 센터목표 = { 달:'', v:null, 중:false };
+async function 센터목표받기(){ const 달 = TODAY.slice(0, 7); if(센터목표.중 || 센터목표.달 === 달) return; 센터목표.중 = true;
+  try{ const r = await crm('pt_goal', { month:달 }); 센터목표.v = r && r.ok && +r.goal > 0 ? +r.goal : null; }catch(e){ 센터목표.v = null; }
+  센터목표.달 = 달; 센터목표.중 = false; if(센터목표.v && S.view === 'check') render(); }
 function 예상카드(R){      /* 2026-10-22 대표 「카드가 넓고 문구가 눈에 안 들어와 · 한눈에」 → A안: 위 = 이름 + 입력 단추 · 숫자 네 칸(예상 · 이번 달 실매출 · 목표 대비 · 지난달 대비 — 실매출 10/29 노션) · 아래 = 얇은 막대 + 갈래 */
   if(점검메모.없음) return '';
   const 나 = (ME && ME.name) || '', 전체 = R.관 && !점검.거름, 누구 = (R.관 && 점검.거름) || 나, P = 예상지금(전체, 누구), 줄 = P.지금.flatMap(x => x.lines || []), 합 = P.지금.reduce((a, x) => a + (+x.total || 0), 0), 갈 = g => 예상합(줄.filter(r => r.kind === g));
   const 달 = +TODAY.slice(5, 7), 답 = 점검.답[점검.주 || '이번'] || {}, 선생들 = Object.keys(답['표'] || {}).filter(t => t !== '공통');
-  const 목 = 전체 ? 예상목표 * Math.max(1, 선생들.length || P.사람.length) : 예상목표;
+  if(전체) 센터목표받기();
+  const 목 = 전체 ? (센터목표.v || 예상목표 * Math.max(1, 선생들.length || P.사람.length)) : 예상목표;
   const 지값 = 매출.줄 ? 확정합(지난달(), 전체 ? null : 누구) : null;      /* 지난달 = PT 매출 담당 지정(pt_sales) 확정 합 (2026-10-16) */
   const 현값 = 매출.줄 ? 확정합(TODAY.slice(0, 7), 전체 ? null : 누구) : null;      /* 이번 달 실매출 = 같은 확정 합 · 확인 전 줄은 아직 안 셈 (2026-10-29 노션 「예상 · 현재 실매출 · 목표 대비 · 지난달」) */
   const 됨 = 합 >= 목, 퍼 = 목 ? Math.round(합 / 목 * 100) : 0, 만 = v => (Math.round(v / 1000) / 10).toLocaleString('ko-KR');
@@ -9667,7 +9708,7 @@ function 예상카드(R){      /* 2026-10-22 대표 「카드가 넓고 문구�
       + '<div class="fcnums">' + 예칸 + 현칸 + 목칸 + 지칸 + '</div>'
       + 예상막대(갈('재등록'), 갈('TG'), 갈('신규'), 목)
       + '<div class="lg"><span><i style="background:var(--gold)"></i>재등록 <b>' + 예상만원(갈('재등록')) + '</b></span><span><i style="background:var(--teal)"></i>TG <b>' + 예상만원(갈('TG')) + '</b></span><span><i style="background:#e8927c"></i>신규 · 체험 <b>' + 예상만원(갈('신규')) + '</b></span><span class="gl">흰 선 = 목표</span></div>'
-      + (전체 ? '<div class="fcsub">센터 목표 = 800만 원 × 선생님 ' + (목 / 예상목표) + '명</div>' : '') + '</div>'
+      + (전체 ? '<div class="fcsub">' + (센터목표.v ? '센터 목표 = 관리자 일지 PT 매출 목표' : '센터 목표 = 800만 원 × 선생님 ' + (목 / 예상목표) + '명') + '</div>' : '') + '</div>'
     + (전체 && P.지금.length ? '<div class="fctr"><div class="wt">선생님별 · 흰 선 = 800만 원</div>' + P.지금.slice().sort((a, b) => (+b.total || 0) - (+a.total || 0)).map(x => { const v = +x.total || 0, 끝 = Math.max(예상목표 * 1.25, ...P.지금.map(y => +y.total || 0)); return '<div class="tr-row' + (v >= 예상목표 ? ' ok' : '') + '"><span>' + esc(x.trainer) + '</span><span class="bar"><i style="width:' + Math.min(100, v / 끝 * 100) + '%"></i><em style="left:' + (예상목표 / 끝 * 100) + '%"></em></span><b>' + 예상만원(v) + '</b></div>'; }).join('') + '</div>' : '')
     + '</div>';
 }
@@ -9958,9 +9999,16 @@ function vExReq(){
     + '<td class="nw">' + (끝난 ? '<span class="tag ' + (r.status === '반영' ? 'teal' : 'warn') + '">' + esc(r.status === '반영' ? '승인' : r.status) + '</span> <span class="sub3">' + esc(r.done_by || '') + '</span>'
         : 급 ? '<button class="btn gold sm" data-act="xrok" data-v2="' + esc(r.id) + '">승인</button> <button class="btn ghost sm" data-act="xrno" data-v2="' + esc(r.id) + '">반려</button>' : '<span class="sub3">관리자 확인 전</span>') + '</td></tr>';
   const 머리 = '<tr><th>구분</th><th>종목</th><th>요청 내용</th><th>누가 · 언제</th><th></th></tr>';
-  return '<div class="lbl">보완 요청 — 대기 ' + 대기.length + '</div>'
+  if(!챗.요청 && !챗.요청받음){ 챗.요청받음 = true; 챗받기().then(() => { if(S.view === 'exreq') render(); }).catch(() => {}); }      /* 요청 · 버그(tr_req) — 챗 창과 같은 자료 */
+  const 요 = (챗.요청 || []).filter(x => x.status !== '끝남'), 요끝 = (챗.요청 || []).filter(x => x.status === '끝남').slice(0, 10);
+  const 요줄 = x => '<tr><td class="nw"><span class="tag ' + (x.kind === '버그' ? 'warn' : 'teal') + '">' + esc(x.kind || '요청') + '</span></td><td><b>' + esc(x.title || '(제목 없음)') + '</b><div class="sub3" style="white-space:pre-wrap">' + esc(String(x.body || '').slice(0, 200)) + '</div></td>'
+    + '<td class="nw"><span class="sub3">' + esc([보임이름(x.staff_name || ''), 짧은날(x.created_at)].filter(Boolean).join(' · ')) + '</span></td><td class="nw"><span class="tag ' + (x.status === '끝남' ? 'teal' : x.status === '확인 중' ? 'gold' : '') + '">' + esc(x.status || '받음') + '</span></td></tr>';
+  return '<div class="lbl">요청 · 버그 — 처리 전 ' + 요.length + '</div>'
+    + (요.length ? '<div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:640px"><tr><th>구분</th><th>내용</th><th>누가 · 언제</th><th>상태</th></tr>' + 요.map(요줄).join('') + '</table></div>'
+        : '<div class="empty why"><b>처리 전 요청이 없습니다</b>앱 · 데스크 「요청 · 버그」로 보내면 여기에 모여요 · 답은 챗 창 「요청 · 버그」에서</div>')
+    + '<div class="lbl" style="margin-top:22px">종목 수정 요청 — 대기 ' + 대기.length + '</div>'
     + (대기.length ? '<div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px">' + 머리 + 대기.map(r => 줄(r, false)).join('') + '</table></div>'
-        : '<div class="empty why"><b>대기 중인 요청이 없습니다</b>트레이너가 앱 「종목 사전 → 보완 요청」으로 보내면 여기에 보입니다</div>')
+        : '<div class="empty why"><b>대기 중인 요청이 없습니다</b>루틴 화면 「종목」 탭 · 앱 「보완 요청」으로 보내면 여기에 보입니다</div>')
     + '<div class="lbl" style="margin-top:22px">트레이너가 새로 만든 종목 — ' + 새.length + ' <span class="sub3">승인 없이 모두가 검색해요 · 이름 · 사진이 이상하면 「수정」</span></div>'
     + (새.length ? '<div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px"><tr><th>구분</th><th>이름</th><th>부위 · 기구</th><th>만든 사람</th><th>만든 날</th><th>사진 · 영상</th><th></th></tr>'
           + 새.map(x => '<tr><td class="nw"><span class="tag ' + (x.갈 === '운동 종목' ? 'gold' : 'teal') + '">' + x.갈 + '</span></td><td><b>' + esc(x.이름) + '</b>' + (x.때 > 본 ? ' <span class="tag warn">새</span>' : '') + '</td><td><span class="sub3">' + esc(x.딸 || '—') + '</span></td><td>' + esc(x.누가 || '') + '</td><td class="nw">' + (x.때 ? 짧은날(x.때) : '—') + '</td><td>' + (x.그림 ? x.그림 + '개' : '<span class="sub3">없음</span>') + '</td><td class="nw">' + (급 ? (x.갈 === '운동 종목' ? '<button class="btn ghost sm" data-act="exedit" data-v2="' + esc(x.id) + '">수정</button>' : '<button class="btn ghost sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>') : '') + '</td></tr>').join('') + '</table></div>'
@@ -9968,11 +10016,12 @@ function vExReq(){
     + (끝.length ? '<div class="lbl" style="margin-top:22px">처리한 요청 — 최근 ' + 끝.length + '</div><div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px">' + 머리 + 끝.map(r => 줄(r, true)).join('') + '</table></div>' : '');
 }
 function 요청반영창(){ const r = XRW, v = (D.va || []).find(z => z.ex_id === r.ex_id && z.vkey === r.vkey), 지금 = (v && v.descr) || '';
-  const 글 = !r.vkey ? (r.body || '') : r.kind === '덧붙이기' ? (지금 ? 지금 + String.fromCharCode(10) : '') + (r.body || '') : 지금;
+  const 글 = !r.vkey ? (r.body || '') : r.kind === '덧붙이기' ? (지금 ? 지금 + String.fromCharCode(10) : '') + (r.body || '') : r.kind === '바꿈' ? (r.body || 지금) : 지금;      /* 바꿈 = 데스크 「수정 요청」 — 바꿀 설명 그대로 (2026-10-30) */
   return '<div class="pzbox" style="width:min(620px,100%)"><div class="pzhd"><b>' + esc(요청종목(r)) + ' — ' + esc(요청하는법(r)) + '</b><button class="btn ghost sm" data-act="xrclose">닫기</button></div>'
     + '<div class="pzbody" style="grid-template-columns:1fr"><div class="pzcol">'
       + '<div class="lbl">' + esc((r.by || '') + ' 트레이너의 ' + (r.kind === '덧붙이기' ? '덧붙이기 요청' : '수정 요청') + (r.part ? ' · ' + r.part : '')) + '</div><div class="note" style="white-space:pre-wrap;line-height:1.6">' + esc(r.body || '') + '</div>'
-      + (!r.vkey ? '<div class="lbl" style="margin-top:12px">새 하는 법 이름</div><input class="inp" id="xrnm" maxlength="20" value="' + esc(r.new_name || '') + '">' : '')
+      + (!r.vkey ? '<div class="lbl" style="margin-top:12px">새 하는 법 이름</div><input class="inp" id="xrnm" maxlength="20" value="' + esc(r.new_name || '') + '">'
+         : r.new_name ? '<div class="lbl" style="margin-top:12px">종목 이름 <span class="sub3">지금 「' + esc(요청종목(r)) + '」</span></div><input class="inp" id="xrexn" maxlength="40" value="' + esc(r.new_name) + '">' : '')
       + '<div class="lbl" style="margin-top:12px">종목 사전에 실릴 설명</div><textarea class="inp" id="xrtx" rows="8">' + esc(글) + '</textarea>'
     + '</div></div><div class="pzft"><span style="flex:1"></span><button class="btn gold" data-act="xrsave">승인</button></div></div>';
 }
@@ -10004,7 +10053,10 @@ async function 종목요청손잡이(a, act){
   if(!await 묻기('종목 사전에 추가할까요?' + String.fromCharCode(10, 10) + '모든 회원 · 트레이너 앱의 설명이 이 글로 보입니다.')) return true;
   try{
     if(r.vkey){ const v = (D.va || []).find(z => z.ex_id === r.ex_id && z.vkey === r.vkey); if(!v){ toast('종목 사전에서 이 하는 법이 삭제되었습니다'); return true; }
-      await ssend('variants?id=eq.' + encodeURIComponent(v.id), 'PATCH', { descr:글.trim() }); v.descr = 글.trim(); }
+      await ssend('variants?id=eq.' + encodeURIComponent(v.id), 'PATCH', { descr:글.trim() }); v.descr = 글.trim();
+      const 새이름 = ((document.getElementById('xrexn') || {}).value || '').trim(), e = exOf(r.ex_id);      /* 이름 바꾸기 요청 — 종목 번호 그대로라 루틴 · 기록 · 그림이 따라감 */
+      if(새이름 && e && 새이름 !== e.name){ if((D.ex || []).some(z => z.id !== e.id && String(z.name || '').replace(/\s/g, '') === 새이름.replace(/\s/g, ''))){ toast('같은 이름의 종목이 이미 있어요'); return true; }
+        await ssend('exercises?id=eq.' + encodeURIComponent(e.id), 'PATCH', { name:새이름 }); 기록남기기({ area:'종목', action:'수정', tbl:'exercises', row_id:e.id, detail:'이름 ' + e.name + ' → ' + 새이름 + ' (요청 승인)' }); e.name = 새이름; } }
     else { const vk = 'x' + Date.now(), 새 = { id:r.ex_id + ':' + vk, ex_id:r.ex_id, vkey:vk, name:이름, descr:글.trim(), demo:false, sort:(D.va || []).filter(z => z.ex_id === r.ex_id).length };
       await ssend('variants?on_conflict=id', 'POST', [새], 'resolution=merge-duplicates'); (D.va || (D.va = [])).push(새); }
     await 끝냄(r, '반영'); 창(false); toast('종목 사전에 추가했어요');
@@ -10385,11 +10437,11 @@ function 못감줄(){
 function 못감판(){
   const L = 못감줄(), 이름 = mid => ((D.m || []).find(m => m.id === mid) || {}).name || '이름 없음';
   판열기('알림톡 못 감', '<div class="ck-act">카카오톡도 문자도 가지 않았어요<small>기다리지 말고 다시 보내거나 직접 연락해 주세요</small></div>'
-    + (L.length ? L.map(o => o.갈 === '식단'
+    + (L.length ? [['식단', '식단 알림톡'], ['', 'TG 설문']].map(([갈, 말]) => { const xs = L.filter(o => 갈 ? o.갈 === 갈 : o.갈 !== '식단'); return xs.length ? '<div class="lbl">' + 말 + ' ' + xs.length + '건</div>' + xs.map(o => o.갈 === '식단'
         ? '<div class="bp-row2"><div class="a"><b>' + esc(이름(o.x.member_id)) + '</b><span class="as-tag">식단 알림톡</span><span class="sub3" style="margin-left:auto">' + esc(String(o.x.created_at || '').slice(5, 10).replace('-', '/')) + '</span></div>'
           + '<div class="sub3" style="margin:4px 0">' + esc(o.x.error || '이유를 받지 못했어요') + '</div><button class="btn sub sm" data-act="tx:dietre" data-k="' + esc(o.x.id) + '">다시 보내기</button></div>'
         : '<div class="bp-row2"><div class="a"><b>' + esc(o.x.name || '') + '</b><span class="as-tag">TG 설문</span>' + (o.x.phone ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o.x.phone) + '">' + esc(o.x.phone) + '</a>' : '') + '<span class="sub3" style="margin-left:auto">' + esc(배정담당(o.x) || '담당 없음') + '</span></div>'
-          + '<div class="sub3" style="margin:4px 0">' + esc(o.x.survey_error || '카톡도 문자도 실패했어요') + '</div><button class="btn sub sm" data-act="tx:asresend" data-k="' + esc(o.x.id) + '">다시 보내기</button></div>').join('')
+          + '<div class="sub3" style="margin:4px 0">' + esc(o.x.survey_error || '카톡도 문자도 실패했어요') + '</div><button class="btn sub sm" data-act="tx:asresend" data-k="' + esc(o.x.id) + '">다시 보내기</button></div>').join('') : ''; }).join('')
       : '<div class="empty why"><b>못 간 알림톡이 없습니다</b>카톡과 문자가 다 실패하면 여기에 뜹니다</div>'));
 }
 async function 식단다시(id){ const x = (못감.r || []).find(r => r.id === id); if(!x) return;
@@ -10417,7 +10469,7 @@ function 데스크알림판(){
     + (a.body ? '<div class="da-b">' + esc(a.body) + '</div>' : '') + '<div class="tf-b"><button class="btn ghost sm" data-act="tx:dadone" data-k="' + esc(String(a.id)) + '">확인했어요</button></div></div>';
   const 남 = 알림갈래.map(g => g[0]), 기타 = L.filter(a => !남.includes(a.kind));
   판열기('데스크 알림', '<div class="ck-act">센터 일 알림이에요<small>처리했으면 「확인했어요」 · 모든 직원에게서 같이 사라져요</small></div>'
-    + (L.length ? 알림갈래.concat(기타.length ? [['__', '그 밖']] : []).map(([k, 말]) => { const 들 = k === '__' ? 기타 : L.filter(a => a.kind === k); return 들.length ? '<div class="lk-g">' + 말 + '<span class="n">' + 들.length + '건</span></div>' + 들.map(줄).join('') : ''; }).join('')
+    + (L.length ? 알림갈래.concat(기타.length ? [['__', '그 밖']] : []).map(([k, 말]) => { const 들 = k === '__' ? 기타 : L.filter(a => a.kind === k); return 들.length ? '<div class="lbl">' + 말 + ' ' + 들.length + '건</div>' + 들.map(줄).join('') : ''; }).join('')
       : '<div class="empty why"><b>새 알림이 없습니다</b>상담 · 예약 · 배정 · 비품 알림이 여기에 떠요</div>'));
 }
 async function 데스크알림닫기(id){
@@ -10479,7 +10531,8 @@ function 락커판(k){
 function 다음주쉼판(){
   const L = 다음주쉼();
   판열기('다음 주 연차', '<div class="ck-act">다음 주에 쉬는 선생님이에요<small>승인된 연차 · 반차 · OFF 만 · 당직은 빼요</small></div>'
-    + (L.length ? L.map(o => '<div class="bp-row2"><div class="a"><b>' + esc(보임이름(((W.staff || []).find(x => x.id === o.r.staff_id) || {}).name || '')) + '</b><span class="sub3" style="margin-left:auto">' + 청소짧은날(o.t) + ' · ' + esc(o.r.kind || '') + '</span></div></div>').join('')
+    + (L.length ? [...new Set(L.map(o => o.t))].map(t => '<div class="lbl">' + 청소짧은날(t) + ' ' + L.filter(o => o.t === t).length + '명</div>'      /* 날마다 색 판 (2026-10-30 대표 「옆 판 톤앤매너」) */
+        + L.filter(o => o.t === t).map(o => '<div class="bp-row2"><div class="a">' + 이름딱지(o.r.staff_id) + '<span class="sub3" style="margin-left:auto">' + esc(o.r.kind || '') + '</span></div></div>').join('')).join('')
       : '<div class="empty why"><b>다음 주에 쉬는 선생님이 없습니다</b>연차는 「연월차」에서 신청 · 승인해요</div>'));
 }
 const 발송실패 = r => r.state === '실패';
@@ -10541,6 +10594,8 @@ const 표정의 = {
       {k:'reg',        이름:'등록여부', 타입:'select', 옵션:['집계제외','미방문','o','x','재등록','무료체험','PT체험3회','일일입장','양도','일일권','환불']},
       {k:'note',       이름:'특이사항', 타입:'text'},
       {k:'done',       이름:'완료',     타입:'check'},
+      {k:'extra.s2',   이름:'2차 설문톡', 타입:'date', 시스템:true},      /* 보낸 날 — 중앙 자동 발송이 적음(데스크는 읽기만) */
+      {k:'extra.c2',   이름:'2차 후 연락', 타입:'check'},      /* 2차 받은 분께 직접 연락했으면 체크 (2026-10-30 대표 「개별 연락하고 체크」) */
     ],
     /* 보기 = 노션 상담예약 보기 7개 그대로 — 이름 · 칸 차례 · 거르기 · 정렬 (2026-10-26 09:13 대표 「상담 속성배치도 지금 노션과 똑같이」 · 중앙이 노션 원문 전달)
        옛 보기(오늘 · 내 상담 · 미완료 · 이번 달 · 무료체험 · 전체)는 키를 바꿔 떼어 냄 — 서버에 남은 옛 이름 덮개(tr_views base)가 새 보기에 안 붙게 */
@@ -10559,6 +10614,8 @@ const 표정의 = {
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
       {k:'nshow', 이름:'연출용', 고정:false,
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
+      {k:'ns2',  이름:'2차 설문톡', 고정:false, 필터:r=>!!(r.extra||{}).s2, ord:{k:'extra.s2', dir:'desc'},      /* 2차 설문톡이 나간 분만 — 연락하고 체크 (2026-10-30 대표) */
+        칸:['name','phone','extra.s2','extra.c2','counselors','content','reg','note','created_at']},
     ],
     템플릿:[
       /* 옛 「상담 예약」(vis 만 · 빈 페이지와 같았다) 없앰 · 남은 둘은 본문 양식(본) 을 넣음 (2026-10-26 대표 a1) */
@@ -10872,7 +10929,7 @@ async function loadWork(){
   W.cols = g[5] || []; W.views = g[6] || []; W.meta = g[7] || []; W.voc = g[8] || []; W.ack = g[9] || []; W.manual = g[10] || []; W.mread = g[11] || [];
   setTimeout(당직받기, 0);      /* 당직 설정 (85단계) */
   /* 보기에 담긴 조건·정렬·그룹을 화면에 얹는다 — 없으면 빈 채로 */
-  try{ Object.keys(표정의).forEach(k => 보기얹기(k)); }catch(e){}
+  try{ Object.keys(표정의).forEach(k => { if(!(표상태[k] && 표상태[k].손댐)) 보기얹기(k); }); }catch(e){}      /* 손으로 넣은 필터는 다시 받기 때 안 지움 (2026-10-30 대표 「필터가 안 먹히고 원래대로 돌아가」) */
 }
 /* ── 잠금 ── 잠그면 아무도 순서·칸을 못 바꾼다 (관리자만 잠그고 푼다) */
 const 표설정 = key => W.meta.find(x => x.tbl === 표정의[key].table) || {};
@@ -11893,8 +11950,12 @@ function 보기얹기(key){
   const v = 지금보기(key); if(!v) return;
   const st = 표상태[key];
   st.규칙 = (v.규칙 || []).slice(); st.op = v.op || 'and';
-  st.정렬 = v.ord || null; st.그룹 = v.그룹 || null; st.접힘 = {};
+  st.정렬 = v.ord || null; st.그룹 = v.그룹 || null; st.접힘 = {}; st.손댐 = false;
 }
+/* 필터 · 정렬 · 그룹을 손댐 — 다시 받기 때 지키고, 내가 만든 보기면 그 보기에 바로 저장 (붙박이 보기는 「새 보기로 · 모두에게 저장」 그대로) */
+function 조건바뀜(key){ const st = 표상태[key]; if(!st) return; st.손댐 = true;
+  const v = 지금보기(key); if(!v || v.붙박이 || !할수('table')) return;
+  덮어쓰기(key, v.k, { rules: st.규칙 || [], op: st.op || 'and', ord: st.정렬 || null, grp: st.그룹 || null }).then(ok => { if(ok){ st.손댐 = false; render(); } }).catch(() => {}); }
 function 내것지우기(key, vk){
   const m = 내설정[key];
   if(m){ if(m.칸) delete m.칸[vk]; delete m.보기순; 내설정저장(); }
@@ -12259,7 +12320,7 @@ function txCal(key, rows){
           + (key === 'leave' && 공휴일명(k) ? '<span class="lv-hol">' + esc(공휴일명(k)) + '</span>' : '') + (key === 'leave' && 당직쉼(k) ? '<span class="lv-off">' + esc(당직쉼(k)) + '</span>' : '')
           + (대청소날(+k.slice(0, 4)).indexOf(k) >= 0 ? '<span class="lv big" title="분기 대청소 · 다 같이">대청소 14시</span>' : '')      /* 분기 대청소 (2026-10-21 대표 「달력에도 표시」) */
           + 것.map(r=>{ const 이 = r.staff_id ? 사람(r.staff_id).name : ''; const 칠 = 이 ? 사람색칠(이) : '';
-              return '<span class="lv '+esc(r.status)+(칠?' pc':'')+'" data-lvk="'+esc(r.kind||'')+'"'+(칠?' style="'+칠+'"':'')+' data-act="tx:open" data-k="'+key+'" data-id="'+r.id+'" title="'+esc((이 || (r.extra || {}).n_staff || '퇴사') + ' · ' + (r.kind || '') + (r.status === 'req' ? ' (신청)' : ''))+'"><em class="lvtag"><i>'+쉼이모지(r.kind)+'</i>'+esc(r.kind)+'</em>'+esc((이 || ((r.extra || {}).n_staff || '퇴사')).slice(-2))+'</span>'; }      /* 네임텍 — 앞 흰 꼬리표(구멍 · 끝 뾰족) = 종류 · 뒤 = 선생님 색 막대 (2026-10-27 시안 T1 · 대표 「바탕을 흰색으로」) */).join('') + '</div>'; }).join('')
+              return '<span class="lv '+esc(r.status)+(칠?' pc':'')+'" data-lvk="'+esc(r.kind||'')+'"'+(칠?' style="'+칠+'"':'')+' data-act="tx:open" data-k="'+key+'" data-id="'+r.id+'" title="'+esc((이 || (r.extra || {}).n_staff || '퇴사') + ' · ' + (r.kind || '') + (r.status === 'req' ? ' (신청)' : ''))+'"><em class="lvtag"><i>'+쉼이모지(r.kind)+'</i>'+esc(r.kind)+'</em><b class="lvn">'+esc((이 || ((r.extra || {}).n_staff || '퇴사')).slice(-2))+'</b></span>'; }      /* 네임텍 — 앞 흰 꼬리표(구멍 · 끝 뾰족) = 종류 · 뒤 = 선생님 색 막대 (2026-10-27 시안 T1 · 대표 「바탕을 흰색으로」) */).join('') + '</div>'; }).join('')
     + '</div></div>';
 }
 
@@ -13405,7 +13466,8 @@ async function txSave(){
     if(c.k.indexOf('extra.') === 0){                       /* 늘린 속성은 딸림칸에 모아 담는다 */
       if(!ex) ex = Object.assign({}, 값.extra || {});
       const v = 값[c.k];
-      ex[c.k.slice(6)] = (v === undefined || v === '') ? null : v;
+      if(v === undefined) return;      /* 안 읽은 칸은 있던 값 그대로 — 코드에 둔 extra 칸(2차 후 연락)이 다른 칸 저장 때 지워지지 않게 (2026-10-30) */
+      ex[c.k.slice(6)] = v === '' ? null : v;
       return;
     }
     body[c.k] = 값[c.k]===undefined ? null : 값[c.k];
@@ -13879,6 +13941,7 @@ function 홈배치붙이기(){
      「누르면 사이페이지에서 업무 할 수 있도록 띄워 · 현황판에 숫자만 뜨고 업무를 찾아다녀야 하잖아」)
    ⛔ 세는 식과 목록을 뽑는 식을 **따로 쓰지 않는다** — 여기 한 곳에서 뽑고 숫자줄은 길이만 센다.
       (따로 두면 4를 눌렀는데 3개가 뜬다) */
+const 이차연락줄 = () => (W.leads || []).filter(r => (r.extra || {}).s2 && !(r.extra || {}).c2);
 const 현황칸 = [
   { k:'부름', 이름:'나를 부른 댓글',   색:'warn' },
   { k:'실패', 이름:'리포트 발송 실패', 색:'warn' },
@@ -13902,11 +13965,13 @@ const 현황칸 = [
   /* 알림톡 못 감 — 카톡도 문자도 실패(중앙이 끝 결과를 적음) · 기다리지 않고 바로 연락하게 (2026-10-25 대표) */
   { k:'배정없음', 이름:'TG · 체험 담당 없음', 색:'warn', 셈: () => (배정.줄 || []).filter(배정담당없음줄).length, 직접: () => { 배정.탭 = '할일'; 가기('assign'); }, 보임: () => !!배정.줄 && 할수('assignall') },      /* 미뤄 둔 팝업과 상관없이 현황판에 (2026-10-28 20:38 대표) */
   { k:'첫TG', 이름:'첫 수업 안 잡은 TG', 색:'gold', 셈: () => 배정범위().filter(배정첫).length, 직접: () => { 배정.탭 = '첫'; 가기('assign'); }, 보임: () => !!배정.줄 },      /* 새로 배정된 TG — 현황판에도 (2026-10-28 대표) */
-  { k:'재연락', 이름:'오늘 연락 예정', 색:'warn', 셈: () => 배정범위().filter(x => 배정열림(x) && x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY).length, 직접: () => { 배정.탭 = '재연락'; 가기('assign'); }, 보임: () => !!배정.줄 },
+  { k:'재연락', 이름:'오늘 다시 연락', 색:'warn', 셈: () => 배정범위().filter(x => 배정열림(x) && x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY).length, 직접: () => { 배정.탭 = '재연락'; 가기('assign'); }, 보임: () => !!배정.줄 },
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
   /* 락커 — 중앙 locker_status 그대로 (2026-10-25 대표 「현황판에는 락커만료자 · 락커TM」) · 셈 = 명단 길이 */
   { k:'데스크알림', 이름:'데스크 알림', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r },      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
+  { k:'종목요청', 이름:'종목 수정 요청', 색:'gold', 셈: () => 종목급() ? (D.xr || []).filter(r => r.status === '대기').length : 0, 직접: () => 가기('exreq'), 보임: () => 종목급() },      /* 승인 알림 (2026-10-30 결정함 d1030c_ex 「관리자 현황판에 승인 알림」) */
+  { k:'설문2차', 이름:'2차 설문톡 연락', 색:'gold', 셈: () => 이차연락줄().length, 직접: () => { 표상태.leads.보기 = 'ns2'; 보기얹기('leads'); 가기('leads'); }, 보임: () => 할수('table') },      /* 2차 받은 분 중 아직 연락 체크 안 한 분 (2026-10-30 대표 「명단이 있을 때마다 현황판에」) */
   { k:'설문중지', 이름:'자동 설문 중지 요청', 색:'warn', 셈: () => 중지요청줄().length, 직접: () => 중지요청판(), 보임: () => 할수('assignset') },      /* 트레이너 요청 → 관리자 승인 (2026-10-30 노션) */
   { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
   { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r },
@@ -14275,7 +14340,7 @@ const 배정중단꼴 = /전 담당|자동 종료|\d 종료 · |관리자 판정
 const 배정나중진행줄식 = x => 배정기다림줄(x) && ((배정설문계획(x) || {}).on === false || 배정설문끔(x));      /* 정본 B2 나중에 진행 — 자동 설문 안 나감 */
 /* 카드 색 = 옆 판 네임텍(구분머리)과 같은 팔레트 · 카드마다 고정(끌어서 차례를 바꿔도 색은 따라감) (2026-10-29 대표 「팝업 네임텍과 톤 맞추면」) */
 /* 배정 · 진행 = 긴급도 색 (2026-10-29 14:58 대표 「긴급한 건 빨강 · 그다음 주황 · 그다음 초록」) — 색이 곧 얼마나 급한가 · 카드도 급한 차례로 */
-const 배정급 = { 재연락:1, 미배정:1, 교체:1, 첫:2, 멈:2, 물:3 }, 배정급색 = { 1:'#e07069', 2:'#df8f55', 3:'#62b386' }, 배정급말 = { 1:'오늘 꼭', 2:'이번 주 안', 3:'확인만' };
+const 배정급 = { 재연락:1, 미배정:1, 교체:1, 연락:1, 첫:2, 멈:2, 물:3 }, 배정급색 = { 1:'#e07069', 2:'#df8f55', 3:'#62b386' }, 배정급말 = { 1:'오늘 꼭', 2:'이번 주 안', 3:'확인만' };
 const 배정카드색 = k => 배정급색[배정급[k]] || '#9a938a';
 function 배정더표시(){ let p = document.getElementById('asmore'); const 카 = [...document.querySelectorAll('#body .as-qc, #body .as-wait')];
   const 밑 = 카.filter(e => e.getBoundingClientRect().top > innerHeight - 40);
@@ -14341,18 +14406,19 @@ function v배정(){
   const 걸 = 배정.물 ? 물.filter(x => x.ask === 배정.물) : 물;
   const 메모딱 = x => 배정TG있음(x) ? '<span class="as-tag memo">메모 있음</span>' : '';
   const 연락 = 재연.slice().sort((a, b) => String(a.recall_on).localeCompare(String(b.recall_on))).concat(나중.slice().sort((a, b) => String(a.recall_on || '').localeCompare(String(b.recall_on || ''))));      /* 연락 예정 = 오늘(지난 날 포함) 먼저 + 앞으로 (2026-10-29 대표 「오늘 연락 · 나중에 희망」 합침) */
-  const 수업중 = 열.filter(x => !배정미배(x) && !배정첫(x) && !배정멈춤(x) && !연락.includes(x));      /* 보기 「수업 중」 — 끝나지 않은 줄은 탭 한 곳에만 (2026-10-29 21:10 대표) */
+  const 수업중 = 열.filter(x => !배정미배(x) && (!배정첫(x) || 첫단계(x) === '예약 있음') && !배정멈춤(x) && !연락.includes(x));      /* CRM 에 첫 수업 예약이 잡히면 「첫 수업 잡기」에서 빠져 여기로 (2026-10-30 저녁 노션) */      /* 보기 「수업 중」 — 끝나지 않은 줄은 탭 한 곳에만 (2026-10-29 21:10 대표) */
   const 묶0 = [
     { k:'교체', 이름:'담당 바꾸기', 설:'담당 선생님이 다른 선생님으로 바꿔 달라고 했어요', 할:'새 담당을 골라 주세요', hot:1, L: 교, 오른: x => '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">새 담당</button>' },
     { k:'미배정', 이름:'담당 정하기', 설:'담당 선생님이 아직 없는 고객', 할:'담당 선생님을 골라 주세요', hot:1, 늘: 할수('assignall'), L: 미배.slice().sort((a, b) => ((b.kind === '체험') - (a.kind === '체험')) || (!!b.apply_at - !!a.apply_at) || String(b.apply_at || '').localeCompare(String(a.apply_at || ''))), 빈:'담당 없는 분이 없습니다',
       오른: x => (x.apply_at ? '<span class="as-tag ok">설문</span>' : '') + 메모딱(x) + (배정쓰기(x) ? (배정PT중(x) && x.pt_trainer ? '<button class="as-btn g" data-act="tx:asassign" data-k="' + esc(x.id + '|' + x.pt_trainer) + '">' + esc(x.pt_trainer) + ' 확인</button>' : '') + (할수('assignset') ? '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : '') + (배정메모만(x) && 할수('assignall') ? '<button class="as-btn g" data-act="tx:asmemowait" data-k="' + esc(x.id) + '" title="사람 메모만 있어요 · 신청 전이면 대기로">대기로</button>' : '') : '') },
-    { k:'첫', 이름:'첫 수업 잡기', 설:'담당은 정해졌고 첫 수업이 아직인 고객', 할:'연락하면 「연락 완료」 · CRM에 예약이 잡히면 저절로 「예약 있음」', hot:1, 늘:1, L: 첫.slice().sort((a, b) => (['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(a)) - ['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(b))) || (배정일(b) - 배정일(a))),
-      칩들:[['연락 전', x => 첫단계(x) === '연락 전'], ['예약 기다림', x => 첫단계(x) === '예약 기다림'], ['예약 있음', x => 첫단계(x) === '예약 있음']],
-      오른: x => { const 단 = 첫단계(x); return 메모딱(x) + (단 === '예약 있음' ? '<span class="as-tag ok">' + esc(첫예약글(x) || '예약 있음') + '</span>' : 단 === '예약 기다림' ? '<span class="as-tag">연락 완료 · 예약 기다림</span>' + (배정쓰기(x) && x.contact_at ? '<button class="as-btn g" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '')
+    { k:'연락', 이름:'연락해 주세요', 설:'담당이 정해졌고 아직 연락 전인 고객', 할:'연락하고 「연락했어요」 → 「첫 수업 잡기」로 가요', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '연락 전').sort((a, b) => 배정일(b) - 배정일(a)), 빈:'연락할 고객이 없습니다',      /* 2026-10-30 저녁 노션 */
+      오른: x => 메모딱(x) + (배정쓰기(x) ? '<button class="as-btn" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락했어요</button><button class="as-btn g" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="as-btn g" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button>' : '<span class="as-tag">연락 전</span>') },
+    { k:'첫', 이름:'첫 수업 잡기', 설:'연락했고 첫 수업 예약을 기다리는 고객', 할:'CRM에 예약이 잡히면 저절로 빠져요 · 안 되면 다시 연락 · 담당 종료', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '예약 기다림').sort((a, b) => (['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(a)) - ['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(b))) || (배정일(b) - 배정일(a))),
+      오른: x => { const 단 = 첫단계(x); if(단 === '예약 기다림') return 메모딱(x) + '<span class="as-tag">' + (x.contact_at ? esc(배정날짜(x.contact_at)) + ' 연락' : '연락 완료') + '</span>' + (배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="as-btn g" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button>' + (x.contact_at ? '<button class="as-btn g" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '') : ''); return 메모딱(x) + (단 === '예약 있음' ? '<span class="as-tag ok">' + esc(첫예약글(x) || '예약 있음') + '</span>' : 단 === '예약 기다림' ? '<span class="as-tag">연락 완료 · 예약 기다림</span>' + (배정쓰기(x) && x.contact_at ? '<button class="as-btn g" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '')
         : (배정쓰기(x) ? '<button class="as-btn" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락 완료</button>' : '<span class="as-tag">연락 전</span>')); } },
-    { k:'멈', 이름:'다음 수업 잡기', 설:'수업을 받다가 2주 넘게 다음 수업이 안 잡힌 고객' + (멈춤끝 ? ' · 회원권 끝 ' + 멈춤끝 + '명(곧 자동 종료)' : ''), 할:'연락해서 다음 수업을 잡아 주세요 · 안 되면 연락 예정 날짜', 늘:1, L: 멈춤.slice().sort((a, b) => 배정일(b) - 배정일(a)), 정리:1,
+    { k:'멈', 이름:'다음 수업 잡기', 설:'수업을 받다가 2주 넘게 다음 수업이 안 잡힌 고객' + (멈춤끝 ? ' · 회원권 끝 ' + 멈춤끝 + '명(곧 자동 종료)' : ''), 할:'연락해서 다음 수업을 잡아 주세요 · 안 되면 다시 연락할 날', 늘:1, L: 멈춤.slice().sort((a, b) => 배정일(b) - 배정일(a)), 정리:1,
       오른: x => 메모딱(x) + (배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asst" data-k="' + esc(x.id) + '|종료">종료</button>' : '') },
-    { k:'재연락', 이름:'연락 예정', 설:'고객이 「나중에 할게요」라고 해서 다시 연락할 날을 정해 둔 고객', 할:'오늘 연락할 분께 연락하고 진행상황을 바꿔 주세요', hot:1, 늘:1, L: 연락, 수: 재연.length, 빈:'연락 예정인 고객이 없습니다',      /* 숫자 = 오늘 연락할 분 */
+    { k:'재연락', 이름:'다시 연락', 설:'고객 사정으로 몇 주 뒤 다시 연락하기로 한 고객 · 날이 되면 위로', 할:'연락할 날이 된 분께 연락하고 진행상황을 바꿔 주세요', hot:1, 늘:1, L: 연락, 수: 재연.length, 탭수: 연락.length, 빈:'다시 연락할 고객이 없습니다',      /* 할 일 카드 = 오늘 연락할 분 · 탭 숫자 = 명단 전체(오늘 것만 세어 0 으로 보였다 · 2026-10-30 저녁 노션) */
       오른: x => 메모딱(x) + '<span class="as-tag' + (x.recall_on && x.recall_on <= TODAY ? ' ok' : '') + '">' + (x.recall_on && x.recall_on <= TODAY ? '오늘' : esc(String(x.recall_on || '').slice(5, 10).replace('-', '/'))) + '</span>' },
     { k:'수업', 이름:'수업 중', 설:'담당 선생님과 수업을 이어 가고 있는 고객 · PT 받는 중이라 TG를 재촉하지 않는 분 포함', 대기:1, 늘:1, L: 수업중.slice().sort((a, b) => 배정일(b) - 배정일(a)), 빈:'수업 중인 고객이 없습니다', 칩들:[['TG 수업', x => !배정PT중(x)], ['PT 받는 중', 배정PT중]], 오른: 메모딱 },
     { k:'기다', 이름:'자동 설문 대상', 설:'TG가 남아 정해진 날 신청 설문이 자동으로 나가는 고객 · 신청하면 「담당 정하기」로', 대기:1, 늘: 할수('assignall'), L: 기다.filter(x => !배정나중진행줄(x)).sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || ''))), 빈:'기다리는 분이 없습니다',
@@ -14365,7 +14431,7 @@ function v배정(){
   const 셈 = g => g.수 != null ? g.수 : g.L.length;
   if(!['할일', '전체'].includes(배정.탭) && !묶.some(g => g.k === 배정.탭)) 배정.탭 = '할일';
   const 할묶0 = 묶0.filter(g => !g.대기 && 묶.includes(g)), 보묶 = 묶.filter(g => g.대기), 탭칸 = ([k, l, n]) => '<button class="as-tab' + (배정.탭 === k ? ' on' : '') + '" data-act="tx:astab" data-k="' + k + '">' + l + '<b>' + n.toLocaleString() + '</b></button>';      /* [할 일] ┃ [보기] 두 묶음 (2026-10-29 대표 시안) */
-  let h = 배정정지띠() + '<div class="as-tabs"><span class="as-tg"><button class="as-gl' + (배정.탭 === '할일' ? ' on' : '') + '" data-act="tx:astab" data-k="할일">할 일<b>' + 할묶0.reduce((a, g) => a + 셈(g), 0) + '</b></button>' + 할묶0.map(g => 탭칸([g.k, g.이름, 셈(g)])).join('') + '</span><span class="as-tbar"></span>'
+  let h = 배정정지띠() + '<div class="as-tabs"><span class="as-tg"><button class="as-gl' + (배정.탭 === '할일' ? ' on' : '') + '" data-act="tx:astab" data-k="할일">할 일<b>' + 할묶0.reduce((a, g) => a + 셈(g), 0) + '</b></button>' + 할묶0.map(g => 탭칸([g.k, g.이름, g.탭수 != null ? g.탭수 : 셈(g)])).join('') + '</span><span class="as-tbar"></span>'
     + '<span class="as-tg v"><span class="as-gl">보기</span>' + 보묶.map(g => 탭칸([g.k, g.이름, 셈(g)])).join('') + 탭칸(['전체', '전체', D.length]) + '</span>'
     + '<span class="as-big">' + 들설단추() + '<button class="as-bigbtn" data-act="tx:astradd">＋ 체험 예약자</button>' + (배정정본 === '표' ? '<button class="as-bigbtn" data-act="tx:asdirect">TG 설문보내기</button>' : '') + '</span></div>';      /* 크게 · 탭 줄 오른쪽 빈자리 (2026-10-25 대표 「체험예약, 설문발송 크게 눈에 띄게 버튼으로」) */
   const 줄 = (L, 오른, g) => L.slice(0, 5).map(x => '<div class="as-row" data-act="tx:asopen" data-k="' + esc(x.id) + '"><b>' + esc(x.name) + '</b><span class="mt">' + esc(배정담당(x) || '담당 없음') + ' · ' + 배정일(x) + '일 전' + (x.kind === '체험' ? ' · 체험' : '') + (x.fc_memo ? ' · ' + esc(x.fc_memo) : '') + '</span>' + (배정PT중(x) ? '<span class="as-tag ptm">PT 회원</span>' : x.pt_state === 'PT끝남' ? '<span class="as-tag">PT 끝남</span>' : '') + 체험설문표(x) + 오른(x) + '</div>').join('')
@@ -14417,11 +14483,11 @@ const 배정관리자 = () => !!(ME && (ME.super === true || ['대표자', '최�
 const 배정PT자동 = x => String(x.assign_note || '').includes('PT 진행 중(');      /* 중앙 자동 배정 줄 표시 — 「자동 10/24 · PT 진행 중(장승훈)」 */
 const 배정PT다름 = x => !!x.pt_trainer && !(x.trainers || []).includes(x.pt_trainer);      /* 담당이 PT 선생님과 다름 (퇴사 담당 · 빈 담당) */
 const 배정진행칩 = x => { const 나 = !배정미배(x) && x.progress === '재연락 필요', p = x.progress || '';
-  return '<span class="as-pr ' + (나 ? 'l' : p === '진행중' ? 'p' : p === '종료' || p === '수업거부' || p === '기타사유' ? 'e' : p === '재연락 필요' ? 'r' : '') + '">' + esc(나 ? '연락 예정' : p || '—') + '</span>'; };      /* 진행 색 한 곳 (2026-10-26) */
+  return '<span class="as-pr ' + (나 ? 'l' : p === '진행중' ? 'p' : p === '종료' || p === '수업거부' || p === '기타사유' ? 'e' : p === '재연락 필요' ? 'r' : '') + '">' + esc(나 ? '다시 연락' : p || '—') + '</span>'; };      /* 진행 색 한 곳 (2026-10-26) */
 const 배정구분칩 = x => '<span class="as-kd ' + (x.kind === '체험' ? 't' : 'g') + '">' + esc(x.kind === '체험' ? '체험수업' : x.kind === '가이드' ? 'TG' : x.kind || '') + '</span>';
 const 배정상태단추 = x => 배정PT중(x) ? '<span class="as-tag ptm">PT 회원</span>' + (x.pt_note ? ' <span class="sub3">' + esc(x.pt_note) + '</span>' : '') : !배정쓰기(x) ? '<span class="as-tag" title="수정할 수 없는 줄">' + esc(x.progress) + '</span>'
   : 배정미배(x) ? '<span class="as-tag wait">' + (x.apply_at ? '설문 있음' : '배정중') + '</span>'      /* 배정 전엔 진행상황이 아니다 (2026-10-25 대표 「미배정은 진행중이 아니라 배정중」) */
-  : '<span class="as-st">' + [['진행중', 'p', 'tx:asst', '|진행중'], ['재연락 필요', 'r', 'tx:asrecall', ''], ['종료', 'e', 'tx:asend', '']].map(([k, c, act, 덧]) => '<button class="' + c + (x.progress === k || (k === '종료' && ['수업거부', '기타사유'].includes(x.progress)) ? ' on' : '') + '" data-act="' + act + '" data-k="' + esc(x.id) + 덧 + '">' + (k === '재연락 필요' ? '연락 예정' : k === '종료' ? '담당 종료' : k) + '</button>').join('') + '</span>'
+  : '<span class="as-st">' + [['진행중', 'p', 'tx:asst', '|진행중'], ['재연락 필요', 'r', 'tx:asrecall', ''], ['종료', 'e', 'tx:asend', '']].map(([k, c, act, 덧]) => '<button class="' + c + (x.progress === k || (k === '종료' && ['수업거부', '기타사유'].includes(x.progress)) ? ' on' : '') + '" data-act="' + act + '" data-k="' + esc(x.id) + 덧 + '">' + (k === '재연락 필요' ? '다시 연락' : k === '종료' ? '담당 종료' : k) + '</button>').join('') + '</span>'
     + (x.progress === '재연락 필요' && x.recall_on ? ' <span class="sub3">' + esc(String(x.recall_on).slice(5).replace('-', '/')) + ' 알림</span>' : '') + (['수업거부', '기타사유'].includes(x.progress) ? ' <span class="sub3">' + esc(x.progress) + '</span>' : '');
 async function 배정고침(id, 몸, 말){
   const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return false;
@@ -14553,6 +14619,8 @@ function 배정설문줄(x){
     : 줄(이름 + '을 보내려면 「보내기」를 눌러 주세요', x.phone ? '아직 안 보냈어요' : '전화번호가 없어 보낼 수 없어요', 단(act, '보내기'), 옆);
   if(x.kind === '체험') return 셋('체험 수업 전 설문', x.apply_at, x.apply_sent_at, x.apply_sent_n, 'tx:astrsend', 설문답(x, '체험'));
   if(배정미배(x)) return x.apply_at ? 응답('무료 PT 신청 설문', x.apply_at, 설문답(x, '신청')) : 셋('무료 PT 신청 설문', null, x.apply_sent_at, x.apply_sent_n, 'tx:asresend', '', 설문끔옆(x));
+  if(!x.pre_at && !x.pre_sent_at && !x.contact_at && 배정첫(x)) return 줄('TG 수업 전 설문은 「연락했어요」 뒤에 보낼 수 있어요', '먼저 고객에게 연락해 주세요', '<button class="as-btn" disabled title="연락했어요를 누르면 열려요">보내기</button>')      /* 담당 배정 뒤 사전 설문 = 연락 완료 뒤에만 (2026-10-30 18:22 대표) */
+      + (x.apply_at ? '<details class="asv-old"><summary>무료 PT 신청 설문 응답 · ' + 날(x.apply_at) + '</summary>' + 설문답(x, '신청') + '</details>' : '');
   return 셋('TG 수업 전 설문', x.pre_at, x.pre_sent_at, x.pre_sent_n, 'tx:aspresend', 설문답(x, '수업전'))
     + (x.apply_at ? '<details class="asv-old"><summary>무료 PT 신청 설문 응답 · ' + 날(x.apply_at) + '</summary>' + 설문답(x, '신청') + '</details>' : ''); }
 async function 수업전설문보내기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
@@ -14614,7 +14682,7 @@ const 교체칸 = x => x.kind === '체험' && !x.swap_at && !(내가담당(x) &&
 const 중지요청줄 = () => (배정.줄 || []).filter(x => x.optout_req && !배정설문끔(x));
 function 중지요청판(){ const L = 중지요청줄();
   판열기('자동 설문 중지 요청', '<div class="ck-act">자동 설문을 멈춰 달라는 요청이에요<small>「끄기」 = 이번 상품만 꺼요 · 「그대로」 = 요청만 지워요</small></div>'
-    + (L.length ? L.map(x => { const [누, 때] = String(x.optout_req).split(' · '); return '<div class="bp-row2"><div class="a"><b>' + esc(x.name || '') + '</b><span class="sub3" style="margin-left:8px">' + esc(누 || '') + ' 요청 · ' + esc(배정때(때 || '')) + '</span>'
+    + (L.length ? '<div class="lbl">트레이너 요청 ' + L.length + '건</div>' + L.map(x => { const [누, 때] = String(x.optout_req).split(' · '); return '<div class="bp-row2"><div class="a"><b>' + esc(x.name || '') + '</b><span class="sub3" style="margin-left:8px">' + esc(누 || '') + ' 요청 · ' + esc(배정때(때 || '')) + '</span>'
       + '<span style="margin-left:auto;display:flex;gap:6px"><button class="btn ghost sm" data-act="tx:asopen" data-k="' + esc(x.id) + '">고객 정보 보기</button><button class="btn ghost sm" data-act="tx:asoptno" data-k="' + esc(x.id) + '">그대로</button><button class="btn sm" data-act="tx:asoptok" data-k="' + esc(x.id) + '">끄기</button></span></div></div>'; }).join('')
       : '<div class="empty why"><b>요청이 없습니다</b>트레이너가 고객 정보 화면에서 「자동 설문 중지 요청」을 누르면 여기에 떠요</div>')); }
 async function 중지요청처리(id, 끔){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return; const 키 = 설문끔키(x);
@@ -14638,18 +14706,25 @@ function 들어온설문(){ const L = [];
   return L.sort((a, b) => String(b.at).localeCompare(String(a.at))); }
 function 들설단추(){ if(!배정.줄) return ''; const L = 들어온설문(), 새 = L.filter(o => o.새).length;
   return '<button class="as-bigbtn svin" data-act="tx:svlist">들어온 설문 <b>' + L.length + '</b>' + (새 ? '<i class="newp">NEW ' + 새 + '</i>' : '') + '</button>'; }
+/* 설문 종류 셋 — 색으로 나눔: 무료 PT 신청(TG 초록) · TG 수업 전(파랑) · 체험 수업 전(체험 주황) (2026-10-30 대표 「전체로 보더라도 무료 PT 신청인지 체험인지 구분」) */
+const 들설꼴 = [['신청', '무료 PT 신청 설문', 'var(--teal)'], ['수업전', 'TG 수업 전 설문', '#8fb3e0'], ['체험', '체험 수업 전 설문', '#e8927c']];
+const 들설색 = 꼴 => (들설꼴.find(z => z[0] === 꼴) || [])[2] || 'var(--sub)';
 function 들어온설문판(){ const 모두 = 들어온설문(), q = 검색키(들설.q), 숫 = String(들설.q || '').replace(/\D/g, '');
-  const L = 모두.filter(o => (!들설.k || (들설.k === '신청' ? o.꼴 === '신청' : o.꼴 !== '신청')) && (!들설.q.trim() || (q && 검색키(o.x.name || '').includes(q)) || (숫.length >= 3 && String(o.x.phone || '').replace(/\D/g, '').includes(숫))));
+  if(들설.k === '전') 들설.k = '';      /* 옛 칩 값 */
+  const 찾음 = 모두.filter(o => !들설.q.trim() || (q && 검색키(o.x.name || '').includes(q)) || (숫.length >= 3 && String(o.x.phone || '').replace(/\D/g, '').includes(숫)));
+  const L = 찾음.filter(o => !들설.k || o.꼴 === 들설.k);
   const 상태 = x => 배정분(x) && 배정분말[배정분(x)] ? 배정분말[배정분(x)][0] + (배정담당(x) ? ' · ' + 배정담당(x) : '') : (배정담당(x) || '담당 없음');
-  const 줄 = o => '<div class="sr"><div class="n"><b>' + esc(o.x.name || '') + (o.새 ? '<i class="newp">NEW</i>' : '') + '</b><small>' + esc(o.x.phone || '') + ' · ' + esc(배정때(o.at)) + '</small></div>'
-    + '<div class="k">' + esc(o.이름) + '<br>' + esc(상태(o.x)) + '</div><button class="as-btn" data-act="tx:svone" data-k="' + esc(o.키) + '">응답 보기</button></div>';
+  const 줄 = o => '<div class="sr" style="--c:' + 들설색(o.꼴) + '"><div class="n"><span class="kt">' + esc(o.이름) + '</span><b>' + esc(o.x.name || '') + (o.새 ? '<i class="newp">NEW</i>' : '') + '</b><small>' + esc(o.x.phone || '') + ' · ' + esc(배정때(o.at)) + ' 들어옴</small></div>'
+    + '<div class="k"><span class="as-tag ug" style="--c:' + 배정급색[배정급of(o.x)] + '">' + esc(상태(o.x)) + '</span></div><button class="as-btn" data-act="tx:svone" data-k="' + esc(o.키) + '">응답 보기</button></div>';
+  const 묶음 = 들설.k ? '<div class="svl">' + L.map(줄).join('') + '</div>'      /* 칩 하나 = 그 종류만 · 전체 = 종류마다 머리 */
+    : 들설꼴.map(([k, 이름, c]) => { const xs = L.filter(o => o.꼴 === k); return xs.length ? '<div class="svg" style="--c:' + c + '"><div class="svg-h"><i></i>' + 이름 + '<b>' + xs.length + '</b></div><div class="svl">' + xs.map(줄).join('') + '</div></div>' : ''; }).join('');
   const 열 = 들설.열 && 모두.find(o => o.키 === 들설.열), x = 열 && 열.x;
   const 자세 = 열 ? '<div class="svd"><div class="dh"><div class="nm"><b>' + esc(x.name || '') + '</b><small>' + esc(x.phone || '') + ' · ' + esc(열.이름) + ' · ' + esc(배정때(열.at)) + ' 들어옴</small><span class="as-tag ug" style="--c:' + 배정급색[배정급of(x)] + '">' + esc(상태(x)) + '</span></div><button class="as-btn" data-act="tx:svx">닫기</button></div>'
     + 설문답(x, 열.꼴) + '<div class="act">' + (배정미배(x) && 할수('assignset') && 배정쓰기(x) ? '<button class="btn main sm" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : 배정첫(x) && 첫단계(x) === '연락 전' && 배정쓰기(x) ? '<button class="btn main sm" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락했어요</button>' : '')
     + '<button class="btn sm" data-act="tx:asopen" data-k="' + esc(x.id) + '">고객 정보 보기</button>' + (x.phone ? '<button class="btn ghost sm" data-act="tx:svcopy" data-k="' + esc(x.phone) + '">전화번호 복사</button>' : '') + '</div></div>' : '';
   판열기('들어온 설문', '<div class="svh"><input class="srch" id="svq" type="search" placeholder="고객 이름 · 전화번호로 찾기" autocomplete="off" value="' + esc(들설.q) + '">'
-    + '<span class="chips" style="margin:0">' + [['', '전체'], ['신청', '신청 설문'], ['전', '수업 전 설문']].map(([k, n]) => '<button class="chip' + (들설.k === k ? ' on' : '') + '" data-act="tx:svk" data-k="' + k + '">' + n + '</button>').join('') + '</span></div>'
-    + 자세 + (L.length ? '<div class="svl">' + L.map(줄).join('') + '</div>' : '<div class="empty why"><b>' + (들설.q ? '찾는 설문이 없습니다' : '들어온 설문이 없습니다') + '</b>' + (들설.q ? '이름이나 전화번호 뒷자리로 찾아 주세요' : '고객이 설문을 내면 여기에 모여요') + '</div>'));
+    + '<span class="chips" style="margin:0">' + [['', '전체', '']].concat(들설꼴).map(([k, n, c]) => '<button class="chip svk' + (들설.k === k ? ' on' : '') + '" data-act="tx:svk" data-k="' + k + '"' + (c ? ' style="--c:' + c + '"' : '') + '>' + (c ? '<i></i>' : '') + n.replace(' 설문', '') + ' <b>' + (k ? 찾음.filter(o => o.꼴 === k).length : 찾음.length) + '</b></button>').join('') + '</span></div>'
+    + 자세 + (L.length ? 묶음 : '<div class="empty why"><b>' + (들설.q ? '찾는 설문이 없습니다' : '들어온 설문이 없습니다') + '</b>' + (들설.q ? '이름이나 전화번호 뒷자리로 찾아 주세요' : '고객이 설문을 내면 여기에 모여요') + '</div>'));
   const i = document.getElementById('svq'); if(i && 들설.q){ i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
 document.addEventListener('input', ev => { const t = ev.target; if(!t || t.id !== 'svq' || ev.isComposing) return; 들설.q = t.value; 들설.열 = ''; 들어온설문판(); });
 document.addEventListener('compositionend', ev => { const t = ev.target; if(!t || t.id !== 'svq') return; 들설.q = t.value; 들설.열 = ''; 들어온설문판(); });
@@ -14717,9 +14792,11 @@ function 새담당팝업(강제){
   팝업줄빼기('새담당'); 다음강제 = !!강제;
   const 누가 = x => { const m = /\d{4}-\d{2}-\d{2} (\S+) → /.exec(String(x.assign_note || '').split(String.fromCharCode(10)).filter(s => / → /.test(s)).slice(-1)[0] || ''); return m ? m[1] : ''; };
   const 칸 = x => { const 체 = x.kind === '체험', 희 = (String(x.fc_memo || '').match(/희망시간\s*:\s*([^\n]+)/) || [])[1] || '', 급 = 체 ? 1 : 2;
-    return '<div class="rv-new" style="--c:' + (체 ? '#e8927c' : 'var(--teal)') + '"><span class="gi">' + esc(String(x.name || '?').slice(0, 1)) + '</span><div class="t"><b>' + esc(x.name || '') + '</b> <em class="urg" style="--u:' + 배정급색[급] + '">' + 배정급말[급] + '</em>'
+    const 단 = (일, 말) => '<button class="btn ghost sm" data-act="tx:asnewdo" data-k="' + esc(String(x.id) + '|' + 일) + '">' + 말 + '</button>';
+    return '<div class="rv-new" style="--c:' + (체 ? '#e8927c' : 'var(--teal)') + '"><div class="t"><b>' + esc(x.name || '') + '</b> <em class="urg" style="--u:' + 배정급색[급] + '">' + 배정급말[급] + '</em>'
       + '<div class="s">' + esc([체 ? '체험수업' : 'TG', x.lessons ? x.lessons + '회' : '', x.ticket || ''].filter(Boolean).join(' · ')) + ' · ' + esc(String(x.assigned_on || '').slice(5).replace('-', '/')) + ' 배정' + (누가(x) ? ' · ' + esc(누가(x)) : '') + '</div>'
-      + (희 ? '<div class="m">희망 시간 · ' + esc(희.trim()) + '</div>' : x.trainer_memo ? '<div class="m">' + esc(String(x.trainer_memo).split(String.fromCharCode(10))[0]) + '</div>' : '') + '</div></div>'; };
+      + (희 ? '<div class="m">희망 시간 · ' + esc(희.trim()) + '</div>' : x.trainer_memo ? '<div class="m">' + esc(String(x.trainer_memo).split(String.fromCharCode(10))[0]) + '</div>' : '')
+      + (배정쓰기(x) ? '<div class="rv-do">' + 단('contact', '연락했어요') + 단('recall', '나중에') + 단('end', '담당 종료') + '</div>' : '') + '</div></div>'; };
   const 보 = L.slice(0, 새담당.수); 새담당.보 = 보.map(x => String(x.id));
   popOpen('<div class="ps-pop rv"><div class="rv-top"><i>다시 보는 곳</i>TG · 체험 배정 탭 › 지금 할 일</div><div class="ps-h">새로 맡은 고객 ' + L.length + '명</div><div class="sub3" style="margin-bottom:10px">담당으로 정해졌어요 · 확인했다면 아래 단추를 눌러 주세요</div>'
     + 보.map(칸).join('') + (L.length > 보.length ? '<div class="hmore"><button class="btn ghost sm" data-act="tx:asseenmore">더보기 <b>' + Math.min(5, L.length - 보.length) + '</b></button><span class="sub3">' + 보.length + ' / ' + L.length + '명</span></div>' : '')
@@ -14731,7 +14808,11 @@ async function 새담당확인(){ const 나 = (ME && ME.name) || '', 때 = new D
     if('seen' in x){ const s = Object.assign({}, x.seen || {}, { [나]: 때 }); try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(id), 'PATCH', { seen: s }, 'return=minimal'); x.seen = s; continue; }catch(e){ console.warn('새 담당 확인 저장 —', e && e.message); } }
     기기.push(id); }
   try{ localStorage.setItem('gg_asseen', JSON.stringify([...new Set(기기)].slice(-500))); }catch(e){}
-  지금팝업 = null; popClose(); 새담당.수 = 5; if(새담당줄().length) setTimeout(() => 새담당팝업(true), 300); }
+  지금팝업 = null; popClose(); 새담당.수 = 5; if(새담당줄().length && !새담당.안다시) setTimeout(() => 새담당팝업(true), 300); }
+/* 팝업 카드에서 바로 분류 — 그 사람은 확인한 것으로 치고 그 일을 함 (2026-10-30 노션) */
+async function 새담당바로(id, 일){ 새담당.보 = [String(id)]; 새담당.안다시 = true; try{ await 새담당확인(); }finally{ 새담당.안다시 = false; }
+  if(일 === 'contact'){ await 배정고침(id, { contact_at:new Date().toISOString(), contact_by:(ME && ME.name) || '' }, '연락 완료 · 이제 「예약 기다림」으로 가요'); if(새담당줄().length) setTimeout(() => 새담당팝업(true), 300); }
+  else if(일 === 'recall') 배정재연락판(id); else if(일 === 'end') 배정종료판(id); }
 
 /* ══ 금요일 돌아보기 ══ 2026-10-29 노션 「매주 금요일 돌아보기 팝업 · 오늘 하루 닫기 · 점검 탭에서 다시 확인할 수 있습니다 · 가이드 배정 · 점검 탭에서 확인해야 하는 것」
    본인 것만 · 눌러서 정할 것만 크게(탭별 머리 = 메뉴 이름 그대로) · 팝업 안에서 다 정함(펼침 · 5줄씩) · 탭으로 넘어가는 단추 없음 · 정할 것 0 이면 안 뜸
@@ -14745,7 +14826,7 @@ function 돌아보기묶음(){
   const 나 = (ME && ME.name) || '', 묶 = [], 연 = [];
   if(배정.줄){ const 열 = 배정.줄.filter(x => (x.trainers || []).includes(나) && 배정열림(x)), 정묶 = 열쇠 => (돌아.정.get(열쇠) || {}).g || '';
     const 재 = 열.filter(x => x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY), 멈 = 열.filter(배정멈춤).filter(x => !재.includes(x));
-    [['b재연', '연락 예정', '연락할 날이 됐어요 · 진행중 · 연락 예정 · 종료', 1, 재], ['b멈', '다음 수업 잡기', '진행중 · 연락 예정 · 종료 중 하나', 2, 멈]]
+    [['b재연', '다시 연락', '연락할 날이 됐어요 · 진행중 · 다시 연락 · 종료', 1, 재], ['b멈', '다음 수업 잡기', '진행중 · 다시 연락 · 종료 중 하나', 2, 멈]]
       .forEach(([k, 이름, 설, 급, L]) => { const 여기 = L.filter(x => !정묶('b' + x.id) || 정묶('b' + x.id) === k).concat(배정.줄.filter(x => 정묶('b' + x.id) === k && !L.includes(x)));      /* 이 팝업에서 정한 줄은 정한 묶음에 ✓ 로 남는다 */
         const LL = 여기.map(x => ({ x, i: x.id, 열쇠: 'b' + x.id, 정: (돌아.정.get('b' + x.id) || {}).t || '' })); if(LL.length) 묶.push({ k, 이름, 설, 급, 탭:'배정', L: LL }); });
     const 첫 = 열.filter(배정첫); if(첫.length) 연.push('첫 수업 잡기 ' + 첫.length); }
@@ -14778,7 +14859,7 @@ function 돌아보기그리기(처음){
     if(g.탭 === '배정'){ const x = r.x, 편 = 돌아.편[x.id] || '';
       const 머 = '<div class="a"><b>' + esc(x.name || '') + '</b><span class="s">' + esc((x.kind === '체험' ? '체험' : 'TG') + ' · ' + String(x.assigned_on || '').slice(5).replace('-', '/') + ' 배정' + (x.recall_on && x.progress === '재연락 필요' ? ' · ' + String(x.recall_on).slice(5).replace('-', '/') + ' 알림' : '')) + '</span>' + 배정점(x) + '</div>';
       if(r.정) return '<div class="rv-m lock">' + 머 + '<div class="ok">✓ ' + esc(r.정) + '</div></div>';
-      return '<div class="rv-m">' + 머 + '<div class="rv-st">' + '<button class="p" data-act="tx:rvas" data-k="' + esc(x.id) + '">진행중</button><button class="l' + (편 === 'later' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|later">연락 예정</button><button class="e' + (편 === 'end' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|end">종료</button></div>'
+      return '<div class="rv-m">' + 머 + '<div class="rv-st">' + '<button class="p" data-act="tx:rvas" data-k="' + esc(x.id) + '">진행중</button><button class="l' + (편 === 'later' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|later">다시 연락</button><button class="e' + (편 === 'end' ? ' on' : '') + '" data-act="tx:rvedit" data-k="' + esc(x.id) + '|end">종료</button></div>'
         + (편 === 'later' ? '<div class="rv-ed"><span class="sub3">알림 날</span>' + [3, 7, 14, 30].map(n => '<button class="chip" data-rvday="' + esc(x.id) + '" data-act="tx:rvday" data-k="' + esc(x.id) + '|' + n + '">' + n + '일 뒤</button>').join('') + '<input class="srch" id="rvd_' + esc(x.id) + '" type="date" min="' + 날더함(TODAY, 1) + '" max="' + 날더함(TODAY, 30) + '"><button class="btn main sm" data-act="tx:rvlatergo" data-k="' + esc(x.id) + '">저장</button></div>' : '')
         + (편 === 'end' ? '<div class="rv-ed"><input class="srch" id="rvm_' + esc(x.id) + '" placeholder="메모 (선택) · 예) 이사 · 연락 안 됨">' + Object.entries(배정종료말).map(([v, t]) => '<button class="btn ghost sm" data-act="tx:rvendgo" data-k="' + esc(x.id) + '|' + v + '">' + t + '</button>').join('') + '</div>' : '') + '</div>'; }
     const c = g.c, 종 = 메모종류(c.k), o = r.o, 편 = 돌아.편['c' + r.열쇠] || '', m = 메모마지막(o.key, 종);
@@ -14807,12 +14888,12 @@ function 돌아보기그리기(처음){
 async function 배정나중저장(id, 날){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return false; const 나 = (ME && ME.name) || '';
   if(!날){ toast('알림 날짜를 정해 주세요'); return false; } if(날 <= TODAY || 날 > 날더함(TODAY, 30)){ toast('알림 날짜는 내일부터 30일 뒤(' + 날더함(TODAY, 30).slice(5).replace('-', '/') + ')까지예요'); return false; }
   const n = Math.round((new Date(날) - new Date(TODAY)) / 86400000);
-  return await 배정고침(id, { progress:'재연락 필요', later_at:new Date().toISOString(), recall_on:날, recall_by:나, recall_log:(Array.isArray(x.recall_log) ? x.recall_log : []).concat([{ at:new Date().toISOString(), by:나, on:날, n }]) }, '연락 예정 · ' + 날.slice(5).replace('-', '/') + '에 알림(' + n + '일 뒤)'); }
+  return await 배정고침(id, { progress:'재연락 필요', later_at:new Date().toISOString(), recall_on:날, recall_by:나, recall_log:(Array.isArray(x.recall_log) ? x.recall_log : []).concat([{ at:new Date().toISOString(), by:나, on:날, n }]) }, '다시 연락 · ' + 날.slice(5).replace('-', '/') + '에 알림(' + n + '일 뒤)'); }
 const 배정종료말 = { 종료:'수업을 다 받음', 수업거부:'수업을 원하지 않음', 기타사유:'그 밖의 사유' };
 async function 배정종료저장(id, v, m){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return false; const 사 = 배정종료말[v] || v;
   return await 배정고침(id, { progress:v, recall_on:null, later_at:null, assign_note:(x.assign_note ? x.assign_note + String.fromCharCode(10) : '') + TODAY + ' 종료 · ' + 사 + (m ? ' · ' + m : '') + ' (' + ((ME && ME.name) || '') + ')' }, '종료 · ' + 사); }
 function 배정재연락판(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;      /* 연락 예정 = 알림일 필수 · 최장 30일 (2026-10-28 대표) */
-  판열기(esc(x.name) + ' · 연락 예정', '<div class="ck-act">언제 다시 연락할까요?<small>알림 날짜는 꼭 정해요 · 최대 30일 뒤까지 · 그날 「다시 연락할 날」과 현황판에 뜹니다</small></div>'
+  판열기(esc(x.name) + ' · 다시 연락', '<div class="ck-act">언제 다시 연락할까요?<small>알림 날짜는 꼭 정해요 · 최대 30일 뒤까지 · 그날 「다시 연락할 날」과 현황판에 뜹니다</small></div>'
     + '<div class="l1row" style="margin-top:12px"><input class="srch" id="asrcd" type="date" min="' + 날더함(TODAY, 1) + '" max="' + 날더함(TODAY, 30) + '" style="width:170px">'
     + [3, 7, 14, 30].map(n => '<button class="chip" data-act="tx:asrcq" data-k="' + n + '">' + n + '일 뒤</button>').join('') + '</div>'
     + '<button class="btn main" data-act="tx:asrecallgo" data-k="' + esc(x.id) + '" style="width:100%;margin-top:12px">저장</button>'); }
@@ -14919,16 +15000,16 @@ function 배정할일(x){
     할수('assignset') && 배정쓰기(x) ? (x.memo_wait && 할수('assignall') ? '<button class="btn ghost" data-act="tx:asmemoback" data-k="' + esc(x.id) + '" title="' + esc(x.memo_wait) + '">담당 정하기로</button>' : '') + '<button class="btn ghost" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : '');      /* 「대기로」 고른 줄은 되돌리기 그대로 (96단계) */
   if(배정미배(x) && 배정열림(x)) return 할수('assignset') && 배정쓰기(x) ? '<div class="asp-todo" style="--c:' + 배정급색[급] + '"><span>' + 머 + '<b>담당을 정해 주세요</b><small>' + esc(희 ? '희망시간 · ' + 희 : x.apply_at ? '설문 신청이 와 있어요' : x.kind === '체험' ? '체험수업 등록 · 배정 전' : '담당이 아직 없어요') + '</small></span>' + (배정메모만(x) && !x.memo_wait && 할수('assignall') ? '<button class="btn ghost" data-act="tx:asmemowait" data-k="' + esc(x.id) + '">대기로</button>' : '') + (x.memo_wait && 할수('assignall') ? '<button class="btn ghost" data-act="tx:asmemoback" data-k="' + esc(x.id) + '" title="' + esc(x.memo_wait) + '">담당 정하기로</button>' : '') + '<button class="btn gold" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button></div>'
     : 상자('<b>담당 배정을 기다리고 있어요</b><small>관리자가 정해요</small>', '', 1);
-  if(x.progress === '재연락 필요' && x.recall_on) return 상자('<b>' + esc(String(x.recall_on).slice(5).replace('-', '/')) + '에 다시 연락하기로 했어요</b><small>연락 예정 · 담당 ' + esc(배정담당(x)) + '</small>');
+  if(x.progress === '재연락 필요' && x.recall_on) return 상자('<b>' + esc(String(x.recall_on).slice(5).replace('-', '/')) + '에 다시 연락하기로 했어요</b><small>다시 연락 · 담당 ' + esc(배정담당(x)) + '</small>');
   if(배정첫(x)){ const 단 = 첫단계(x), 쓰 = 배정쓰기(x), 밑 = '담당 ' + esc(배정담당(x)) + (x.assigned_on ? ' · ' + esc(String(x.assigned_on).slice(5).replace('-', '/')) + ' 배정' : '');
     if(단 === '예약 있음') return 상자('<b>첫 수업 ' + esc(첫예약글(x) || '예약 있음') + '</b><small>' + 밑 + ' · 수업 처리되면 「수업 중」으로 가요</small>');
-    if(단 === '예약 기다림') return 상자('<b>연락했어요 · 예약을 기다려요</b><small>' + 밑 + (x.contact_at ? ' · ' + esc(배정날짜(x.contact_at)) + ' 연락' : '') + ' · 전산에 예약이 잡히면 저절로 바뀌어요</small>', 쓰 ? '<button class="btn ghost" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '');
-    return 상자('<b>' + (x.kind === '체험' ? '체험 첫 수업을 잡아 주세요' : '첫 수업을 잡아 주세요') + '</b><small>' + 밑 + ' · 아직 연락 전</small>',
-      쓰 ? '<span class="asp-acts"><button class="btn main" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락했어요</button><button class="btn" data-act="tx:asrecall" data-k="' + esc(x.id) + '">나중에</button><button class="btn ghost" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button></span>' : ''); }
+    if(단 === '예약 기다림') return 상자('<b>' + (x.kind === '체험' ? '체험 첫 수업을 잡아 주세요' : '첫 수업을 잡아 주세요') + '</b><small>연락 완료 · ' + 밑 + (x.contact_at ? ' · ' + esc(배정날짜(x.contact_at)) + ' 연락' : '') + ' · 전산에 예약이 잡히면 저절로 빠져요</small>', 쓰 ? '<span class="asp-acts"><button class="btn" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="btn ghost" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button><button class="btn ghost" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button></span>' : '');
+    return 상자('<b>연락해 주세요</b><small>' + 밑 + ' · 연락하면 「첫 수업 잡기」로 가요</small>',
+      쓰 ? '<span class="asp-acts"><button class="btn main" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락했어요</button><button class="btn" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="btn ghost" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button></span>' : ''); }
   if(배정멈춤(x)) return 상자('<b>다음 수업을 잡아 주세요</b><small>마지막 수업 뒤 2주가 넘었어요 · 담당 ' + esc(배정담당(x)) + '</small>');
   return ''; }
 /* 배정 지금 상태 · 지난 기록 — assign_note(중앙 · 데스크가 한 줄씩 적음)를 날짜별로 · 기계 말은 화면에서만 쉬운 말로 (저장된 글은 그대로) (2026-10-29 대표 「용어 정리」) */
-const 배정분말 = { A0:['담당 정하기', '담당이 아직 없어요'], A1:['첫 수업 전', '담당이 첫 수업을 잡아요'], A2:['수업 중', ''], A3:['다음 수업 잡기', '마지막 수업 뒤 14일 넘게 다음 수업이 없어요'], A4:['연락 예정', '고객이 나중에 하겠다고 해 연락할 날을 정해 뒀어요'],
+const 배정분말 = { A0:['담당 정하기', '담당이 아직 없어요'], A1:['첫 수업 전', '담당이 첫 수업을 잡아요'], A2:['수업 중', ''], A3:['다음 수업 잡기', '마지막 수업 뒤 14일 넘게 다음 수업이 없어요'], A4:['다시 연락', '고객이 나중에 하겠다고 해 연락할 날을 정해 뒀어요'],
   B1:['자동 설문 대상', '담당이 없고 자동 설문이 나가요 · 신청하면 담당 정하기로 올라와요'], B2:['신청 안 한 고객', '담당이 없고 자동 설문도 안 나가요 · 본인이 신청하면 담당 정하기로 올라와요'], C:['끝', 'TG를 다 썼거나 회원권이 끝났어요'] };
 const 짧날 = k => k ? (+k.slice(5, 7)) + '/' + (+k.slice(8, 10)) : '';
 const 배정날키 = s => { const m = String(s || '').match(/^\d{4}-\d{2}-\d{2}/); return m ? m[0] : 월일키(s, TODAY); };
@@ -14964,6 +15045,26 @@ function 배정판정칸(x){
   if(!TG정리권() || x.kind !== '가이드' || !배정쓰기(x)) return '';
   if(배정판정됨(x)) return x.progress === '종료' ? '<div class="asp-judge">' + '관리자가 수업 다 받음으로 닫았어요' + '<button class="btn ghost sm" data-act="tx:asjudgeno" data-k="' + esc(x.id) + '">종료 취소</button></div>' : '';
   return 배정열림(x) ? '<div class="asp-judge">' + '전산에 수업 처리가 빠졌으면' + '<button class="btn sm" data-act="tx:asjudge" data-k="' + esc(x.id) + '">수업 다 받음 → 종료</button></div>' : ''; }
+/* 고객 정보 화면에서 TG 메모 남기기 · 수정 — 매출 팝업과 같은 양식 · 배정 표 FC 메모에 「[TG 날 이름]」 한 덩어리 (수정 = 마지막 TG 덩어리를 바꿈) (2026-10-30 대표 「안 남겼으면 나중에 남길 수 있게 · 수정도 어디서」) */
+const 배정TG창 = { k:'', id:'', 고침:false };
+const 배정TG단추 = (x, 있음) => 배정쓰기(x) && x.kind !== '체험' ? '<button class="as-btn sm" data-act="tx:astgm" data-k="' + esc(x.id) + '">' + (있음 ? '수정' : 'TG 메모 남기기') + '</button>' : '';
+function 배정TG창열기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
+  const k = 'a' + x.id, 메 = FC나눔(x.fc_memo), 끝 = 메.tg[메.tg.length - 1]; delete 매확.TGF[k]; delete 매확.TG바뀜[k];
+  const f = 매확TG폼(k, null); if(끝) f.메모 = 끝.칸.map(([a, b]) => a + ': ' + b).concat(끝.말 ? [끝.말] : []).join(' / ');
+  Object.assign(배정TG창, { k, id:String(x.id), 고침:!!끝 }); 배정TG창그리기(); }
+function 배정TG창그리기(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id); if(!x) return;
+  가운데창('<div class="tx-ph"><b>' + esc(x.name || '') + ' · TG 메모 ' + (배정TG창.고침 ? '수정' : '남기기') + '</b><button data-act="popclose">✕</button></div><div class="cl-ed">'
+    + 매확TG양식(배정TG창.k, null, x.lessons || 0, '<button class="btn main sm" data-act="tx:astgmsave">저장</button>') + '</div>', 560); }
+async function 배정TG저장(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id), f = 매확.TGF[배정TG창.k]; if(!x || !f) return;
+  if(!매확TG있음(f)) return toast('희망시간 · 목적 · 메모 중 하나는 적어 주세요');
+  const d = new Date(), 글 = 매확TG글(f, null).split(String.fromCharCode(10)).filter(l => !/^참고\s*:/.test(l)).join(String.fromCharCode(10)), 덩 = '[TG ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ((ME && ME.name) || '') + '] ' + 글;
+  const 옛 = String(x.fc_memo || ''), 끝 = 옛.lastIndexOf('[TG '), 뒤 = 끝 >= 0 ? ((옛.slice(끝 + 1).match(/\n\[[^\]]+\][\s\S]*$/) || [''])[0]) : '';
+  const 새 = 배정TG창.고침 && 끝 >= 0 ? 옛.slice(0, 끝).replace(/\s+$/, '') + (끝 ? String.fromCharCode(10) : '') + 덩 + 뒤 : (옛 ? 옛 + String.fromCharCode(10) : '') + 덩;
+  if(!await 묻기(x.name + ' — TG 메모를 ' + (배정TG창.고침 ? '수정' : '저장') + '할까요?' + String.fromCharCode(10) + 글.split(String.fromCharCode(10))[0])) return;
+  try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(x.id), 'PATCH', { fc_memo:새, updated_by:(ME && ME.name) || '' }, 'return=minimal'); x.fc_memo = 새;
+    기록남기기({ area:'배정', action:'수정', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'TG 메모 ' + (배정TG창.고침 ? '수정' : '남김') + ' — ' + 글.split(String.fromCharCode(10))[0].slice(0, 80) });
+    delete 매확.TGF[배정TG창.k]; 배정TG창.k = ''; popClose(); toast('저장했어요'); 배정판(x.id); }
+  catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 function 배정판(id){
   const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
   const 메 = FC나눔(x.fc_memo), kv = 줄 => 줄.length ? '<dl class="asp-kv">' + 줄.map(([k, v]) => '<dt>' + esc(k) + '</dt><dd>' + v + '</dd>').join('') + '</dl>' : '';
@@ -14992,7 +15093,7 @@ function 배정판(id){
     '<div class="asp-top">' + 상 + '<span class="asp-ph">' + (번 ? '<a href="tel:' + esc(번) + '">' + esc(번보) + '</a>' : '<span class="sub3">전화 없음</span>') + '</span><span class="asp-dam">' + 담칸 + '</span></div>'
     + 배정할일(x) + 배정확인칸(x)
     + '<div class="asv-wrap">' + 배정설문줄(x) + '</div>'
-    + '<div class="asp-two">' + (블('고객이 원하는 것', 원, 메.tg.length ? '팝업 TG 메모' : '') || 블('고객이 원하는 것', '<div class="sub3">아직 적힌 것이 없어요</div>', ''))
+    + '<div class="asp-two">' + (블('고객이 원하는 것', 원, (메.tg.length ? '팝업 TG 메모 ' : '') + 배정TG단추(x, 메.tg.length)) || 블('고객이 원하는 것', '<div class="sub3">아직 적힌 것이 없어요</div>', 배정TG단추(x, 0)))
     + 블('최근 출석', (출석글 && !배정출석.열림.has(String(x.id)) ? '<div class="as-att-l pre">' + 출석글.split(/\s*,\s*/).filter(Boolean).map(a => '<span>' + esc(a) + '</span>').join('') + '</div>' : '') + 배정출석칸(x), '') + '</div>'
     + 블('수업 · 등록', 진행 + 등록 + kv(참고) + 교체칸(x), '')      /* 배정 참고(전에 담당 · 팝업 메모)를 여기로 (2026-10-29 시안 ④) */
     + 블('지금 상태 · 지난 기록', 배정기록(x), '')
@@ -15716,6 +15817,12 @@ async function txAct(a, el){
   if(a==='asdsend'){ await 배정직접보내기(k); return; }
   if(a==='asdhand'){ 직접.손 = k === '1'; 직접.고름 = null; 직접다시(); if(직접.손){ const n = $('#asd_name'); if(n) n.focus(); } return; }
   if(a==='asassign'){ const [id, t] = String(k).split('|'), x0 = (배정.줄 || []).find(r => String(r.id) === String(id)); if(await 배정고침(id, Object.assign({ trainers:[t], assigned:'배정완료', assigned_on:TODAY, assign_note:TODAY + ' ' + ((ME && ME.name) || '') + ' → ' + t, swap_by:null, swap_why:null, swap_at:null }, x0 && 배정PT중(x0) && 'pt_ok' in x0 && 배정관리자() ? { pt_ok: ((ME && ME.name) || '') + ' ' + new Date().toISOString().slice(0, 16).replace('T', ' ') + ' 담당 바꿈' } : {}), '담당 ' + t + ' · 배정완료')){ if(판길.length) 배정판(id); else popClose(); } return; }      /* 상세에서 왔으면 상세로(새 담당) — 뒤로 길도 거기까지 걷힘 */
+  if(a==='asnewdo'){ const [id, 일] = String(k).split('|'); await 새담당바로(id, 일); return; }
+  if(a==='astgm'){ 배정TG창열기(k); return; }
+  if(a==='astgmsave'){ await 배정TG저장(); return; }
+  if(a==='mypart'){ S.myPart = k; render(); return; }
+  if(a==='exreqf'){ 종목요청창(k); return; }
+  if(a==='exreqsend'){ await 종목요청보내기(k); return; }
   if(a==='ascontact'){ await 배정고침(k, { contact_at:new Date().toISOString(), contact_by:(ME && ME.name) || '' }, '연락 완료 · 이제 「예약 기다림」으로 가요'); return; }
   if(a==='ascontactx'){ await 배정고침(k, { contact_at:null, contact_by:null }, '「연락 완료」 되돌리기 · 「연락 전」으로 가요'); return; }
   if(a==='asst'){ const [id, st] = String(k).split('|'); await 배정고침(id, Object.assign({ progress:st }, st === '진행중' ? { recall_on:null, later_at:null } : {}), '진행상황 「' + st + '」'); if($('#pop').classList.contains('on')) 배정판(id); return; }
@@ -15740,7 +15847,7 @@ async function txAct(a, el){
   /* aslater(연락 예정 토글) 뺌 — 진행상황 「연락 예정」으로 (2026-10-28) */
   if(a==='asoptreq'){ await 배정고침(k, { optout_req:((ME && ME.name) || '') + ' · ' + new Date().toISOString() }, '자동 설문 중지 요청 · 관리자가 확인하면 꺼져요'); return; }
   if(a==='asoptok' || a==='asoptno'){ await 중지요청처리(k, a === 'asoptok'); return; }
-  if(a==='aspresend'){ await 수업전설문보내기(k); return; }
+  if(a==='aspresend'){ const x0 = (배정.줄 || []).find(r => String(r.id) === String(k)); if(x0 && !x0.contact_at && 배정첫(x0) && !x0.pre_sent_at) return toast('「연락했어요」를 누른 뒤에 보낼 수 있어요'); await 수업전설문보내기(k); return; }
   if(a==='svlist'){ 들어온설문판(); return; }
   if(a==='svk'){ 들설.k = k || ''; 들어온설문판(); return; }
   if(a==='svone'){ 들설.열 = k; 들설본(k); 들어온설문판(); return; }
@@ -15780,7 +15887,7 @@ async function txAct(a, el){
   if(a==='rvedit'){ const [id, w] = String(k).split('|'); 돌아.편[id] = 돌아.편[id] === w ? '' : w; 돌아보기그리기(); return; }
   if(a==='rvday'){ const [id, n] = String(k).split('|'), e = document.getElementById('rvd_' + id); if(e) e.value = 날더함(TODAY, +n); document.querySelectorAll('[data-rvday="' + id + '"]').forEach(z => z.classList.toggle('on', z === el)); return; }
   if(a==='rvas'){ if(await 배정고침(k, { progress:'진행중', recall_on:null, later_at:null }, '진행상황 「진행중」')) 돌아정('b' + k, '진행중'); 돌아보기그리기(); return; }
-  if(a==='rvlatergo'){ const 날 = ((document.getElementById('rvd_' + k) || {}).value || '').trim(); if(await 배정나중저장(k, 날)){ 돌아정('b' + k, '연락 예정 · ' + 날.slice(5).replace('-', '/') + ' 알림'); 돌아.편[k] = ''; } 돌아보기그리기(); return; }
+  if(a==='rvlatergo'){ const 날 = ((document.getElementById('rvd_' + k) || {}).value || '').trim(); if(await 배정나중저장(k, 날)){ 돌아정('b' + k, '다시 연락 · ' + 날.slice(5).replace('-', '/') + ' 알림'); 돌아.편[k] = ''; } 돌아보기그리기(); return; }
   if(a==='rvendgo'){ const [id, v] = String(k).split('|'); if(await 배정종료저장(id, v, ((document.getElementById('rvm_' + id) || {}).value || '').trim())){ 돌아정('b' + id, '종료 · ' + (배정종료말[v] || v)); 돌아.편[id] = ''; } 돌아보기그리기(); return; }
   if(a==='rvq'){ const [gk, i, st] = String(k).split('|'), g = (돌아.묶 || []).find(x => x.k === gk), r = g && g.L.find(z => String(z.i) === i); if(!r) return;
     if(메모사유(st)){ 돌아.편['c' + r.열쇠] = st; 돌아보기그리기(); const e = document.getElementById('rvr_' + r.열쇠); if(e) e.focus(); return; }
@@ -15896,10 +16003,10 @@ async function txAct(a, el){
     if(v === undefined){ const el2 = $('#txfv'); v = el2 ? el2.value : null; }
     if(v === 'true') v = true; if(v === 'false') v = false;
     표상태[k].규칙 = (표상태[k].규칙||[]).concat([{ k:새규칙.k, cmp:새규칙.cmp, v:v==null?null:v }]);
-    새규칙 = null; popClose(); render(); return; }
-  if(a==='fdrop'){ 표상태[k].규칙.splice(+el.dataset.i, 1); render(); return; }
-  if(a==='fclr'){ 표상태[k].규칙 = []; 표상태[k].op = 'and'; render(); return; }
-  if(a==='fop'){ 표상태[k].op = 표상태[k].op === 'or' ? 'and' : 'or'; render(); return; }
+    새규칙 = null; popClose(); 조건바뀜(k); render(); return; }
+  if(a==='fdrop'){ 표상태[k].규칙.splice(+el.dataset.i, 1); 조건바뀜(k); render(); return; }
+  if(a==='fclr'){ 표상태[k].규칙 = []; 표상태[k].op = 'and'; 조건바뀜(k); render(); return; }
+  if(a==='fop'){ 표상태[k].op = 표상태[k].op === 'or' ? 'and' : 'or'; 조건바뀜(k); render(); return; }
   if(a==='lock'){ if(!할수('table')) return toast('표 관리 권한이 있는 분만 잠그고 풀 수 있어요');
     const m = 표설정(k);
     if(!await 묻기(!m.locked ? '이 표를 잠글까요?' + String.fromCharCode(10) + '지금 화면(필터 · 정렬 · 칸 순서 · 칸 넓이)이 모두에게 저장되고 다른 분은 바꿀 수 없어요' : '잠금을 풀까요?' + String.fromCharCode(10) + '다른 분도 필터 · 순서 · 칸 넓이를 각자 바꿀 수 있어요')) return;
@@ -15914,7 +16021,7 @@ async function txAct(a, el){
   if(a==='vpush'){ await 모두에게저장(k); return; }
   if(a==='vreset'){ 내것되돌리기(k); return; }
   if(a==='grpmenu'){ 그룹판(k); return; }
-  if(a==='grpset'){ 표상태[k].그룹 = v2 || null; 표상태[k].접힘 = {}; popClose(); render(); return; }
+  if(a==='grpset'){ 표상태[k].그룹 = v2 || null; 표상태[k].접힘 = {}; popClose(); 조건바뀜(k); render(); return; }
   if(a==='gfold'){ const st = 표상태[k]; st.접힘 = st.접힘 || {};
     st.접힘[v2] = !st.접힘[v2]; render(); return; }
   if(a==='sortmenu'){ 정렬판(k); return; }
@@ -15922,7 +16029,7 @@ async function txAct(a, el){
     if(!v2) st.정렬 = null;
     else if(st.정렬 && st.정렬.k === v2) st.정렬 = { k:v2, dir: st.정렬.dir === 'desc' ? 'asc' : 'desc' };
     else st.정렬 = { k:v2, dir:'asc' };
-    popClose(); render(); return; }
+    popClose(); 조건바뀜(k); render(); return; }
   /* ── 보기 ── */
   if(a==='views'){ 보기판(k); return; }
   if(a==='vadd'){ const nm = ($('#txvname').value || '').trim();
@@ -16961,7 +17068,7 @@ function render0(){
     top.innerHTML = '<h1>루틴표 · 스트레칭</h1><span class="cnt">회원 없이 만드는 틀 · 회원에게는 「회원에게 주기」</span>';
     b.innerHTML = v루틴만들기();
   } else if(S.view==='exreq'){
-    top.innerHTML = '<h1>종목 사전</h1><span class="cnt">보완 요청 · 새로 만든 종목</span>';
+    top.innerHTML = '<h1>요청함</h1><span class="cnt">요청 · 버그 · 종목 수정 요청 · 새로 만든 종목</span>';
     b.innerHTML = vExReq();
   } else if(S.view==='kits'){
     top.innerHTML = '<h1>홍보 자료</h1><span class="cnt">블로그 · 릴스에 쓸 회원 자료</span>';
@@ -17134,7 +17241,7 @@ function 판칩달기(){
   const sc = $('#popbox .tx-scroll'); if(!sc) return;
   let 묶 = [...sc.children].filter(e => e.classList.contains('tgrp'));      /* 칩을 눌러 다시 부르면 묶은 판을 그대로 쓴다 */
   if(!묶.length) 묶 = 구분묶기(sc);
-  if(묶.length < 2) return;
+  if(묶.length < 2 || sc.querySelector('[data-nochip]')) return;      /* 판 묶음만 · 칩 줄 없음 */
   const 이름 = 묶.map(g => g.dataset.name || ''), 고른 = 판칩고름[판머리] || '', n = 이름.findIndex(t => 판칩열쇠(t) === 고른);
   const 칩 = (k, 글, on) => { const m = 글.match(/^(.*?)[\s·]*(\d+)\s*(건|개|명)?$/); return '<button data-act="tx:pchip" data-v2="' + esc(k) + '" class="' + (on ? 'on' : '') + '">' + esc(m ? m[1] : 글) + (m ? '<b>' + m[2] + '</b>' : '') + '</button>'; };
   const bar = document.createElement('div'); bar.className = 'pchips';
