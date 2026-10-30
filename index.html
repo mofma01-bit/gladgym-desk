@@ -2078,6 +2078,11 @@ body{word-break:keep-all}
 .cl-row.on .bx{background:var(--gold);border-color:var(--gold)}.cl-row.on b{color:#a39c8e;text-decoration:line-through;text-decoration-color:#6b665c}
 .cl-row b{font-weight:800;font-size:14px;flex:1;min-width:0}.cl-row .cl-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.cl-row .cl-t b{flex:none}.cl-row .cl-how{font-size:13px;color:#8f887e;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cl-row small{font-size:13px;color:#a39c8e;white-space:nowrap}.cl-row em{font-style:normal;font-size:13px;font-weight:800;color:#a9d8e6;white-space:nowrap}
 .cl-big{display:flex;flex-direction:column;gap:2px;background:linear-gradient(90deg,#2a2318,#1d1c1a 80%);border:1px solid rgba(230,196,135,.45);border-radius:10px;padding:9px 12px;margin-bottom:8px}
+.cl-igl{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px;cursor:pointer}.cl-igl .cl-ig{margin-left:0}
+.cl-no .cl-days button.no{border-color:var(--warn);color:var(--warn);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.cl-row .cl-t .cl-ig{align-self:flex-start;margin:3px 0 0}
+.cl-ig.cy{border-color:color-mix(in srgb,#df8f55 60%,transparent);color:#df8f55}
+.cl-ig.sm{margin:3px 0 0;padding:0 6px;font-size:12px}.cl-ig.sm small{font-size:12px}
 .cl-ig{display:inline-flex;align-items:center;gap:5px;flex:none;margin-left:6px;padding:1px 8px;border:1px solid rgba(169,216,230,.55);border-radius:99px;font-size:13px;font-weight:800;color:#a9d8e6;white-space:nowrap}.cl-ig small{font-size:13px;font-weight:600;color:#cfc7b8}
 .cl-big b{color:var(--gold);font-size:14px;font-weight:800}.cl-big span{font-size:13px;color:#cfc7b8}.cl-row em.zn{color:#a39c8e;font-weight:700}
 .tx-cd .lv.big{background:#2a2318;color:var(--gold);border:1px solid rgba(230,196,135,.5)}
@@ -2994,7 +2999,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '520';
+const BUILD = '521';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8710,7 +8715,7 @@ const 청소짧은날 = d => (+d.slice(5, 7)) + '/' + (+d.slice(8)) + '(' + 요�
 async function 청소받기(){
   if(!ME || 청소.중) return; 청소.중 = true;
   try{
-    const 부터 = 할수('cleanlog') ? 날더함(TODAY, -13) : 날더함(TODAY, -1);
+    const 부터 = 할수('cleanlog') ? 날더함(TODAY, -13) : 날더함(TODAY, -7);      /* 이월(지난 정한 요일 뒤 체크) 보려면 한 주 (2026-10-30) */
     const g = await Promise.all([uget('tr_clean?select=*&order=sort,created_at'), uget('tr_clean_zone?select=*&order=sort,created_at'), uget('tr_clean_turn?select=*'),
       uget('tr_clean_big?select=*'), uget('tr_clean_log?select=*&day=gte.' + 부터 + '&order=day.desc'), uget('tr_clean_ack?select=*&day=gte.' + 날더함(TODAY, -3)).catch(() => [])]);
     청소.목 = g[0] || []; 청소.구역 = g[1] || []; 청소.배정 = g[2] || []; 청소.대 = g[3] || []; 청소.기록 = g[4] || []; 청소.확인 = g[5] || []; 청소.없음 = false;
@@ -8752,6 +8757,9 @@ const 청소생긴날 = x => { if(!x.created_at) return ''; const t = new Date(x
 const 청소날 = (x, d) => x.active !== false && (!(x.days || []).length || x.days.indexOf(요일of(d)) >= 0) && (!청소생긴날(x) || 청소생긴날(x) <= d);
 const 구역들 = () => (청소.구역 || []).filter(z => z.active !== false).slice().sort((a, b) => ((+a.sort || 0) - (+b.sort || 0)) || String(a.name || '').localeCompare(String(b.name || ''), 'ko'));
 const 할일of = id => (청소.목 || []).find(x => x.id === id);
+/* 이월 — 요일을 정한 청소에 「안 하면 다음 날로 이월」을 켜 두면 그 요일에 체크가 없을 때 다음 날 · 그다음 날 … 체크할 때까지 다시 뜬다(다음 정한 요일 전까지) · 돌려주는 값 = 원래 날 (2026-10-30 대표) */
+const 청소이월날 = (x, d) => { if(!x || !x.carry || !(x.days || []).length || 청소날(x, d)) return '';
+  for(let k = 1; k <= 6; k++){ const p = 날더함(d, -k); if(청소날(x, p)){ for(let j = k; j >= 1; j--) if(청소체크of(x.id, 날더함(d, -j))) return ''; return p; } } return ''; };
 /* 분기 배정 — 구역 id → 사람 id */
 function 분기배정(q){
   const 줄 = 청소.배정 || [], 저장 = [...new Set(줄.map(r => r.quarter))].filter(x => 분기번(x) <= 분기번(q)).sort((a, b) => 분기번(a) - 분기번(b)), 기준 = 저장[저장.length - 1], 결과 = {};
@@ -8772,7 +8780,7 @@ function 청소배정(d, 월){
   const 고름 = 후보 => 후보.slice().sort((a, b) => ((수[a.id] || 0) - (수[b.id] || 0)) || ((월[a.id] || 0) - (월[b.id] || 0)) || (섞(a) - 섞(b)))[0] || null;
   if(휴무일(d)) return { 목: [], 결과, 휴무: true, 대신들: [] };
   const 당 = 당직날(d), 목 = [], 구역of = {}, 구목 = {};
-  구역들().filter(z => 당 ? z.kind === '당직' : z.kind !== '당직').forEach(z => (z.items || []).forEach(id => { const x = 할일of(id); if(x && 청소날(x, d) && !구역of[x.id]){ 목.push(x); 구역of[x.id] = z; (구목[z.id] = 구목[z.id] || []).push(x); } }));
+  구역들().filter(z => 당 ? z.kind === '당직' : z.kind !== '당직').forEach(z => (z.items || []).forEach(id => { const x = 할일of(id); if(x && (청소날(x, d) || 청소이월날(x, d)) && !구역of[x.id]){ 목.push(x); 구역of[x.id] = z; (구목[z.id] = 구목[z.id] || []).push(x); } }));
   const 쓸 = 구역들().filter(z => 구목[z.id]), 줌 = (z, p, 값) => 구목[z.id].forEach(x => { 결과[x.id] = Object.assign({ p, 구역: z }, 값); });
   if(당){ const 당들 = 당직자(d).map(찾).filter(Boolean);
     쓸.forEach(z => { const p = 고름(당들.filter(s => !z.sex || s.sex === z.sex)) || 고름(당들); 줌(z, p, { 당직: true, 왜: p ? '' : '당직자 없음' }); if(p) 더(p, 구목[z.id].length); });
@@ -8790,8 +8798,8 @@ function 청소배정(d, 월){
     /* 먼저 받을 사람을 정한 구역은 그 사람들이 다 없으면 다른 선생님(성별 상관없이 · FC 빼고 — 저녁에만 나옴) (2026-10-23 23:22 대표 「영림쌤 청소도 분배는 되게 · FC 는 저녁에만 나오니까 · 우선순위 분배」) */
     /* 23:24 대표 「먼저 받는 사람 양인수 → off 면 조민철 → off 면 또 누군가가 받는다」 · 23:36 「청소 항목마다」 — 그 청소의 먼저 받을 사람 중 차례대로 첫 출근자 · 다 쉬면 다른 선생님(FC 빼고) */
     구목[z.id].forEach(x => { if(x.off_mode === '건너뜀'){ 뺄.add(x.id); return; }
-      const cv = x.cover || [], 먼저 = cv.map(찾).filter(s => s && !청소쉼(s, d)),
-        후보 = 먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC') : 출근.filter(s => !z.sex || s.sex === z.sex);
+      const 뺌 = new Set(x.cover_no || []), cv = (x.cover || []).filter(id => !뺌.has(id)), 먼저 = cv.map(찾).filter(s => s && !청소쉼(s, d)),
+        후보 = (먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC') : 출근.filter(s => !z.sex || s.sex === z.sex)).filter(s => !뺌.has(s.id));      /* 인계 제외 (2026-10-30 대표) */
       const p = 차례(후보);
       결과[x.id] = { p, 구역: z, 대신: !!p, 원, 왜: p ? '' : z.sex ? z.sex + '자 선생님 중 출근자 없음' : '출근자 없음' };
       if(p){ 받음[p.id] = (받음[p.id] || 0) + 1; 더(p, 1); 대신들.push(p.id); } }); });
@@ -8917,9 +8925,11 @@ function 청소카드(){
   const 링크 = (할수('cleanlog') ? '<span class="r" data-act="tx:cllog">기록 ›</span>' : '') + '<span class="r" data-act="tx:clset">' + (할수('clean') ? '관리' : '구역 보기') + ' ›</span>';
   const 대 = 다음대청소(TODAY), 대띠 = 대 && 주안(TODAY, 대) ? '<div class="cl-big"><b>' + (대 === TODAY ? '오늘 14시 대청소' : '이번 주 ' + 청소짧은날(대) + ' 14시 대청소') + '</b>' + (대메모(대) ? '<span>' + esc(대메모(대).split(String.fromCharCode(10))[0].slice(0, 40)) + '</span>' : '') + '</div>' : '';
   const 줄 = x => { const 됨 = !!청소체크of(x.id, TODAY), b = 배.결과[x.id];
-    return '<button class="cl-row' + (됨 ? ' on' : '') + '" data-act="tx:clck" data-v2="' + esc(x.id) + '"><span class="bx">' + (됨 ? '✓' : '') + '</span><span class="cl-t"><b>' + esc(x.title || '') + '</b>' + (x.how ? '<span class="cl-how">' + esc(x.how) + '</span>' : '') + '</span>'
-      + 청소시각(x.slot) + (b.대신 && b.원 ? '<span class="cl-ig">인계<small>' + esc(보임이름(b.원.name)) + ' 휴무</small></span>' : '') + '</button>'; };      /* 구역 이름은 뺐다 — 시각이 두 번 · 낮 청소가 마감처럼 보임 (2026-10-23 대표) · 설명(하는 방법)은 이름 아래 작게 */
-  return '<div class="tx-home one"><div class="sec"><div class="lbl">오늘 내 청소' + (내.length ? ' <span class="tx-tag' + (한 < 내.length ? ' gold' : '') + '">' + 한 + ' / ' + 내.length + '</span>' : '') + 링크 + '</div>' + 대띠
+    return '<button class="cl-row' + (됨 ? ' on' : '') + '" data-act="tx:clck" data-v2="' + esc(x.id) + '"><span class="bx">' + (됨 ? '✓' : '') + '</span><span class="cl-t"><b>' + esc(x.title || '') + '</b>' + (x.how ? '<span class="cl-how">' + esc(x.how) + '</span>' : '') + (b.대신 && b.원 ? '<span class="cl-ig">인계<small>' + esc(보임이름(b.원.name)) + ' 휴무</small></span>' : '') + (청소이월날(x, TODAY) ? '<span class="cl-ig cy">이월<small>' + esc(요일of(청소이월날(x, TODAY))) + '요일 안 함</small></span>' : '') + '</span>'
+      + 청소시각(x.slot) + '</button>'; };      /* 인계 딱지는 이름 아래 — 오른쪽에 두면 100% 화면에서 카드 밖으로 넘쳤다 (2026-10-30 대표) */      /* 구역 이름은 뺐다 — 시각이 두 번 · 낮 청소가 마감처럼 보임 (2026-10-23 대표) · 설명(하는 방법)은 이름 아래 작게 */
+  const 인계묶 = {}; if(할수('clean') || 할수('cleanlog')) Object.keys(배.결과 || {}).forEach(id => { const o = 배.결과[id]; if(!(o && o.대신 && o.원 && o.p)) return; const k = o.원.name + '→' + o.p.name; (인계묶[k] = 인계묶[k] || { 원:o.원.name, 받:o.p.name, n:0 }).n++; });
+  const 인계띠 = Object.values(인계묶).length ? '<div class="cl-igl" data-act="tx:clset">' + Object.values(인계묶).map(g => '<span class="cl-ig">인계<small>' + esc(보임이름(g.원)) + ' 휴무 → ' + esc(보임이름(g.받)) + ' ' + g.n + '개</small></span>').join('') + '</div>' : '';      /* 관리하는 사람 홈에도 오늘 인계 (2026-10-30 대표 「없는데?」) */
+  return '<div class="tx-home one"><div class="sec"><div class="lbl">오늘 내 청소' + (내.length ? ' <span class="tx-tag' + (한 < 내.length ? ' gold' : '') + '">' + 한 + ' / ' + 내.length + '</span>' : '') + 링크 + '</div>' + 인계띠 + 대띠
     + (내.length ? '<div class="cl-hl">' + 내.map(줄).join('') + '</div>'
       : '<div class="empty why">' + (배.휴무 ? '<b>오늘은 정기휴무입니다</b>' : 배.당직 ? '<b>오늘은 당직 청소만 있습니다</b>' : '<b>오늘 맡은 청소가 없습니다</b>') + (할수('clean') ? '구역 · 담당은 「관리」에서 정해요' : '구역 · 담당은 청소 관리자가 정해요') + '</div>') + '</div></div>';
 }
@@ -8960,12 +8970,13 @@ function 청소기록판(){
   const 날 = [6, 5, 4, 3, 2, 1, 0].map(n => 날더함(TODAY, -n)), 배들 = {}; 날.forEach(d => 배들[d] = 청소배정(d));
   const 이름 = id => { const p = (W.staff || []).find(s => s.id === id); return p ? 보임이름(p.name) : ''; };
   const 목 = []; 날.forEach(d => 배들[d].목.forEach(x => { if(목.indexOf(x) < 0) 목.push(x); }));
+  const 인계 = b => b && b.대신 && b.원 && b.p ? '<br><span class="cl-ig sm">인계<small>' + esc(보임이름(b.원.name)) + ' 휴무 → ' + esc(보임이름(b.p.name)) + '</small></span>' : '';      /* 그날 담당이 쉬어 나눠 받은 청소 (2026-10-30 대표 「표에도 남겨줘」) */
   const 칸 = (x, d) => { const b = 배들[d].결과[x.id]; if(!b) return '<td class="dim">—</td>'; const r = 청소체크of(x.id, d);
-    if(r) return '<td class="ok" title="' + esc(이름(r.staff_id)) + '">' + 시각of(r.done_at) + (b.p && r.staff_id !== b.p.id ? '<br><span class="sub3">' + esc(이름(r.staff_id)) + '</span>' : '') + '</td>';
-    return d < TODAY ? '<td class="no">안 함</td>' : '<td class="no"></td>'; };
-  판열기('청소 기록', '<div class="sub3" style="margin-bottom:10px">체크를 누른 시각 · 담당이 아닌 사람이 했으면 이름이 같이 나와요 · 최근 7일</div>'
+    if(r) return '<td class="ok" title="' + esc(이름(r.staff_id)) + '">' + 시각of(r.done_at) + (b.p && r.staff_id !== b.p.id ? '<br><span class="sub3">' + esc(이름(r.staff_id)) + '</span>' : '') + 인계(b) + '</td>';
+    return (d < TODAY ? '<td class="no">안 함' : '<td class="no">') + 인계(b) + '</td>'; };
+  판열기('청소 기록', '<div class="sub3" style="margin-bottom:10px">체크를 누른 시각 · 담당이 아닌 사람이 했으면 이름이 같이 나와요 · 담당이 쉬어 나눠 받은 날은 「인계」 · 최근 7일</div>'
     + '<div class="tx-scroll" style="overflow-x:auto"><table class="cl-tb"><tr><th>할 일</th>' + 날.map(d => '<th>' + (+d.slice(5, 7)) + '/' + (+d.slice(8)) + '<br>' + 요일of(d) + '</th>').join('') + '</tr>'
-    + 목.map(x => { const b = 배들[TODAY].결과[x.id]; return '<tr><td><b>' + 청소글(x) + '</b><br><span class="sub3">' + esc(b && b.p ? 보임이름(b.p.name) : b ? (b.왜 || '담당 없음') : '오늘 없음') + '</span></td>' + 날.map(d => 칸(x, d)).join('') + '</tr>'; }).join('')
+    + 목.map(x => { const b = 배들[TODAY].결과[x.id]; return '<tr><td><b>' + 청소글(x) + '</b><br><span class="sub3">' + esc(b && b.p ? 보임이름(b.p.name) + (b.대신 && b.원 ? ' · ' + 보임이름(b.원.name) + ' 대신' : '') : b ? (b.왜 || '담당 없음') : '오늘 없음') + '</span></td>' + 날.map(d => 칸(x, d)).join('') + '</tr>'; }).join('')
     + '</table></div>');
 }
 /* ── 관리 — 구역 · 분기 배정 · 할 일 · 대청소 메모 · 선생님 성별 (청소 담당 관리 권한) ── */
@@ -9023,12 +9034,14 @@ const 청소편 = { days: [], items: [], kind: '순환', id: '', el: null };
 /* 할 일 — 이름 · 시각 · 요일 · 하는 방법 (누가 하는지는 구역이 정한다) */
 function 청소수정창(el, id, 구역){
   const x = 할일of(id) || { title:'', slot:'', days:[], how:'' }; 청소편.days = (x.days || []).slice(); 청소편.zone = 구역 || '';
-  청소편.off = x.off_mode || ''; 청소편.cover = (x.cover || []).slice();
+  청소편.off = x.off_mode || ''; 청소편.cover = (x.cover || []).slice(); 청소편.no = (x.cover_no || []).slice(); 청소편.carry = !!x.carry;
+  const 이월칸 = (청소.목 || []).some(y => 'carry' in y);      /* 100단계 SQL 뒤에만 */
   const z = 구역 && (청소.구역 || []).find(y => y.id === 구역), 쉬는칸 = (청소.목 || []).some(y => 'off_mode' in y);      /* 58단계 SQL 뒤에만 */
   가운데창('<div class="tx-ph"><b>' + (id ? '청소 수정' : (z ? esc(z.name || '') + ' · ' : '') + '청소 추가') + '</b><button data-act="popclose">✕</button></div><div class="cl-ed">'
     + '<label>청소<input class="inp" id="clt" value="' + esc(x.title || '') + '" placeholder="여자 탈의실 정리"></label>'
     + '<label>시각<input class="inp" id="cls" value="' + esc(x.slot || '') + '" placeholder="14시 · 마감"></label>'
     + '<div class="cl-lb">요일 <small>비우면 매일</small><span class="cl-days">' + ['월', '화', '수', '목', '금', '토', '일'].map(d => '<button data-act="tx:clday" data-v2="' + d + '" class="' + (청소편.days.indexOf(d) >= 0 ? 'on' : '') + '">' + d + '</button>').join('') + '</span></div>'
+    + (이월칸 ? '<div class="cl-lb">안 하면 다음 날로 이월 <small>요일을 정한 청소만 · 체크할 때까지 다음 날 다시 떠요</small><span><button class="sw' + (청소편.carry ? ' on' : '') + '" data-act="tx:clcarry" role="switch" aria-checked="' + (청소편.carry ? 'true' : 'false') + '"><i></i><b>' + (청소편.carry ? '켜짐' : '꺼짐') + '</b></button></span></div>' : '')
     + '<label>설명<input class="inp" id="clh" value="' + esc(x.how || '') + '" placeholder="포대 정리 · 비품 보충"></label>'
     + (쉬는칸 ? 청소쉬는칸() : '')
     + '<button class="btn gold sm" data-act="tx:clsave" data-v2="' + esc(id || '') + '">저장</button></div>', 440);
@@ -9037,13 +9050,16 @@ function 청소수정창(el, id, 구역){
 function 청소쉬는칸(){
   return '<div class="cl-lb">담당이 쉬는 날<span class="cl-days"><button data-act="tx:clzom" data-v2="" class="' + (청소편.off !== '건너뜀' ? 'on' : '') + '">다른 선생님이 대신</button><button data-act="tx:clzom" data-v2="건너뜀" class="' + (청소편.off === '건너뜀' ? 'on' : '') + '">건너뜀</button></span></div>'
     + '<div class="cl-lb cl-cov"' + (청소편.off === '건너뜀' ? ' style="display:none"' : '') + '>먼저 받을 사람 <small>누른 차례대로</small><span class="cl-days">'
-    + 청소사람().map(p => { const i = 청소편.cover.indexOf(p.id); return '<button data-act="tx:clzcov" data-v2="' + esc(p.id) + '" data-n="' + esc(보임이름(p.name)) + '" class="' + (i >= 0 ? 'on' : '') + '">' + (i >= 0 ? (i + 1) + ' ' : '') + esc(보임이름(p.name)) + '</button>'; }).join('') + '</span></div>';
+    + 청소사람().map(p => { const i = 청소편.cover.indexOf(p.id); return '<button data-act="tx:clzcov" data-v2="' + esc(p.id) + '" data-n="' + esc(보임이름(p.name)) + '" class="' + (i >= 0 ? 'on' : '') + '">' + (i >= 0 ? (i + 1) + ' ' : '') + esc(보임이름(p.name)) + '</button>'; }).join('') + '</span></div>'
+    + '<div class="cl-lb cl-cov cl-no"' + (청소편.off === '건너뜀' ? ' style="display:none"' : '') + '>인계 제외 <small>누른 사람은 이 청소를 받지 않아요</small><span class="cl-days">'
+    + 청소사람().map(p => { const 뺌 = (청소편.no || []).includes(p.id); return '<button data-act="tx:clzno" data-v2="' + esc(p.id) + '" class="' + (뺌 ? 'no' : '') + '">' + (뺌 ? '✕ ' : '') + esc(보임이름(p.name)) + '</button>'; }).join('') + '</span></div>';      /* 2026-10-30 대표 「인계 제외도 할 수 있게」 */
 }
 async function 청소저장(id){
   const v = k => (($('#' + k) || {}).value || '').trim(), 제목 = v('clt');
   if(!제목) return toast('청소를 입력해 주세요');
   const 몸 = { title: 제목, slot: v('cls'), days: 청소편.days.slice(), how: v('clh') };
-  if($('#txpop .cl-cov')){ 몸.off_mode = 청소편.off || null; 몸.cover = 청소편.off === '건너뜀' || !청소편.cover.length ? null : 청소편.cover.slice(); }      /* 담당이 쉬는 날 (항목마다 · 58단계) */
+  if((청소.목 || []).some(y => 'carry' in y)) 몸.carry = !!(청소편.carry && 청소편.days.length);      /* 이월 (100단계) — 요일이 없으면(매일) 끔 */
+  if($('#txpop .cl-cov')){ 몸.off_mode = 청소편.off || null; 몸.cover = 청소편.off === '건너뜀' || !청소편.cover.length ? null : 청소편.cover.slice(); 몸.cover_no = 청소편.off === '건너뜀' || !(청소편.no || []).length ? null : 청소편.no.slice(); }      /* 담당이 쉬는 날 (항목마다 · 58단계) */
   const 구역 = !id && 청소편.zone ? (청소.구역 || []).find(y => y.id === 청소편.zone) : null;
   if(!await 묻기(id ? '「' + 제목 + '」을 이대로 수정할까요?' : 구역 ? '「' + (구역.name || '') + '」에 「' + 제목 + '」을 추가할까요?' : '「' + 제목 + '」을 추가할까요?')) return;
   쪽지닫기();
@@ -15630,6 +15646,9 @@ async function txAct(a, el){
   if(a==='clordok'){ if(!할수('clean')) return; await 청소순서저장(); return; }
   if(a==='clmove'){ if(!할수('clean')) return; 청소옮김창(el, v2); return; }
   if(a==='clmoveok'){ if(!할수('clean')) return; await 청소옮김(k, v2); return; }
+  if(a==='clcarry'){ 청소편.carry = !청소편.carry; el.classList.toggle('on', 청소편.carry); el.setAttribute('aria-checked', 청소편.carry ? 'true' : 'false'); el.querySelector('b').textContent = 청소편.carry ? '켜짐' : '꺼짐'; return; }
+  if(a==='clzno'){ const 뺌 = 청소편.no = 청소편.no || [], i = 뺌.indexOf(v2); if(i >= 0) 뺌.splice(i, 1); else { 뺌.push(v2); 청소편.cover = 청소편.cover.filter(id => id !== v2); }
+    const 칸 = document.querySelector('#txpop .cl-cov:not(.cl-no)'), 뺀칸 = document.querySelector('#txpop .cl-no'); if(칸 && 뺀칸){ const t = document.createElement('div'); t.innerHTML = 청소쉬는칸(); 칸.replaceWith(t.querySelector('.cl-cov:not(.cl-no)')); 뺀칸.replaceWith(t.querySelector('.cl-no')); } return; }
   if(a==='clzom'){ 청소편.off = v2 || ''; document.querySelectorAll('#txpop [data-act="tx:clzom"]').forEach(b => b.classList.toggle('on', (b.dataset.v2 || '') === 청소편.off)); const c = document.querySelector('#txpop .cl-cov'); if(c) c.style.display = 청소편.off === '건너뜀' ? 'none' : ''; return; }
   if(a==='clzcov'){ const i = 청소편.cover.indexOf(v2); if(i >= 0) 청소편.cover.splice(i, 1); else 청소편.cover.push(v2);      /* 누른 차례 = 받는 차례(1 → 2) */
     document.querySelectorAll('#txpop [data-act="tx:clzcov"]').forEach(b => { const j = 청소편.cover.indexOf(b.dataset.v2); b.classList.toggle('on', j >= 0); b.textContent = (j >= 0 ? (j + 1) + ' ' : '') + (b.dataset.n || ''); }); return; }
