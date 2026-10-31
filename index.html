@@ -3020,7 +3020,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '528';
+const BUILD = '529';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10479,14 +10479,14 @@ const 시각한글 = d => { if(!d) return ''; const x = new Date(d); if(isNaN(x)
   const h = x.getHours(), m = x.getMinutes();
   if(!h && !m) return (x.getMonth()+1)+'/'+x.getDate()+'('+WDN[x.getDay()]+')';      /* 0시 = 날짜만 넣은 것 — 날짜만 (2026-10-25 중앙 · 노션 예약날짜를 옮긴 줄) */
   return (x.getMonth()+1)+'/'+x.getDate()+'('+WDN[x.getDay()]+') '+(h<12?'오전 ':'오후 ')+((h%12)||12)+':'+String(m).padStart(2,'0'); };
-const 오늘인가 = d => d && String(d).slice(0,10)===TODAY;
-const 이달인가 = d => d && String(d).slice(0,7)===TODAY.slice(0,7);
+const 오늘인가 = d => d && 서울날(d)===TODAY;      /* 표 보기 날짜 조건도 서울 날짜로 — 달 첫날 새벽 0~9시 상담이 지난달로 빠졌다 (2026-11-01) */
+const 이달인가 = d => d && 서울날(d).slice(0,7)===TODAY.slice(0,7);
 const 로컬ISO = (d) => { const x = new Date(d), p=n=>String(n).padStart(2,'0');
   return x.getFullYear()+'-'+p(x.getMonth()+1)+'-'+p(x.getDate())+'T'+p(x.getHours())+':'+p(x.getMinutes()); };
 const VIS = { all:'전체', owners:'담당자만', picked:'지정한 사람만', admin:'관리자만' };
 const 내것 = (ids) => !!(ME && (ids||[]).indexOf(ME.id)>=0);
 const 이번주인가 = d => { if(!d) return false;
-  const x = new Date(String(d).slice(0,10)+'T00:00:00'), t = new Date(TODAY+'T00:00:00');
+  const x = new Date(서울날(d)+'T00:00:00'), t = new Date(TODAY+'T00:00:00');
   const diff = (x - t) / 864e5; return diff >= -t.getDay() && diff < 7 - t.getDay(); };
 /* 늘린 속성이면 extra 안에서 꺼낸다 */
 const 값읽기 = (r, k) => String(k).indexOf('extra.') === 0 ? ((r.extra||{})[String(k).slice(6)]) : r[k];
@@ -10873,7 +10873,7 @@ function 규칙맞나(q, r, key){
     case 'today':  return 오늘인가(v);
     case 'week':   return 이번주인가(v);
     case 'month':  return 이달인가(v);
-    case 'past':   return !!v && String(v).slice(0,10) < TODAY;
+    case 'past':   return !!v && 서울날(v) < TODAY;
     case 'gt':     return c.타입==='number' ? Number(v) > Number(q.v) : (!!v && String(v) > String(q.v));
     case 'lt':     return c.타입==='number' ? Number(v) < Number(q.v) : (!!v && String(v) < String(q.v));
   }
