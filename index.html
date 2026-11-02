@@ -1139,6 +1139,10 @@ body.끄는중{user-select:none;-webkit-user-select:none}
 .homenums .nrow{display:grid;gap:10px 6px}
 .homenums .nrow + .nrow{margin-top:13px;padding-top:13px;border-top:1px solid #2a2a26}
 .homenums .nrow.dead{opacity:.55}
+.hblk > .homenums.two{background:none;border:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.homenums .ngrp{background:#191917;border:1px solid #30302b;border-radius:14px;padding:12px 20px 14px;grid-column:1/-1;min-width:0}
+.homenums .nh{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.homenums .nh b{font-size:14px;font-weight:800}.homenums .nh small{font-size:13px;color:var(--sub)}
+.hblk > .homenums .ngrp.tr .nrow.live .v{font-size:24px}.hblk > .homenums .ngrp.tr .num .v{color:#d9d3c9}
 .homenums .nrow.none{font-size:13px;font-weight:700;color:var(--sub);padding:4px 6px}
 .hblk > .homenums .num{min-width:0;text-align:center}
 .hblk > .homenums .nrow.live .v{font-size:34px}
@@ -3020,7 +3024,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '532';
+const BUILD = '533';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -14138,6 +14142,9 @@ const 현황셈하기 = k => {
   try{ return c && c.셈 ? (c.셈() || 0) : (현황목록[k] || (()=>[]))().length; }
   catch(e){ return 0; } };
 
+/* 관리자는 두 칸 — 내가 할 일 / 선생님 현황 (2026-11-02 대표 「다른 트레이너들의 업무와 관리자인 나의 업무를 나눠서」 · 시안 승인). 트레이너 화면은 그대로.
+   선생님이 처리하는 것만 여기 적는다 — 새 칸을 안 적으면 「내가 할 일」로 가서 묻히지 않는다 */
+const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '상담', '청소', '첫TG', '재연락', '설문2차', '다음주연차']);
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
@@ -14160,13 +14167,14 @@ function 숫자줄(){
      두 줄에 같은 칸 수를 주면 짧은 줄 오른쪽에 빈 칸이 남는다 — 그게 그 여백이었다.
      ⛔ `auto-fit` 은 쓰지 않는다. 줄마다 칸 수가 제멋대로 달라져 아랫줄이 접혔다. */
   const 틀 = n => ' style="grid-template-columns:repeat(' + n + ',minmax(0,1fr))"';
-  return '<div class="homenums">'
-    + (산.length ? '<div class="nrow live"' + 틀(산.length) + '>' + 산.map(칸).join('') + '</div>'
-                 : '<div class="nrow none">오늘 볼 것이 없습니다 👍</div>')
-    /* 2026-10-14 대표 「없는 것이라는 게 생뚱맞고 정렬도 안 맞고」 → 한 줄로 접고, 펼치면 윗줄처럼 칸을 맞춘다 */
-    + (죽.length ? '<div class="nrow zline"><button class="zbtn" data-act="tx:zopen">나머지 <b>' + 죽.length + '가지</b>는 지금 0건입니다<i>' + (S.zOpen ? '접기 ⌃' : '펼치기 ⌄') + '</i></button></div>'
-        + (S.zOpen ? '<div class="nrow zgrid">' + 죽.map(없는칸).join('') + '</div>' : '') : '')
-    + '</div>';
+  const 줄 = (xs, 빈, 최대) => xs.length ? '<div class="nrow live"' + 틀(최대 ? Math.min(xs.length, 최대) : xs.length) + '>' + xs.map(칸).join('') + '</div>' : '<div class="nrow none">' + 빈 + '</div>';
+  /* 2026-10-14 대표 「없는 것이라는 게 생뚱맞고 정렬도 안 맞고」 → 한 줄로 접고, 펼치면 윗줄처럼 칸을 맞춘다 */
+  const 접힘 = 죽.length ? '<div class="nrow zline"><button class="zbtn" data-act="tx:zopen">나머지 <b>' + 죽.length + '가지</b>는 지금 0건입니다<i>' + (S.zOpen ? '접기 ⌃' : '펼치기 ⌄') + '</i></button></div>'
+        + (S.zOpen ? '<div class="nrow zgrid">' + 죽.map(없는칸).join('') + '</div>' : '') : '';
+  if(!배정관리자()) return '<div class="homenums">' + 줄(산, '오늘 볼 것이 없습니다 👍') + 접힘 + '</div>';
+  const 머 = (글, 덧) => '<div class="nh"><b>' + 글 + '</b><small>' + 덧 + '</small></div>';
+  return '<div class="homenums two"><div class="ngrp me">' + 머('내가 할 일', '대표 · 관리자가 처리') + 줄(산.filter(x => !선생님칸.has(x.c.k)), '지금 할 일이 없습니다', 7) + '</div>'
+    + '<div class="ngrp tr">' + 머('선생님 현황', '선생님들이 처리') + 줄(산.filter(x => 선생님칸.has(x.c.k)), '지금 밀린 일이 없습니다', 7) + 접힘 + '</div></div>';
 }
 
 /* ── 숫자를 누르면 **그 페이지로 간다** ──
