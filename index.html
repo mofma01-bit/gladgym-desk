@@ -3053,7 +3053,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '535';
+const BUILD = '536';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -14199,7 +14199,9 @@ const 현황칸 = [
   /* 다음 주 연차 — 월요일 쉬는 사람을 미리 알게 (2026-10-23 대표 「다음 주 월요일인 경우 확인이 늦으니까 현황판에」) · 모두 */
   /* 알림톡 못 감 — 카톡도 문자도 실패(중앙이 끝 결과를 적음) · 기다리지 않고 바로 연락하게 (2026-10-25 대표) */
   { k:'배정없음', 이름:'TG · 체험 담당 없음', 색:'warn', 셈: () => (배정.줄 || []).filter(배정담당없음줄).length, 직접: () => { 배정.탭 = '할일'; 가기('assign'); }, 보임: () => !!배정.줄 && 할수('assignall') },      /* 미뤄 둔 팝업과 상관없이 현황판에 (2026-10-28 20:38 대표) */
-  { k:'첫TG', 이름:'첫 수업 안 잡은 TG', 색:'gold', 셈: () => 배정범위().filter(배정첫).length, 직접: () => { 배정.탭 = '첫'; 가기('assign'); }, 보임: () => !!배정.줄 },      /* 새로 배정된 TG — 현황판에도 (2026-10-28 대표) */
+  /* 첫 수업 안 잡은 TG → 둘로 (2026-11-02 대표 — 연락 전 · 연락했고 예약 기다림 · 누르면 그 탭) */
+  { k:'첫연락', 이름:'연락해 주세요', 색:'gold', 셈: () => 배정범위().filter(x => 배정첫(x) && 첫단계(x) === '연락 전').length, 직접: () => { 배정.탭 = '연락'; 가기('assign'); }, 보임: () => !!배정.줄 },
+  { k:'첫TG', 이름:'첫 수업 잡기', 색:'gold', 셈: () => 배정범위().filter(x => 배정첫(x) && 첫단계(x) === '예약 기다림').length, 직접: () => { 배정.탭 = '첫'; 가기('assign'); }, 보임: () => !!배정.줄 },      /* 새로 배정된 TG — 현황판에도 (2026-10-28 대표) */
   { k:'재연락', 이름:'오늘 다시 연락', 색:'warn', 셈: () => 배정범위().filter(x => 배정열림(x) && x.progress === '재연락 필요' && x.recall_on && x.recall_on <= TODAY).length, 직접: () => { 배정.탭 = '재연락'; 가기('assign'); }, 보임: () => !!배정.줄 },
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
@@ -14237,7 +14239,7 @@ const 현황셈하기 = k => {
 
 /* 관리자는 두 칸 — 내가 할 일 / 선생님 현황 (2026-11-02 대표 「다른 트레이너들의 업무와 관리자인 나의 업무를 나눠서」 · 시안 승인). 트레이너 화면은 그대로.
    선생님이 처리하는 것만 여기 적는다 — 새 칸을 안 적으면 「내가 할 일」로 가서 묻히지 않는다 */
-const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '상담', '청소', '첫TG', '재연락', '설문2차', '다음주연차']);
+const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '상담', '청소', '첫연락', '첫TG', '재연락', '설문2차', '다음주연차']);
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
@@ -14618,6 +14620,8 @@ const 배정설문끔 = x => { const k = typeof 설문끔키 === 'function' ? �
 const 배정열림 = x => (x.progress === '진행중' || x.progress === '재연락 필요') && 배정분(x) !== 'C';      /* C(끝) = 진행상황이 아직 안 닫혀도 열린 줄 아님 */
 const 배정미배 = x => x.assigned === '미배정' || !(x.trainers || []).length;      /* 담당이 비면 「배정완료」로 적혀 있어도 미배정 — 노션에서 옮긴 20건이 그랬다(2026-10-15) */
 const 배정범위 = () => (배정.줄 || []).filter(x => 할수('assignall') || (x.trainers || []).includes((ME && ME.name) || ''));
+/* 배정 목록 기본 순서 = 최신순 (2026-11-02 대표 「최근에 배정된 사람이 위로」) — 배정일은 며칠 전이라 작은 것이 위 · 같은 날은 들어온 때 늦은 것이 위 */
+const 배정최신 = (a, b) => (배정일(a) - 배정일(b)) || String(b.created_at || '').localeCompare(String(a.created_at || ''));
 const 배정일 = x => { const d = x.assigned_on || 서울날(x.created_at); return d ? Math.round((new Date(TODAY) - new Date(d)) / 86400000) : 0; };
 const 배정회수 = x => { const t = x && x.tg_class, o = t && typeof t === 'object' ? +t.of : 0; const n = (o >= 1 && o <= 3 ? o : 0) || parseInt(x.lessons, 10) || +((String(x.ticket || '').match(/(\d)\s*회/) || [])[1] || 0); return n >= 1 && n <= 3 ? n : 3; };      /* 상품 회차 — 중앙 분류(of) → 수업 횟수 칸 → 이용권 글 「(pt 2회)」 → 모르면 3 (2026-10-26 대표) */
 const 배정쓴 = x => { const t = x && x.tg_class, 날 = ['r1', 'r2', 'r3'].filter(k => x[k]).length; return t && typeof t === 'object' && +t.of >= 1 && t.left != null ? Math.max(날, +t.of - (+t.left || 0)) : 날; };      /* 쓴 회차 — 같은 수업권의 앞 줄에서 쓴 것까지(중앙 tg_class) · 날짜 수보다 적게는 안 셈 (2026-10-29) */
@@ -14648,22 +14652,22 @@ function v배정(){
   const 연락 = 재연.slice().sort((a, b) => String(a.recall_on).localeCompare(String(b.recall_on))).concat(나중.slice().sort((a, b) => String(a.recall_on || '').localeCompare(String(b.recall_on || ''))));      /* 연락 예정 = 오늘(지난 날 포함) 먼저 + 앞으로 (2026-10-29 대표 「오늘 연락 · 나중에 희망」 합침) */
   const 수업중 = 열.filter(x => !배정미배(x) && (!배정첫(x) || 첫단계(x) === '예약 있음') && !배정멈춤(x) && !연락.includes(x));      /* CRM 에 첫 수업 예약이 잡히면 「첫 수업 잡기」에서 빠져 여기로 (2026-10-30 저녁 노션) */      /* 보기 「수업 중」 — 끝나지 않은 줄은 탭 한 곳에만 (2026-10-29 21:10 대표) */
   const 묶0 = [
-    { k:'교체', 이름:'담당 바꾸기', 설:'담당 선생님이 다른 선생님으로 바꿔 달라고 했어요', 할:'새 담당을 골라 주세요', hot:1, L: 교, 오른: x => '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">새 담당</button>' },
-    { k:'미배정', 이름:'담당 정하기', 설:'담당 선생님이 아직 없는 고객', 할:'담당 선생님을 골라 주세요', hot:1, 늘: 할수('assignall'), L: 미배.slice().sort((a, b) => ((b.kind === '체험') - (a.kind === '체험')) || (!!b.apply_at - !!a.apply_at) || String(b.apply_at || '').localeCompare(String(a.apply_at || ''))), 빈:'담당 없는 분이 없습니다',
+    { k:'교체', 이름:'담당 바꾸기', 설:'담당 선생님이 다른 선생님으로 바꿔 달라고 했어요', 할:'새 담당을 골라 주세요', hot:1, L: 교.slice().sort(배정최신), 오른: x => '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">새 담당</button>' },
+    { k:'미배정', 이름:'담당 정하기', 설:'담당 선생님이 아직 없는 고객', 할:'담당 선생님을 골라 주세요', hot:1, 늘: 할수('assignall'), L: 미배.slice().sort(배정최신), 빈:'담당 없는 분이 없습니다',
       오른: x => (x.apply_at ? '<span class="as-tag ok">설문</span>' : '') + 메모딱(x) + (배정쓰기(x) ? (배정PT중(x) && x.pt_trainer ? '<button class="as-btn g" data-act="tx:asassign" data-k="' + esc(x.id + '|' + x.pt_trainer) + '">' + esc(x.pt_trainer) + ' 확인</button>' : '') + (할수('assignset') ? '<button class="as-btn" data-act="tx:agpick" data-k="' + esc(x.id) + '">담당 정하기</button>' : '') + (배정메모만(x) && 할수('assignall') ? '<button class="as-btn g" data-act="tx:asmemowait" data-k="' + esc(x.id) + '" title="사람 메모만 있어요 · 신청 전이면 대기로">대기로</button>' : '') : '') },
-    { k:'연락', 이름:'연락해 주세요', 설:'담당이 정해졌고 아직 연락 전인 고객', 할:'연락하고 「연락했어요」 → 「첫 수업 잡기」로 가요', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '연락 전').sort((a, b) => 배정일(b) - 배정일(a)), 빈:'연락할 고객이 없습니다',      /* 2026-10-30 저녁 노션 */
+    { k:'연락', 이름:'연락해 주세요', 설:'담당이 정해졌고 아직 연락 전인 고객', 할:'연락하고 「연락했어요」 → 「첫 수업 잡기」로 가요', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '연락 전').sort(배정최신), 빈:'연락할 고객이 없습니다',      /* 2026-10-30 저녁 노션 */
       오른: x => 메모딱(x) + (배정쓰기(x) ? '<button class="as-btn" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락했어요</button><button class="as-btn g" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="as-btn g" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button>' : '<span class="as-tag">연락 전</span>') },
-    { k:'첫', 이름:'첫 수업 잡기', 설:'연락했고 첫 수업 예약을 기다리는 고객', 할:'CRM에 예약이 잡히면 저절로 빠져요 · 안 되면 다시 연락 · 담당 종료', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '예약 기다림').sort((a, b) => (['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(a)) - ['연락 전', '예약 기다림', '예약 있음'].indexOf(첫단계(b))) || (배정일(b) - 배정일(a))),
+    { k:'첫', 이름:'첫 수업 잡기', 설:'연락했고 첫 수업 예약을 기다리는 고객', 할:'CRM에 예약이 잡히면 저절로 빠져요 · 안 되면 다시 연락 · 담당 종료', hot:1, 늘:1, L: 첫.filter(x => 첫단계(x) === '예약 기다림').sort(배정최신),
       오른: x => { const 단 = 첫단계(x); if(단 === '예약 기다림') return 메모딱(x) + '<span class="as-tag">' + (x.contact_at ? esc(배정날짜(x.contact_at)) + ' 연락' : '연락 완료') + '</span>' + (배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asrecall" data-k="' + esc(x.id) + '">다시 연락</button><button class="as-btn g" data-act="tx:asend" data-k="' + esc(x.id) + '">담당 종료</button>' + (x.contact_at ? '<button class="as-btn g" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '') : ''); return 메모딱(x) + (단 === '예약 있음' ? '<span class="as-tag ok">' + esc(첫예약글(x) || '예약 있음') + '</span>' : 단 === '예약 기다림' ? '<span class="as-tag">연락 완료 · 예약 기다림</span>' + (배정쓰기(x) && x.contact_at ? '<button class="as-btn g" data-act="tx:ascontactx" data-k="' + esc(x.id) + '">되돌리기</button>' : '')
         : (배정쓰기(x) ? '<button class="as-btn" data-act="tx:ascontact" data-k="' + esc(x.id) + '">연락 완료</button>' : '<span class="as-tag">연락 전</span>')); } },
-    { k:'멈', 이름:'다음 수업 잡기', 설:'수업을 받다가 2주 넘게 다음 수업이 안 잡힌 고객' + (멈춤끝 ? ' · 회원권 끝 ' + 멈춤끝 + '명(곧 자동 종료)' : ''), 할:'연락해서 다음 수업을 잡아 주세요 · 안 되면 다시 연락할 날', 늘:1, L: 멈춤.slice().sort((a, b) => 배정일(b) - 배정일(a)), 정리:1,
+    { k:'멈', 이름:'다음 수업 잡기', 설:'수업을 받다가 2주 넘게 다음 수업이 안 잡힌 고객' + (멈춤끝 ? ' · 회원권 끝 ' + 멈춤끝 + '명(곧 자동 종료)' : ''), 할:'연락해서 다음 수업을 잡아 주세요 · 안 되면 다시 연락할 날', 늘:1, L: 멈춤.slice().sort(배정최신), 정리:1,
       오른: x => 메모딱(x) + (배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asst" data-k="' + esc(x.id) + '|종료">종료</button>' : '') },
     { k:'재연락', 이름:'다시 연락', 설:'고객 사정으로 몇 주 뒤 다시 연락하기로 한 고객 · 날이 되면 위로', 할:'연락할 날이 된 분께 연락하고 진행상황을 바꿔 주세요', hot:1, 늘:1, L: 연락, 수: 재연.length, 탭수: 연락.length, 빈:'다시 연락할 고객이 없습니다',      /* 할 일 카드 = 오늘 연락할 분 · 탭 숫자 = 명단 전체(오늘 것만 세어 0 으로 보였다 · 2026-10-30 저녁 노션) */
       오른: x => 메모딱(x) + '<span class="as-tag' + (x.recall_on && x.recall_on <= TODAY ? ' ok' : '') + '">' + (x.recall_on && x.recall_on <= TODAY ? '오늘' : esc(String(x.recall_on || '').slice(5, 10).replace('-', '/'))) + '</span>' },
-    { k:'수업', 이름:'수업 중', 설:'담당 선생님과 수업을 이어 가고 있는 고객 · PT 받는 중이라 TG를 재촉하지 않는 분 포함', 대기:1, 늘:1, L: 수업중.slice().sort((a, b) => 배정일(b) - 배정일(a)), 빈:'수업 중인 고객이 없습니다', 칩들:[['TG 수업', x => !배정PT중(x)], ['PT 받는 중', 배정PT중]], 오른: 메모딱 },
-    { k:'기다', 이름:'자동 설문 대상', 설:'TG가 남아 정해진 날 신청 설문이 자동으로 나가는 고객 · 신청하면 「담당 정하기」로', 대기:1, 늘: 할수('assignall'), L: 기다.filter(x => !배정나중진행줄(x)).sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || ''))), 빈:'기다리는 분이 없습니다',
+    { k:'수업', 이름:'수업 중', 설:'담당 선생님과 수업을 이어 가고 있는 고객 · PT 받는 중이라 TG를 재촉하지 않는 분 포함', 대기:1, 늘:1, L: 수업중.slice().sort(배정최신), 빈:'수업 중인 고객이 없습니다', 칩들:[['TG 수업', x => !배정PT중(x)], ['PT 받는 중', 배정PT중]], 오른: 메모딱 },
+    { k:'기다', 이름:'자동 설문 대상', 설:'TG가 남아 정해진 날 신청 설문이 자동으로 나가는 고객 · 신청하면 「담당 정하기」로', 대기:1, 늘: 할수('assignall'), L: 기다.filter(x => !배정나중진행줄(x)).sort(배정최신), 빈:'기다리는 분이 없습니다',
       오른: x => { const p = 배정설문계획(x); return '<span class="as-tag">' + (/재등록/.test(x.fc_memo || '') ? '재등록' : '신규') + '</span>' + 메모딱(x) + '<span class="as-tag">' + (p ? (p.next ? esc(String(p.next).slice(5).replace('-', '/')) + ' 오전 11시 · ' + (+p.n || 1) + '차 발송' : '발송 예정') : '판정 받는 중') + '</span>'; } },      /* 정본 B1 */
-    { k:'나진', 이름:'신청 안 한 고객', 설:'TG가 남았지만 지금 진행하지 않는 고객 · 자동 설문 안 나감 · 신청하면 「담당 정하기」로', 칩들:[['중단', x => 배정중단꼴.test(x.assign_note || '')], ['설문 끝남', x => !배정중단꼴.test(x.assign_note || '')]], 대기:1, 늘: 할수('assignall'), L: 기다.filter(배정나중진행줄).sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || ''))), 빈:'신청 안 한 고객이 없습니다',
+    { k:'나진', 이름:'신청 안 한 고객', 설:'TG가 남았지만 지금 진행하지 않는 고객 · 자동 설문 안 나감 · 신청하면 「담당 정하기」로', 칩들:[['중단', x => 배정중단꼴.test(x.assign_note || '')], ['설문 끝남', x => !배정중단꼴.test(x.assign_note || '')]], 대기:1, 늘: 할수('assignall'), L: 기다.filter(배정나중진행줄).sort(배정최신), 빈:'신청 안 한 고객이 없습니다',
       오른: x => '<span class="as-tag">' + esc((배정설문계획(x) || {}).why || '자동 설문 없음') + '</span>' + (x.phone && 배정쓰기(x) ? '<button class="as-btn g" data-act="tx:asresend" data-k="' + esc(x.id) + '">설문 보내기</button>' : '') },      /* 정본 B2 */
   ].filter(g => g.늘 || g.L.length);
   const 묶순 = (() => { try{ return JSON.parse(localStorage.getItem('gg_as_ord') || '[]') || []; }catch(e){ return []; } })();      /* 카드 순서 — 사람마다 이 기기에 (끌어서 바꿈) */
@@ -14706,6 +14710,7 @@ function v배정(){
     h += '<div class="as-sum">' + esc(g.이름) + ' <b>' + 거름(g.L).length + '</b>건 · ' + esc(g.설) + (g.할 ? ' <span class="qdo"><i>할 일</i>' + esc(g.할) + '</span>' : '') + 칩줄 + '</div>' + 묶표(g) + (g.정리 ? 정리단추 : '');
   } else {      /* 전체 */
     const G = 배정.거, 열수 = D.filter(배정열림).length, L = D.filter(x => (G.q || (G.e === '끝' ? !배정열림(x) : 배정열림(x))) && (!G.t || (x.trainers || []).includes(G.t)) && (!G.s || x.progress === G.s) && (!G.k || x.kind === G.k) && (!G.r || (G.r === '없음' ? !x.reg : x.reg === G.r)) && (!G.q || String(x.name || '').includes(G.q) || String(x.phone || '').replace(/\D/g, '').includes(G.q.replace(/\D/g, '') || '@@')));
+    L.sort(배정최신);      /* 전체 탭도 최신순 (2026-11-02 대표 「모든 탭」) */
     const 끝 = L.filter(x => x.progress === '종료'), 등 = 끝.filter(x => x.reg === 'PT등록').length, 쪽 = Math.max(1, Math.ceil(L.length / 50)); 배정.페 = Math.min(배정.페, 쪽 - 1);
     const 고 = (f, 이름, 값들) => '<select class="srch" data-asf="' + f + '"><option value="">' + 이름 + '</option>' + 값들.map(v => '<option value="' + esc(v) + '"' + (G[f] === v ? ' selected' : '') + '>' + esc(v === '가이드' ? 'TG' : v) + '</option>').join('') + '</select>';
     h += '<div class="as-flt"><input class="srch" id="asq" placeholder="이름 · 전화로 찾기" value="' + esc(G.q) + '">' + (할수('assignall') ? 고('t', '담당 전체', 배정선생()) : '') + 고('k', 'TG · 체험', ['가이드', '체험']) + 고('s', '진행상황 전체', 배정상태) + 고('r', '등록여부 전체', ['PT등록', 'PT미등록', '기존PT고객', '없음'])
