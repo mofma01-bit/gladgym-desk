@@ -3020,7 +3020,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '529';
+const BUILD = '531';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -14183,7 +14183,7 @@ function 가기(v){
   S.view = v;
   document.querySelectorAll('.nav').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   고른행 = { key:null, ids:[] };
-  render();
+  render(); window.scrollTo(0, 0);
 }
 
 /* ── ① 숫자를 누르면 **사이드 페이지** ──
@@ -14318,6 +14318,7 @@ const 끔출처 = m => !피드백끔(m) ? ''
     + (끔어떻게(m) === '트레이너' ? '확인 없이' : '회원이 확인함') + '</span>';
 
 const 피드백밀림일 = 14;
+const 피드백시작 = '2026-11-01';      /* 앱 기록은 이날부터 — 그 전엔 피드백이 없는 게 당연하다 (2026-11-02 대표 「전 회원이 밀림으로 잡힌다」) */
 function 끊긴목록(){
   return D.m.filter(x=>(x.role||'member')==='member' && 내담당(x.id)).map(function(m){
     const cs = D.c.filter(c=>c.member_id===m.id)
@@ -14327,9 +14328,10 @@ function 끊긴목록(){
     const ws = 마친운동(m.id);
     const 운동날 = ws[0] ? ws[0].on_date : null;
     /* 피드백이 한 번도 없으면 「한 번도」가 아니라 **회원 등록일부터 오늘까지**를 센다
-       (2026-09-17 대표: 「한번도 x · 00일 동안 없음」) */
-    const 든날 = 서울날(m.created_at);
-    const 빈날 = 든날 ? daysAgo(든날) : null;
+       (2026-09-17 대표: 「한번도 x · 00일 동안 없음」)
+       — 단 등록일이 앱 시작(피드백시작)보다 앞이면 시작일부터 센다 (2026-11-02 대표) */
+    const 든날 = [서울날(m.created_at) || '', 피드백시작].sort().pop();
+    const 빈날 = daysAgo(든날);
     return { m, gap: 마지막 ? daysAgo(마지막) : 빈날, last: 마지막, 수: cs.length,
              없음: !마지막, 운동: 운동날 ? daysAgo(운동날) : null, 운동날, 운동수: ws.length };
   }).filter(x => !피드백끔(x.m))                 /* ⭐ 동의로 끈 회원은 재촉하지 않는다 */
@@ -17556,7 +17558,7 @@ document.addEventListener('click', async function(ev){
   if(nav){ RS선생 = ''; RS찾 = ''; S.돌아갈 = null; if(S.view === 'rtedit') RT = null;     /* 화면을 옮기면 거르개를 푼다 */
     if(nav.dataset.v === 'manual'){ 강의.탭 = '홈'; 강의.표편집 = false; 강의.칩 = '전체'; 강의.q = ''; }      /* 매뉴얼을 다시 누르면 첫 화면 (2026-10-27 대표 「마지막 페이지로 들어가져서 뒤로가기를 해야 나옴」) */
     if(nav.dataset.v === 'rtmake'){ S.rsId = null; S.rtOld = false; }
-    S.view = nav.dataset.v;
+    S.view = nav.dataset.v; window.scrollTo(0, 0);      /* 화면을 옮기면 맨 위부터 — 아래로 내린 채 옮기면 붙박이 머리줄이 새 화면 윗부분을 덮는다 (2026-11-02 칼로리 계산기 윗줄을 못 누름) */
     document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on', b===nav));
     /* 리포트 화면은 **들어올 때마다** 새로 읽는다 — 서버가 방금 보냈을 수 있다 */
     if(S.view === 'reports') 발송기록읽기().then(()=>render()).catch(()=>{});
