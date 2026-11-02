@@ -921,6 +921,10 @@ body:has(.rs-selbar) #toast,body:has(#pop.on .pk-foot) #toast,body:has(#pop.on .
 .sp-th{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;flex:none;background:#f1f2f4;border:0;padding:0;cursor:pointer}.sp-th[disabled]{cursor:default}.sp-th > .rsi,.sp-th > .pkim{display:block;width:72px!important;height:72px!important;aspect-ratio:auto}.sp-th img,.sp-th canvas{width:100%!important;height:100%!important;object-fit:cover}.sp-th em{position:absolute;right:4px;bottom:4px;font-style:normal;font-size:11px;font-weight:800;padding:1px 6px;border-radius:999px;background:rgba(0,0,0,.65);color:#fff}
 .sp-it.miss{flex-wrap:wrap}.sp-find{flex:1 1 100%;display:flex;flex-direction:column;gap:8px;padding-left:36px}.sp-res{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px;align-items:center}.sp-res > .sub3{grid-column:1/-1}
 .sp-pick{display:flex;align-items:center;gap:8px;padding:5px 8px 5px 5px;border:1px solid var(--line);border-radius:10px;background:var(--dark-2);color:var(--cream);font:inherit;text-align:left;cursor:pointer;min-width:0}.sp-pick:hover{border-color:var(--gold)}.sp-pick > .rsi,.sp-pick > .pkim{display:block;width:40px!important;height:40px!important;flex:none;border-radius:7px;overflow:hidden;aspect-ratio:auto}.sp-pick img,.sp-pick canvas{width:100%!important;height:100%!important;object-fit:cover}.sp-pick > span{display:flex;flex-direction:column;min-width:0}.sp-pick b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sp-pick small{font-size:12px;color:var(--sub)}
+.sp-fix{margin-left:auto;flex:none}.sp-it .r + .sp-fix{margin-left:8px}.sp-it .r{margin-left:auto}
+.spf-q{font-size:16px;padding:12px 14px;margin-bottom:12px}.spf-cap{margin:0 0 8px 2px}
+.spf-now{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-bottom:14px;border:2px solid var(--gold);border-radius:14px;background:rgba(232,196,128,.08)}.spf-now .im{width:96px;height:96px;border-radius:10px;overflow:hidden;background:#f1f2f4;flex:none}.spf-now .im > .rsi,.spf-now .im > .pkim{display:block;width:100%!important;height:100%!important}.spf-now img,.spf-now canvas{width:100%!important;height:100%!important;object-fit:contain}.spf-now b{font-size:16px}.spf-now small{display:block;color:var(--sub)}.spf-now em{margin-left:auto;font-style:normal;font-size:12.5px;font-weight:800;padding:2px 10px;border-radius:999px;background:var(--gold);color:#1a1a18}
+#spvarbox .spv-g{grid-template-columns:repeat(4,1fr)}#spfgrid .spv-v .t{display:block}#spvarbox .spv-v .t small{display:block;color:var(--sub);font-weight:600;font-size:12.5px;margin-top:2px}
 .sp-it .nm{display:flex;flex-direction:column;gap:2px;min-width:0}.sp-it .nm small{color:var(--sub);font-size:12.5px}.sp-it .r{margin-left:auto;color:var(--sub);font-size:12.5px}.sp-it select{margin-left:auto;max-width:220px}
 .sp-foot{position:sticky;bottom:0;display:flex;align-items:center;gap:10px;padding:12px 22px;border-top:1px solid var(--line);background:var(--dark-2);font-size:14px;color:var(--sub)}.sp-foot b{color:var(--cream)}
 #spvarbox{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center}.spv-c{width:min(860px,92vw);max-height:90vh;overflow:auto;background:var(--dark-2);border:1px solid var(--line);border-radius:18px;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.6)}.spv-h{display:flex;align-items:center;gap:10px;margin-bottom:16px}.spv-h b{font-size:18px}.spv-h small{color:var(--sub);font-size:13.5px}.spv-h .x{margin-left:auto;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--dark-3);color:var(--sub);font-size:16px;cursor:pointer}
@@ -3062,7 +3066,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '537';
+const BUILD = '538';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3629,6 +3633,10 @@ const 별칭기구 = { '맨몸':'bodyweight 자중 홈트 기구없이', '바벨
   '원판':'plate 플레이트', '폼롤러':'foamroller 마사지', '땅콩볼':'peanut 피넛볼 트윈볼 마사지',
   '마사지볼':'ball 라크로스볼 마사지', '도구':'tool 소도구', '유산소':'cardio' };
 const 검색키 = t => (t||'').toLowerCase().replace(/[\s·()\-—_/,]/g,'');
+/* 소리로도 찾기 (2026-11-02 대표 「v스쿼트 → 브이스쿼트로도 검색되게 · 비슷한 건 검색에 뜨게」) — 영문 글자는 한글 읽기로 · ㅐ/ㅔ · ㅒ/ㅖ 는 같게(팩덱 ↔ 펙덱 — 같은 종목을 철자 달라 또 만들었다) */
+const 영소리 = { a:'에이', b:'비', c:'씨', d:'디', e:'이', f:'에프', g:'지', h:'에이치', i:'아이', j:'제이', k:'케이', l:'엘', m:'엠', n:'엔', o:'오', p:'피', q:'큐', r:'알', s:'에스', t:'티', u:'유', v:'브이', w:'더블유', x:'엑스', y:'와이', z:'지' };
+const 소리판 = t => String(t || '').replace(/[a-z]/g, c => 영소리[c] || c).replace(/[가-힣]/g, ch => { const c = ch.charCodeAt(0) - 0xAC00, 중 = Math.floor(c / 28) % 21; const 새 = 중 === 1 ? 5 : 중 === 3 ? 7 : 중; return 새 === 중 ? ch : String.fromCharCode(0xAC00 + (Math.floor(c / 588) * 21 + 새) * 28 + c % 28); });
+const 찾음 = (키, q) => !!q && (String(키 || '').includes(q) || String(키 || '').includes(소리판(q)));
 function exKey(e){
   let t = e.name + ' ' + e.part + ' ' + (e.equip||'');
   for(const a of 별칭이름) if(t.indexOf(a[0])>=0) t += ' ' + a[1];
@@ -3665,7 +3673,7 @@ function exKey(e){
     if(/레그 레이즈|니 레이즈|리버스 크런치|니업|플러터|시저스/.test(e.name)) t += ' 하복부';
     if(/사이드|우드찹|트위스트|팔로프|안티로테이션|벤드/.test(e.name)) t += ' 옆구리 복사근 oblique';
   }
-  return 검색키(t);
+  const k = 검색키(t); return k + '|' + 소리판(k);      /* 그대로 + 소리 */
 }
 
 /* 지금 종목 사전에 실제로 있는 기구만 · 자주 쓰는 순서로 */
@@ -5808,7 +5816,7 @@ function 종목픽판(){ const p = 종목픽; if(!p) return; const r = (D.r || [
   if(p.ex){ const e = (D.ex || []).find(z => z.id === p.ex), vs = (D.va || []).filter(v => v.ex_id === p.ex).sort((a, b) => (a.sort || 0) - (b.sort || 0));
     판열기('「' + esc((e || {}).name || '') + '」 그림 선택', '<div class="sub3" style="margin-bottom:8px">추가할 그림(하는 법)을 눌러 주세요</div><div class="pkg2 rsv-pk">' + vs.map(v => '<button class="pkc2" data-act="tx:rspkv" data-k="' + esc(v.id) + '">' + 종목그림(v.id) + '<span class="pkt"><b>' + esc(vaName(v.id) || '') + '</b></span></button>').join('') + '</div>'
       + '<button class="btn ghost sm" data-act="tx:rspkback" style="margin-top:10px">‹ 종목 목록</button>'); return; }
-  const 부 = p.부위 || '전체', 다 = 고를종목().filter(e => 첫벌(e)).sort(내종목순()), 칩 = ['전체'].concat(RT부위들, 다.some(e => e.owner) ? ['추가한 종목'] : []), 별 = 내별들();
+  const 부 = p.부위 || '전체', 다 = 고를종목().filter(e => 첫벌(e)).sort(내종목순()), 칩 = 종목칩들().concat(다.some(e => e.owner) ? ['추가한 종목'] : []), 별 = 내별들();
   const 번 = 표루틴들((D.rs || []).find(s => s.id === r.sheet_id) || {}).findIndex(x => x.id === r.id) + 1, 이름 = /^루틴 \d+$/.test(r.name || '') ? '' : (r.name || ''), 지금 = (D.ri || []).filter(x => x.routine_id === r.id).length;
   const 새 = (p.새 || []).map(id => (D.ri || []).find(x => String(x.id) === String(id))).filter(Boolean);      /* 넣는 곳 · 이번에 넣은 것 · 완료 (2026-11-02 대표 「어디에 무엇이 추가됐는지 안 보여 · 완료 닫기가 없으니 방향성을 잃어」) */
   const 발 = '<div class="pk-foot"><span class="lb">이번에 추가 <b>' + 새.length + '</b></span><div class="pk-chips">' + (새.length ? 새.map(x => '<span class="pk-chip">' + esc(vaName(x.variant_id) || '종목') + '<button data-act="tx:rspkun" data-k="' + esc(x.id) + '" title="이 종목 삭제">✕</button></span>').join('') : '<span class="sub3">그림을 누르면 루틴 ' + 번 + ' 끝에 바로 들어가요</span>') + '</div><button class="btn gold sm" data-act="tx:rspkdone">완료</button></div>';
@@ -5817,14 +5825,14 @@ function 종목픽판(){ const p = 종목픽; if(!p) return; const r = (D.r || [
     + '<input class="inp" id="rspkq" type="search" value="' + esc(p.q || '') + '" placeholder="전체 종목 검색 — 스쿼트 · 레그컬 · 덤벨" autocomplete="off" style="margin-bottom:8px">'
     + '<div class="chips rsv-chips">' + 칩.map(c => '<button class="chip' + (!p.q && c === 부 ? ' on' : '') + '" data-act="tx:rspkp" data-k="' + esc(c) + '">' + esc(c) + '</button>').join('') + '</div>'
     + 내보기단추()
-    + '<div class="pkg2 rsv-pk c' + esc(내보기.칸) + '" id="rspkg">' + 다.map(e => { const 보 = p.q ? exKey(e).includes(검색키(p.q)) : (부 === '전체' || (부 === '추가한 종목' ? !!e.owner : e.part === 부)), n = (D.va || []).filter(v => v.ex_id === e.id).length;
-        return '<button class="pkc2' + (든.has(e.id) ? ' on' : '') + '" data-act="tx:rspk" data-k="' + esc(e.id) + '" data-pk="' + esc(exKey(e)) + '" data-pp="' + esc(e.owner ? '추가한 종목|' + e.part : e.part) + '" style="' + (보 ? '' : 'display:none') + '">' + 종목그림(첫벌(e).id) + '<span class="my-star' + (별.has(e.id) ? ' on' : '') + '" data-act="tx:myfav" data-k="' + esc(e.id) + '" title="즐겨찾기">★</span>'
+    + '<div class="pkg2 rsv-pk c' + esc(내보기.칸) + '" id="rspkg">' + 다.map(e => { const 보 = p.q ? 찾음(exKey(e), 검색키(p.q)) : 칩맞음(부, 종목표(e)), n = (D.va || []).filter(v => v.ex_id === e.id).length;
+        return '<button class="pkc2' + (든.has(e.id) ? ' on' : '') + '" data-act="tx:rspk" data-k="' + esc(e.id) + '" data-pk="' + esc(exKey(e)) + '" data-pp="' + esc(종목표(e).join('|')) + '" style="' + (보 ? '' : 'display:none') + '">' + 종목그림(첫벌(e).id) + '<span class="my-star' + (별.has(e.id) ? ' on' : '') + '" data-act="tx:myfav" data-k="' + esc(e.id) + '" title="즐겨찾기">★</span>'
           + '<span class="pkt"><b>' + esc(e.name || '') + '</b><small>' + esc(e.equip || e.part || '') + (n > 1 ? ' · 그림 ' + n : '') + '</small></span><em class="pkad">' + (든.has(e.id) ? '✓' : '＋') + '</em></button>'; }).join('') + '</div>', 발);
   setTimeout(() => { const q = document.getElementById('rspkq'); if(q && p.q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }, 20); }
 document.addEventListener('keydown', ev => { const t = ev.target; if(!t || ev.key !== 'Enter' || ev.isComposing) return;
   if(t.id === 'rsrnin' || t.id === 'rsrnsub'){ ev.preventDefault(); const b = document.querySelector('[data-act="tx:rsrnok"]'); if(b) b.click(); } });
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'rspkq' || !종목픽) return; 종목픽.q = ev.target.value; const q = 검색키(ev.target.value), 부 = 종목픽.부위 || '전체';
-  document.querySelectorAll('#rspkg .pkc2').forEach(b => { const pp = (b.dataset.pp || '').split('|'); b.style.display = (q ? (b.dataset.pk || '').includes(q) : (부 === '전체' || (부 === '추가한 종목' ? pp[0] === '추가한 종목' : pp[pp.length - 1] === 부))) ? '' : 'none'; });
+  document.querySelectorAll('#rspkg .pkc2').forEach(b => { const pp = (b.dataset.pp || '').split('|'); b.style.display = (q ? 찾음(b.dataset.pk, q) : 칩맞음(부, pp)) ? '' : 'none'; });
   document.querySelectorAll('.rsv-chips .chip').forEach(c => c.classList.toggle('on', !q && c.dataset.k === 부)); });
 async function 종목픽넣기(vid){ const p = 종목픽, r = p && (D.r || []).find(x => x.id === p.rid); if(!r) return;
   const 끝 = Math.max(-1, ...(D.ri || []).filter(x => x.routine_id === r.id).map(x => x.sort || 0)) + 1;
@@ -5919,7 +5927,7 @@ async function 루틴표삭제(id){ const s = (D.rs || []).find(x => x.id === id
   catch(e){ toast('삭제하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 /* 사진 · PDF → 루틴표 (2026-10-30 결정함 d1030c_rt) — 서버가 종목 이름만 읽음(세트 · 횟수 뺌) · 데스크가 우리 종목에 맞추고 · 못 맞춘 것은 노란 칸에서 사람이 고름(이름을 바꿔 맞추지 않음) · 저장 전까지 아무것도 안 만듦 */
 let 사진표 = null;      /* { title, routines:[{ name, items:[{ 글, vid }] }] } */
-const 사진찾음 = 글 => { const q = 검색키(글); if(!q) return null; const 다 = 고를종목().filter(e => 첫벌(e)); const e = 다.find(x => 검색키(x.name) === q) || 다.find(x => (x.alias || []).some && (x.alias || []).some(a => 검색키(a) === q)); return e ? 첫벌(e).id : null; };
+const 사진찾음 = 글 => { const q = 검색키(글); if(!q) return null; const 다 = 고를종목().filter(e => 첫벌(e)); const e = 다.find(x => 검색키(x.name) === q) || 다.find(x => 소리판(검색키(x.name)) === 소리판(q)) || 다.find(x => (x.alias || []).some && (x.alias || []).some(a => 검색키(a) === q)); return e ? 첫벌(e).id : null; };      /* 이름이 같거나 소리가 같을 때만 자동(브이스쿼트 = V 스쿼트) · 비슷한 것은 추천만 */
 /* 사진으로 만들기(새 루틴표) · 사진으로 바꾸기(이 루틴표 · 2026-11-02 대표) — 줄마다 체크(풀면 뺌) · 왼쪽 그림(없으면 해부) · 그림이 여럿이면 누르면 가운데 크게 골라서 */
 function 사진표고르기(sid){ const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*,application/pdf'; inp.style.display = 'none'; document.body.appendChild(inp);
   inp.addEventListener('change', async () => { const f = inp.files && inp.files[0]; inp.remove(); if(!f) return;
@@ -5936,28 +5944,40 @@ async function 사진표읽기(name, b64){ if(!AUTH || !AUTH.access_token) throw
   const r = await fetch(GG_API + '/app/scan/sheet', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(Object.assign(증표몸(), { name, b64 })) });
   if(!r.ok) throw new Error(r.status === 404 ? '사진 읽기를 아직 준비 중이에요' : '서버에 닿지 못했어요 (' + r.status + ')');
   const d = await r.json(); if(!d.ok) throw new Error(d.why || '읽지 못했어요'); return d; }
-/* 못 찾은 종목 — 검색해서 고른다 (2026-11-02 17:57 대표 「없는 종목 추가할 때 검색할 수 있어야해」 · 긴 목록 고르기 대신) · 처음엔 읽은 글 앞 3자로 비슷한 것 */
-function 사진찾기결과(k, 글, 처음){ const q = 검색키(글); if(!q) return '<span class="sub3">종목 이름을 입력해 주세요</span>';
-  const 다 = 고를종목().filter(e => 첫벌(e)), 찾 = 처음 ? 다.filter(e => 검색키(e.name).includes(q.slice(0, 3))) : 다.filter(e => exKey(e).includes(q));
-  const L = 찾.slice(0, 12); if(!L.length) return '<span class="sub3">' + (처음 ? '비슷한 종목이 없어요 · 위에서 검색해 주세요' : '「' + esc(글) + '」 종목이 없어요 · 다른 이름으로 검색해 주세요') + '</span>';
-  return (처음 ? '<span class="sub3">비슷한 종목</span>' : '') + L.map(e => '<button class="sp-pick" data-act="tx:sppick" data-k="' + esc(k + '|' + 첫벌(e).id) + '">' + 종목그림(첫벌(e).id) + '<span><b>' + esc(e.name || '') + '</b><small>' + esc([e.part, e.equip].filter(Boolean).join(' · ')) + '</small></span></button>').join('') + (찾.length > 12 ? '<span class="sub3">' + (찾.length - 12) + '개 더 있어요 · 더 정확히 입력해 주세요</span>' : ''); }
-document.addEventListener('input', ev => { const t = ev.target; if(!t || !t.dataset || !t.dataset.spq || !사진표) return; const box = document.querySelector('[data-spres="' + t.dataset.spq + '"]'); if(!box) return;
-  const [i, j] = t.dataset.spq.split('|').map(Number), x = 사진표.routines[i] && 사진표.routines[i].items[j]; box.innerHTML = t.value.trim() ? 사진찾기결과(t.dataset.spq, t.value, false) : 사진찾기결과(t.dataset.spq, x ? x.글 : '', true); });
+/* 종목 고르기 = 가운데 큰 창 (2026-11-02 대표 「사진이 너무 작아 · 큰 창으로」 · 「고른 다음 다른 사진으로 변경이 안 돼」) — 못 찾은 종목 「종목 선택」 · 맞춘 종목 「수정」 · 위에 지금 종목 · 검색 · 비슷한 종목(읽은 글의 낱말이 많이 겹치는 순 · 별칭 · 소리까지) */
+function 사진후보(글, q){ const 다 = 고를종목().filter(e => 첫벌(e));
+  if(q && 검색키(q)){ const k = 검색키(q); return 다.filter(e => 찾음(exKey(e), k)).slice(0, 24); }
+  const 낱 = String(글 || '').split(/[\s/·,()+&]+/).map(검색키).filter(t => t.length >= 2), 온 = 검색키(글);
+  return 다.map(e => { const k = exKey(e); let n = 찾음(k, 온) ? 20 : 0; 낱.forEach(t => { if(찾음(k, t)) n += t.length; }); return [e, n]; })
+    .filter(z => z[1] >= 2).sort((a, b) => (b[1] - a[1]) || (String(a[0].name).length - String(b[0].name).length)).slice(0, 12).map(z => z[0]); }
+function 사진찾기격자(k, q){ const P = 사진표, [i, j] = String(k).split('|').map(Number), x = P && P.routines[i] && P.routines[i].items[j]; if(!x) return '';
+  const L = 사진후보(x.글, q).filter(e => !x.vid || 첫벌(e).id !== x.vid);
+  if(!L.length) return '<div class="sub3" style="padding:18px 4px">' + (q ? '「' + esc(q) + '」 종목이 없어요 · 다른 이름으로 검색해 주세요' : '비슷한 종목이 없어요 · 위에서 검색해 주세요') + '</div>';
+  return (q ? '' : '<div class="sub3 spf-cap">비슷한 종목</div>') + '<div class="spv-g">' + L.map(e => '<button class="spv-v" data-act="tx:sppick" data-k="' + esc(k + '|' + 첫벌(e).id) + '"><span class="im">' + 종목그림(첫벌(e).id) + '</span><span class="t">' + esc(e.name || '') + '<small>' + esc([e.part, e.equip].filter(Boolean).join(' · ')) + '</small></span></button>').join('') + '</div>'; }
+function 사진종목창(k){ const P = 사진표; if(!P) return; const [i, j] = String(k).split('|').map(Number), x = P.routines[i] && P.routines[i].items[j]; if(!x) return;
+  const v = x.vid && vaOf(x.vid), e = v && exOf(v.ex_id);
+  사진그림닫기(); const o = document.createElement('div'); o.id = 'spvarbox';
+  o.innerHTML = '<div class="spv-c"><div class="spv-h"><b>「' + esc(x.글) + '」 종목 선택</b><small>사진에서 읽은 글 · 누르면 바로 들어가요</small><button class="x" data-act="tx:spvarx" title="닫기 (Esc)">✕</button></div>'
+    + '<input class="inp spf-q" type="search" data-spq2="' + esc(k) + '" placeholder="종목 검색 — 이름 일부 · 영어 · 비슷한 소리도 돼요" autocomplete="off">'
+    + (e ? '<div class="spf-now"><span class="im">' + 종목그림(x.vid) + '</span><span><b>' + esc(vaName(x.vid) || e.name || '') + '</b><small>' + esc([e.part, e.equip].filter(Boolean).join(' · ')) + '</small></span><em>지금 종목</em></div>' : '')
+    + '<div id="spfgrid">' + 사진찾기격자(k, '') + '</div></div>';
+  o.addEventListener('click', ev => { if(ev.target === o) 사진그림닫기(); }); document.body.appendChild(o);
+  setTimeout(() => { const q = o.querySelector('.spf-q'); if(q) q.focus(); }, 30); }
+document.addEventListener('input', ev => { const t = ev.target; if(!t || !t.dataset || !t.dataset.spq2 || !사진표) return; const g = document.getElementById('spfgrid'); if(g) g.innerHTML = 사진찾기격자(t.dataset.spq2, t.value); });
 const 사진셈 = P => { const 다 = P.routines.reduce((a, r) => a + r.items.length, 0), 넣 = P.routines.reduce((a, r) => a + r.items.filter(x => x.on).length, 0), 못 = P.routines.reduce((a, r) => a + r.items.filter(x => x.on && !x.vid).length, 0); return { 다, 넣, 못 }; };
 function 사진표판(){ const P = 사진표; if(!P) return; const { 다, 넣, 못 } = 사진셈(P), 바꿈 = !!P.sid, 표 = 바꿈 && (D.rs || []).find(x => x.id === P.sid);
-  const 후보 = 글 => { const q = 검색키(글).slice(0, 3); return 고를종목().filter(e => 첫벌(e) && q && 검색키(e.name).includes(q)).slice(0, 12); };
   const 줄 = (x, i, j) => { const k = i + '|' + j, v = x.vid && vaOf(x.vid), e = v && exOf(v.ex_id), vs = e ? (D.va || []).filter(z => z.ex_id === e.id) : [];
     return '<div class="sp-it' + (x.on ? '' : ' off') + (x.vid ? '' : ' miss') + '"><button class="sp-cb" data-act="tx:spon" data-k="' + k + '" title="' + (x.on ? '체크를 풀면 이 종목은 안 들어가요' : '체크하면 다시 들어가요') + '">✓</button>'
       + '<button class="sp-th" data-act="tx:spvar" data-k="' + k + '"' + (vs.length > 1 ? ' title="다른 그림(하는 법) 선택"' : ' disabled') + '>' + (x.vid ? 종목그림(x.vid) : '<span class="pkim ph">' + 사람그림 + '</span>') + (vs.length > 1 ? '<em>그림 ' + vs.length + '</em>' : '') + '</button>'
       + '<span class="nm"><b>' + esc(x.vid ? (vaName(x.vid) || (e && e.name) || x.글) : x.글) + '</b><small>' + (x.vid ? esc([(e && e.part) || '', (e && e.equip) || ''].filter(Boolean).join(' · ')) + (검색키(vaName(x.vid)) === 검색키(x.글) ? '' : ' · 읽은 글 ' + esc(x.글)) : '못 찾음 · 종목을 선택해 주세요') + '</small></span>'
-      + (x.vid ? '<span class="r">' + (x.on ? '' : '뺌') + '</span>'
-        : '<div class="sp-find"><input class="inp" type="search" data-spq="' + k + '" placeholder="종목 검색 — 이름 일부만 써도 돼요" autocomplete="off"><div class="sp-res" data-spres="' + k + '">' + 사진찾기결과(k, x.글, true) + '</div></div>') + '</div>'; };
+      + (x.vid ? (x.on ? '' : '<span class="r">제외</span>') + '<button class="btn ghost sm sp-fix" data-act="tx:spfind" data-k="' + k + '">수정</button>'
+        : '<button class="btn gold sm sp-fix" data-act="tx:spfind" data-k="' + k + '">종목 선택</button>') + '</div>'; };
   const 지금 = 표 ? 루틴표루틴(표.id) : [], 지금종목 = (D.ri || []).filter(x => 지금.some(r => r.id === x.routine_id)).length;
   const 발 = '<div class="sp-foot"><span>' + 다 + '개 중 <b>' + 넣 + '개</b>로 ' + (바꿈 ? '바꿔요' : '만들어요') + (못 ? ' · 못 찾은 종목 ' + 못 + '개' : '') + '</span><span style="flex:1"></span><button class="btn ghost sm" data-act="popclose">취소</button><button class="btn gold sm" data-act="tx:spsave"' + (못 || !넣 ? ' disabled' : '') + '>' + (바꿈 ? '이대로 저장' : '이대로 만들기') + '</button></div>';
   판열기(바꿈 ? '「' + esc((표 || {}).title || '') + '」 사진으로 다시 만들기' : '사진으로 만들기',
     (바꿈 ? '<div class="sp-warn">지금 이 루틴표의 <b>루틴 ' + 지금.length + '개 · 종목 ' + 지금종목 + '개</b>는 휴지통으로 가고<br>아래에서 체크한 종목으로 바뀌어요 · 60일 안에 다시 꺼낼 수 있어요</div>'
       : '<label class="lbl" style="display:block">루틴표 이름</label><input class="inp" id="sptitle" maxlength="30" value="' + esc(P.title) + '" style="margin-bottom:6px">')
-    + '<div class="sub3" style="margin-bottom:6px">뺄 종목은 체크를 풀어 주세요 · 「그림 n」을 누르면 다른 그림</div>'
+    + '<div class="sub3" style="margin-bottom:6px">뺄 종목은 체크를 풀어 주세요 · 다른 종목은 「수정」</div>'
     + P.routines.map((r, i) => '<div class="sp-rt">' + esc(r.name || '루틴 ' + (i + 1)) + ' <span class="sub3">' + r.items.filter(x => x.on).length + '개</span></div>' + r.items.map((x, j) => 줄(x, i, j)).join('')).join(''), 발); }
 /* 그림 크게 고르기 — 가운데 크게 · 둘레 어둡게 · 누르면 바로 (2026-11-02 대표) */
 function 사진그림판(k){ const P = 사진표; if(!P) return; const [i, j] = String(k).split('|').map(Number), x = P.routines[i] && P.routines[i].items[j]; if(!x || !x.vid) return;
@@ -6027,7 +6047,7 @@ let RT결과 = [], RT고른 = 0;
 function RT찾기(){
   const el = $('#rteq'), box = $('#rteres'); if(!el || !box) return;
   const q = 검색키(el.value); if(!q){ box.classList.remove('on'); return; }
-  RT결과 = 고를종목().filter(e => exKey(e).includes(q) && 첫벌(e)).slice(0, 8); RT고른 = 0;
+  RT결과 = 고를종목().filter(e => 찾음(exKey(e), q) && 첫벌(e)).slice(0, 8); RT고른 = 0;
   box.innerHTML = RT결과.map((e, i) => { const v = 첫벌(e), 있 = RT.items.some(x => x.vid === v.id); return '<button class="rte-rr' + (i === 0 ? ' k' : '') + (있 ? ' in' : '') + '" data-rr="' + i + '"><b>' + esc(e.name) + '</b><small>' + esc(e.part) + (e.equip ? ' · ' + esc(e.equip) : '') + (e.owner ? ' · 추가한 종목' : '') + '</small><i>' + (있 ? '✓ 추가함' : '＋') + '</i></button>'; }).join('')
     + '<button class="rte-rr' + (RT결과.length ? '' : ' k') + '" data-rr="own"><b>「' + esc(el.value.trim()) + '」</b><small>목록에 없으면 새 종목으로 추가 · 다음부터 모두가 검색해요</small><i>＋</i></button>';
   box.classList.add('on');
@@ -6150,8 +6170,18 @@ const 내보기저장 = () => { try{ localStorage.setItem('gg_my_view', JSON.str
 const 내보기칸 = [['2', '크게'], ['3', '3열'], ['4', '4열'], ['8', '8열']], 내보기순 = [['그림', '그림있음'], ['이름', '가나다'], ['기구', '기구별'], ['별', '즐겨찾기']];
 const 기구차례 = ['머신', '덤벨', '밴드', '바벨', '케이블', '스미스', '케틀벨', '맨몸'], 기구번호 = e => { const i = 기구차례.indexOf(e.equip || ''); return i < 0 ? 기구차례.length : i; };
 const 내별들 = () => new Set((D.exfavs || []).filter(f => f.trainer === 나이름()).map(f => f.ex_id));
-const 내종목칩 = () => ['전체'].concat(RT부위들, ['내가 만든 것', '추가한 종목']), 내종목부 = () => 내종목칩().includes(S.myPart) ? S.myPart : '전체';
-const 내종목보임 = (부, 파트, 추가, 내것) => 부 === '전체' || (부 === '추가한 종목' ? 추가 : 부 === '내가 만든 것' ? 내것 : 파트 === 부);
+/* 종목 갈래 (2026-11-02 대표 「기타에 웨이트가 왜 · 스트레칭 · 밴드 · 맨몸운동 칩이 없어 · 분류 다시해」) — 부위 칩 + 갈래 칩 · 기타 = 스트레칭 · 마사지가 아닌 것만 */
+const 갈래칩 = ['스트레칭', '마사지', '밴드', '맨몸운동'];
+function 종목갈래(e){ const n = (e && e.name) || '', q = (e && e.equip) || '', g = [];
+  const 마 = /마사지/.test(n) || ['폼롤러', '마사지볼', '땅콩볼'].includes(q); if(마) g.push('마사지');
+  if(!마 && (/스트레칭/.test(n) || ((e && e.part) === '기타' && /자세|포즈|다운독|캣카우|가동성|턱 당기기|펴기|돌리기|돌려주기|스윙|서클|요가|그레이티스트|말라사나/.test(n)))) g.push('스트레칭');
+  if(q === '밴드') g.push('밴드'); if(q === '맨몸' && !g.length) g.push('맨몸운동'); return g; }
+const 종목표 = e => [(e && e.part) || '기타'].concat(종목갈래(e), e && e.owner ? ['추가한 종목'] : []);
+function 칩맞음(부, 표){ 표 = Array.isArray(표) ? 표 : String(표 || '').split('|'); if(!부 || 부 === '전체') return true;
+  if(부 === '기타') return 표[0] === '기타' && !표.includes('스트레칭') && !표.includes('마사지'); return 표.includes(부); }
+const 종목칩들 = () => ['전체'].concat(RT부위들.filter(p => p !== '기타'), 갈래칩, ['기타']);
+const 내종목칩 = () => 종목칩들().concat(['내가 만든 것', '추가한 종목']), 내종목부 = () => 내종목칩().includes(S.myPart) ? S.myPart : '전체';
+const 내종목보임 = (부, 표, 추가, 내것) => 부 === '전체' || (부 === '추가한 종목' ? 추가 : 부 === '내가 만든 것' ? 내것 : 칩맞음(부, 표));
 const 내종목머리 = (부, q, n) => (q ? '검색 결과' : 부 === '전체' ? '전체 종목' : 부 === '추가한 종목' ? '추가한 웨이트 종목' : 부 === '내가 만든 것' ? '내가 만든 웨이트 종목' : 부 + ' 종목') + ' ' + n + '개';
 const 내종목순 = () => { const 별 = 내별들(), 이름순 = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko'), 그림 = e => 종목그림있음.has(e.id) ? 1 : 0;
   return 내보기.순 === '그림' ? (a, b) => 그림(b) - 그림(a) || 이름순(a, b) : 내보기.순 === '기구' ? (a, b) => 기구번호(a) - 기구번호(b) || 이름순(a, b) : 내보기.순 === '별' ? (a, b) => 별.has(b.id) - 별.has(a.id) || 이름순(a, b) : 이름순; };
@@ -6162,9 +6192,9 @@ function v내종목(){ const 나 = 나이름(), 칩들 = 내종목칩(), 부 = �
   const W = 고를종목().filter(e => 첫벌(e)).sort(내종목순()), T = 추가동작();
   const 단추 = e => 종목고침(e) ? '<button class="btn ghost sm" data-act="exedit" data-v2="' + esc(e.id) + '">수정</button>' : !e.owner ? '<button class="btn ghost sm" data-act="tx:exreqf" data-k="' + esc(e.id) + '">수정 요청</button>' : '<span class="sub3">보기만</span>';
   const 칸 = (그림칸, 이름, 작은, 누가, 수정, 덧, 보, 키) => '<div class="my-card" data-myk="' + esc(키) + '"' + 덧 + (보 ? '' : ' style="display:none"') + '>' + 그림칸 + '<b>' + esc(이름) + '</b><small>' + esc([작은, 누가 === 나 ? '' : 누가 + 'T'].filter(Boolean).join(' · ')) + '</small>' + 수정 + '</div>';
-  const 키of = e => 검색키((e.name || '') + [e.part, e.equip].filter(Boolean).join(' · ') + (e.owner || '센터'));
-  const 보임 = e => q ? 키of(e).includes(q) : 내종목보임(부, e.part, !!e.owner, e.owner === 나);
-  const 카드 = e => 칸(종목그림(첫벌(e).id) + '<button class="my-star' + (별.has(e.id) ? ' on' : '') + '" data-act="tx:myfav" data-k="' + esc(e.id) + '" title="즐겨찾기">★</button>', e.name || '', [e.part, e.equip].filter(Boolean).join(' · '), e.owner || '센터', 단추(e), ' data-myp="' + esc(e.part || '') + '" data-myo="' + (e.owner ? 1 : 0) + '" data-mym="' + (e.owner === 나 ? 1 : 0) + '"', 보임(e), 키of(e));
+  const 키of = e => exKey(e) + '|' + 검색키(e.owner || '센터');      /* 별칭 · 소리까지 (2026-11-02) */
+  const 보임 = e => q ? 찾음(키of(e), q) : 내종목보임(부, 종목표(e), !!e.owner, e.owner === 나);
+  const 카드 = e => 칸(종목그림(첫벌(e).id) + '<button class="my-star' + (별.has(e.id) ? ' on' : '') + '" data-act="tx:myfav" data-k="' + esc(e.id) + '" title="즐겨찾기">★</button>', e.name || '', [e.part, e.equip].filter(Boolean).join(' · '), e.owner || '센터', 단추(e), ' data-myp="' + esc(종목표(e).join('|')) + '" data-myo="' + (e.owner ? 1 : 0) + '" data-mym="' + (e.owner === 나 ? 1 : 0) + '"', 보임(e), 키of(e));
   const 판 = xs => '<div class="my-grid c' + esc(내보기.칸) + '">' + xs.map(카드).join('') + '</div>', 수 = W.filter(보임).length;
   const 묶음 = 내보기.순 === '기구' ? [...new Set(W.map(e => e.equip || '기타'))].map(k => { const xs = W.filter(e => (e.equip || '기타') === k), n = xs.filter(보임).length; return '<div class="my-grp"' + (n ? '' : ' style="display:none"') + '><div class="lbl">' + esc(k) + ' <span class="my-n">' + n + '개</span></div>' + 판(xs) + '</div>'; }).join('') : '<div class="my-grp">' + 판(W) + '</div>';
   const T보임 = x => !q || 검색키((x.name || '') + (x.time || '') + (x.trainer || '')).includes(q), T수 = T.filter(T보임).length;
@@ -6178,7 +6208,7 @@ function v내종목(){ const 나 = 나이름(), 칩들 = 내종목칩(), 부 = �
       : '<div class="lbl" style="margin-top:18px">스트레칭 동작 0개</div><div class="empty why"><b>아직 추가한 스트레칭 동작이 없습니다</b>스트레칭 루틴 수정 「추가한 동작」 칩에서 「＋ 새 동작」</div>')
     + '<div class="note" style="margin-top:12px">센터 종목은 승인 뒤 반영 · 내 종목은 바로 수정 · 남의 종목은 보기만</div>'; }
 function 내종목거름(){ const q = 검색키(S.myQ || ''), 부 = 내종목부(); let 수 = 0;
-  document.querySelectorAll('#body .my-card').forEach(c => { const 스 = c.dataset.mys === '1', 보 = q ? (c.dataset.myk || '').includes(q) : 스 || 내종목보임(부, c.dataset.myp, c.dataset.myo === '1', c.dataset.mym === '1'); c.style.display = 보 ? '' : 'none'; if(보 && !스) 수++; });
+  document.querySelectorAll('#body .my-card').forEach(c => { const 스 = c.dataset.mys === '1', 보 = q ? 찾음(c.dataset.myk, q) : 스 || 내종목보임(부, c.dataset.myp, c.dataset.myo === '1', c.dataset.mym === '1'); c.style.display = 보 ? '' : 'none'; if(보 && !스) 수++; });
   document.querySelectorAll('#body .my-grp').forEach(g => { const n = [...g.querySelectorAll('.my-card')].filter(c => c.style.display !== 'none').length, m = g.querySelector('.my-n'); if(m) m.textContent = n + '개'; if(m || g.classList.contains('my-st')) g.style.display = n ? '' : 'none'; });
   const 머 = $('#mylbl'), 빈 = $('#myempty'); if(머) 머.textContent = 내종목머리(부, q, 수); if(빈) 빈.style.display = 수 ? 'none' : ''; }
 async function 내별바꿈(id){ const 나 = 나이름(), 켬 = !내별들().has(id), b = document.querySelector('.my-star[data-k="' + CSS.escape(id) + '"]'); if(!나) return;
@@ -16185,7 +16215,8 @@ async function txAct(a, el){
   if(a==='spvar'){ 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진그림판(k); return; }
   if(a==='spvarok'){ const [i, j, vid] = String(k).split('|'), x = 사진표 && 사진표.routines[+i] && 사진표.routines[+i].items[+j]; 사진그림닫기(); if(x && vid){ x.vid = vid; 사진표판(); } return; }
   if(a==='spvarx'){ 사진그림닫기(); return; }
-  if(a==='sppick'){ const [i, j, vid] = String(k).split('|'), x = 사진표 && 사진표.routines[+i] && 사진표.routines[+i].items[+j]; if(x && vid){ x.vid = vid; x.on = true; 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진표판(); } return; }
+  if(a==='spfind'){ 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진종목창(k); return; }      /* 종목 선택 · 수정 = 큰 창 */
+  if(a==='sppick'){ const [i, j, vid] = String(k).split('|'), x = 사진표 && 사진표.routines[+i] && 사진표.routines[+i].items[+j]; 사진그림닫기(); if(x && vid){ x.vid = vid; x.on = true; 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진표판(); } return; }
   if(a==='spsave'){ await 사진표저장(); return; }
   if(a==='ascontact'){ await 배정고침(k, { contact_at:new Date().toISOString(), contact_by:(ME && ME.name) || '' }, '연락 완료 · 이제 「예약 기다림」으로 가요'); return; }
   if(a==='ascontactx'){ await 배정고침(k, { contact_at:null, contact_by:null }, '「연락 완료」 되돌리기 · 「연락 전」으로 가요'); return; }
@@ -17140,7 +17171,7 @@ function popPick(){
   let list = 고를종목().slice();      /* 추가한 종목도 모두 (2026-10-27) */
   if(!q && S.part!=='전체') list = list.filter(e=>e.part===S.part);
   if(S.eq!=='전체') list = list.filter(e=>(e.equip||'')===S.eq);
-  if(q) list = list.filter(e => exKey(e).includes(q));
+  if(q) list = list.filter(e => 찾음(exKey(e), q));
   list = list.filter(e => e.owner).concat(list.filter(e => !e.owner));      /* 내가 만든 종목이 위로 */
   return '<h2>종목 추가 <span style="font-size:13px;font-weight:600;color:var(--sub)">'
     + list.length + '개</span><button class="btn sub sm" data-act="exnew" style="float:right">＋ 새 종목</button></h2>'
