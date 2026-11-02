@@ -2960,6 +2960,8 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 .fbx-att{padding:6px 12px 12px 98px;background:var(--dark-2);border-bottom:1px solid var(--line)}
 .fbx-dh{padding:7px 12px;font-size:13px;font-weight:900;color:var(--sub);background:var(--dark);border-bottom:1px solid var(--line)}
 .fbx-more{margin-top:10px}
+.fbx-card .fbx-ed{flex:none;align-self:flex-start}.fbx-card .d .fbx-edt{color:var(--sub);font-weight:600;font-size:13px;margin-top:2px}.fbx-edt2{align-self:center;white-space:nowrap}
+.fbx-attrow{display:flex;align-items:flex-start;gap:10px}.fbx-attrow .fbx-ed{margin-left:auto;flex:none}.fbx-card .cmta,.fbx-att .cmta{width:100%;min-height:90px}
 @media (max-width:860px){.fbx-two{grid-template-columns:1fr}.fbx-ex{max-height:300px}.fbx-row{grid-template-columns:62px minmax(0,1fr) 52px}.fbx-row .e,.fbx-row .s{display:none}}
 /* 수정 · 선택 단추 = 밝은 테두리 (2026-11-02 대표 「검정 배경에 회색 글씨 말고 알 수 있게 · 모든 수정 · 선택 단추」 시안 D1) */
 .btn.ed{background:transparent;color:var(--cream);border:1.5px solid var(--cream);font-weight:800}
@@ -3110,7 +3112,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '541';
+const BUILD = '543';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -5478,8 +5480,12 @@ function 현황셈(mid){
   return { m:+달.slice(5), 개인, 수업, 률, 기준, 주들, 목표들, 뱃지:(g.badges||[]).slice().reverse(), 몸, 계획있나:!!M.plan };
 }
 /* 체중 곡선 — 회원앱 `체중곡선()` 과 같은 모양 (2026-10-06 융합 기준: 곡선 · 금색 채움 · 마지막 점 말풍선 · 목표 청록 점선) */
-function 체중곡선(logs, gw){
-  const W = 320, H = 100, PL = 8, PR = 8, PT = 26, PB = 10, 목표 = +gw || 0, n = logs.length;
+/* 체중 추이 점 — 최근 3개월 · 최대 20개 (2026-11-02 대표 「전체가 아니라 최근 3개월 최대 20개 · 언제부터 언제인지 · 날짜」) · 3개월에 둘 미만이면 마지막 20개 */
+const 체중점들 = rs => { const a = (rs || []).filter(x => +x.w && x.d).sort((p, q) => String(p.d).localeCompare(String(q.d))), 부터 = new Date(Date.now() - 92 * 864e5).toISOString().slice(0, 10);
+  const 최근 = a.filter(x => String(x.d) >= 부터), 고른 = (최근.length >= 2 ? 최근 : a).slice(-20); return { logs: 고른.map(x => +x.w), ds: 고른.map(x => String(x.d).slice(0, 10)) }; };
+const 체중날 = s => (+String(s).slice(5, 7)) + '/' + (+String(s).slice(8, 10));
+function 체중곡선(logs, gw, ds){
+  const W = 320, H = ds ? 118 : 100, PL = 8, PR = 8, PT = 26, PB = ds ? 24 : 10, 목표 = +gw || 0, n = logs.length;
   const lo = Math.min.apply(null, logs.concat(목표 ? [목표] : [])) - 0.6, hi = Math.max.apply(null, logs.concat(목표 ? [목표] : [])) + 0.6;
   const x = i => PL + i*(W-PL-PR)/(n-1), y = v => PT + (1 - (v-lo)/(hi-lo))*(H-PT-PB);
   const xs = logs.map((_,i)=>x(i)), ys = logs.map(y);
@@ -5495,7 +5501,11 @@ function 체중곡선(logs, gw){
     + logs.slice(0,-1).map((_,i)=>'<circle cx="'+xs[i].toFixed(1)+'" cy="'+ys[i].toFixed(1)+'" r="2.2" fill="#1b1a18" stroke="#d6b87e" stroke-width="1.2"/>').join('')
     + '<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="7" fill="#f0d3a0" opacity=".16"/><circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="4" fill="#1b1a18" stroke="#f0d3a0" stroke-width="2.2"/>'
     + '<rect x="'+bx.toFixed(1)+'" y="'+by.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="18" rx="9" fill="#241f17" stroke="#d6b87e" stroke-width=".9"/>'
-    + '<text x="'+(bx+bw/2).toFixed(1)+'" y="'+(by+12.5).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#f0d3a0">'+글+'</text></svg>';
+    + '<text x="'+(bx+bw/2).toFixed(1)+'" y="'+(by+12.5).toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#f0d3a0">'+글+'</text>'
+    + (ds ? '<text x="'+PL+'" y="10" font-size="9" font-weight="700" fill="var(--sub)">'+체중날(ds[0])+' ~ '+체중날(ds[n-1])+' · '+n+'회</text>'      /* 기간 · 점마다 날짜 · 손대면 날짜와 kg (2026-11-02 대표 「인바디 · 루킨바디처럼 측정한 날짜」) */
+      + ds.map(function(s, i){ const 걸음 = n <= 8 ? 1 : Math.ceil(n / 7); if(!(i === n - 1 || (i % 걸음 === 0 && n - 1 - i >= 걸음 / 2))) return ''; return '<text x="'+xs[i].toFixed(1)+'" y="'+(H-6)+'" text-anchor="'+(i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle')+'" font-size="8.5" font-weight="600" fill="var(--sub)">'+체중날(s)+'</text>'; }).join('')
+      + ds.map(function(s, i){ return '<circle cx="'+xs[i].toFixed(1)+'" cy="'+ys[i].toFixed(1)+'" r="7" fill="transparent"><title>'+체중날(s)+' · '+kgfmt(logs[i])+'kg</title></circle>'; }).join('') : '')
+    + '</svg>';
 }
 /* ══ 입력할 것 ══ 2026-10-13 대표 「트레이너도 놓치지 않고 입력하게 비어 있는 입력란을 볼 수 있는 창 · (현황 탭 카드 + 회원 목록 열) 둘 다 넣어」
    여덟 가지: 상담일지 · 부상 병력 · 운동계획(체중 목표) · 운동 목표 · 인바디 · 체형 검사 · 식단 계획 · 루틴.
@@ -5538,10 +5548,10 @@ function tabStat0(){
     return '<div class="wk' + (w.지금 ? ' now' : '') + '"><span class="d">' + (w.지금 ? '이번 주' : 날(w.첫) + ' ~ ' + (w.첫.slice(5,7) === w.끝.slice(5,7) ? +w.끝.slice(8) : 날(w.끝))) + '</span><span class="bl">'
       + '<i class="p"></i>'.repeat(Math.min(7, w.수업)) + '<i class="s"></i>'.repeat(Math.min(7, w.개인)) + '<i class="e"></i>'.repeat(Math.max(0, 합 - n)) + '</span><span class="t">수업 <b>' + w.수업 + '</b> · 개인 <b>' + w.개인 + '</b></span>'
       + '<span class="pl ' + (n >= 합 ? 'ok' : w.지금 ? 'now' : n ? 'no' : 'z') + '">' + (n >= 합 ? '목표 채움' : w.지금 ? (합 - n) + '번 남음' : n ? (합 - n) + '번 모자람' : '안 옴') + '</span></div>'; }).join('');
-  const logs = (M.bl||[]).filter(x => +x.w).slice().sort((p,q)=> String(p.on_date) < String(q.on_date) ? -1 : 1).map(x => +x.w), gw = (a.몸 && a.몸.이름==='체중') ? a.몸.b : 0;
+  const { logs, ds } = 체중점들((M.bl||[]).map(x => ({ w: x.w, d: x.on_date })));      /* 최근 3개월 · 20개 · 날짜 · 그래프에서 목표 없앰 (2026-11-02 대표) */
   const 체중 = (a.몸 || logs.length >= 2) ? '<div class="card mvwt">'
       + (a.몸 ? '<div class="gt"><b>' + kgfmt(a.몸.c) + a.몸.단위 + '<i>→</i>' + kgfmt(a.몸.b) + a.몸.단위 + '</b><span>' + (a.몸.p >= 100 ? '목표에 닿았어요' : mv수(Math.abs(a.몸.c - a.몸.b)) + a.몸.단위 + ' 남음 · ' + a.몸.p + '% 옴') + '</span></div>' + 막대(a.몸.p) : '')
-      + (logs.length >= 2 ? 체중곡선(logs, gw) + '<div class="wcl"><span>처음 기록 <b>' + kgfmt(logs[0]) + 'kg</b></span><span class="n">지금 <b>' + kgfmt(logs[logs.length-1]) + 'kg</b></span>' + (gw ? '<span class="t">목표 <b>' + kgfmt(gw) + 'kg</b></span>' : '') + '</div>'
+      + (logs.length >= 2 ? 체중곡선(logs, 0, ds) + '<div class="wcl"><span>처음 기록 · ' + 체중날(ds[0]) + ' <b>' + kgfmt(logs[0]) + 'kg</b></span><span class="n">지금 · ' + 체중날(ds[ds.length-1]) + ' <b>' + kgfmt(logs[logs.length-1]) + 'kg</b></span></div>'
                           : '<div class="t2" style="margin-top:10px">인바디 기록이 두 번 넘게 쌓이면 변화가 그려져요</div>') + '</div>'
     : '<div class="empty why"><b>아직 체중 목표가 없습니다</b>정보 탭 운동계획의 「수정」에서 입력해 주세요</div>';
   return 입력할것카드(S.mid) + '<div class="cols">'
@@ -6774,7 +6784,7 @@ function 피드백톡방(mid, 칸id, 입력){
         if(o.k === '회원') return 머 + '<div class="kt-m l">' + 회원얼굴(mid, 36) + '<div class="kt-col"><span class="kt-nm">' + esc(m.name || '') + '</span><div class="kt-bb' + (o.a.done_at ? '' : ' new') + '"><span class="kt-tag">요청 · ' + esc(vaName(o.a.variant_id)) + '</span>' + esc(o.a.note || '피드백 요청') + '<small>' + 말때(o.t) + (o.a.done_at ? '' : ' · 아직 답 전') + '</small></div></div></div>';
         const c = o.c; return 머 + '<div class="kt-m r"><div class="kt-bb me"><span class="kt-tag">' + esc(vaName(c.variant_id)) + ' · ' + esc(서울날(c.created_at).slice(5, 10).replace('-', '/')) + '</span>'
           + (S.cmEdit === c.id ? '<textarea class="inp cmta" id="cmedit_' + esc(c.id) + '">' + esc(c.body || '') + '</textarea><div class="cmacts"><button class="btn gold sm" data-act="cmfix" data-c="' + esc(c.id) + '">수정</button><button class="btn ghost sm wn" data-act="cmdel" data-c="' + esc(c.id) + '">삭제</button><button class="btn ghost sm" data-act="cmeditx">취소</button></div>'
-            : esc(c.body || '')) + 피드백첨부(c.id) + '<small>' + 말때(o.t) + ' · ' + esc(c.trainer || '') + (S.cmEdit === c.id ? '' : ' · <button class="kt-ed" data-act="cmedit" data-c="' + esc(c.id) + '">수정</button>') + '</small></div></div>'; }).join('')
+            : esc(c.body || '')) + 피드백첨부(c.id) + '<small>' + 말때(o.t) + ' · ' + esc(c.trainer || '') + (수정때(c) ? ' · ' + 수정때(c) : '') + (S.cmEdit === c.id ? '' : ' · <button class="kt-ed" data-act="cmedit" data-c="' + esc(c.id) + '">수정</button>') + '</small></div></div>'; }).join('')
       : '<div class="empty why"><b>아직 나눈 피드백이 없습니다</b>왼쪽 종목에서 「피드백 달기」를 눌러 주세요</div>')
     + '</div>' + (입력 ? '<button class="kt-inp" data-m="' + esc(mid) + '" data-tab="comment"><span>피드백 남기기…</span><b>↑</b></button>' : '');      /* 아래 입력창 모양 — 누르면 종목 고르고 남기는 곳으로 (2026-10-27 k1) */
 }
@@ -6793,6 +6803,10 @@ function 보관줄(mid){
 }
 const 보관표시 = t => { const 글 = esc(t || ''), q = String(S.fbQ || '').trim(); if(!q) return 글;
   const 꼴 = esc(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); return 글.replace(new RegExp(꼴, 'gi'), m => '<mark>' + m + '</mark>'); };
+/* 수정 — 대화(피드백톡)와 같은 손잡이(cmedit · cmfix 확인 창 · cmdel 휴지통 · cmeditx) */
+const 수정때 = c => { if(!c || !c.edited_at) return ''; const d = new Date(c.edited_at); if(isNaN(d)) return ''; return '수정 ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };      /* 마지막 수정 때만 (2026-11-02 대표) */
+const 보관고침칸 = c => '<textarea class="inp cmta" id="cmedit_' + esc(c.id) + '">' + esc(c.body || '') + '</textarea><div class="cmacts"><button class="btn gold sm" data-act="cmfix" data-c="' + esc(c.id) + '">수정</button><button class="btn ghost sm wn" data-act="cmdel" data-c="' + esc(c.id) + '">삭제</button><button class="btn ghost sm" data-act="cmeditx">취소</button></div>';
+const 보관수정단추 = c => '<button class="btn ed sm fbx-ed" data-act="cmedit" data-c="' + esc(c.id) + '">✎ 수정</button>';
 const 보관짧 = d => { const x = 서울날(d) || ''; return x ? (+x.slice(5, 7)) + '/' + (+x.slice(8, 10)) : ''; };
 function 보관윗줄(mid, 수){
   const 모 = S.fbMode || '대화';
@@ -6804,7 +6818,8 @@ function 보관윗줄(mid, 수){
 function 피드백보관함(mid){
   const { 전, L, 영 } = 보관줄(mid), 모 = S.fbMode, 위 = 보관윗줄(mid, 전.filter(c => 영.has(String(c.id))).length);
   if(!전.length) return 위 + '<div class="empty why"><b>아직 남긴 피드백이 없습니다</b>「대화 · 요청」에서 남겨 주세요</div>';
-  if(!L.length) return 위 + '<div class="empty why"><b>맞는 피드백이 없습니다</b>검색어 · 기간 · 영상 조건을 바꿔 보세요</div>';
+  if(!L.length){ const 조건 = [S.fbQ ? '검색 「' + esc(S.fbQ) + '」' : '', S.fbPer && S.fbPer !== '전체' ? esc(S.fbPer) : '', S.fbVid ? '영상 있는 것만' : ''].filter(Boolean).join(' · ');      /* 왜 0개인지 (2026-11-02 대표 「종목별 · 날짜별엔 없다고 나와」 — 1개월 + 영상만이 켜져 있었다) */
+    return 위 + '<div class="empty why"><b>' + 조건 + ' 에 맞는 피드백이 없습니다</b>이 회원 피드백은 모두 ' + 전.length + '개예요<div style="margin-top:10px"><button class="btn ed sm" data-act="tx:fbclr">조건 풀고 전체 보기</button></div></div>'; }
   if(모 === '종목'){
     const 묶 = new Map(); L.forEach(c => { if(!묶.has(c.variant_id)) 묶.set(c.variant_id, []); 묶.get(c.variant_id).push(c); });
     const 종목들 = [...묶.entries()].sort((a, b) => b[1].length - a[1].length || String(b[1][0].created_at || '').localeCompare(String(a[1][0].created_at || '')));
@@ -6812,19 +6827,20 @@ function 피드백보관함(mid){
     return 위 + '<div class="fbx-sum">피드백 ' + L.length + '개 · 종목 ' + 종목들.length + '개 · 많은 순</div><div class="fbx-two"><div class="fbx-ex">'
       + 종목들.map(([v, xs]) => '<button class="' + (v === 고 ? 'on' : '') + '" data-act="tx:fbex" data-k="' + esc(v) + '"><span class="th">' + 종목그림(v) + '</span><span class="nm"><b>' + esc(vaName(v) || '종목 없음') + '</b><small>최근 ' + 보관짧(xs[0].created_at) + ' · 영상 ' + xs.filter(c => 영.has(String(c.id))).length + '</small></span><em>' + xs.length + '</em></button>').join('') + '</div>'
       + '<div class="fbx-list"><div class="fbx-head"><span class="th">' + 종목그림(고) + '</span><span><b>' + esc(vaName(고) || '종목 없음') + '</b><small>피드백 ' + 이.length + '개 · ' + 보관짧(이[이.length - 1].created_at) + ' ~ ' + 보관짧(이[0].created_at) + ' · 최신순</small></span></div>'
-      + 이.map(c => '<div class="fbx-card"><span class="d">' + 보관짧(c.created_at) + '<small>' + esc(c.trainer || '') + '</small></span><span class="b">' + 보관표시(c.body) + 피드백첨부(c.id) + '</span></div>').join('') + '</div></div>';
+      + 이.map(c => '<div class="fbx-card"><span class="d">' + 보관짧(c.created_at) + '<small>' + esc(c.trainer || '') + '</small>' + (수정때(c) ? '<small class="fbx-edt">' + 수정때(c) + '</small>' : '') + '</span><span class="b">' + (S.cmEdit === c.id ? 보관고침칸(c) : 보관표시(c.body) + 피드백첨부(c.id)) + '</span>' + (S.cmEdit === c.id ? '' : 보관수정단추(c)) + '</div>').join('') + '</div></div>';
   }
   const 끝 = S.fbMore || 200; let 앞 = '';
   return 위 + '<div class="fbx-sum">' + (S.fbQ ? '「' + esc(S.fbQ) + '」 ' : '') + L.length + '개 · 최신순 · 줄을 누르면 펼쳐요</div><div class="fbx-rows">'
     + L.slice(0, 끝).map(c => { const 달 = (서울날(c.created_at) || '').slice(0, 7), h = 달 !== 앞 ? '<div class="fbx-dh">' + 달.replace('-', '년 ') + '월</div>' : ''; 앞 = 달; const 열 = S.fbOpen === String(c.id);
         return h + '<div class="fbx-row' + (열 ? ' on' : '') + '" data-act="tx:fbrow" data-k="' + esc(c.id) + '"><span class="d">' + 보관짧(c.created_at) + '</span><span class="e"><span class="th">' + 종목그림(c.variant_id) + '</span><b>' + esc(vaName(c.variant_id) || '') + '</b></span><span class="t">' + 보관표시(c.body) + '</span><span class="s">' + esc(c.trainer || '') + '</span><span class="vv">' + (영.has(String(c.id)) ? '▶ 영상' : '') + '</span>'
-          + '</div>' + (열 ? '<div class="fbx-att">' + (피드백첨부(c.id) || '<span class="sub3">붙은 사진 · 영상이 없습니다</span>') + '</div>' : ''); }).join('') + '</div>'
+          + '</div>' + (열 ? '<div class="fbx-att">' + (S.cmEdit === c.id ? 보관고침칸(c) : '<div class="fbx-attrow">' + (피드백첨부(c.id) || '<span class="sub3">붙은 사진 · 영상이 없습니다</span>') + (수정때(c) ? '<span class="sub3 fbx-edt2">' + 수정때(c) + '</span>' : '') + 보관수정단추(c) + '</div>') + '</div>' : ''); }).join('') + '</div>'
     + (L.length > 끝 ? '<button class="btn ghost sm fbx-more" data-act="tx:fbxmore" data-k="' + (끝 + 200) + '">' + (L.length - 끝) + '개 더 보기</button>' : '');
 }
 document.addEventListener('click', ev => { const 열림 = document.querySelector('.dadd.open'); if(열림 && (!열림.contains(ev.target) || ev.target.closest('.dadd-m'))) 열림.classList.remove('open'); }, true);      /* 직접 추가 메뉴 닫기 */
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'fbq') return; S.fbQ = ev.target.value; S.fbMore = 0; if(S.fbQ.trim() && (S.fbMode || '대화') === '대화') S.fbMode = '날짜';
   const p = ev.target.selectionStart; render(); const n = document.getElementById('fbq'); if(n){ n.focus(); n.setSelectionRange(p, p); } });
 function tabComment(){
+  if(S.fbMid !== S.mid){ S.fbMid = S.mid; S.fbQ = ''; S.fbPer = ''; S.fbVid = false; S.fbEx = ''; S.fbOpen = ''; S.fbMore = 0; }      /* 회원을 바꾸면 조건 처음으로 (2026-11-02) */
   if(S.fbMode && S.fbMode !== '대화') return 피드백보관함(S.mid);
   return 보관윗줄(S.mid, (D.c || []).filter(c => c.member_id === S.mid && (D.cmedia || []).some(m => (m.kind || '') === 'video' && String(m.comment_id) === String(c.id))).length) + tabComment대화();
 }
@@ -16442,6 +16458,7 @@ async function txAct(a, el){
   if(a==='fbmode'){ S.fbMode = k; S.fbMore = 0; S.fbOpen = ''; render(); return; }      /* 피드백 보관함 (2026-11-02) */
   if(a==='fbper'){ S.fbPer = k; S.fbMore = 0; if((S.fbMode || '대화') === '대화') S.fbMode = '날짜'; render(); return; }
   if(a==='fbvid'){ S.fbVid = !S.fbVid; S.fbMore = 0; if((S.fbMode || '대화') === '대화') S.fbMode = '날짜'; render(); return; }
+  if(a==='fbclr'){ S.fbQ = ''; S.fbPer = ''; S.fbVid = false; S.fbMore = 0; render(); return; }
   if(a==='fbex'){ S.fbEx = k; render(); return; }
   if(a==='fbrow'){ S.fbOpen = S.fbOpen === k ? '' : k; render(); return; }
   if(a==='fbxmore'){ S.fbMore = +k; render(); return; }      /* 이름 fbmore 는 추천 칩 더 보기가 먼저 씀 → fbxmore (2026-11-02 배포 관문) */
@@ -18704,8 +18721,10 @@ document.addEventListener('click', async function(ev){
     return; }
   if(a==='cmfixok'){
     const cid = act.dataset.c, 새글 = S.cmTmp || '';
-    try{ await ssend('comments?id=eq.'+cid, 'PATCH', { body: 새글 });
-      const c = D.c.find(x=>x.id===cid); if(c) c.body = 새글;
+    const 때 = new Date().toISOString();
+    try{ try{ await ssend('comments?id=eq.'+cid, 'PATCH', { body: 새글, edited_at: 때 }); }
+      catch(e){ if(!/→ 400$/.test(String(e.message || ''))) throw e; await ssend('comments?id=eq.'+cid, 'PATCH', { body: 새글 }); }      /* 116단계 전엔 글만 */
+      const c = D.c.find(x=>x.id===cid); if(c){ c.body = 새글; c.edited_at = 때; }
       S.cmEdit = null; S.cmTmp = null; popClose(); toast('수정했어요'); render(); }
     catch(e){ toast('수정하지 못했어요 — ' + e.message); }
     return; }
