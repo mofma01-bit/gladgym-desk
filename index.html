@@ -1126,7 +1126,11 @@ body.끄는중{user-select:none;-webkit-user-select:none}
 .hmbar .reset{color:var(--sub)}
 
 /* 현황판 숫자 — 눌리는 것이라는 티를 낸다 */
-.hblk > .homenums .num{border-radius:11px;padding:7px 4px;transition:background .12s}
+.hblk > .homenums .num.hot{position:relative;background:rgba(232,196,128,.12);box-shadow:0 0 0 2px var(--gold) inset,0 0 18px rgba(232,196,128,.45);animation:numhot 1.6s ease-in-out infinite}.homenums .num.hot .v{color:var(--gold);font-size:1.25em}.homenums .num.hot .k{color:var(--gold);font-weight:900}
+@keyframes numhot{0%,100%{box-shadow:0 0 0 2px var(--gold) inset,0 0 10px rgba(232,196,128,.25)}50%{box-shadow:0 0 0 2px var(--gold) inset,0 0 26px rgba(232,196,128,.7)}}
+@media (prefers-reduced-motion:reduce){.homenums .num.hot{animation:none}}
+.homenums .num.gs{margin-left:10px;position:relative}.homenums .num.gs::before{content:'';position:absolute;left:-6px;top:18%;bottom:18%;border-left:1px solid var(--line)}
+.homenums .num{border-radius:11px;padding:7px 4px;transition:background .12s}
 .hblk > .homenums .num{width:100%;box-sizing:border-box}.hblk > .homenums .num .k{width:100%;box-sizing:border-box}      /* 칸 이름이 칸 폭을 다 씀 — 넓은데도 두 줄로 꺾였다 (2026-10-26) */      /* 칸 이름이 칸 폭을 다 쓰게 — 넓은 화면에서도 「수업 기록…」으로 잘렸다 (2026-10-26) */
 .hblk > .homenums .num:hover{background:#232320}
 .hblk > .homenums .num:hover .k{color:var(--gold-2)}
@@ -1797,6 +1801,11 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-cal .lv .lvtag i{margin-right:3px}
 .ib-tbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}.ibseg{display:inline-flex;flex:none;background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}.ibseg button{flex:none;min-width:110px}
 .ibtop{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;margin-left:auto}.ibtop .ibdis{opacity:.6}.ibtop small{font-weight:600;margin-left:4px}
+.ib-cmp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--dark-3);margin:10px 0 6px}.ib-cmp .g{display:flex;align-items:center;gap:8px}.ib-cmp .g > span{font-size:13px;font-weight:800;color:var(--sub)}.ib-cmp .g.a > span{color:var(--gold)}
+.ib-sel{padding:7px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--dark-2);color:var(--cream);font:inherit;font-weight:800;font-size:14px;cursor:pointer}.ib-cmp .g.a .ib-sel{border-color:var(--gold)}.ib-cmp .vs{color:var(--sub);font-weight:800}
+.ib-cmp .q{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}.ib-cmp .q button{padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--sub);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.ib-cmp .q button.on{border-color:var(--gold);color:var(--gold)}.ib-cmp .q button[disabled]{opacity:.4;cursor:default}
+.ib-cmpn{font-size:13px;color:var(--sub);margin:0 0 12px 2px}
+.ib-per{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}.ib-per .chip{font-size:13px}.ib-per .d{display:inline-flex;align-items:center;gap:6px;margin-left:auto;font-size:13px;color:var(--sub)}.ib-per .d .inp{width:auto;padding:6px 8px;font-size:13px}
 .ibdays{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px}.ibdays button{border:1px solid var(--line);background:var(--dark-2);color:var(--sub);font-size:13px;font-weight:700;border-radius:999px;padding:5px 12px}.ibdays button.on{background:var(--cream);color:#151413;border-color:var(--cream)}.ibdays button.cmp{border-color:var(--teal);color:var(--teal)}.ibdays small{color:var(--sub);font-size:13px;margin-left:4px}
 .ibsheet{background:#fff;color:#222;border-radius:12px;padding:16px 20px 14px;font-size:13px;line-height:1.45;margin-bottom:16px}
 .ib-logo{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:3px solid #a22b2b;padding-bottom:4px;margin-bottom:8px}.ib-logo b{font-size:30px;font-weight:900;color:#a22b2b;letter-spacing:-.02em}.ib-logo span{font-size:12.5px;color:#555}
@@ -3053,7 +3062,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '536';
+const BUILD = '537';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -7024,12 +7033,28 @@ function ib차(지, 전, 좋음){ if(지 == null || 전 == null) return ''; cons
   return '<em class="' + ((d > 0) === (좋음 > 0) ? 'up' : 'dn') + '">' + (d > 0 ? '▲' : '▼') + Math.abs(d).toFixed(1) + '</em>'; }
 const 인바디단추 = () => '<div class="ibtop">' + '<button class="btn ghost sm ibdis" data-act="tx:ibpull" title="루킨바디 기간 조회가 아직 막혀 있어요(중앙 확인 중) · 새 측정은 자동으로 들어와요">루킨바디에서 지난 기록 가져오기 <small>연결 준비중</small></button>'
     + (canEdit('body') ? '<button class="btn sub sm" data-act="blnew">＋ 오늘 인바디 기록</button>' : '') + editBtn('body') + '</div>';
+/* 두 회차 1:1 비교 (2026-11-02 노션 「날짜 칩이 아니라 · 1:1 로 각 측정된 회차를 선택해서 비교」) — 결과지 회차 · 비교 회차 · 바로 고르기 */
+const 인바디바로 = [['prev', '바로 앞'], ['1m', '한 달 전'], ['3m', '3개월 전'], ['first', '첫 측정']];
+function 인바디바로찾기(오름, 고른, q){ const i = 오름.indexOf(고른); if(i <= 0) return null; if(q === 'prev') return 오름[i - 1]; if(q === 'first') return 오름[0];
+  const 날 = 날더함(고른.on_date, q === '1m' ? -30 : -90), 앞 = 오름.slice(0, i).filter(x => x.on_date <= 날); return 앞.length ? 앞[앞.length - 1] : null; }
+function 인바디비교(오름, 고른){ if(!고른) return null; if(S.ibCmp){ const c = 오름.find(x => x.on_date === S.ibCmp); if(c && c !== 고른) return c; } return 인바디바로찾기(오름, 고른, S.ibQ || 'prev'); }
+function 인바디비교줄(오름, 고른, 비교){ const 짧 = d => (+d.slice(5, 7)) + '/' + (+d.slice(8)), 회 = x => 오름.indexOf(x) + 1, 끝 = 오름[오름.length - 1];
+  const 칸 = (k, 지금) => '<select class="ib-sel" data-ibsel="' + k + '">' + (k === 'b' && !지금 ? '<option value="">선택</option>' : '') + 오름.slice().reverse().map(x => '<option value="' + esc(x.on_date) + '"' + (지금 && x.on_date === 지금.on_date ? ' selected' : '') + (k === 'b' && x === 고른 ? ' disabled' : '') + '>' + 짧(x.on_date) + ' · ' + 회(x) + '회차' + (x === 끝 ? ' · 최근' : '') + '</option>').join('') + '</select>';
+  const 바 = 인바디바로.map(([q, 말]) => { const z = 인바디바로찾기(오름, 고른, q); return '<button class="' + (z && 비교 === z ? 'on' : '') + '" data-act="tx:ibq" data-k="' + q + '"' + (z ? '' : ' disabled') + '>' + 말 + '</button>'; }).join('');
+  return '<div class="ib-cmp"><div class="g a"><span>결과지</span>' + 칸('a', 고른) + '</div><span class="vs">↔</span><div class="g"><span>비교</span>' + 칸('b', 비교) + '</div><div class="q">' + 바 + '</div></div>'
+    + '<div class="ib-cmpn">측정 회차 두 개를 선택해 1:1로 비교해요 · ▲▼ = 비교값(초록 = 좋아진 쪽)</div>'; }
+/* 변화그래프 기간 (2026-11-02 노션 「기간을 설정해서 그래프로」) — 처음 열 때 3개월 · 3개월에 두 번이 안 되면 전체 */
+const 인바디기간 = [['1m', '1개월', 30], ['3m', '3개월', 90], ['6m', '6개월', 182], ['1y', '1년', 365], ['all', '전체', 0]];
+function 인바디기간목(오름){ const 끝날 = 오름[오름.length - 1].on_date; let per = S.ibPer || '3m';
+  let 까지 = per === '직접' && S.ibTo ? S.ibTo : 끝날, 부터 = per === '직접' ? (S.ibFrom || 오름[0].on_date) : per === 'all' ? 오름[0].on_date : 날더함(까지, -(인바디기간.find(z => z[0] === per) || [0, 0, 90])[2]);
+  let 목 = 오름.filter(x => x.on_date >= 부터 && x.on_date <= 까지);
+  if(!S.ibPer && 목.length < 2){ per = 'all'; 부터 = 오름[0].on_date; 까지 = 끝날; 목 = 오름; }
+  return { 목, 부터, 까지, per }; }
 function 인바디판(bl, 표){
   const 오름 = bl.slice().sort((a, b) => a.on_date < b.on_date ? -1 : 1), 날들 = 오름.map(x => x.on_date);
-  const 고른 = 오름.find(x => x.on_date === S.ibDay) || 오름[오름.length - 1], 비교 = 고른 ? 오름[오름.indexOf(고른) - 1] || null : null;      /* ▲▼ = 바로 앞 측정과 (결과지와 같은 눈) */
+  const 고른 = 오름.find(x => x.on_date === S.ibDay) || 오름[오름.length - 1], 비교 = 인바디비교(오름, 고른);      /* ▲▼ = 고른 비교 회차와 (기본 바로 앞) */
   const 단추 = '';
-  const 칩 = 날들.length ? '<div class="ibdays">' + 날들.slice().reverse().map(d => '<button class="' + (고른 && d === 고른.on_date ? 'on' : 비교 && d === 비교.on_date ? 'cmp' : '') + '" data-act="tx:ibday" data-k="' + esc(d) + '">' + (+d.slice(5, 7)) + '/' + (+d.slice(8)) + (비교 && d === 비교.on_date ? ' 비교' : '') + '</button>').join('')
-    + '<small>측정일을 누르면 그날 결과지 · ▲▼ 는 바로 앞 측정과 견준 값</small></div>' : '';
+  const 칩 = 오름.length > 1 ? 인바디비교줄(오름, 고른, 비교) : '';
   const 직접 = '<div class="ibedit' + (S.ibEdit ? ' on' : '') + '"><button class="ibeh" data-act="tx:ibedit">기록 직접 입력 · 수정 ' + bl.length + '회 <i>' + (S.ibEdit ? '▴' : '▾') + '</i></button>' + (S.ibEdit ? '<div class="card" style="padding:4px 6px">' + 표 + '</div>' : '') + '</div>';
   if(!고른) return 단추 + '<div class="empty why"><b>아직 인바디 기록이 없습니다</b>인바디를 재면 자동으로 들어와요 · 손으로 넣으려면 「＋ 오늘 인바디 기록」</div>' + 직접;
   return 단추 + 칩 + 결과지(고른, 비교, 오름) + 변화그래프(오름) + 직접;
@@ -7084,11 +7109,13 @@ function 결과지(x, 전, 오름){
       + (지 != null && n('HT') ? '<span>FMI</span><b>' + ib1(지 / Math.pow(n('HT') / 100, 2)) + ' kg/m²</b>' : '')
       + '<span>권장섭취열량</span><b>' + (n('RENERGY') != null ? n('RENERGY').toLocaleString() + ' kcal' : '—') + '</b></div></div>';
   return '<div class="ibsheet">' + 머리 + '<div class="ibcols"><div>' + 왼 + '</div><div>' + 오 + '</div></div>'
-    + (전 ? '<div class="ibnote">▲▼ = 바로 앞 측정 ' + (+전.on_date.slice(5, 7)) + '/' + (+전.on_date.slice(8)) + '과 견준 값 · 초록 = 좋아진 쪽</div>' : '') + '</div>';
+    + (전 ? '<div class="ibnote">▲▼ = ' + (+전.on_date.slice(5, 7)) + '/' + (+전.on_date.slice(8)) + ' 측정과 비교값 · 초록 = 좋아진 쪽</div>' : '') + '</div>';
 }
 /* 변화그래프 — 루킨바디 웹 꼴: 위 = 체중 · 골격근량 · 체지방량 한 판 · 아래 = 하나씩(최저 · 최고) · 최근 30회 / 전체 */
 function 변화그래프(오름){
-  const 다 = !!S.ibAll, 목 = 다 ? 오름 : 오름.slice(-30); if(목.length < 2) return '';
+  if(오름.length < 2) return ''; const 기 = 인바디기간목(오름), 목 = 기.목;
+  const 기간줄 = '<div class="ib-per"><b>기간</b>' + 인바디기간.map(([k, 말]) => '<button class="chip' + (기.per === k ? ' on' : '') + '" data-act="tx:ibper" data-k="' + k + '">' + 말 + (k === 'all' ? ' ' + 오름.length + '회' : '') + '</button>').join('') + '<span class="sub3">' + 목.length + '회</span><span class="d"><input type="date" class="inp" data-ibd="from" value="' + esc(기.부터) + '"> ~ <input type="date" class="inp" data-ibd="to" value="' + esc(기.까지) + '"></span></div>';
+  if(목.length < 2) return '<div class="ibgraph"><div class="ibgh"><b>변화그래프</b></div>' + 기간줄 + '<div class="sub3" style="padding:14px 4px">이 기간엔 측정이 ' + 목.length + '번이에요 · 기간을 넓혀 주세요</div></div>';
   const 값 = (z, f, k) => { const v = ibN((z.raw || {})[k]); return v != null ? v : ibN(z[f]); };
   const 색 = (z, k) => { const r = z.raw || {}, v = ibN(r[k]), lo = ibN(r[k + '_MIN'] || (k === 'BFM' ? r.PBFM_MIN : null)), hi = ibN(r[k + '_MAX'] || (k === 'BFM' ? r.PBFM_MAX : null));
     return v == null || lo == null || hi == null ? 'n' : v > hi ? 'hi' : v < lo ? 'lo' : 'ok'; };
@@ -7100,7 +7127,7 @@ function 변화그래프(오름){
   const 날 = '<div class="ibgd" style="width:' + 목.length * 70 + 'px">' + 목.map(z => '<span>' + String(z.on_date).slice(2).replace(/-/g, '.') + '</span>').join('') + '</div>';
   const 셋 = [['체중', 'w', 'WT'], ['골격근량', 'm', 'SMM'], ['체지방량', 'f', 'BFM']];
   const 합 = 셋.map(([nm, f, k]) => 줄(nm, f, k, 74)).filter(Boolean), 따 = 셋.map(([nm, f, k]) => 줄(nm, f, k, 150)).filter(Boolean);
-  return '<div class="ibgraph"><div class="ibgh"><b>변화그래프</b><span class="sp"></span><button class="chip' + (다 ? '' : ' on') + '" data-act="tx:iball" data-k="0">최근 30회</button><button class="chip' + (다 ? ' on' : '') + '" data-act="tx:iball" data-k="1">전체 ' + 오름.length + '회</button></div>'
+  return '<div class="ibgraph"><div class="ibgh"><b>변화그래프</b></div>' + 기간줄
     + '<div class="ibgc"><div class="ibgl">' + 합.map(o => '<b>' + o.nm + ' <i>(kg)</i></b>').join('') + '</div><div class="ibgs">' + 합.map(o => o.svg).join('') + 날 + '</div></div>'
     + 따.map(o => '<div class="ibgc one"><div class="ibgt"><b>' + o.nm + '</b><span>최저 <b>' + ib1(o.lo) + '</b> · 최고 <b>' + ib1(o.hi) + '</b> (kg)</span></div><div class="ibgs">' + o.svg + 날 + '</div></div>').join('') + '</div>';
 }
@@ -14083,6 +14110,7 @@ function 배치읽기(){
     const 목 = b.단고정 === '좌' ? 좌 : 우, 딴 = b.단고정 === '좌' ? 우 : 좌;
     const i = 딴.indexOf(b.k);
     if(i >= 0){ 딴.splice(i, 1); if(목.indexOf(b.k) < 0) 목.unshift(b.k); }
+    if(b.맨위){ const j = 목.indexOf(b.k); if(j > 0){ 목.splice(j, 1); 목.unshift(b.k); } }
   });
 
   let 폭 = +((b && b.폭) != null ? b.폭 : 폭기본);
@@ -14206,12 +14234,12 @@ const 현황칸 = [
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
   /* 락커 — 중앙 locker_status 그대로 (2026-10-25 대표 「현황판에는 락커만료자 · 락커TM」) · 셈 = 명단 길이 */
-  { k:'데스크알림', 이름:'데스크 알림', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r },      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
+  { k:'데스크알림', 이름:'데스크 알림', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r && 등급of(ME) !== '트레이너' },      /* 2026-11-02 대표 「트레이너는 볼 필요 없다」 */      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
   { k:'종목요청', 이름:'종목 수정 요청', 색:'gold', 셈: () => 종목급() ? (D.xr || []).filter(r => r.status === '대기').length : 0, 직접: () => 가기('exreq'), 보임: () => 종목급() },      /* 승인 알림 (2026-10-30 결정함 d1030c_ex 「관리자 현황판에 승인 알림」) */
   { k:'설문2차', 이름:'2차 설문톡 연락', 색:'gold', 셈: () => 이차연락줄().length, 직접: () => { 표상태.leads.보기 = 'ns2'; 보기얹기('leads'); 가기('leads'); }, 보임: () => 할수('table') },      /* 2차 받은 분 중 아직 연락 체크 안 한 분 (2026-10-30 대표 「명단이 있을 때마다 현황판에」) */
   { k:'설문중지', 이름:'자동 설문 중지 요청', 색:'warn', 셈: () => 중지요청줄().length, 직접: () => 중지요청판(), 보임: () => 할수('assignset') },      /* 트레이너 요청 → 관리자 승인 (2026-10-30 노션) */
   { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
-  { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r },
+  { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
   { k:'락커TM', 이름:'락커 TM', 색:'warn', 셈: () => 락커줄('TM').length, 직접: () => 락커판('TM'), 보임: () => !!락커.r },
   { k:'연월차', 이름:'연월차 승인 대기', 색:'', 보임: () => 할수('leaveok') },
   { k:'가입',   이름:'가입 승인 대기',   색:'gold', 보임: () => 할수('perm'),      /* 2026-10-19 — 새 로그인 가입 승인(pwpending) · 옛 이메일 가입 수(가입대기수)가 아니다 */
@@ -14239,7 +14267,10 @@ const 현황셈하기 = k => {
 
 /* 관리자는 두 칸 — 내가 할 일 / 선생님 현황 (2026-11-02 대표 「다른 트레이너들의 업무와 관리자인 나의 업무를 나눠서」 · 시안 승인). 트레이너 화면은 그대로.
    선생님이 처리하는 것만 여기 적는다 — 새 칸을 안 적으면 「내가 할 일」로 가서 묻히지 않는다 */
-const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '상담', '청소', '첫연락', '첫TG', '재연락', '설문2차', '다음주연차']);
+/* 현황판 줄 세우기 (2026-11-02 대표) — ① 상담이 맨 앞 · 빛남 「상담이 가장 중요 · 가장 1번 · 가장 눈에 띄게」 ② 업무끼리 ③ 수업끼리 (뒤죽박죽 말고) — 관리자는 상담이 「내가 할 일」 첫 칸 */
+const 현황수업칸 = new Set(['운동', '오늘없음', '누락', '밀림', '요청', '실패', '첫연락', '첫TG', '재연락', '담당', '빈담당', '배정없음', 'TG정리']);
+const 현황묶음 = k => k === '상담' ? 0 : 현황수업칸.has(k) ? 2 : 1;
+const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '재연락', '설문2차', '다음주연차']);
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
@@ -14249,13 +14280,13 @@ function 숫자줄(){
        (2026-09-30 대표 「죽어있는건 아래줄 · 살아있는건 윗줄로」).
      아침마다 보는 화면이라 **눈이 윗줄에서 멈춰야** 한다. */
   const 다 = 현황칸.filter(c => (!c.보임 || c.보임()) && (!현황허용[c.k] || 현황허용[c.k]())).map(c => ({ c, v: 현황셈하기(c.k) }));
-  const 칸 = x => '<button class="num' + (x.v ? ' ' + x.c.색 : ' zero') + '"'
+  const 칸 = (x, i, xs) => '<button class="num' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (i > 0 && 현황묶음(xs[i - 1].c.k) !== 현황묶음(x.c.k) ? ' gs' : '') + '"'
     + ' data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
     + '<em class="go">›</em><span class="v">' + x.v + '</span><span class="k">' + x.c.이름 + '</span></button>';
   /* 0 인 것은 숫자 없이 이름만 한 줄로 (2026-10-12 대표 「4번부터 10번까지도 진행」 — 9/30 「죽어있는 건 아랫줄」을 한 줄 글로 줄임. 눌러서 가는 것은 그대로) */
   const 없는칸 = x => '<button class="dz" data-act="tx:numopen" data-v2="' + x.c.k + '" title="' + x.c.이름 + ' — 눌러서 그 페이지로">' + x.c.이름 + '</button>';
-  const 산 = 다.filter(x => x.v), 죽 = 다.filter(x => !x.v);
+  const 산 = 다.filter(x => x.v).map((x, i) => [x, i]).sort((p, q) => (현황묶음(p[0].c.k) - 현황묶음(q[0].c.k)) || (p[1] - q[1])).map(z => z[0]), 죽 = 다.filter(x => !x.v);
   /* ⭐ 두 줄이 **같은 칸 수**를 쓴다 — 그래야 위아래가 세로로 맞고 한 줄이 안 접힌다.
      `auto-fit` 은 줄마다 칸 수가 달라져 아랫줄이 접혔다 (2026-09-30). */
   /* ⭐ 줄마다 **자기 칸 수**로 폭을 꽉 채운다 (2026-09-30 대표 「여백을 왜 남기는거야?」).
@@ -15428,7 +15459,7 @@ const 홈블록 = [
   { k:'nums',  이름:'현황판',           단:'우', 단고정:'우' },
   /* PT 예약률 — 현황판 바로 아래 (2026-10-15 대표 「현황판 아래 · B안 · 반원 게이지 A · 센터 최고」) */
   { k:'booking', 이름:'PT 예약률',      단:'우' },
-  { k:'notice',이름:'대표 공지',        단:'우' },
+  { k:'notice',이름:'대표 공지',        단:'우', 단고정:'우', 맨위:1 },      /* 데스크 공지 · 업무 공지 — 모두 현황판 위 (2026-11-02 대표 「대표 화면처럼」) */
   { k:'today', 이름:'오늘 수업 · 루틴',  단:'우' },
   { k:'leave', 이름:'이번 주 연월차',   단:'좌' },
   /* 비품 — 연월차 바로 아래 · 모두가 눌러서 읽기 · 구매 입력 · 선구매 · 다시 알림 · 취소는 관리자만(서버 「넣기」) (2026-10-20 대표 20:35) */
@@ -15858,8 +15889,8 @@ async function txAct(a, el){
   if(/^g(chat|c)/.test(a) && await 챗손(a, k, el)) return;      /* 챗봇 (2026-10-26) */
   if(a==='figk'){ S.figSel = S.figSel === k ? null : k; render(); return; }      /* 체형 한눈에 — 점 · 줄 누르면 그 항목 (앱과 같음) */
   if(a==='bodyt'){ S.bodyT = k; render(); return; }      /* 체형 탭 알약 인바디 | 체형분석 (2026-10-26) */
-  if(a==='ibday'){ S.ibDay = k; render(); return; }      /* 그날 결과지 */
-  if(a==='iball'){ S.ibAll = k === '1'; render(); return; }
+  if(a==='ibq'){ S.ibQ = k; S.ibCmp = ''; render(); return; }      /* 비교 바로 고르기 */
+  if(a==='ibper'){ S.ibPer = k; S.ibFrom = ''; S.ibTo = ''; render(); return; }      /* 그래프 기간 */
   if(a==='ibedit'){ S.ibEdit = !S.ibEdit; render(); return; }
   if(a==='ibpull'){ toast('루킨바디 지난 기록 가져오기는 연결 준비중이에요 · 새로 잰 인바디는 자동으로 들어와요'); return; }
   if(a==='rbchip'){ 규칙판.칩 = k; render(); return; }      /* 규칙 탭 파트 칩 */
@@ -17656,6 +17687,9 @@ async function 회원피드백받기(mid){
     const 첨부 = []; for(let i = 0; i < 새.length; i += 80) 첨부.push(...await sget('comment_media?select=comment_id,kind,path&comment_id=in.(' + 새.slice(i, i + 80).map(c => '"' + c.id + '"').join(',') + ')&order=id&limit=1000'));
     D.c = D.c.concat(새); D.cmedia = (D.cmedia || []).concat(첨부); if(S.view === 'member' && S.mid === mid && !document.activeElement.matches('input,textarea')) render(); }
   catch(e){ console.warn('회원 피드백 못 받음', e); } }
+document.addEventListener('change', ev => { const t = ev.target; if(!t || !t.dataset) return;      /* 인바디 회차 · 기간 날짜 (2026-11-02) */
+  if(t.dataset.ibsel){ if(t.dataset.ibsel === 'a'){ S.ibDay = t.value; if(S.ibCmp === t.value) S.ibCmp = ''; } else { S.ibCmp = t.value; S.ibQ = ''; } render(); return; }
+  if(t.dataset.ibd){ S.ibPer = '직접'; if(t.dataset.ibd === 'from') S.ibFrom = t.value; else S.ibTo = t.value; render(); } });
 async function loadMember(mid){
   const ws = D.w.filter(w=>w.member_id===mid).map(w=>w.id);
   const inList = a => '(' + a.map(x=>'"'+x+'"').join(',') + ')';
