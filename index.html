@@ -3024,7 +3024,7 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 
 <script>
 "use strict";
-const BUILD = '533';
+const BUILD = '534';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3486,6 +3486,8 @@ async function usend속(path, method, body, pref, 재){
   return t3 ? JSON.parse(t3) : null;
 }
 
+/* 서버는 한 번에 1000줄만 준다(2026-11-02 실측 · limit=5000 → 1000) — 표 전체가 필요하면 이걸로 쪽쪽이 받는다 */
+async function 전부받기(q){ const 다 = []; for(let o = 0; o < 100000; o += 1000){ const r = await sget(q + '&limit=1000&offset=' + o); 다.push(...(r || [])); if(!r || r.length < 1000) break; } return 다; }
 async function sget(path){
   if(AUTH && Date.now() > (AUTH.exp || 0)) await refreshAuth().catch(() => {});      /* 끝난 토큰이면 먼저 새로 받는다 */
   const r = await 수파fetch(SB_URL+'/rest/v1/'+path, { headers:HD, cache:'no-store' });
@@ -14341,10 +14343,9 @@ function 끊긴목록(){
     const 운동날 = ws[0] ? ws[0].on_date : null;
     /* 피드백이 한 번도 없으면 「한 번도」가 아니라 **회원 등록일부터 오늘까지**를 센다
        (2026-09-17 대표: 「한번도 x · 00일 동안 없음」)
-       — 단 등록일이 앱 시작(피드백시작)보다 앞이면 시작일부터 센다 (2026-11-02 대표) */
-    const 든날 = [서울날(m.created_at) || '', 피드백시작].sort().pop();
-    const 빈날 = daysAgo(든날);
-    return { m, gap: 마지막 ? daysAgo(마지막) : 빈날, last: 마지막, 수: cs.length,
+       — 단 등록일이 앱 시작(피드백시작)보다 앞이면 시작일부터 센다 (2026-11-02 대표) · 시작 전 피드백(노션에서 옮긴 것)도 시작일부터 */
+    const 든날 = [마지막 || 서울날(m.created_at) || '', 피드백시작].sort().pop();
+    return { m, gap: daysAgo(든날), last: 마지막, 수: cs.length,
              없음: !마지막, 운동: 운동날 ? daysAgo(운동날) : null, 운동날, 운동수: ws.length };
   }).filter(x => !피드백끔(x.m))                 /* ⭐ 동의로 끈 회원은 재촉하지 않는다 */
     .filter(x => x.gap === null || x.gap >= 피드백밀림일)
@@ -15437,8 +15438,10 @@ document.addEventListener('mouseup', async function(){
 
 /* 종목별 추천 피드백 (2026-10-30 결정함 d1030c_fb · 103단계 ex_feedback) — 공용(owner 없음 · 노션) + 내 것 · ⭐ 먼저 · 칩 누르면 칸에 들어감 */
 const 추천목 = exid => (D.exfb || []).filter(x => x.ex_id === exid && (!x.owner || x.owner === 나이름())).sort((a, b) => ((b.stars || []).includes(나이름()) - (a.stars || []).includes(나이름())) || (!!b.owner - !!a.owner) || String(b.created_at || '').localeCompare(String(a.created_at || '')));
-function 추천칩(vid, 칸id){ const exid = String(vid || '').split(':')[0]; if(!D.exfb) return ''; const L = 추천목(exid), 나 = 나이름();
-  return '<div class="fbp">' + L.slice(0, 12).map(x => '<button class="fbc' + ((x.stars || []).includes(나) ? ' star' : '') + '" data-act="tx:fbpick" data-k="' + esc(칸id) + '" data-v2="' + esc(x.id) + '" title="' + esc(x.body) + '"><i data-fbstar="' + esc(x.id) + '">' + ((x.stars || []).includes(나) ? '★' : '☆') + '</i><span>' + esc(x.body) + '</span></button>').join('')
+const 추천펼침 = new Set();      /* 칩 12개 넘으면 더 보기 · 접기 */
+function 추천칩(vid, 칸id){ const exid = String(vid || '').split(':')[0]; if(!D.exfb) return ''; const L = 추천목(exid), 나 = 나이름(), 다 = 추천펼침.has(exid);
+  return '<div class="fbp">' + (다 ? L : L.slice(0, 12)).map(x => '<button class="fbc' + ((x.stars || []).includes(나) ? ' star' : '') + '" data-act="tx:fbpick" data-k="' + esc(칸id) + '" data-v2="' + esc(x.id) + '" title="' + esc(x.body) + '"><i data-fbstar="' + esc(x.id) + '">' + ((x.stars || []).includes(나) ? '★' : '☆') + '</i><span>' + esc(x.body) + '</span></button>').join('')
+    + (L.length > 12 ? '<button class="fbc" data-act="tx:fbmore" data-k="' + esc(exid) + '">' + (다 ? '접기' : '더 보기 ' + (L.length - 12)) + '</button>' : '')
     + '<button class="fbc fbadd" data-act="tx:fbsave" data-k="' + esc(칸id) + '" data-v2="' + esc(exid) + '">＋ 지금 쓴 것 저장</button></div>'; }
 async function 추천저장(칸id, exid){ const 글 = (($('#' + 칸id) || {}).value || '').trim(); if(!글) return toast('저장할 피드백을 먼저 입력해 주세요');
   if(추천목(exid).some(x => x.body === 글)) return toast('이미 저장된 피드백이에요');
@@ -16034,6 +16037,7 @@ async function txAct(a, el){
   if(a==='sgcur'){ const [m0, s0] = String(k).split('|'); await 진행중으로(m0, s0); return; }
   if(a==='fbpick'){ const x = (D.exfb || []).find(z => String(z.id) === String(v2)), t = $('#' + k); if(x && t){ t.value = (t.value.trim() ? t.value.replace(/\s+$/, '') + String.fromCharCode(10) : '') + x.body; t.focus(); } return; }
   if(a==='fbsave'){ await 추천저장(k, v2); return; }
+  if(a==='fbmore'){ if(추천펼침.has(k)) 추천펼침.delete(k); else 추천펼침.add(k); 추천다시(); return; }
   if(a==='rsphoto'){ 사진표고르기(); return; }
   if(a==='spx'){ const [i, j] = String(k).split('|').map(Number); if(사진표 && 사진표.routines[i]){ 사진표.routines[i].items.splice(j, 1); 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진표판(); } return; }
   if(a==='spsave'){ await 사진표저장(); return; }
@@ -17089,7 +17093,7 @@ async function 자료읽기(다시){
     const g = await Promise.all([
       sget('body_logs?select=member_id,on_date,w,m,f,fp,note&order=on_date').catch(()=>[]),
       sget('body_rounds?select=member_id,on_date').catch(()=>[]),
-      sget('comment_media?select=comment_id,kind,path').catch(()=>[]),
+      sget('comment_media?select=comment_id,kind,path&order=id.desc&limit=1000').catch(()=>[]),
       sget('meals?select=member_id,on_date&limit=2000').catch(()=>[]),
       /* 회원앱이 찍은 **네 방향 체형 사진** — 자료 한 장의 「촬영사진」 칸이 이걸 본다 */
       sget('body_photos?select=member_id,kind,pose,on_date,path&limit=2000').catch(()=>[]),
@@ -17506,7 +17510,7 @@ async function load(){
       sget('exercises?select=*&order=part,sort'),
       sget('variants?select=*&order=sort'),
       sget('asks?select=*&limit=300').catch(()=>[]),
-      sget('comments?select=member_id,variant_id&limit=20000').catch(()=>null),
+      전부받기('comments?select=member_id,variant_id&order=id').catch(()=>null),
     ]);
     D.m=g[0]; D.w=g[1]; D.wi=g[2]; D.r=g[3]; D.ri=g[4]; D.c=g[5];
     D.aAll=g[6]; D.a=g[6].filter(x=>x.on_date===TODAY);
@@ -17514,11 +17518,11 @@ async function load(){
     try{ D.ps = await sget('prep_sets?select=*&order=created_at'); }catch(e){ D.ps = []; }
     try{ D.rs = await sget('routine_sheets?select=*&order=sort,created_at'); }catch(e){ D.rs = []; }
     try{ D.exfavs = await sget('ex_favs?select=trainer,ex_id'); }catch(e){ D.exfavs = []; }      /* 종목 즐겨찾기 (107단계) */
-    try{ D.exfb = await sget('ex_feedback?select=*&order=created_at.desc&limit=5000'); }catch(e){ D.exfb = null; }      /* 종목별 추천 피드백 (103단계 · 없으면 칩 없음) */
+    try{ D.exfb = await 전부받기('ex_feedback?select=*&order=created_at.desc,id'); }catch(e){ D.exfb = null; }      /* 종목별 추천 피드백 (103단계 · 없으면 칩 없음) */
     try{ D.gives = await sget('sheet_gives?select=*'); }catch(e){ D.gives = []; }      /* 회원에게 준 루틴표 (84단계) */      /* 루틴표 (83단계 · 없으면 빈 채로) */
     try{ D.favs = await sget('trainer_favs?select=trainer,member_id'); }catch(e){ D.favs = []; }      /* 즐겨찾기(별) — 회원앱 트레이너 화면과 같은 표 (2026-10-08) */
     try{ D.xr = await sget('ex_requests?select=*&order=created_at.desc&limit=300'); XR없음 = false; }catch(e){ D.xr = []; XR없음 = true; }      /* 종목 보완 요청 (2026-10-13) — 표가 없으면 화면에서 알린다 */
-    try{ D.cmedia = await sget('comment_media?select=comment_id,kind,path'); }catch(e){ D.cmedia = D.cmedia || []; }      /* 피드백 사진 · 영상 — 피드백 화면이 쓴다(전엔 「자료」 화면을 열어야만 받았다 · 2026-10-15) */
+    try{ D.cmedia = await sget('comment_media?select=comment_id,kind,path&order=id.desc&limit=1000'); }catch(e){ D.cmedia = D.cmedia || []; }      /* 피드백 사진 · 영상 — 피드백 화면이 쓴다(전엔 「자료」 화면을 열어야만 받았다 · 2026-10-15) */
     try{ D.pi = await sget('prep_items?select=*&order=created_at'); }catch(e){ D.pi = []; }      /* 내가 만든 스트레칭 종목 */      /* 스트레칭 세트 (2026-10-07) */
     담당고르기채움();
     render();
@@ -17528,6 +17532,12 @@ async function load(){
   }
 }
 
+/* 피드백은 회원을 열 때 마저 읽는다 (2026-11-02 노션 피드백 준비) — 처음엔 센터 전체 최근 600줄 · 첨부 1000줄뿐이다 */
+async function 회원피드백받기(mid){
+  try{ const 있음 = new Set(D.c.map(c => c.id)), 새 = (await 전부받기('comments?select=*&member_id=eq.' + encodeURIComponent(mid) + '&order=created_at.desc,id')).filter(c => !있음.has(c.id)); if(!새.length) return;
+    const 첨부 = []; for(let i = 0; i < 새.length; i += 80) 첨부.push(...await sget('comment_media?select=comment_id,kind,path&comment_id=in.(' + 새.slice(i, i + 80).map(c => '"' + c.id + '"').join(',') + ')&order=id&limit=1000'));
+    D.c = D.c.concat(새); D.cmedia = (D.cmedia || []).concat(첨부); if(S.view === 'member' && S.mid === mid && !document.activeElement.matches('input,textarea')) render(); }
+  catch(e){ console.warn('회원 피드백 못 받음', e); } }
 async function loadMember(mid){
   const ws = D.w.filter(w=>w.member_id===mid).map(w=>w.id);
   const inList = a => '(' + a.map(x=>'"'+x+'"').join(',') + ')';
@@ -17546,6 +17556,7 @@ async function loadMember(mid){
       sget('cycles?select=*&member_id=eq.'+mid).catch(()=>[]),
       sget('body_photos?select=*&member_id=eq.'+mid+'&order=on_date').catch(()=>[]),
     ]);
+    회원피드백받기(mid);
     const mealIds = g[0].map(x=>x.id);
     const mi = mealIds.length
       ? await sget('meal_items?select=*&meal_id=in.'+inList(mealIds)+'&limit=2000') : [];
