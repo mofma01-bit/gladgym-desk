@@ -2986,6 +2986,24 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .jfc .act{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.jfc .act .btn,.jfhid{flex:none;width:auto}.jfhid{margin-top:10px;align-self:flex-start}
 .jfopen{margin:6px 0}
 .tx-pop .jfw{display:flex;flex-direction:column;max-height:min(78vh,720px)}
+.mvline{display:flex;align-items:center;gap:16px;flex-wrap:wrap;width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--dark-2,#1b1a17);color:var(--sub);font-size:13.5px;text-align:left;cursor:pointer;margin-bottom:10px}.mvline b{color:var(--cream)}.mvline .tg{margin-left:auto;font-size:13px}
+.mvfold{display:block;margin:-4px 0 10px auto;background:none;border:0;color:var(--sub);font-size:13px;cursor:pointer}
+.mvplan{margin-bottom:16px}.mvtgt{margin-top:18px}.mvconsult .sec{max-width:980px}
+.rcwrap{display:flex;flex-direction:column;gap:12px}.rcsel{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--sub)}.rcsel b{color:var(--cream)}
+.rcday{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--dark-2,#1b1a17)}
+.rch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 14px;background:rgba(255,255,255,.045);border-bottom:1px solid var(--line)}.rch b{font-size:15px}.rch .r{margin-left:auto;display:flex;gap:6px}
+.rcb{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:12px 14px}.rcfig{display:flex;flex-direction:column;align-items:center;gap:4px}.rcfig small{font-size:13px;color:var(--sub)}
+.rcpic{position:relative;width:150px;height:150px;border-radius:10px;background:#fff;overflow:hidden;display:block}.rcpic img,.rcpic canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.rcl{display:flex;flex-direction:column;min-width:0}.rcex{display:grid;grid-template-columns:minmax(140px,220px) 1fr auto;gap:6px 14px;align-items:center;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.08)}.rcex:last-child{border-bottom:0}.rcex b{font-size:14px}
+.rcs{display:flex;flex-wrap:wrap;gap:6px}.rcs span{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 8px}.rcs span i{font-style:normal;color:var(--sub);margin-right:4px;font-size:12px}.rcs .z{color:var(--sub)}.rcv{font-size:13px;color:var(--sub);white-space:nowrap}
+.rcmore{align-self:center}.rcfoot{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:16px;margin-top:6px}.rc8{display:flex;gap:8px;align-items:center;background:none;border:0;color:inherit;padding:0;cursor:pointer}.rc8 small{color:var(--sub)}
+.rcback{margin-bottom:10px}
+.pz.ed .pzed{cursor:pointer}.pz.ed .pzed input,.pz.ed .pz-days input{display:none}.pz.ed .pz-days label{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px 0;font-weight:800;border-left:1px solid #2a241b;cursor:pointer}.pz.ed .pz-days label:first-child{border-left:0}
+.pz.ed .pz-days label i{width:18px;height:18px;border:1.5px solid #2a241b;border-radius:4px;font-style:normal;font-size:13px;display:flex;align-items:center;justify-content:center}.pz.ed .pz-days label.on i{background:#2a241b;color:#fff}
+.pz.ed input.pzin{font:inherit;color:#2a241b;outline:none}.pz.ed input.pzin:focus,.pz.ed textarea.pzin:focus{border-color:#b8862e;box-shadow:0 0 0 2px rgba(184,134,46,.25)}.pz.ed textarea.pzin{width:100%;min-height:70px;font:inherit;color:#2a241b;border:1.5px solid #2a241b;border-radius:7px;padding:6px 8px;background:#fff;resize:vertical}
+.pz-save{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:10px}
+@media (max-width:760px){.rcb{grid-template-columns:1fr}.rcex{grid-template-columns:1fr}.rcfoot{grid-template-columns:1fr}}
+.rtgrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:4px 0 12px}.rtc2{display:flex;flex-direction:column;gap:5px;background:var(--dark-2,#1b1a17);border:1px solid var(--line);border-radius:14px;padding:8px 8px 10px}.rtc2 b{font-size:14px;line-height:1.3}.rtc2 small{font-size:13px;color:var(--sub)}.rtc2 .rsi{width:100%}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3126,7 +3144,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '554';
+const BUILD = '557';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3758,7 +3776,7 @@ const IKNAME = {
 
 const D = { m:[], w:[], wi:[], r:[], ri:[], c:[], a:[], aAll:[], ex:[], va:[], asks:[] };
 const M = { wi:[], ws:[], meals:[], mi:[], bl:[], br:[], bc:null, plan:null, intake:null, cyc:null, bph:[] };
-const S = { view:'home', who:'전체', q:'', mid:null, rid:null, tab:'routine',
+const S = { view:'home', who:'전체', q:'', mid:null, rid:null, tab:'record',
             exq:'', part:'전체', eq:'전체', pq:'', ptab:'s', cmex:null, day:null, kind:'수업', asDate:null, calMonth:null,
             cmw:null, cmopen:null, cday:null, mday:null, cmprev:null,
             bpPose:'정면', bpKind:'body',
@@ -5408,12 +5426,12 @@ async function 지정판열기(mid, kind){
   지정판그리기();
 }
 let 회원판 = null;                                   /* {mid, tab} */
-const 회원탭내용 = () => S.tab==='stat' ? tabStat()
-  : S.tab==='routine' ? tabRoutine()
-  : S.tab==='record'  ? tabRecord()
+const 회원탭내용 = () => S.tab==='routine' ? tabRoutine()
   : S.tab==='comment' ? tabComment()
-  : S.tab==='meal'    ? tabMeal()
-  : S.tab==='body'    ? tabBody() : tabInfo();
+  : S.tab==='meal'    ? '<div class="mvplan">' + tabInfo(true) + '</div>' + tabMeal()      /* 운동계획 · 체중 목표 = 식단 탭 위 */
+  : S.tab==='body'    ? tabBody() + '<div class="mvtgt">' + tabStat0('오') + '</div>'      /* 체중 목표 · 회원 목표 · 배지 = 체형 탭 아래 */
+  : S.tab==='info'    ? 회원점검칸(memOf(S.mid)) + 입력할것카드(S.mid) + tabInfo()      /* 상담 탭 = 입력할 것 + 상담지 */
+  : 지난기록탭();      /* 지난 기록 (옛 현황 탭으로 오면 여기) */
 function 회원판그리기(){
   if(!회원판) return;
   S.mid = 회원판.mid; S.tab = 회원판.tab;      /* 딴 데서 바뀌었어도 판은 제 것을 그린다 */
@@ -5539,9 +5557,9 @@ function 입력할것(mid){
   const pl = 내 ? ((M.plan && M.plan.data) || {}) : ((받 && 받.pl) || {}), ik = 내 ? ((M.intake && M.intake.data) || {}) : ((받 && 받.ik) || {}), bl = 내 ? (M.bl || []).length : ((받 && 받.bl) || 0), br = 내 ? (M.br || []).length + (M.bc ? 1 : 0) : ((받 && 받.br) || 0);
   const 있 = v => Array.isArray(v) ? v.length > 0 : (v && typeof v === 'object' ? Object.values(v).some(x => String(x||'').trim()) : String(v == null ? '' : v).trim() !== '');
   const 찬 = 상담항.filter(c => c.some(k => 있(ik[k]))).length, 률 = Math.round(찬 / 상담항.length * 100), 병 = MV_주의.some(k => 있(ik[k])) || !!ik.histNo, 몸 = mvn(pl.to && pl.to.w), 날 = (pl.to && pl.to.date) || '', 루 = D.r.filter(r => r.member_id === mid).length, o = [];
-  if(률 < 100) o.push(['상담', '상담일지', '<b>' + 률 + '%</b> · ' + (상담항.length - 찬) + '항목 남음', '정보 탭 「수정」']);
-  if(!병) o.push(['병력', '부상 · 병력', '<b>아직 작성 전</b>', '정보 탭 「입력」 · 「없음」']);
-  if(!몸 || !날) o.push(['계획', '운동계획', '<b>' + (!몸 ? '체중 목표 없음' : '목표 날짜 없음') + '</b>', '정보 탭 운동계획 「수정」']);
+  if(률 < 100) o.push(['상담', '상담일지', '<b>' + 률 + '%</b> · ' + (상담항.length - 찬) + '항목 남음', '상담 탭 「수정」']);
+  if(!병) o.push(['병력', '부상 · 병력', '<b>아직 작성 전</b>', '상담 탭 「입력」 · 「없음」']);
+  if(!몸 || !날) o.push(['계획', '운동계획', '<b>' + (!몸 ? '체중 목표 없음' : '목표 날짜 없음') + '</b>', '식단 탭 운동계획 「수정」']);
   if(!pl.wgoal) o.push(['목표', '운동 목표', '<b>정하기 전</b> · 지금은 기본값', '「목표 정하기」']);
   if(!bl) o.push(['인바디', '인바디', '<b>0회</b>', '체형 탭 「＋ 기록 추가」']);
   if(!br) o.push(['체형', '체형 검사', '<b>없음</b>', '체형 탭 「이 상태로 회차 남기기」']);
@@ -5553,9 +5571,9 @@ function 입력할것카드(mid){ if(memOf(mid).role === 'trainer') return '';  
   return '<div class="card mvtodo"><div class="th"><h3>입력할 것</h3><b>' + o.length + '개</b><small>다 채우면 이 칸은 사라집니다</small></div><div class="tg">'
     + o.map(x => '<button class="ti" data-act="todo" data-k="' + x[0] + '"><span class="n">' + x[1] + '</span><span class="s">' + x[2] + '</span><span class="go">' + esc(x[3]) + ' ›</span></button>').join('') + '</div></div>'; }
 function tabStat(){ return 회원점검칸(memOf(S.mid)) + tabStat0(); }      /* 예약 점검 기록 맨 위 (2026-10-26 w1u 「회원 자료는 하나 · 연동」) */
-function tabStat0(){
+function tabStat0(부분){
   /* ⛔ 「자료가 없다」를 「아직 받는 중」으로 보지 않는다 — 막 추가한 회원은 기록이 하나도 없어 「불러오는 중」이 끝없이 돌았다 (2026-10-12) */
-  if(M.ok !== S.mid && !M.plan && !M.wi.length && !M.meals.length) return '<div class="empty">불러오는 중…</div>';
+  if(M.ok !== S.mid && !M.plan && !M.wi.length && !M.meals.length) return 부분 ? '' : '<div class="empty">불러오는 중…</div>';
   /* 2026-10-12 대표 「상단에 지금 수정된 게 항상 떠 있고 · 현황에는 어떤 내용을 담을 건지 · 8주로」 — 요약 줄 = 지금의 숫자 / 현황 탭 = 흐름.
      왼쪽 최근 8주 운동 · 오른쪽 체중(추이 + 목표 한 칸) · 회원이 정한 목표 · 배지 */
   const a = 현황셈(S.mid), t = 달성셈(S.mid), g = t.g, 합 = g.수 + g.개, 막대 = p => '<i class="st-bar"><b style="width:'+Math.round(p)+'%"></b></i>', 날 = s => (+s.slice(5,7)) + '/' + (+s.slice(8));
@@ -5568,20 +5586,20 @@ function tabStat0(){
       + (a.몸 ? '<div class="gt"><b>' + kgfmt(a.몸.c) + a.몸.단위 + '<i>→</i>' + kgfmt(a.몸.b) + a.몸.단위 + '</b><span>' + (a.몸.p >= 100 ? '목표에 닿았어요' : mv수(Math.abs(a.몸.c - a.몸.b)) + a.몸.단위 + ' 남음 · ' + a.몸.p + '% 옴') + '</span></div>' + 막대(a.몸.p) : '')
       + (logs.length >= 2 ? 체중곡선(logs, 0, ds) + '<div class="wcl"><span>처음 기록 · ' + 체중날(ds[0]) + ' <b>' + kgfmt(logs[0]) + 'kg</b></span><span class="n">지금 · ' + 체중날(ds[ds.length-1]) + ' <b>' + kgfmt(logs[logs.length-1]) + 'kg</b></span></div>'
                           : '<div class="t2" style="margin-top:10px">인바디 기록이 두 번 넘게 쌓이면 변화가 그려져요</div>') + '</div>'
-    : '<div class="empty why"><b>아직 체중 목표가 없습니다</b>정보 탭 운동계획의 「수정」에서 입력해 주세요</div>';
-  return 입력할것카드(S.mid) + '<div class="cols">'
-    + '<div class="sec">' + (g.새 ? '<div class="mvchg"><span>🔔 <b>회원이 ' + esc(mv날(g.날) || '') + '에 운동 목표를 ' + (g.옛 ? esc(g.옛) + ' → ' : '') + 목표글(g) + '(으)로 수정했어요</b></span><button data-act="wgseen">확인</button></div>' : '')
+    : '<div class="empty why"><b>아직 체중 목표가 없습니다</b>식단 탭 운동계획의 「수정」에서 입력해 주세요</div>';
+  const 왼 = '<div class="sec">' + (g.새 ? '<div class="mvchg"><span>🔔 <b>회원이 ' + esc(mv날(g.날) || '') + '에 운동 목표를 ' + (g.옛 ? esc(g.옛) + ' → ' : '') + 목표글(g) + '(으)로 수정했어요</b></span><button data-act="wgseen">확인</button></div>' : '')
       + '<div class="lbl mvl">최근 8주 운동<small>목표 · 주 ' + 목표글(g) + '</small><span class="sp"></span><span class="who' + (g.기본 ? ' no' : '') + '">' + (g.기본 ? '아직 정하기 전입니다 · 오른쪽 단추에서 정해 주세요' : g.누 + (g.날 ? ' · ' + esc(mv날(g.날)) : '')) + '</span>'
       + '<button class="btn sub sm" data-act="wgedit">' + (g.기본 ? '목표 정하기' : '목표 수정') + '</button></div>'
       + '<div class="card mvwk">' + 주줄 + '</div><div class="mvlg"><span><i style="background:#a9d8e6"></i>수업</span><span><i style="background:#e9cf9b"></i>개인운동</span><span><i style="border:1.5px dashed #4a4741"></i>목표까지 남은 칸</span></div></div>'
-    + '<div class="sec"><div class="lbl">' + (a.몸 ? esc(a.몸.이름) : '체중') + ' 목표' + (logs.length ? ' · 인바디 ' + logs.length + '회' : '') + '</div>' + 체중
+  const 오 = '<div class="sec"><div class="lbl">' + (a.몸 ? esc(a.몸.이름) : '체중') + ' 목표' + (logs.length ? ' · 인바디 ' + logs.length + '회' : '') + '</div>' + 체중
       + '<div class="lbl" style="margin-top:14px">회원이 정한 목표 ' + a.목표들.length + '개</div>'
       + (a.목표들.length ? a.목표들.map(x => '<div class="card st-goal' + (x.p>=1?' ok':'') + '"><div class="rowc"><span class="t1">' + esc(x.이름) + '</span><span class="st-v">' + (x.p>=1?'달성 · ':'')
           + (x.단위==='kg'?kgfmt(x.지금):(+x.지금).toLocaleString()) + '<small>/' + (x.단위==='kg'?kgfmt(x.n):(+x.n).toLocaleString()) + x.단위 + '</small></span></div>' + 막대(x.p*100) + '</div>').join('')
         : '<div class="empty why"><b>아직 정한 목표가 없습니다</b>회원이 앱 홈 「내 목표」에서 정합니다</div>')
       + '<div class="lbl" style="margin-top:14px">배지 ' + a.뱃지.length + '개</div>'
       + (a.뱃지.length ? '<div class="st-bdgs">' + a.뱃지.map(b => '<span class="st-bdg">🏅 ' + esc(b.이름) + '<i>' + esc((b.at||'').slice(5).replace('-','.')) + '</i></span>').join('') + '</div>' : '<div class="empty why"><b>아직 받은 배지가 없습니다</b>운동을 기록하면 앱이 자동으로 줍니다</div>')
-    + '</div></div>';
+    + '</div>';
+  return 부분 === '왼' ? 왼 : 부분 === '오' ? 오 : 입력할것카드(S.mid) + '<div class="cols">' + 왼 + 오 + '</div>';
 }
 
 /* ── 회원 상세 · 루틴 ── */
@@ -6646,6 +6664,32 @@ function dayCal(있는날, sel, attr){
     + '</div></div>';
 }
 
+/* ══ 지난 기록 = 날짜별 한 장 ══ 2026-11-03 대표 노션 오후3시 「날짜 · 루틴명 · 왼쪽 색칠 그림(안 칠했으면 자동) · 오른쪽 종목 · 무게 · 횟수 · 날짜 구분선 · 맨 아래 달력 하나」 */
+function 칠그리기(){ document.querySelectorAll('canvas[data-paint]:not([data-done])').forEach(cv => { cv.dataset.done = '1'; const xs = ((M.paint || {})[cv.dataset.paint] || {}).s || [], x = cv.getContext('2d');
+  xs.forEach(l => { if(!l.p || !l.p.length) return; x.save(); x.globalCompositeOperation = l.e ? 'destination-out' : 'source-over'; x.globalAlpha = l.e ? 1 : .55; x.strokeStyle = l.c; x.lineWidth = l.w; x.lineCap = 'round'; x.lineJoin = 'round';
+    x.beginPath(); x.moveTo(l.p[0][0], l.p[0][1]); l.p.forEach(q => x.lineTo(q[0], q[1])); if(l.p.length === 1) x.lineTo(l.p[0][0] + .1, l.p[0][1]); x.stroke(); x.restore(); }); }); }
+function 지난기록탭(){
+  if(S.recEdit && S.day) return '<div class="rcback"><button class="btn ghost sm" data-act="tx:recback">‹ 날짜별 보기</button></div>' + tabRecord();      /* 「수정」 = 옛 편집 화면 그대로 */
+  if(M.ok !== S.mid && !M.wi.length) return '<div class="empty">불러오는 중…</div>';
+  const ws = D.w.filter(w => w.member_id === S.mid).sort((a, b) => a.on_date < b.on_date ? 1 : a.on_date > b.on_date ? -1 : 0);
+  const 발 = '<div class="rcfoot"><div class="sec"><div class="lbl">달력 <small>기록 있는 날만 눌러져요</small></div>' + calendar() + '</div>'
+    + '<div class="sec"><button class="lbl rc8" data-act="tx:rec8">최근 8주 운동 <small>' + (S.rec8 ? '접기 ▴' : '펼치기 ▾') + '</small></button>' + (S.rec8 ? tabStat0('왼') : '') + '</div></div>';
+  if(!ws.length) return '<div class="rcwrap"><div class="empty why"><b>아직 운동 기록이 없습니다</b>위 「수업 기록하기」로 시작해 주세요</div>' + 발 + '</div>';
+  const 고른 = S.day && ws.find(w => w.id === S.day), 보일 = 고른 ? ws.filter(w => w.on_date === 고른.on_date) : ws.slice(0, S.recN || 10);
+  const 카드 = w => { const its = M.wi.filter(x => x.workout_id === w.id).sort((a, b) => a.sort - b.sort), 칠 = ((M.paint || {})[w.id] || {}).s;
+    const 묶 = [...new Set([].concat(...its.map(it => 해부묶음(exOf((vaOf(it.variant_id) || {}).ex_id)))))];
+    let 총 = 0; const 줄 = its.map(it => { const ss = M.ws.filter(z => z.item_id === it.id).sort((a, b) => a.sort - b.sort), v = ss.reduce((a, z) => a + (z.kg || 0) * (z.reps || 0), 0); 총 += v;
+      return '<div class="rcex"><b>' + esc(vaName(it.variant_id)) + '</b><span class="rcs">' + (ss.map((z, k) => '<span><i>' + (k + 1) + '</i>' + (z.kg ? kgfmt(z.kg) + 'kg × ' : '') + (z.reps || 0) + '</span>').join('') || '<span class="z">세트 없음</span>') + '</span><span class="rcv">' + (v ? Math.round(v).toLocaleString() + 'kg' : '') + '</span></div>'; }).join('');
+    const 그림 = 칠 && 칠.length ? '<div class="rcfig"><span class="rcpic"><img src="' + 앱터 + 'img/body-plan.png" alt=""><canvas data-paint="' + esc(w.id) + '" width="1024" height="1024"></canvas></span><small>트레이너가 칠함</small></div>'
+      : 묶.length ? '<div class="rcfig"><span class="rcpic"><canvas data-anat="' + esc(묶.join(',')) + '"></canvas></span><small>종목으로 자동</small></div>' : '<div class="rcfig"></div>';
+    return '<div class="rcday"><div class="rch"><b>' + dateFull(w.on_date) + '</b><span class="tag">' + esc(w.kind || '') + '</span><span class="sub3">' + [esc(w.title || ''), its.length + '종목', 총 ? '든 무게 ' + Math.round(총).toLocaleString() + 'kg' : ''].filter(Boolean).join(' · ') + (w.done ? '' : ' · <b style="color:var(--gold)">하는 중</b>') + '</span>'
+      + '<span class="r"><button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button><button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button></span></div>'
+      + '<div class="rcb">' + 그림 + '<div class="rcl">' + (줄 || '<div class="sub3">종목이 없는 기록이에요</div>') + '</div></div></div>'; };
+  setTimeout(() => { 해부칠하기(); 칠그리기(); }, 0);
+  return '<div class="rcwrap">' + (고른 ? '<div class="rcsel"><b>' + dateFull(고른.on_date) + '</b> 기록만 보는 중 <button class="btn ghost sm" data-act="tx:recall">전체 보기</button></div>' : '')
+    + 보일.map(카드).join('')
+    + (!고른 && ws.length > 보일.length ? '<button class="btn ghost rcmore" data-act="tx:recmore">더 보기 · ' + (ws.length - 보일.length) + '개</button>' : '')
+    + 발 + '</div>'; }
 function tabRecord(){
   const ws = D.w.filter(w=>w.member_id===S.mid)
                 .sort((a,b)=> a.on_date < b.on_date ? 1 : -1);
@@ -7709,21 +7753,22 @@ function 회원요약줄(판){
   /* C-4 (2026-10-23 대표 시안 2) — 위 고정 4칸: 마지막 운동 · 이번 주 · 다음 예약 · 남은 회차/만료일 (달성률은 「현황」 탭 · 피드백 요청 수는 「피드백」 단추에) */
   const 끝 = x && (x['끝날'] || x['만료'] || ''), 다 = 다음예약of(m), 요청수 = (D.asks || []).filter(q => q.member_id === m.id && !q.done_at).length;
   const 마지막수업 = ws.find(w => w.kind === '수업') || ws[0], 끝남 = 기록끝 && 기록끝.mid === m.id ? 기록끝 : null;
+  const 요약글 = '<span>마지막 운동 <b>' + (갭 == null ? '아직 없음' : 갭 === 0 ? '오늘' : 갭 + '일 전') + '</b></span><span>이번 주 <b>' + (a ? (a.이번.수업 + a.이번.개인) + '번' : '…') + '</b></span>'
+    + '<span>다음 예약 <b>' + (다 ? 예약날(다) : '없음') + '</b></span><span>남은 수업 <b>' + (유 + 서 + 가) + '회</b>' + (끝 ? ' · 만료 ' + esc(String(끝).slice(0, 10)) : '') + '</span>';
   return (끝남 ? '<div class="mvdone">✓ 오늘 수업 기록 완료'
       + '<button class="btn gold sm" data-act="tx:mrpt" data-k="' + esc(끝남.wid || '') + '">리포트 보기 ›</button>'
       + '<button class="x" data-act="tx:mdonex" aria-label="닫기">✕</button></div>' : '')
-    + '<div class="mvstrip four' + (판 ? ' pn' : '') + '">'
+    + (판 || S.mvOpen ? '' : '<button class="mvline" data-act="tx:mvopen">' + 요약글 + '<span class="tg">펼치기 ▾</span></button>')      /* 4칸 → 한 줄 · 펼치기 (2026-11-03 대표) */
+    + (!판 && !S.mvOpen ? '' : '<div class="mvstrip four' + (판 ? ' pn' : '') + '">'
     + 칸(탭('record'), 갭 == null ? 'z' : 갭 >= 7 ? 'bad' : 갭 >= 4 ? 'warn' : 'ok', '마지막 운동', 갭 == null ? '아직 없음' : 갭 === 0 ? '오늘' : 갭 + '<u>일 전</u>')
     + 칸(탭('record'), a && !(a.이번.수업 + a.이번.개인) ? 'z' : '', '이번 주', a ? (a.이번.수업 + a.이번.개인) + '<u>번</u>' : '…', a ? '수업 ' + a.이번.수업 + ' · 개인 ' + a.이번.개인 : '')
     + 칸('data-act="mvpt"', 다 ? '' : 'z', '다음 예약', 다 ? 예약날(다) : '없음', 다 ? '' : '이번 주 예약 없음')
     + 칸('data-act="mvpt"', (유 + 서 + 가) ? '' : 'z', '남은 수업', (유 + 서 + 가) + '<u>회</u>', (끝 ? '만료 ' + esc(String(끝).slice(0, 10)) + ' · ' : '') + '유료 ' + 유 + ' · 서비스 ' + 서 + ' · TG ' + 가, 깃)
-    + '</div>'
+    + '</div>' + (판 ? '' : '<button class="mvfold" data-act="tx:mvopen">접기 ▴</button>'))
     + '<div class="mvbig">'
     + '<button data-act="wnew"><b>✍ 수업 기록하기</b><small>앱과 같은 기록 화면</small></button>'
-    + '<button data-act="rnew"><b>📋 루틴 만들기</b><small>이 회원 루틴</small></button>'
-    + '<button ' + 탭('comment') + '><b>💬 피드백' + (요청수 ? ' <em>요청 ' + 요청수 + '</em>' : '') + '</b><small>대화 · 요청</small></button>'
     + '<button data-act="tx:mrpt" data-k="' + esc((마지막수업 && 마지막수업.id) || '') + '"><b>📄 리포트 보기</b><small>' + (마지막수업 ? '최근 ' + esc(String(마지막수업.on_date || '').slice(5).replace('-', '/')) : '아직 없음') + '</small></button>'
-    + '</div><div class="mvsmall"><button ' + 탭('info') + '>상담일지</button><button ' + 탭('body') + '>인바디</button>' + 회원TG단추(m) + '</div>';
+    + '</div>' + (회원TG단추(m) ? '<div class="mvsmall">' + 회원TG단추(m) + '</div>' : '');      /* 상담일지 · 인바디 칩 없앰 — 탭과 같은 곳 (2026-11-03) */
 }
 /* 회원 → TG 통로 — 정본은 TG · 체험 배정 표 하나 · 회원 화면에서 그 줄을 바로 열어 담당 정하기 · 변경 (2026-10-28 노션 낮 「정본은 하나지만 통로가 있으면」) */
 const 회원TG줄 = m => { const 번 = String((m && m.phone) || '').replace(/\D/g, '').slice(-8); if(번.length !== 8) return null;
@@ -7891,30 +7936,41 @@ const 종이칸 = {
   hist: ['최근 수술', '골절', '무릎부상', '허리부상', '관절염', '목디스크', '허리디스크', '고혈압', '저혈압', '당뇨', '다낭성난소증후군', '무월경', '갑상선기능', '폐질환', '천식'].map(x => [x, x]),
   goals: [['다이어트', '다이어트 (체중 감량)'], ['근력 향상', '근력 향상 · 근육량'], ['체형 교정', '체형 교정 · 자세'], ['통증 개선', '통증 개선 · 재활'], ['체력 향상', '체력 · 건강 관리'], ['바디프로필', '바디프로필 · 대회'], ['기타', '기타']],
 };
-function 상담지종이(ik, m, 트, 좁){
+function 상담지종이(ik, m, 트, 좁, 편){      /* 편 = 그 자리에서 수정 (2026-11-03 대표 「수정하면 위치가 바뀌니까 · 용지 위치 그대로」) */
   ik = ik || {}; m = m || {}; const 식 = (ik.meals && typeof ik.meals === 'object') ? ik.meals : {};
   const 배열 = v => Array.isArray(v) ? v : (v ? String(v).split(/\s*[,·]\s*/).filter(Boolean) : []);
-  const 체 = (켬, 글) => '<span class="pz-c' + (켬 ? ' on' : '') + '"><i>' + (켬 ? '✓' : '') + '</i>' + esc(글) + '</span>';
-  const 여럿 = k => { const a = 배열(ik[k]); return 종이칸[k].map(([v, t]) => 체(a.indexOf(v) >= 0, t)).join('') + a.filter(v => !종이칸[k].some(([x]) => x === v)).map(v => 체(true, v)).join(''); };
-  const 하나 = k => 종이칸[k].map(([v, t]) => 체(String(ik[k] || '') === v, t)).join('') + (ik[k] && !종이칸[k].some(([x]) => x === ik[k]) ? 체(true, ik[k]) : '');
-  const 칸 = (값, 꼬리, 넓) => '<span class="pz-b' + (넓 ? ' w' : '') + '">' + (값 ? esc(String(값)) + (꼬리 ? ' <small>' + 꼬리 + '</small>' : '') : '') + '</span>';
+  const 체 = (켬, 글, k, v, 하나만) => 편 ? '<label class="pz-c pzed' + (켬 ? ' on' : '') + '"><input type="checkbox" ' + (하나만 ? 'data-pzo' : 'data-pzm') + '="' + esc(k) + '" value="' + esc(v) + '"' + (켬 ? ' checked' : '') + '><i>' + (켬 ? '✓' : '') + '</i>' + esc(글) + '</label>'
+    : '<span class="pz-c' + (켬 ? ' on' : '') + '"><i>' + (켬 ? '✓' : '') + '</i>' + esc(글) + '</span>';
+  const 여럿 = k => { const a = 배열(ik[k]); return 종이칸[k].map(([v, t]) => 체(a.indexOf(v) >= 0, t, k, v)).join('') + a.filter(v => !종이칸[k].some(([x]) => x === v)).map(v => 체(true, v, k, v)).join(''); };
+  const 하나 = k => 종이칸[k].map(([v, t]) => 체(String(ik[k] || '') === v, t, k, v, 1)).join('') + (ik[k] && !종이칸[k].some(([x]) => x === ik[k]) ? 체(true, ik[k], k, ik[k], 1) : '');
+  const 칸 = (값, 꼬리, 넓, 키) => 편 && 키 ? '<input class="pz-b pzin' + (넓 ? ' w' : '') + '"' + (키 === '@name' ? ' id="mnm"' : ' data-pzt="' + esc(키) + '"') + ' value="' + esc(값 == null ? '' : String(값)) + '">' + (꼬리 ? ' <small class="pz-u">' + 꼬리 + '</small>' : '')
+    : '<span class="pz-b' + (넓 ? ' w' : '') + '">' + (값 ? esc(String(값)) + (꼬리 ? ' <small>' + 꼬리 + '</small>' : '') : '') + '</span>';
   const 줄 = (이름, 속) => '<div class="pz-r"><span class="pz-k">' + 이름 + '</span><div class="pz-v">' + 속 + '</div></div>';
   const 판 = (꼬리표, 말, 속) => '<section class="pz-s"><div class="pz-t"><b>' + 꼬리표 + '</b>' + (말 ? '<small>' + 말 + '</small>' : '') + '</div>' + 속 + '</section>';
   const 요일 = 배열(ik.time);
-  return '<div class="pz' + (좁 ? ' n' : '') + '">'
+  const 날칸 = d => 편 ? '<label class="' + (요일.indexOf(d) >= 0 ? 'on' : '') + '">' + d + '<input type="checkbox" data-pzm="time" value="' + d + '"' + (요일.indexOf(d) >= 0 ? ' checked' : '') + '><i>' + (요일.indexOf(d) >= 0 ? '✓' : '') + '</i></label>'
+    : '<span class="' + (요일.indexOf(d) >= 0 ? 'on' : '') + '">' + d + '<i>' + (요일.indexOf(d) >= 0 ? '✓' : '') + '</i></span>';
+  const 글칸 = (k, v) => 편 ? '<textarea class="pz-memo pzin" data-pzt="' + k + '">' + esc(v || '') + '</textarea>' : '<div class="pz-memo">' + esc(v || '') + '</div>';
+  return '<div class="pz' + (좁 ? ' n' : '') + (편 ? ' ed' : '') + '">'
     + '<div class="pz-h"><b>GLAD GYM PT 상담지</b><small>구산역촌점</small><span class="pz-hd"><span>담당</span>' + 칸(m.trainer || '') + '</span></div>'
-    + 판('기본', '', 줄('이름', 칸(m.name || '', '', 1)) + 줄('성별', 하나('sex')) + 줄('전화번호', 칸(m.phone || '', '', 1)) + 줄('생년월일', 칸(ik.birth || '', '', 1))
-        + 줄('신장', 칸(String(ik.height || '').replace(/cm/i, ''), 'cm')) + 줄('직업', 칸(ik.job || '', '', 1)) + 줄('직업환경', 하나('jobenv')) + 줄('교대근무', 하나('shift')))
+    + 판('기본', '', 줄('이름', 칸(m.name || '', '', 1, '@name')) + 줄('성별', 하나('sex')) + 줄('전화번호', 칸(m.phone || '', '', 1)) + 줄('생년월일', 칸(ik.birth || '', '', 1, 'birth'))
+        + 줄('신장', 칸(String(ik.height || '').replace(/cm/i, ''), 'cm', 0, 'height')) + 줄('직업', 칸(ik.job || '', '', 1, 'job')) + 줄('직업환경', 하나('jobenv')) + 줄('교대근무', 하나('shift')))
     + 판('글래드짐을 알게 된 경로', '여러 개 표시해도 됩니다', '<div class="pz-v">' + 여럿('route') + '</div>')
-    + 판('운동 · 생활', '', 줄('경험한 운동', 여럿('exprs') + '<span class="pz-x">그 밖 ' + 칸(ik.expr || '') + '</span>') + 줄('스트레스 요인', 칸(ik.stress || '', '', 1)) + 줄('스트레스 강도', 하나('stressLv'))
-        + 줄('해소 방법', 여럿('relief')) + 줄('평소 활동량', 하나('act')) + 줄('취침 시간', 칸(식['취침'] || '') + '<span class="pz-x">하루 평균 수면 ' + 칸(ik.sleepH || '') + '</span>'))
-    + 판('건강', '', 줄('현재 겪는 것', 여럿('cond')) + 줄('과거 병력', 여럿('hist')) + 줄('그 밖의 병력', 칸(ik.histEtc || '', '', 1)))
-    + 판('운동 가능 시간', '', '<div class="pz-v"><span class="pz-days">' + ['월', '화', '수', '목', '금', '토', '일'].map(d => '<span class="' + (요일.indexOf(d) >= 0 ? 'on' : '') + '">' + d + '<i>' + (요일.indexOf(d) >= 0 ? '✓' : '') + '</i></span>').join('') + '</span><span class="pz-x">시간대 ' + 칸(ik.timeTxt || '', '', 1) + '</span></div>')
-    + 판('나의 식습관', '보통 무엇을 언제 드시는지 · 음주는 일주일에 몇 번, 얼마나', '<div class="pz-g2">' + ['아침', '점심', '저녁', '간식', '영양제', '음주'].map(k => 줄(k, 칸(식[k] || '', '', 1))).join('') + '</div>')
+    + 판('운동 · 생활', '', 줄('경험한 운동', 여럿('exprs') + '<span class="pz-x">그 밖 ' + 칸(ik.expr || '', '', 0, 'expr') + '</span>') + 줄('스트레스 요인', 칸(ik.stress || '', '', 1, 'stress')) + 줄('스트레스 강도', 하나('stressLv'))
+        + 줄('해소 방법', 여럿('relief')) + 줄('평소 활동량', 하나('act')) + 줄('취침 시간', 칸(식['취침'] || '', '', 0, 'meals.취침') + '<span class="pz-x">하루 평균 수면 ' + 칸(ik.sleepH || '', '', 0, 'sleepH') + '</span>'))
+    + 판('건강', '', 줄('현재 겪는 것', 여럿('cond')) + 줄('과거 병력', 여럿('hist')) + 줄('그 밖의 병력', 칸(ik.histEtc || '', '', 1, 'histEtc')))
+    + 판('운동 가능 시간', '', '<div class="pz-v"><span class="pz-days">' + ['월', '화', '수', '목', '금', '토', '일'].map(날칸).join('') + '</span><span class="pz-x">시간대 ' + 칸(ik.timeTxt || '', '', 1, 'timeTxt') + '</span></div>')
+    + 판('나의 식습관', '보통 무엇을 언제 드시는지 · 음주는 일주일에 몇 번, 얼마나', '<div class="pz-g2">' + ['아침', '점심', '저녁', '간식', '영양제', '음주'].map(k => 줄(k, 칸(식[k] || '', '', 1, 'meals.' + k))).join('') + '</div>')
     + '<div class="pz-g2 pz-last">' + 판('회원님이 원하는 것', '여러 개 표시해도 됩니다', '<div class="pz-v pz-col">' + 여럿('goals') + '</div>')
-      + 판('메모', '구체적인 내용', '<div class="pz-memo">' + esc(ik.needs || '') + '</div>' + (트 && ik.notes ? '<div class="pz-note"><small>특이사항 · 트레이너만 봅니다</small>' + esc(ik.notes) + '</div>' : '')) + '</div>'
+      + 판('메모', '구체적인 내용', 글칸('needs', ik.needs) + (트 && (편 || ik.notes) ? '<div class="pz-note"><small>특이사항 · 트레이너만 봅니다</small>' + (편 ? '<textarea class="pzin" data-pzt="notes">' + esc(ik.notes || '') + '</textarea>' : esc(ik.notes)) + '</div>' : '')) + '</div>'
     + '</div>';
 }
+/* 상담지 수정 = 같은 종이 · 체크는 눌러서 · 칸은 그 자리에서 입력 → 「저장」 (msave 가 data-pz* 를 모은다) */
+function 상담편집(m, ik){ return 상담지종이(ik, { name: m.name || '', trainer: m.trainer || '', phone: m.phone || '' }, true, false, true)
+  + '<div class="pz-save"><span class="t2">체크는 눌러서 · 칸은 그 자리에서 입력해요</span><button class="btn main sm" data-act="msave">저장</button></div>'; }
+document.addEventListener('change', e => { const t = e.target; if(!t || !t.matches || !t.matches('.pz.ed input[type=checkbox]')) return;
+  if(t.dataset.pzo !== undefined && t.checked) document.querySelectorAll('.pz.ed input[data-pzo="' + t.dataset.pzo + '"]').forEach(x => { if(x !== t) x.checked = false; });
+  document.querySelectorAll('.pz.ed input[type=checkbox]').forEach(x => { const l = x.closest('label'); if(!l) return; l.classList.toggle('on', x.checked); const i = l.querySelector('i'); if(i) i.textContent = x.checked ? '✓' : ''; }); });
 function 문진묶음(m, ik){
   const 글 = v => Array.isArray(v) ? v.join(' · ') : (v && typeof v === 'object' ? Object.keys(v).map(k => k + ' ' + v[k]).join(' · ') : (v == null ? '' : String(v).trim()));
   const 없음말 = /^(없음|없어요|없다|무|x|X|-)$/, 값 = k => { const t = 글(ik[k]); return (MV_주의.indexOf(k) >= 0 && 없음말.test(t)) ? '' : t; };
@@ -7934,7 +7990,7 @@ function 문진묶음(m, ik){
     + (률 >= 100 ? '' : '<div class="t2" style="margin-top:8px">' + (찬 <= 3 ? '오른쪽 위 「수정」 또는 「종이 상담지 올리기」에서 입력해 주세요' : '오른쪽 위 「수정」에서 이어서 입력해 주세요') + '</div>') + '</div>';
   return 진행 + 띠 + 상담지종이(ik, { name: m.name || '', trainer: m.trainer || '', phone: m.phone || '' }, true);      /* 종이 상담지 그대로 (2026-10-23 대표 「양식 통일」) */
 }
-function tabInfo(){
+function tabInfo(계획만){
   const m = memOf(S.mid);
   const pl = (M.plan && M.plan.data) ? M.plan.data : {};
   const now = pl.now || {}, to = pl.to || {};
@@ -7977,6 +8033,10 @@ function tabInfo(){
   const 긴칸 = 순서.concat(나머지).filter(k=>짧은.indexOf(k)<0);
   const 식사 = ik.meals && typeof ik.meals==='object' ? Object.keys(ik.meals) : [];
 
+  const 회원지우기칸 = 할수('memdel')
+        ? '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+          + '<span class="t2" style="flex:1;min-width:180px">이 회원을 앱 명단에서 뺍니다. 운동기록·피드백은 삭제하지 않아요.</span>'
+          + '<button class="btn ghost sm" data-act="mdel" style="color:var(--warn)">회원 삭제</button></div>' : '';
   const 회원 = '<div class="card" style="display:flex;flex-direction:column;gap:9px">'
     + '<div class="g2">'
     + '<div class="fld"><span class="fn">이름</span>'
@@ -8009,21 +8069,26 @@ function tabInfo(){
         : '')
     + '</div>';
 
-  const 주기 = cy && cy.enabled ? '<div class="card" style="margin-top:10px">'
-    + '<div class="t1">생리주기 쓰는 중</div>'
-    + '<div class="t2">마지막 시작 ' + dateFull(cy.last_start) + ' · 주기 ' + cy.cyc_len + '일 · 기간 '
-    + cy.period_len + '일</div></div>' : '';
-
-  return '<div class="cols">'
-    + '<div class="sec"><div class="lbl">운동계획<span class="r">' + editBtn('plan') + '</span></div>'
-    + (canEdit('plan') ? 계획 : 계획그림(pl) + 계획기록판(pl)) + 주기 + '</div>'
-    + '<div class="sec"><div class="lbl">회원 정보 · 문진<span class="r">'
+  /* 생리주기 「쓰는 중」 칸 없앰 — 회원 앱 주기 알림만 (2026-11-03 대표) */
+  if(계획만) return '<div class="sec"><div class="lbl">운동계획<span class="r">' + editBtn('plan') + '</span></div>'
+    + (canEdit('plan') ? 계획 : 계획그림(pl) + 계획기록판(pl)) + '</div>';
+  return '<div class="mvconsult">'
+    + '<div class="sec"><div class="lbl">회원 정보 · 상담지<span class="r">'
       + '<button class="btn sub sm" data-act="scanpick" title="종이 PT 상담지를 찍거나 스캔한 사진을 올리면 읽어서 채워 줍니다" style="margin-right:6px">종이 상담지 올리기</button>'
       + editBtn('minfo') + '</span></div>'
-    + (canEdit('minfo') ? 회원 : 문진묶음(m, ik)) + '</div></div>';
+    + (canEdit('minfo') ? 상담편집(m, ik) + 회원지우기칸 : 문진묶음(m, ik)) + '</div></div>';
 }
 
 /* ── 루틴 편집 ── */
+/* 루틴 보기 = 회원 앱 루틴 화면과 같은 꼴 — 종목마다 정한 그림 + 이름 + 무게 × 횟수 · 세트 · 휴식 (2026-11-03 대표 「루틴이 우리가 정한 그림 · 종목 · 무게 · 횟수로 안 나와 · 모두 같은 톤」) · 「수정」 = 입력 칸 */
+function 루틴카드(r, items){ const 빈 = v => v == null || v === '';
+  const 줄 = it => { const e = exOf((vaOf(it.variant_id) || {}).ex_id) || {}; if(e.cardio) return 빈(it.reps) ? '시간은 수업하면서 정합니다' : it.reps + '분' + (it.rest ? ' · 휴식 ' + it.rest + '초' : '');
+    const a = [], 무 = !빈(it.kg), 회 = !빈(it.reps); if(무 && 회) a.push(kgfmt(it.kg) + 'kg × ' + it.reps + '회'); else if(무) a.push(kgfmt(it.kg) + 'kg'); else if(회) a.push(it.reps + '회');
+    if(!빈(it.sets)) a.push(it.sets + '세트'); if(!빈(it.rest) && +it.rest) a.push('휴식 ' + it.rest + '초');
+    return (무 || 회) ? a.join(' · ') : (a.length ? a.join(' · ') + ' · 무게 · 횟수는 수업하면서' : '수업하면서 정합니다'); };      /* 회원 앱 루틴줄 과 같은 글 */
+  setTimeout(해부칠하기, 0);
+  return (r.purpose ? '<div class="note">' + esc(r.purpose) + '</div>' : '')
+    + '<div class="rtgrid2">' + items.map((it, i) => '<div class="rtc2">' + 종목그림(it.variant_id) + '<b>' + (i + 1) + '. ' + esc(vaName(it.variant_id)) + '</b><small>' + 줄(it) + '</small></div>').join('') + '</div>'; }
 function vRoutine(){
   const r = D.r.find(x=>x.id===S.rid);
   if(!r) return '<div class="empty">루틴을 찾을 수 없어요</div>';
@@ -8070,7 +8135,7 @@ function vRoutine(){
         ? '<button class="btn sub sm" data-act="' + (준비?'ppick':'expick') + '">＋ '
           + (준비?'동작':'종목') + ' 추가</button>' : '')
     + editBtn('routine') + '</span></div>'
-    + (items.length ? 줄 : '<div class="empty why"><b>아직 ' + (준비?'동작이':'종목이') + ' 없습니다</b>위 「＋ ' + (준비?'동작':'종목') + ' 추가」를 눌러 주세요</div>')
+    + (items.length ? (canEdit('routine') || 준비 ? 줄 : 루틴카드(r, items)) : '<div class="empty why"><b>아직 ' + (준비?'동작이':'종목이') + ' 없습니다</b>위 「＋ ' + (준비?'동작':'종목') + ' 추가」를 눌러 주세요</div>')
     + '</div><div class="sec"><div class="lbl">' + (준비?'준비운동 정보':'루틴 정보')
     + '<span class="r">' + editBtn('routine') + '</span></div>'
     + '<div class="card" style="display:flex;flex-direction:column;gap:11px">'
@@ -11748,7 +11813,7 @@ function 과정보기(키){
   const 차례 = c.L; 강의.ids = 차례.map(r => r.id);
   if(!차례.some(r => r.id === 강의.id)) 강의.id = (차례.find(r => !강의읽음(r.id)) || 차례[0]).id;
   const i = 차례.findIndex(r => r.id === 강의.id), r = 차례[i], 끝 = i >= 차례.length - 1, y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = [];
-  (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = {}; 길.forEach(p => { urls[p] = media(p); });
+  (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = 서명채움(길, () => 과정보기(키));
   const 왼 = '<div class="lc-side"><div class="lc-ct"><b>' + esc(c.이름) + '</b><small>' + c.다 + ' / ' + 차례.length + ' 완료</small></div>' + 매진도(c.다, 차례.length)
     + 차례.map((x, j) => '<button class="lc-it' + (x.id === 강의.id ? ' on' : '') + '" data-act="tx:lec" data-id="' + esc(x.id) + '"><span class="no">' + (j + 1) + '</span><span class="t">' + esc(x.title || '(제목 없음)') + '<small>' + 매종류(x) + (매필수(x) ? ' · 필수' : '') + '</small></span>' + (강의읽음(x.id) ? '<span class="c">완료</span>' : '') + '</button>').join('') + '</div>';
   const 봄 = 강의다봄(r), 다음 = 끝 ? '' : ' · 다음 ›';
@@ -11773,7 +11838,7 @@ document.addEventListener('ended', e => { const v = e.target; if(!v || v.tagName
 /* 매뉴얼 문서 — 옆 판에서 바로 읽기 */
 function 매뉴얼문서판(id){ const r = (W.manual || []).find(x => x.id === id); if(!r) return;
   if(매교육(r)){ 강의.탭 = '과정'; 강의.과정 = (r.course || '').trim() || 단편키(r); 강의.id = id; if(S.view !== 'manual') 가기('manual'); else render(); return; }
-  const y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = []; (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = {}; 길.forEach(p => { urls[p] = media(p); });
+  const y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = []; (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = 서명채움(길, () => 매뉴얼문서판(id));
   판열기(esc(r.title || '(제목 없음)') + ' <span class="who3">' + esc(r.part || '기타') + ' · ' + 매종류(r) + '</span>',
     (y ? '<div class="lc-vid"><iframe src="https://www.youtube.com/embed/' + y + '?rel=0" title="' + esc(r.title || '') + '" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' : r.video ? '<a class="btn ghost sm lc-link" href="' + esc(r.video) + '" target="_blank" rel="noopener">링크 열기 ↗</a>' : '')
     + (bs.length ? '<div class="tx-sec">' + 블록들(bs, false, urls) + '</div>' : '') + 매뉴얼읽음칸(r)
@@ -12779,6 +12844,14 @@ const 파일종류 = f => /^image\//.test(f.type||'') ? 'img' : /^video\//.test(
 
 /* ── 비공개 저장소 `tr` ── 주소만으로는 안 열린다. 로그인 토큰으로 1시간짜리 서명 주소를 받는다 (2026-09-08 대표 지시) */
 const 서명캐시 = {};   /* path → {url, exp} */
+/* 매뉴얼 · 글 블록 첨부 = tr(데스크가 올린 것) · media(중앙이 올린 것) 둘 다 잠김 → 서명 주소로만 열린다. 읽기 화면이 media 공개 주소를 만들어 「Bucket not found」(2026-11-03 대표 「환불계산기 다운로드가 안됨」) */
+const 서명실패 = {};
+function 서명채움(길, 다시){ const urls = {}, 없 = [];
+  길.forEach(p => { const c = 서명캐시[p]; if(c && c.exp > Date.now()) urls[p] = c.url; else if(서명실패[p]) urls[p] = ''; else 없.push(p); });
+  if(없.length) 서명주소들(없).then(async u => { const 남 = 없.filter((p, i) => !u[i]);      /* tr 에 없으면 media(잠김 · 중앙이 올린 첨부) 서명 */
+    if(남.length){ try{ await 주소받기(남); }catch(e){} 남.forEach(p => { if(SIGNED[p]) 서명캐시[p] = { url:SIGNED[p], exp:Date.now() + 50 * 60 * 1000 }; else 서명실패[p] = 1; }); }
+    다시(); });
+  return urls; }
 async function 서명주소들(paths){
   const 필요 = paths.filter(p => !(서명캐시[p] && 서명캐시[p].exp > Date.now()));
   if(필요.length){
@@ -13495,8 +13568,8 @@ function 블록칸(b, i, 편집, urls, 번호){
   if(b.t==='call') 속 = '<span class="tx-emo"'+(편집?' data-act="tx:bemo" data-i="'+i+'"':'')+'>'+esc(b.emo||'📌')+'</span>'+글;
   if(b.t==='hr')   속 = '<hr>';
   if(b.t==='img' || b.t==='vid' || b.t==='file'){
-    const u = urls[b.path] || '';
-    속 = !b.path ? '<div class="tx-med wait"><i class="gring"></i>불러오는 중…</div>'
+    const u = urls[b.path];
+    속 = !b.path || u === undefined ? '<div class="tx-med wait"><i class="gring"></i>불러오는 중…</div>'
       : !u ? '<div class="tx-med wait">🔒 열 수 없음</div>'
       : b.t==='img' ? '<div class="tx-med"><a href="'+u+'" target="_blank" rel="noopener"><img src="'+u+'" alt="'+esc(b.name||'')+'" loading="lazy"></a>'+(b.name?'<div class="cap">'+esc(b.name)+'</div>':'')+'</div>'
       : b.t==='vid' ? '<div class="tx-med"><video src="'+u+'" controls preload="metadata" playsinline></video>'+(b.name?'<div class="cap">'+esc(b.name)+'</div>':'')+'</div>'
@@ -16524,6 +16597,12 @@ async function txAct(a, el){
   if(a==='fbclr'){ S.fbQ = ''; S.fbPer = ''; S.fbVid = false; S.fbMore = 0; render(); return; }
   if(a==='fbex'){ S.fbEx = k; render(); return; }
   if(a==='fbrow'){ S.fbOpen = S.fbOpen === k ? '' : k; render(); return; }
+  if(a==='mvopen'){ S.mvOpen = !S.mvOpen; render(); return; }      /* 회원 위 요약 펼치기 · 접기 (2026-11-03) */
+  if(a==='recedit'){ S.day = k; S.recEdit = true; render(); return; }      /* 지난 기록 날짜 카드 「수정」 → 옛 편집 화면 */
+  if(a==='recback'){ S.recEdit = false; S.day = null; render(); return; }
+  if(a==='recall'){ S.day = null; render(); return; }
+  if(a==='recmore'){ S.recN = (S.recN || 10) + 10; render(); return; }
+  if(a==='rec8'){ S.rec8 = !S.rec8; render(); return; }
   if(a==='fbxmore'){ S.fbMore = +k; render(); return; }      /* 이름 fbmore 는 추천 칩 더 보기가 먼저 씀 → fbxmore (2026-11-02 배포 관문) */
   if(a==='myadd'){ const d = el.closest('.dadd'); if(d) d.classList.toggle('open'); return; }      /* 직접 추가 ▾ (2026-11-02 시안 B3) */
   if(a==='mymine'){ S.myMine = !!k; render(); return; }      /* 직접 추가 — 모두 · 내 것만 (2026-11-02 시안 C2) */
@@ -17505,8 +17584,8 @@ const 사진칸 = ['전면','후면','좌측','우측'];
 const 영상칸 = ['정적 평가','오버헤드 스쿼트','한발 스쿼트'];
 
 /* ── 그리기 ── */
-const TABS = [['routine','루틴'],['record','지난 기록'],['comment','피드백'],['stat','현황'],      /* C-4 앱과 같은 차례 — 루틴 → 지난 기록 → 피드백 (2026-10-24) */
-              ['meal','식단'],['body','체형'],['info','정보']];
+const TABS = [['record','지난 기록'],['comment','피드백'],['routine','루틴'],      /* 2026-11-03 대표 「지난 기록 · 피드백 먼저 · 현황 뭔지 모름 · 정보는 나눔」 */      /* C-4 앱과 같은 차례 — 루틴 → 지난 기록 → 피드백 (2026-10-24) */
+              ['meal','식단'],['body','체형'],['info','상담']];
 /* ══ 화면 길 ‹ › ══ 2026-10-23 대표 「상단에 뒤로가기 앞으로가기 버튼 항상 · 홈에서 상담으로 넘어갔는데 뒤로가기 누르면 홈으로」
    화면(S.view)이 바뀔 때마다 적는다 · ‹ = 앞 화면 · › = 다시 앞으로 · 잠금을 풀면 새로 읽으므로 처음부터(홈) */
 const 화면길 = { 줄:[], i:-1, 옮김:false };
@@ -17957,6 +18036,7 @@ async function loadMember(mid){
       sget('intake?select=*&member_id=eq.'+mid).catch(()=>[]),
       sget('cycles?select=*&member_id=eq.'+mid).catch(()=>[]),
       sget('body_photos?select=*&member_id=eq.'+mid+'&order=on_date').catch(()=>[]),
+      sget('workouts?select=id,paint&member_id=eq.'+mid+'&paint=not.is.null').catch(()=>[]),      /* 트레이너가 칠한 몸 그림 (지난 기록 · 2026-11-03) */
     ]);
     회원피드백받기(mid);
     const mealIds = g[0].map(x=>x.id);
@@ -17964,6 +18044,7 @@ async function loadMember(mid){
       ? await sget('meal_items?select=*&meal_id=in.'+inList(mealIds)+'&limit=2000') : [];
     M.wi=wi; M.ws=wsets; M.meals=g[0]; M.mi=mi; M.bl=g[1]; M.br=g[2];
     M.bc=g[3][0]||null; M.plan=g[4][0]||null; M.intake=(g[5]||[])[0]||null; M.cyc=(g[6]||[])[0]||null;
+    M.paint = {}; (g[8] || []).forEach(x => { if(x && x.paint && x.paint.v === 2) M.paint[x.id] = x.paint; });
     setTimeout(function(){ 갈래적기(mid); }, 0);
     M.ok = mid;      /* 이 회원 것을 다 받았다 — 기록이 하나도 없는 새 회원과 「아직 받는 중」을 가른다 */
     M.bph=g[7]||[];
@@ -18111,7 +18192,7 @@ document.addEventListener('click', async function(ev){
     회원판 = null; 현황판 = null; $('#pop').classList.remove('on');
     S.mid = mid; S.view='member';
     /* 어느 탭으로 갈지 일러 주면 그 탭으로 연다 (현황판 사이드의 「열기 ›」) */
-    S.tab = 전체.dataset.tab || S.tab || 'routine';
+    S.tab = 전체.dataset.tab || S.tab || 'record';
     render(); loadMember(mid); return; }
 
   /* ⚠ 회원 줄 **안에** 있는 단추는 여기서 먼저 처리한다.
@@ -18158,6 +18239,7 @@ document.addEventListener('click', async function(ev){
   const rcard = t.closest('[data-r]');
   /* 루틴 정보 입력칸도 data-r 을 쓰므로, 진짜 루틴 id 일 때만 연다 */
   if(rcard && rcard.tagName!=='INPUT' && rcard.dataset.r && D.r.some(x=>x.id===rcard.dataset.r)){
+    if(회원판){ 회원판 = null; 현황판 = null; $('#pop').classList.remove('on'); }      /* 옆 판에서 루틴을 누르면 판을 닫고 그 화면으로 — 뒤 화면만 바뀌어 어색했다 (2026-11-03 대표) */
     S.rid = rcard.dataset.r; S.view='routine'; render(); return; }
 
   const chk = t.closest('[data-chk]');
@@ -18680,10 +18762,19 @@ document.addEventListener('click', async function(ev){
     const ml = {};
     document.querySelectorAll('[data-ikm]').forEach(el => { ml[el.dataset.ikm] = el.value.trim(); });
     if(Object.keys(ml).length) data.meals = ml;
+    if(document.querySelector('.pz.ed')){      /* 종이 그대로 수정 (2026-11-03) */
+      const 식 = Object.assign({}, (원래.meals && typeof 원래.meals === 'object') ? 원래.meals : {});
+      document.querySelectorAll('.pz.ed [data-pzt]').forEach(el => { const k = el.dataset.pzt, v = el.value.trim();
+        if(k.startsWith('meals.')) 식[k.slice(6)] = v; else if(typeof 원래[k] === 'number'){ const n = parseFloat(v.replace(/[^0-9.]/g, '')); data[k] = isNaN(n) ? null : n; } else data[k] = v; });
+      data.meals = 식;
+      const 여 = {}; document.querySelectorAll('.pz.ed input[data-pzm]').forEach(el => { const k = el.dataset.pzm; 여[k] = 여[k] || []; if(el.checked) 여[k].push(el.value); });
+      Object.keys(여).forEach(k => { data[k] = 여[k]; });
+      const 하 = {}; document.querySelectorAll('.pz.ed input[data-pzo]').forEach(el => { const k = el.dataset.pzo; if(!(k in 하)) 하[k] = ''; if(el.checked) 하[k] = el.value; });
+      Object.keys(하).forEach(k => { data[k] = 하[k]; }); }
     try{
       await ssend('members?id=eq.'+S.mid, 'PATCH', { trainer:tr, name:nm||m.name });
       m.trainer = tr; if(nm) m.name = nm;
-      if(document.querySelector('[data-ik],[data-ikm]')){
+      if(document.querySelector('[data-ik],[data-ikm],.pz.ed')){
         if(M.intake) await ssend('intake?member_id=eq.'+S.mid, 'PATCH', { data:data });
         else await ssend('intake', 'POST', [{ member_id:S.mid, data:data }]);
         M.intake = { member_id:S.mid, data:data };
