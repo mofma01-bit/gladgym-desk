@@ -69,7 +69,7 @@ img{max-width:100%;display:block}
 .rte-bar{position:fixed;left:216px;right:0;bottom:0;background:#0e0e0d;border-top:1px solid var(--line);z-index:20}.rte-bar .in{max-width:1084px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
 .rte-bar .st{flex:1;font-size:14px;color:var(--sub)}.rte-bar .st b{color:var(--cream)}
 .rte-go{height:48px;padding:0 28px;border-radius:12px;font-size:15.5px;font-weight:800;background:var(--dark-4);color:#77726a}.rte-go.ready{background:linear-gradient(180deg,#f3d9a8,#e2c184);color:#2a1c14}
-@media (max-width:820px){.rte-bar{left:0}}@media (max-width: 950px) and (pointer: coarse) and (hover: none){.rte-bar{left:0}}
+@media (max-width:820px){.rte-bar{left:0}}@media (max-width: 950px) and (any-pointer: coarse){.rte-bar{left:0}}
 .rte-shake{animation:rtesh .35s}@keyframes rtesh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 
 /* ══ 루틴 만들기 목록 B안 (2026-10-19) ══ */
@@ -1544,7 +1544,7 @@ body.resizing{cursor:col-resize;user-select:none}
    「바탕화면에 빼고 이렇게 저렇게 하세요를 줄이고」 — 눌러서 설치되게 한다 */
 .pwabar{display:none;align-items:center;gap:10px;margin:0 0 12px;padding:11px 13px;
   background:var(--gold-dim);border:1px solid var(--gold-2);border-radius:13px}
-.pwabar.on{display:flex}
+.pwabar.on{display:flex;flex-wrap:wrap}
 .pwabar .t{flex:1;min-width:0;font-size:13px;font-weight:700;line-height:1.55;color:var(--gold)}
 .pwabar .t small{display:block;font-weight:600;color:var(--sub);margin-top:2px;font-size:13px}
 .pwabar button{flex:none;padding:8px 13px;border-radius:9px;border:1px solid var(--gold-2);
@@ -1564,7 +1564,7 @@ body.resizing{cursor:col-resize;user-select:none}
    손가락으로 쓰는 기기(pointer:coarse · hover:none)에서만 접는다 —
      폰·태블릿  → 접힌다. 바닥은 360px
      PC         → 2026-09-29 그대로. 1040px 까지만 줄고 그 아래는 **가로로 민다** */
-@media (max-width: 950px) and (pointer: coarse) and (hover: none){
+@media (max-width: 950px) and (any-pointer: coarse){
   .app{min-width:360px}
   .side{position:fixed;left:0;top:46px;z-index:60;width:230px;height:calc(100vh - 46px);
     transform:translateX(-102%);transition:transform .18s ease;box-shadow:0 0 40px rgba(0,0,0,.6)}
@@ -1581,7 +1581,7 @@ body.resizing{cursor:col-resize;user-select:none}
   .sumbar .sumit{min-width:calc(50% - 5px)}
   .kitgrid{grid-template-columns:1fr 1fr}
 }
-@media (max-width: 560px) and (pointer: coarse) and (hover: none){
+@media (max-width: 560px) and (any-pointer: coarse){
   .sumbar .sumit{min-width:100%}
   .kitgrid{grid-template-columns:1fr}
   .top h1{font-size:19px}
@@ -3027,6 +3027,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .hblk > .homenums .num.nc .nic{width:22px;height:22px;border-radius:7px;flex:none;background:var(--c) var(--ic) center/14px no-repeat}
 .hblk > .homenums .nrow.live .num.nc .v{display:block;color:var(--c);margin-top:4px;line-height:1.1}
 .hblk > .homenums .num.nc.hot{background:rgba(232,196,128,.12)}.hblk > .homenums .num.nc.hot .v{color:var(--gold)}
+.pwa-app{flex-basis:100%;display:block;margin-top:8px;font-size:14px;font-weight:800;color:var(--gold-2,#e2c184);text-decoration:none}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3167,11 +3168,19 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '561';
+const BUILD = '563';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const 큰안내패드 = () => /ipad/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const 안드로이드 = () => /android/i.test(navigator.userAgent || '');
+function 안드로이드안내글(이름){      /* 안드로이드 — 설치 신호가 없을 때 메뉴로 설치 3단계 (2026-11-03) */
+  const 삼성 = /SamsungBrowser/i.test(navigator.userAgent || '');
+  return '<div class="ga-big"><div class="ga-t">홈 화면에 「' + 이름 + '」 설치하기</div>'
+    + (삼성 ? '<ol><li>화면 맨 아래 <span class="ga-ic">메뉴 <i>≡</i></span> 를 누르세요</li><li><span class="ga-ic">현재 페이지 추가</span> → <span class="ga-ic">홈 화면</span></li><li><span class="ga-ic">추가</span> 를 누르면 끝!</li></ol>'
+      : '<ol><li>크롬 <b>오른쪽 위</b> <span class="ga-ic">더보기 <i>⋮</i></span> 를 누르세요</li><li><span class="ga-ic">앱 설치</span> 또는 <span class="ga-ic">홈 화면에 추가</span></li><li><span class="ga-ic">설치</span> 를 누르면 끝!</li></ol>')
+    + '<div class="ga-s">다음부터는 홈 화면의 「' + 이름 + '」 아이콘으로 여세요</div></div>';
+}
 function 홈추가안내글(이름){      /* 아이폰 · 아이패드 사파리 — 「홈 화면에 추가」 3단계(큰 글씨) */
   const 패드 = 큰안내패드();
   return '<div class="ga-big"><div class="ga-t">홈 화면에 「' + 이름 + '」 추가하기</div>'
@@ -11739,7 +11748,8 @@ function 카드썸네일(key, r){
   const 그 = b && Array.isArray(b.b) && b.b.find(x => x && x.t === 'img' && x.path); const u = 그 ? media(그.path) : '';
   return u ? '<span class="mc-im"><img src="' + esc(u) + '" alt="" loading="lazy"></span>' : '<span class="mc-im ph">' + esc(String((표정의[key].행(r).제목 || '?')).slice(0, 1)) + '</span>'; }
 /* 폰 데스크 = 상담 카드 (2026-10-28 결정함 mobile=a 「가장 급한 건 상담 데이터베이스를 볼 수 있게 · 1차 리마케팅 발송」) — 손가락 기기 + 950px 이하만 · PC 창을 좁혀도 표 그대로 */
-const 폰화면 = () => { try{ return matchMedia('(max-width: 950px) and (pointer: coarse) and (hover: none)').matches; }catch(e){ return false; } };
+/* ⛔ hover:none 은 빼다 — 갤럭시 일부(S20 울트라)가 「마우스처럼 올려 볼 수 있음(hover)」으로 알려 폰에서 PC 화면이 떴다 (2026-11-03 대표). 손가락으로 누르는 화면이 있는지(any-pointer: coarse)로 본다 */
+const 폰화면 = () => { try{ return matchMedia('(max-width: 950px) and (any-pointer: coarse)').matches; }catch(e){ return false; } };
 function 상담폰카드(줄){
   const 날 = v => v ? String(v).slice(5, 10).replace('-', '/') : '';
   return '<div class="lmc-l">' + 줄.map(r => { const ex = r.extra || {}, s1 = ex.s1 || '대기', 끝 = s1 === '완료', 유형 = (Array.isArray(r.channels) ? r.channels : [r.channels]).filter(Boolean).join(' · ');
@@ -19483,11 +19493,12 @@ function 바로가기띠(){
   const el = document.getElementById('pwabar'); if(!el) return;
   let 껐나 = false;
   try{ 껐나 = localStorage.getItem('pwabar_off') === '1'; }catch(e){}
-  if(설치됨() || 껐나 || (!설치신호 && !아이폰사파리())){ el.classList.remove('on'); return; }
+  if(설치됨() || 껐나 || (!설치신호 && !아이폰사파리() && !안드로이드())){ el.classList.remove('on'); return; }      /* 안드로이드는 신호가 없어도 메뉴 설치 안내 (2026-11-03) */
   el.innerHTML = 설치신호
     ? '<span class="t">바로가기를 만들어 두세요<small>다음부터 주소를 찾지 않고 바로 열립니다</small></span>'
       + '<button id="pwago">＋ 바로가기 만들기</button><button class="x" id="pwax">✕</button>'
-    : '<div style="flex:1;min-width:0">' + 홈추가안내글('트레이너 데스크') + '</div><button class="x" id="pwax" style="align-self:flex-start">✕</button>';
+    : '<div style="flex:1;min-width:0">' + (아이폰사파리() ? 홈추가안내글('트레이너 데스크') : 안드로이드안내글('트레이너 데스크')) + '</div><button class="x" id="pwax" style="align-self:flex-start">✕</button>';
+  if(!설치됨()) el.insertAdjacentHTML('beforeend', '<a class="pwa-app" href="https://mofma01-bit.github.io/gladgym-app/" target="_blank" rel="noopener">수업 기록 앱(회원 앱)도 설치 ›</a>');      /* 앱 · 데스크는 따로 설치 — 둘 다 (2026-11-03 대표) */
   el.classList.add('on');
   const go = document.getElementById('pwago');
   if(go) go.onclick = async () => {
