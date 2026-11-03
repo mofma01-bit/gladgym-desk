@@ -3015,6 +3015,15 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .rtgrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:4px 0 12px}.rtc2{display:flex;flex-direction:column;gap:5px;background:var(--dark-2,#1b1a17);border:1px solid var(--line);border-radius:14px;padding:8px 8px 10px}.rtc2 b{font-size:14px;line-height:1.3}.rtc2 small{font-size:13px;color:var(--sub)}.rtc2 .rsi{width:100%}
 .lshero{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;width:100%;min-height:150px;margin:6px 0 14px;padding:28px 30px;border-radius:22px;border:1.5px solid #5a5246;cursor:pointer;color:#fff;font:inherit;text-align:left;background-color:#2a2620;background-size:cover;background-position:right center}.lshero b{font-size:28px;font-weight:900;letter-spacing:-.5px}.lshero .go{background:var(--cream);color:#2a1c14;border-radius:999px;padding:9px 18px;font-weight:800;font-size:15px}
 .lsbig.lssm{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 20px}.lsbig.lssm .lsb{min-height:0;padding:14px 16px;border-radius:14px}.lsbig.lssm .lsb b{font-size:16px}.lsbig.lssm .lsb small{font-size:13px;margin-top:4px}
+/* ══ 현황판 한 톤 · 급한 칸 빨간 점 · 피드백 창 하나 (2026-11-03 21:2x 대표 확정) ══ */
+.hblk > .homenums .nrow.live .num.nc{position:relative;border:1px solid #34322d !important;background:#1c1b18 !important}.hblk > .homenums .nrow.live .num.nc .v{color:#f2ead9 !important}
+.hblk > .homenums .num.nc.hot{border-color:var(--gold) !important;background:rgba(232,196,128,.12) !important}.hblk > .homenums .num.nc.hot .v{color:var(--gold) !important}
+.hblk > .homenums .num.nc.ur::after{content:'';position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;background:#e5484d;box-shadow:0 0 0 3px rgba(229,72,77,.25)}
+.fbq{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;margin:8px 0;padding:0 14px;border-radius:12px;border:1.5px solid #5a554c;background:#1f1d1a;color:var(--cream);font:inherit;font-weight:800;font-size:14.5px;text-align:left;cursor:pointer}.fbq i{font-style:normal;font-size:17px}.fbq em{margin-left:auto;font-style:normal;color:var(--gold-2)}
+.attbig{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}.attbig button{height:44px;border-radius:12px;border:1.5px dashed #4f7f86;background:#183034;color:#bfe6ec;font:inherit;font-weight:800;font-size:14.5px;cursor:pointer}
+#ospick{position:fixed;inset:0;z-index:9999}#ospick .osv{position:absolute;inset:0;background:rgba(0,0,0,.5)}#ospick .osb{position:absolute;left:0;right:0;bottom:0;background:#2b2a27;border-radius:18px 18px 0 0;padding:14px 12px 22px;max-width:560px;margin:0 auto}
+#ospick .t{color:#cfc9be;font-size:14px;font-weight:700;padding:4px 8px 10px}#ospick button{display:flex;align-items:center;gap:14px;width:100%;height:56px;padding:0 14px;border:0;border-radius:12px;background:#35332f;color:#f2ead9;font:inherit;font-weight:800;font-size:16px;margin-bottom:8px;cursor:pointer}#ospick button .e{font-size:22px}#ospick .x{justify-content:center;background:none;color:#a9a29a;height:44px}
+.mvbig.w3{grid-template-columns:repeat(3,minmax(0,1fr))}.mvoff .card{height:100%;box-sizing:border-box;padding:12px 14px}.mvoff .t1{font-size:14.5px}.mvoff .t2{font-size:13px}
 /* ══ 톤 · 틀 (2026-11-03 18:5x 대표 좌우비교_1103 확정) ══ */
 .as-tab,.pop .tabs button,#body .tabs button,.fbx-sub button{font-size:14px !important;font-weight:800 !important;color:#8f8a83 !important;background:transparent !important;border:0 !important;border-bottom:2px solid transparent !important;border-radius:0 !important;min-height:40px !important;padding:0 14px !important;box-shadow:none !important}
 .as-tab.on,.pop .tabs button.on,#body .tabs button.on,.fbx-sub button.on{color:#f0d3a0 !important;border-bottom-color:#f0d3a0 !important}
@@ -3168,7 +3177,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '563';
+const BUILD = '565';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -6901,8 +6910,8 @@ function 톡종목(mid){ const 본 = new Set();
 function 톡입력(mid){ const 옵 = 톡종목(mid), 고른 = (옵.find(o => o.vid === S.ktV) || 옵[0] || {}).vid;
   if(!옵.length) return '<div class="kt-cmp"><div class="empty why"><b>바로 남길 종목이 없습니다</b>위 「지난 수업 · 종목별 피드백 남기기」에서 날짜 · 종목을 선택해 주세요</div><div class="cmacts"><button class="btn ghost sm" data-act="tx:ktclose">닫기</button></div></div>';
   return '<div class="kt-cmp"><div class="kt-cv">' + 옵.map(o => '<button class="chip ' + (o.vid === 고른 ? 'on' : '') + '" data-act="tx:ktv" data-k="' + esc(mid) + '" data-v2="' + esc(o.vid) + '">' + (o.요 ? '요청 · ' : '') + esc(vaName(o.vid)) + '</button>').join('') + '</div>'
-    + '<textarea class="inp" id="ktx" rows="3" oninput="S.ktTxt=this.value" placeholder="' + esc(vaName(고른)) + ' 피드백을 입력해 주세요">' + esc(S.ktTxt || '') + '</textarea>'
-    + '<div class="cmacts"><button class="btn gold sm" data-act="tx:ktsend" data-k="' + esc(mid) + '">보내기</button><button class="btn ghost sm" data-act="tx:ktclose">닫기</button></div></div>';
+    + 올리기단추(고른, mid) + '<textarea class="inp" id="ktx" rows="3" oninput="S.ktTxt=this.value" placeholder="' + esc(vaName(고른)) + ' 피드백을 입력해 주세요">' + esc(S.ktTxt || '') + '</textarea>' + 추천칩(고른, 'ktx')
+    + '<div class="cmacts"><button class="btn gold" style="flex:1" data-act="tx:ktsend" data-k="' + esc(mid) + '">보내기</button><button class="btn ghost sm" data-act="tx:ktclose">닫기</button></div></div>';      /* 피드백 창 하나 (2026-11-03) */
 }
 /* ══ 피드백 보관함 ══ 2026-11-02 21:39 대표 「만들어」 (시안 피드백_시안_1102) — 「너무 복잡해 · 종목별로 볼 수도 없고 검색도 안 되고 · 어디서 뭘 봐야 할지」
    대화 · 요청 = 지금 화면 그대로 · 종목별 = 왼쪽 종목(많은 순) → 오른쪽 그 종목 최신순 · 날짜별 = 달마다 끊은 한 줄씩(누르면 펼침)
@@ -6926,6 +6935,7 @@ const 보관수정단추 = c => '<button class="btn ed sm fbx-ed" data-act="cmed
 const 보관짧 = d => { const x = 서울날(d) || ''; return x ? (+x.slice(5, 7)) + '/' + (+x.slice(8, 10)) : ''; };
 function 보관윗줄(mid, 수){
   const 모 = S.fbMode || '대화';
+  if(모 === '대화') return '<div class="fbx-top"><div class="fbx-sub">' + ['대화', '종목', '날짜'].map(k => '<button class="' + (모 === k ? 'on' : '') + '" data-act="tx:fbmode" data-k="' + k + '">' + ({ 대화:'지난 수업', 종목:'종목별', 날짜:'날짜별' })[k] + '</button>').join('') + '</div></div>';      /* 탭마다 관련된 것만 (2026-11-03 대표) */
   return '<div class="fbx-top"><div class="fbx-sub">' + ['대화', '종목', '날짜'].map(k => '<button class="' + (모 === k ? 'on' : '') + '" data-act="tx:fbmode" data-k="' + k + '">' + ({ 대화:'지난 수업', 대화옛:'대화 · 요청', 종목:'종목별', 날짜:'날짜별' })[k] + '</button>').join('') + '</div>'
     + '<input class="fbx-q" id="fbq" placeholder="검색 — 글 · 종목 · 선생님 (예: 무릎 · 벤치)" value="' + esc(S.fbQ || '') + '" autocomplete="off">'
     + '<div class="fbx-chips">' + 보관기간.map(x => '<button class="chip' + ((S.fbPer || '전체') === x[0] ? ' on' : '') + '" data-act="tx:fbper" data-k="' + x[0] + '">' + x[0] + '</button>').join('')
@@ -6960,21 +6970,7 @@ function tabComment(){
   if(S.fbMode && S.fbMode !== '대화') return 피드백보관함(S.mid);
   return 보관윗줄(S.mid, (D.c || []).filter(c => c.member_id === S.mid && (D.cmedia || []).some(m => (m.kind || '') === 'video' && String(m.comment_id) === String(c.id))).length) + tabComment대화();
 }
-function tabComment대화(){
-  const ws = D.w.filter(w=>w.member_id===S.mid)
-                .sort((a,b)=> a.on_date < b.on_date ? 1 : -1);
-  const asks = D.asks.filter(a=>a.member_id===S.mid && !a.done_at);
-  const 있는날 = new Set(ws.map(w=>w.on_date));
-  const day = S.cday || (ws[0] ? ws[0].on_date : TODAY);
-  const 그날 = ws.filter(w=>w.on_date===day);
-  const sel = (S.cmw && ws.some(x=>x.id===S.cmw)) ? S.cmw : (그날[0] ? 그날[0].id : (ws[0]?ws[0].id:null));
-  const w = ws.find(x=>x.id===sel) || null;
-
-  /* ══ 피드백 안내 그만 받기 ══ 트레이너가 여기서 켜고 끈다 (2026-09-30)
-     ⛔ 트레이너가 직접 끄는 것은 **회원 동의가 아니다.** 그렇게 적어 둔다.
-        회원 동의는 「동의 링크」를 보내 **회원이 눌러야** 된다. */
-  const 나 = memOf(S.mid) || {};
-  const 끔칸 = 피드백끔(나)
+function 끔카드(나){ if(!나 || !나.id) return ''; return (피드백끔(나)
     ? '<div class="card" style="margin-bottom:10px;border-color:var(--teal)">'
       + '<div class="t1">피드백 안내 안 보냄 ' + 끔출처(나) + '</div>'
       + '<div class="t2">「피드백 밀림」에 이 회원은 안 뜹니다.'
@@ -6994,7 +6990,22 @@ function tabComment대화(){
       + '<div class="t2">이 회원에게 「피드백을 남겨주세요」 안내를 보내지 않습니다</div>'
       + '<div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">'
       + '<button class="btn gold sm" data-act="cmofflink">회원에게 확인받기</button>'
-      + '<button class="btn ghost sm" data-act="cmoffnow">바로 저장</button></div></div>';
+      + '<button class="btn ghost sm" data-act="cmoffnow">바로 저장</button></div></div>').replace('style="margin-bottom:10px', 'style="margin:0'); }
+function tabComment대화(){
+  const ws = D.w.filter(w=>w.member_id===S.mid)
+                .sort((a,b)=> a.on_date < b.on_date ? 1 : -1);
+  const asks = D.asks.filter(a=>a.member_id===S.mid && !a.done_at);
+  const 있는날 = new Set(ws.map(w=>w.on_date));
+  const day = S.cday || (ws[0] ? ws[0].on_date : TODAY);
+  const 그날 = ws.filter(w=>w.on_date===day);
+  const sel = (S.cmw && ws.some(x=>x.id===S.cmw)) ? S.cmw : (그날[0] ? 그날[0].id : (ws[0]?ws[0].id:null));
+  const w = ws.find(x=>x.id===sel) || null;
+
+  /* ══ 피드백 안내 그만 받기 ══ 트레이너가 여기서 켜고 끈다 (2026-09-30)
+     ⛔ 트레이너가 직접 끄는 것은 **회원 동의가 아니다.** 그렇게 적어 둔다.
+        회원 동의는 「동의 링크」를 보내 **회원이 눌러야** 된다. */
+  const 나 = memOf(S.mid) || {};
+  const 끔칸 = '';      /* 위(큰 단추 옆)로 옮김 — 끔카드() (2026-11-03 대표 「지난 수업 안에 두지 말고 위로」) */
 
   const 요청 = asks.length ? '<div class="card gold" style="margin-bottom:10px">'
     + '<div class="t1">피드백 요청 ' + asks.length + '건</div>'
@@ -7043,11 +7054,8 @@ function tabComment대화(){
             : '기록한 세트 없음') + '</div></div>'
         + '<button class="btn ' + (열림?'ghost':'sub') + ' sm" data-act="cmopen" data-v="' + esc(vid) + '">'
         + (열림 ? '접기' : '피드백 달기') + '</button></div>'
-        + (열림 ? 추천칩(vid, 'cmtx') + '<textarea class="inp" id="cmtx" placeholder="지금 본 것을 입력하세요"></textarea>'
-            + '<div class="cm-att">' + (피드백붙임[vid] || []).map((f, i) => '<span class="cm-chip">' + (f.kind === 'video' ? '🎬' : '📷') + ' ' + esc(f.name.slice(0, 18)) + '<button data-act="cmattx" data-v="' + esc(vid) + '" data-i="' + i + '" title="첨부 취소">✕</button></span>').join('')
-            + '<span class="sp"></span><button class="btn ghost sm" data-act="cmatt" data-v="' + esc(vid) + '">📎 사진 · 영상</button>'
-            + '<button class="btn main sm" data-act="cmsend" data-v="' + esc(vid) + '">' + (S.cm보냄중 ? '올리는 중…' : '보내기') + '</button></div>'
-            + '<input type="file" id="cmfile" accept="image/*,video/*" multiple hidden>' : '')
+        + (열림 ? 올리기단추(vid, S.mid) + '<textarea class="inp" id="cmtx" placeholder="' + esc(vaName(vid)) + ' 피드백을 입력해 주세요"></textarea>' + 추천칩(vid, 'cmtx')
+            + '<button class="btn main" data-act="cmsend" data-v="' + esc(vid) + '">' + (S.cm보냄중 ? '올리는 중…' : '보내기') + '</button>' : '')      /* 피드백 창 하나 (2026-11-03) */
         + (이번.length ? 이번.map(cmRow).join('') : '')
         + (지난.length ? '<button class="prevbtn" data-act="cmprev" data-v="' + esc(vid) + '">'
             + (지난열림 ? '▾ 지난 피드백 접기' : '▸ 지난 피드백 ' + 지난.length + '개 보기') + '</button>'
@@ -7808,9 +7816,10 @@ function 회원요약줄(판){
     + 칸('data-act="mvpt"', 다 ? '' : 'z', '다음 예약', 다 ? 예약날(다) : '없음', 다 ? '' : '이번 주 예약 없음')
     + 칸('data-act="mvpt"', (유 + 서 + 가) ? '' : 'z', '남은 수업', (유 + 서 + 가) + '<u>회</u>', (끝 ? '만료 ' + esc(String(끝).slice(0, 10)) + ' · ' : '') + '유료 ' + 유 + ' · 서비스 ' + 서 + ' · TG ' + 가, 깃)
     + '</div>' + '<button class="mvfold" data-act="tx:mvopen">접기 ▴</button>')      /* 옆 판도 접음 (2026-11-03 19:21) */
-    + '<div class="mvbig">'
+    + '<div class="mvbig' + (할수('cmall') ? ' w3' : '') + '">'
     + '<button data-act="wnew"><b>✍ 수업 기록하기</b><small>앱과 같은 기록 화면</small></button>'
     + '<button data-act="tx:mrpt" data-k="' + esc((마지막수업 && 마지막수업.id) || '') + '"><b>📄 리포트 보기</b><small>' + (마지막수업 ? '최근 ' + esc(String(마지막수업.on_date || '').slice(5).replace('-', '/')) : '아직 없음') + '</small></button>'
+    + (할수('cmall') ? '<div class="mvoff">' + 끔카드(m) + '</div>' : '')      /* 피드백 안내 그만 보내기 (2026-11-03) */
     + '</div>' + (회원TG단추(m) ? '<div class="mvsmall">' + 회원TG단추(m) + '</div>' : '');      /* 상담일지 · 인바디 칩 없앰 — 탭과 같은 곳 (2026-11-03) */
 }
 /* 회원 → TG 통로 — 정본은 TG · 체험 배정 표 하나 · 회원 화면에서 그 줄을 바로 열어 담당 정하기 · 변경 (2026-10-28 노션 낮 「정본은 하나지만 통로가 있으면」) */
@@ -14473,6 +14482,7 @@ function 홈배치붙이기(){
    ⛔ 세는 식과 목록을 뽑는 식을 **따로 쓰지 않는다** — 여기 한 곳에서 뽑고 숫자줄은 길이만 센다.
       (따로 두면 4를 눌렀는데 3개가 뜬다) */
 const 이차연락줄 = () => (W.leads || []).filter(r => (r.extra || {}).s2 && !(r.extra || {}).c2);
+const 급한칸 = ['첫연락', '오늘없음', '요청', '실패', '못감'];      /* 바로 행동할 것 = 빨간 점 (2026-11-03 대표) */
 const 현황칸 = [
   { k:'부름', 이름:'나를 부른 댓글',   색:'warn' },
   { k:'실패', 이름:'리포트 발송 실패', 색:'warn' },
@@ -14552,9 +14562,9 @@ function 숫자줄(){
   현황본인눈 = !대표판;
   try{ 다 = 현황칸.filter(c => (!c.보임 || c.보임()) && (!현황허용[c.k] || 현황허용[c.k]())).map(c => ({ c, v: 현황셈하기(c.k) })); }
   finally{ 현황본인눈 = false; }
-  const 판색 = ['#E0B070', '#5FB3A6', '#B39AD6', '#7FA8C9', '#D98C5A', '#86C19A'];      /* 틀⑥ 숫자 칸 = 색 판 + 아이콘 + 이름 › (2026-11-03 대표 확정 · 상담은 그대로 빛남) */
+  const 판색 = ['#d9d3c9'];      /* 한 톤 (2026-11-03 대표 「알록달록 · 무슨 기준인지」) */      /* 틀⑥ 숫자 칸 = 색 판 + 아이콘 + 이름 › (2026-11-03 대표 확정 · 상담은 그대로 빛남) */
   const 칸 = (x, i, xs) => { const 색 = 판색[Math.max(0, 현황칸.indexOf(x.c)) % 판색.length];
-    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (i > 0 && 현황묶음(xs[i - 1].c.k) !== 현황묶음(x.c.k) ? ' gs' : '') + '"'
+    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (x.v && 급한칸.includes(x.c.k) ? ' ur' : '') + (i > 0 && 현황묶음(xs[i - 1].c.k) !== 현황묶음(x.c.k) ? ' gs' : '') + '"'
     + ' style="--c:' + 색 + '" data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
     + '<span class="nk"><span class="nic" style="--ic:' + esc(네모주소(x.c.이름)) + '"></span><span class="k">' + x.c.이름 + '</span><em class="go">›</em></span><span class="v">' + x.v + '</span></button>'; };
@@ -15849,7 +15859,22 @@ async function 지난받기(){ if(지난.글) return 지난.글;
   if(!지난.받는중) 지난.받는중 = 전부받기('comments?select=variant_id,body,created_at&trainer=eq.' + encodeURIComponent(나이름()) + '&order=created_at.desc,id').then(r => (지난.글 = r)).finally(() => { 지난.받는중 = null; });
   return 지난.받는중; }
 function 추천칩(vid, 칸id){ const exid = String(vid || '').split(':')[0]; if(!exid) return ''; const n = 지난.글 ? 지난목(exid, 나이름()).filter(o => !o.hid).length : 0;
-  return '<button class="btn sm jfopen" data-act="tx:jfopen" data-k="' + esc(칸id) + '" data-v2="' + esc(exid) + '">지난 피드백' + (n ? ' ' + n : '') + '</button>'; }
+  return '<button class="jfopen fbq" data-act="tx:jfopen" data-k="' + esc(칸id) + '" data-v2="' + esc(exid) + '"><i>💬</i>지난 피드백 인용하기' + (지난.글 ? ' (' + n + '개)' : '') + '<em>›</em></button>'; }      /* 인용하기 · 보내기 위 (2026-11-03 대표) */
+/* 피드백 창 하나 — 사진 · 영상 올리기(폰 = 촬영하기 / 갤러리 고르기) · 붙인 것 (2026-11-03 대표 확정) */
+function 올리기단추(vid, mid){ const 붙 = 피드백붙임[vid] || [];
+  return '<div class="attbig"><button type="button" data-act="tx:fbatt" data-k="' + esc(vid) + '" data-id="' + esc(mid) + '" data-v2="pic">📷 사진 올리기</button><button type="button" data-act="tx:fbatt" data-k="' + esc(vid) + '" data-id="' + esc(mid) + '" data-v2="vid">🎬 영상 올리기</button></div>'
+    + (붙.length ? '<div class="cm-att">' + 붙.map((x, i) => '<span class="cm-chip">' + (x.kind === 'video' ? '🎬' : '📷') + ' ' + esc(x.name.slice(0, 18)) + '<button data-act="tx:fbattx" data-k="' + esc(vid) + '" data-v2="' + i + '" title="첨부 취소">✕</button></span>').join('') + '</div>' : ''); }
+function 파일고르기(v, kind, 찍기){ const inp = document.createElement('input'); inp.type = 'file'; inp.accept = kind === 'vid' ? 'video/*' : 'image/*'; if(찍기) inp.setAttribute('capture', 'environment'); else inp.multiple = true; inp.style.display = 'none'; document.body.appendChild(inp);
+  inp.addEventListener('change', () => { const 새 = [...(inp.files || [])].filter(f => /^(image|video)\//.test(f.type)).map(f => ({ file:f, name:f.name || '파일', kind: /^video\//.test(f.type) ? 'video' : 'photo' })); inp.remove();
+    const 큰 = 새.find(f => f.kind === 'video' && f.file.size > 300 * 1024 * 1024); if(큰) toast('영상이 너무 커요(300MB 넘음) — ' + 큰.name.slice(0, 20));
+    피드백붙임[v] = (피드백붙임[v] || []).concat(새.filter(f => f !== 큰)).slice(0, 6); 피드백창다시(); });
+  inp.click(); }
+function 피드백창다시(){ if(빠른피드백 && document.getElementById('qctx')){ const t = document.getElementById('qctx').value; 빠른피드백열기(빠른피드백.mid); const n = document.getElementById('qctx'); if(n) n.value = t; return; }
+  const 글 = ['cmtx', 'ktx'].map(id => [id, (document.getElementById(id) || {}).value]); if(typeof 회원판 !== 'undefined' && 회원판 && document.querySelector('#popbox #cmtx')) 회원판그리기(); else render();
+  글.forEach(([id, v]) => { const n = document.getElementById(id); if(n && v != null) n.value = v; }); }
+function 올리기고르기창(v, kind){ let o = document.getElementById('ospick'); if(o) o.remove(); o = document.createElement('div'); o.id = 'ospick';
+  o.innerHTML = '<div class="osv" data-act="tx:osx"></div><div class="osb"><div class="t">' + (kind === 'vid' ? '영상' : '사진') + ' 올리기</div><button data-act="tx:osgo" data-k="' + esc(v) + '" data-v2="' + kind + ':cam"><span class="e">' + (kind === 'vid' ? '📹' : '📷') + '</span>촬영하기</button><button data-act="tx:osgo" data-k="' + esc(v) + '" data-v2="' + kind + ':lib"><span class="e">🖼️</span>갤러리에서 선택</button><button class="x" data-act="tx:osx">취소</button></div>';
+  document.body.appendChild(o); }
 
 const 지난날 = s => s ? (+String(s).slice(5, 7)) + '/' + (+String(s).slice(8, 10)) : '';
 function 지난목(exid, 나){ const 묶 = new Map();      /* 같은 글은 한 장 · n번 씀 · 마지막 쓴 날 */
@@ -15954,9 +15979,10 @@ function 빠른피드백열기(mid){
       : '<div class="note" style="border-color:var(--warn)">'
         + '<b style="color:var(--warn)">운동 기록이 없습니다</b>'
         + '<div>회원이 운동을 기록하면 종목마다 피드백을 남길 수 있습니다</div></div>')
-    + (its.length ? 추천칩(빠른피드백.vid, 'qctx') + '<textarea class="inp" id="qctx" rows="4" placeholder="지금 본 것을 한 줄 입력해 주세요"></textarea>' : '')
+    + (its.length ? ((D.asks || []).filter(q => q.member_id === mid && q.variant_id === 빠른피드백.vid && !q.done_at).map(q => '<div class="note"><b>회원 요청</b> · ' + esc(q.note || '피드백 요청') + '</div>').join('')
+        + 올리기단추(빠른피드백.vid, mid) + '<textarea class="inp" id="qctx" rows="4" placeholder="' + esc(vaName(빠른피드백.vid)) + ' 피드백을 입력해 주세요"></textarea>' + 추천칩(빠른피드백.vid, 'qctx')) : '')      /* 피드백 창 하나 (2026-11-03) */
     + '<div style="display:flex;gap:9px;margin-top:10px">'
-    + (its.length ? '<button class="btn gold" data-act="tx:qcsend" data-id="' + esc(mid) + '">보내기</button>' : '')
+    + (its.length ? '<button class="btn gold" style="flex:1" data-act="tx:qcsend" data-id="' + esc(mid) + '">보내기</button>' : '')
     + '<button class="btn ghost" data-act="tx:qcfull" data-id="' + esc(mid) + '">⤢ 크게 보기</button>'
     + '<button class="btn ghost" data-act="popclose">닫기</button></div>');
   setTimeout(()=>{ const t = document.getElementById('qctx'); if(t) t.focus(); }, 40);
@@ -17090,18 +17116,24 @@ async function txAct(a, el){
   if(a==='ktopen'){ S.ktOpen = k; S.ktTxt = ''; S.ktV = null; render(); setTimeout(() => { const t = document.getElementById('ktx'); if(t) t.focus(); }, 40); return; }      /* 톡에서 바로 남기기 (2026-11-03) */
   if(a==='ktclose'){ S.ktOpen = null; S.ktTxt = ''; render(); return; }
   if(a==='ktv'){ const t = document.getElementById('ktx'); if(t) S.ktTxt = t.value; S.ktV = v2; render(); setTimeout(() => { const t2 = document.getElementById('ktx'); if(t2) t2.focus(); }, 40); return; }
-  if(a==='ktsend'){ const t = document.getElementById('ktx'), tx = t ? t.value.trim() : ''; if(!tx) return toast('내용을 입력해 주세요');
+  if(a==='ktsend'){ const t = document.getElementById('ktx'); let tx = t ? t.value.trim() : '';
     const 옵 = 톡종목(k), o = 옵.find(x => x.vid === S.ktV) || 옵[0]; if(!o) return toast('종목을 선택해 주세요');
-    try{ await 피드백쓰기(k, o.vid, o.wid, tx, (ME && ME.name) || '트레이너'); S.ktOpen = null; S.ktTxt = ''; S.ktV = null; toast('피드백을 남겼어요'); if(현황판) 현황판그리기(); render(); }
+    const 파일 = 피드백붙임[o.vid] || []; if(!tx && !파일.length) return toast('내용을 입력하거나 사진 · 영상을 붙여 주세요'); if(!tx) tx = 파일.some(x => x.kind === 'video') ? '영상 보고 자세 확인해 보세요' : '사진 보고 확인해 보세요';
+    try{ await 피드백쓰기(k, o.vid, o.wid, tx, (ME && ME.name) || '트레이너', 파일); delete 피드백붙임[o.vid]; S.ktOpen = null; S.ktTxt = ''; S.ktV = null; toast('피드백을 남겼어요'); if(현황판) 현황판그리기(); render(); }
     catch(e){ toast('못 남겼어요 — ' + e.message); } return; }
+  if(a==='fbatt'){ if(!건강동의함(id || S.mid)){ 동의관문('video'); return; } if(matchMedia('(any-pointer: coarse)').matches) 올리기고르기창(k, v2); else 파일고르기(k, v2, false); return; }      /* 폰 = 촬영하기 / 갤러리 · PC = 파일 (2026-11-03) */
+  if(a==='fbattx'){ (피드백붙임[k] || []).splice(+v2, 1); 피드백창다시(); return; }
+  if(a==='osgo'){ const o = document.getElementById('ospick'); if(o) o.remove(); const [kind, how] = String(v2 || '').split(':'); 파일고르기(k, kind, how === 'cam'); return; }
+  if(a==='osx'){ const o = document.getElementById('ospick'); if(o) o.remove(); return; }
   if(a==='qcsend'){
     const mid = el.dataset.id, t = document.getElementById('qctx');
-    const tx = t ? t.value.trim() : '';
-    if(!tx) return toast('내용을 입력해 주세요');
+    let tx = t ? t.value.trim() : '';
     if(!빠른피드백 || !빠른피드백.vid) return toast('종목을 선택해 주세요');
+    const 파일 = 피드백붙임[빠른피드백.vid] || []; if(!tx && !파일.length) return toast('내용을 입력하거나 사진 · 영상을 붙여 주세요');
+    if(!tx) tx = 파일.some(x => x.kind === 'video') ? '영상 보고 자세 확인해 보세요' : '사진 보고 확인해 보세요';
     const who = (ME && ME.name) || '트레이너';
     try{
-      await 피드백쓰기(mid, 빠른피드백.vid, 빠른피드백.wid, tx, who);
+      await 피드백쓰기(mid, 빠른피드백.vid, 빠른피드백.wid, tx, who, 파일); delete 피드백붙임[빠른피드백.vid];
       빠른피드백 = null; popClose(); toast('피드백을 남겼어요');
       if(현황판) 현황판그리기();
       render();
@@ -18976,8 +19008,6 @@ document.addEventListener('click', async function(ev){
     catch(e){ toast(e.message); }
     return;
   }
-  if(a==='cmatt'){ if(!건강동의함(S.mid)){ 동의관문('video'); return; } const f = $('#cmfile'); if(f){ f.dataset.v = act.dataset.v; f.click(); } return; }      /* 사진 · 영상은 건강정보 동의 뒤에만 (약관 동의화면_문구 ③ 「트레이너 코멘트 첨부 사진·영상」) */
-  if(a==='cmattx'){ const v = act.dataset.v; (피드백붙임[v] || []).splice(+act.dataset.i, 1); render(); return; }
   if(a==='cmsend'){
     if(S.cm보냄중) return;
     const ta = $('#cmtx');
