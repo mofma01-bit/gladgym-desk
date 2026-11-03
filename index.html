@@ -2136,6 +2136,7 @@ body{word-break:keep-all}
 .cl-row:hover{border-color:#4a4840}.cl-row .bx{width:20px;height:20px;flex:none;border:2px solid #6b665c;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#16130c}
 .cl-row.on .bx{background:var(--gold);border-color:var(--gold)}.cl-row.on b{color:#a39c8e;text-decoration:line-through;text-decoration-color:#6b665c}
 .cl-row b{font-weight:800;font-size:14px;flex:1;min-width:0}.cl-row .cl-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.cl-row .cl-t b{flex:none}.cl-row .cl-how{font-size:13px;color:#8f887e;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cl-row small{font-size:13px;color:#a39c8e;white-space:nowrap}.cl-row em{font-style:normal;font-size:13px;font-weight:800;color:#a9d8e6;white-space:nowrap}
+.cl-all{margin-top:8px;width:100%}
 .cl-big{display:flex;flex-direction:column;gap:2px;background:linear-gradient(90deg,#2a2318,#1d1c1a 80%);border:1px solid rgba(230,196,135,.45);border-radius:10px;padding:9px 12px;margin-bottom:8px}
 .cl-chg .cl-hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cl-chg .cl-hr .z2{font-weight:800;min-width:0}.cl-chg .cl-hr .btn{margin-left:auto}
 .cl-igl{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px;cursor:pointer}.cl-igl .cl-ig{margin-left:0}
@@ -3177,7 +3178,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '565';
+const BUILD = '567';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9464,8 +9465,19 @@ function 청소카드(){
   const 인계목 = 배.목.filter(x => { const o = 배.결과[x.id]; return o && o.대신 && o.원 && o.p; });      /* 모두에게 — 내 담당이 아니어도 나뉜 걸 알아야 빠진 걸 찾는다 (2026-10-30 저녁 노션) */
   const 인계띠 = 인계목.length ? '<div class="cl-igl" data-act="tx:clset">' + 인계목.map(x => { const o = 배.결과[x.id]; return '<span class="cl-ig">인계<small>' + esc(x.title || '') + ' → ' + esc(보임이름(o.p.name)) + '</small></span>'; }).join('') + '</div>' : '';      /* 무엇이 누구에게 (2026-10-30 대표 「어떤 거 인계됐는지 표기」) */      /* 관리하는 사람 홈에도 오늘 인계 (2026-10-30 대표 「없는데?」) */
   return '<div class="tx-home one"><div class="sec"><div class="lbl">오늘 내 청소' + (내.length ? ' <span class="tx-tag' + (한 < 내.length ? ' gold' : '') + '">' + 한 + ' / ' + 내.length + '</span>' : '') + 링크 + '</div>' + 인계띠 + 대띠
-    + (내.length ? '<div class="cl-hl">' + 내.map(줄).join('') + '</div>'
+    + (내.length ? '<div class="cl-hl">' + 내.map(줄).join('') + '</div>' + (한 < 내.length && 내.length > 1 ? '<button class="btn sub sm cl-all" data-act="tx:clall">남은 ' + (내.length - 한) + '개 모두 완료</button>' : '')
       : '<div class="empty why">' + (배.휴무 ? '<b>오늘은 정기휴무입니다</b>' : 배.당직 ? '<b>오늘은 당직 청소만 있습니다</b>' : '<b>오늘 맡은 청소가 없습니다</b>') + (할수('clean') ? '구역 · 담당은 「관리」에서 정해요' : '구역 · 담당은 청소 관리자가 정해요') + '</div>') + '</div></div>';
+}
+async function 청소모두(){      /* 오늘 내 청소 남은 것 한 번에 (2026-11-03 대표 「각 완료 말고도 전체 완료」) */
+  if(진짜ME) return toast('보기 중에는 체크할 수 없어요');
+  const 배 = 청소배정(TODAY), 남 = 배.목.filter(x => 배.결과[x.id].p && ME && 배.결과[x.id].p.id === ME.id && !청소체크of(x.id, TODAY));
+  if(!남.length) return;
+  if(!await 묻기('남은 청소 ' + 남.length + '개를 모두 완료할까요?' + String.fromCharCode(10) + 남.map(x => x.title || '').join(' · '))) return;
+  try{ const o = await usend('tr_clean_log', 'POST', 남.map(x => ({ clean_id: x.id, day: TODAY, staff_id: ME.id })), 'return=representation');
+    (Array.isArray(o) && o.length ? o : 남.map((x, i) => ({ id: 'n' + Date.now() + i, clean_id: x.id, day: TODAY, staff_id: ME.id, done_at: new Date().toISOString() }))).forEach(r => 청소.기록.unshift(r));
+    toast(남.length + '개를 완료했어요'); }
+  catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); 청소받기(); return; }
+  render();
 }
 async function 청소체크(id){
   if(진짜ME) return toast('보기 중에는 체크할 수 없어요');
@@ -9539,7 +9551,7 @@ function 청소관리판(){
     + (x.off_mode === '건너뜀' ? '<span class="cl-offt">쉬면 <b>건너뜀</b></span>' : (x.cover || []).length ? '<span class="cl-offt">쉬면 <b>' + esc(x.cover.map(id => { const p = (W.staff || []).find(s => s.id === id); return p ? 보임이름(p.name) : ''; }).filter(Boolean).join(' → ')) + '</b></span>' : '')      /* 담당이 쉬는 날 — 항목마다 */
     + (!미리 && 청소체크of(x.id, TODAY) ? '<span class="cl-tk">✓ 오늘</span>' : '')
     + (인계of(x.id) ? '<span class="cl-ig">인계<small>오늘 ' + esc(보임이름(인계of(x.id).p.name)) + '</small></span>' : '')
-    + (고칠 ? '<span class="bp-act"><button class="btn ghost sm" data-act="tx:clmove" data-v2="' + esc(x.id) + '">옮기기</button><button class="btn ed sm" data-act="tx:cledit" data-v2="' + esc(x.id) + '">수정</button><button class="btn ghost sm" data-act="tx:cloff" data-v2="' + esc(x.id) + '">삭제</button></span>' : '') + '</div>';
+    + (고칠 ? '<span class="bp-act"><button class="btn ghost sm" data-act="tx:clmove" data-v2="' + esc(x.id) + '">담당 옮기기</button><button class="btn ed sm" data-act="tx:cledit" data-v2="' + esc(x.id) + '">수정</button><button class="btn ghost sm" data-act="tx:cloff" data-v2="' + esc(x.id) + '">삭제</button></span>' : '') + '</div>';
   const 딱 = id => id ? 이름딱지(id) : '<span class="sub3">담당 없음</span>';
   const 구줄 = z => { const 옮김 = 미리 && z.kind === '순환' && (지금배[z.id] || null) !== (배[z.id] || null);
     return '<div class="bp-row2"><div class="a cl-zh">' + (z.kind !== '당직' ? 딱(배[z.id]) : '') + (z.slot ? 청소시각(z.slot) : '') + '<b>' + 시간칠(z.name) + '</b>' + (z.sex ? '<em class="bp-st">' + esc(z.sex) + '</em>' : '') + (z.kind !== '당직' ? '<em class="cl-kd">' + 구역종류글[z.kind] + '</em>' : '')
@@ -9627,11 +9639,13 @@ async function 청소켬(id, 켬){
 }
 /* 구역 없는 청소 → 구역에 넣기 (2026-10-22) */
 const 청소들었나 = (z, id) => (z.items || []).some(v => String(v) === String(id));
+const 구역사람 = z => { if(!z || z.kind === '당직') return null; const sid = 분기배정(분기of(TODAY))[z.id]; return sid ? (W.staff || []).find(s => s.id === sid) || null : null; };
+const 구역부름 = z => { const p = 구역사람(z); return p ? 보임이름(p.name) + ' 선생님' : '「' + (z.name || '') + '」'; };      /* 옮길 때 = 사람 이름 · 당직 · 담당 없는 구역은 구역 이름 */
 function 청소옮김창(el, id){      /* 구역 체크 — ☑ 지금 구역 · 다른 구역 누르면 옮김 · 체크된 구역 누르면 뺌 (2026-10-22 대표 「구역에 할 일 추가하거나 빼기 · 다른 사람에게 옮기기 · 체크박스로」) */
   const x = 할일of(id); if(!x) return;
-  쪽지열기(el, '<div class="tx-ph"><b>「' + esc(x.title || '') + '」 구역</b><button data-act="popclose">✕</button></div><div class="sub3" style="margin:-2px 0 6px">다른 구역을 누르면 옮겨요 · 체크된 구역을 누르면 빠져요</div><div class="tx-pmenu">'
-    + 구역들().map(z => { const on = 청소들었나(z, id), 배 = z.kind === '당직' ? '' : 분기배정(분기of(TODAY))[z.id], p = 배 && (W.staff || []).find(s => s.id === 배);
-      return '<button data-act="tx:clmoveok" data-k="' + esc(String(id)) + '" data-v2="' + esc(z.id) + '"><span class="cl-bx' + (on ? ' on' : '') + '">' + (on ? '✓' : '') + '</span>' + esc(z.name || '') + ' <small style="margin-left:auto;color:var(--sub)">' + (p ? esc(보임이름(p.name)) : 구역종류글[z.kind]) + '</small></button>'; }).join('')
+  쪽지열기(el, '<div class="tx-ph"><b>「' + esc(x.title || '') + '」 담당 옮기기</b><button data-act="popclose">✕</button></div><div class="sub3" style="margin:-2px 0 6px">누구에게 옮길까요 · ✓ 가 지금 담당입니다</div><div class="tx-pmenu">'
+    + 구역들().map(z => { const on = 청소들었나(z, id), p = 구역사람(z);      /* 사람이 앞 · 구역은 작게 (2026-11-03 대표 「담당자를 옮기는 걸로 · 해당 청소를 00에게」) */
+      return '<button data-act="tx:clmoveok" data-k="' + esc(String(id)) + '" data-v2="' + esc(z.id) + '"><span class="cl-bx' + (on ? ' on' : '') + '">' + (on ? '✓' : '') + '</span>' + (p ? '<b>' + esc(보임이름(p.name)) + '</b>' : esc(z.name || '')) + ' <small style="margin-left:auto;color:var(--sub)">' + (p ? esc(z.name || '') : 구역종류글[z.kind] || '담당 없음') + '</small></button>'; }).join('')
     + (구역들().length ? '' : '<div class="mut">구역이 아직 없어요 · 「＋ 구역 추가」로 만들어 주세요</div>') + '</div>', 280);
 }
 async function 청소순서저장(){      /* 순서 — 구역 items 차례 = 홈 · 관리판 차례 (2026-10-23 대표 「순서도 수정할 수 있게」) */
@@ -9644,8 +9658,8 @@ async function 청소순서저장(){      /* 순서 — 구역 items 차례 = �
 async function 청소옮김(id, zid){
   const x = 할일of(id), z = (청소.구역 || []).find(y => y.id === zid); if(!x || !z) return;
   const 뺌 = 청소들었나(z, id), 옛 = 구역들().filter(y => y.id !== zid && 청소들었나(y, id)), 글 = '「' + (x.title || '') + '」을 ';
-  if(!await 묻기(뺌 ? 글 + '「' + (z.name || '') + '」에서 뺄까요?' + String.fromCharCode(10) + '「구역 없는 청소」로 가요'
-    : 옛.length ? 글 + '「' + 옛.map(y => y.name || '').join(' · ') + '」에서 「' + (z.name || '') + '」로 옮길까요?' : 글 + '「' + (z.name || '') + '」에 넣을까요?')) return;
+  if(!await 묻기(뺌 ? 글 + 구역부름(z) + ' 담당에서 뺄까요?' + String.fromCharCode(10) + '「구역 없는 청소」로 가요'
+    : 옛.length ? 글 + 옛.map(구역부름).join(' · ') + ' → ' + 구역부름(z) + '에게 옮길까요?' : 글 + 구역부름(z) + '에게 맡길까요?')) return;
   쪽지닫기();
   const 뺀목 = y => (y.items || []).filter(v => String(v) !== String(x.id)), 때 = () => new Date().toISOString();
   try{ if(뺌) await usend('tr_clean_zone?id=eq.' + encodeURIComponent(zid), 'PATCH', { items: 뺀목(z), updated_at: 때() });
@@ -16441,7 +16455,8 @@ async function txAct(a, el){
   if(a==='ocolor'){ if(!할수('table')) return toast('색은 표 관리 권한이 있어야 바꿀 수 있어요'); 옵색창(el, k, el.dataset.f, v2); return; }      /* 속성 선택지 색 (2026-10-21) */
   if(a==='ocpick'){ 옵색편.색 = v2; const c = $('#occ'), h = $('#och'); if(c) c.value = v2; if(h) h.value = v2; 옵색미리(); return; }
   if(a==='ocsave'){ await 옵색저장(v2 !== 'pick'); return; }
-  if(a==='clck'){ await 청소체크(v2); return; }      /* 청소 체크 (2026-10-21) */
+  if(a==='clck'){ await 청소체크(v2); return; }
+  if(a==='clall'){ await 청소모두(); return; }      /* 청소 체크 (2026-10-21) */
   if(a==='cllog'){ 청소기록판(); return; }
   if(a==='clset'){ 청소관리판(); return; }
   if(a==='cledit'){ if(!할수('clean')) return; 청소수정창(el, v2, k); return; }
@@ -17890,12 +17905,12 @@ async function 판뒤로(){
     if(판머리 === e.머리 && $('#pop').classList.contains('tx-side')) return; }
   판머리 = e.머리; 판원인 = e.원인; $('#popbox').innerHTML = e.속; $('#pop').classList.add('on', 'tx-side');      /* 그때 화면 그대로 */
 }
-/* 2026-10-29 대표 15:39 — 네이버 단축 주소로(데스크 2jPMl → gladgym-desk · 회원 앱 2jo80 → gladgym-app) · 주소가 바뀌어도 단축 주소만 고치면 QR 그대로 */
+/* 2026-11-03 데스크 단축 주소 2jPMl → 2kbh7(노션 11월 3일 저녁) · 2026-10-29 대표 15:39 — 네이버 단축 주소로(데스크 2kbh7 → gladgym-desk · 회원 앱 2jo80 → gladgym-app) · 주소가 바뀌어도 단축 주소만 고치면 QR 그대로 */
 /* ══ 앱 설치 링크 ══ 2026-10-23 대표 노션 「앱 설치 링크 데스크 상단에 링크 복사 버튼」 · 시안 B-1 「이대로」(브로제이 QR 창처럼)
    링크 둘은 고정 → QR 은 미리 만든 모양(SVG 경로)을 그대로 그린다 (밖 라이브러리 없이) */
 const 앱링크 = {
   m: { 이름:'회원 앱', 주소:'https://m.site.naver.com/2jo80', n:29, p:'M0 0h7v1h-7zM9 0h3v1h-3zM15 0h2v1h-2zM18 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h5v1h-5zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h1v1h-1zM10 2h4v1h-4zM15 2h1v1h-1zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h3v1h-3zM16 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h4v1h-4zM15 4h6v1h-6zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h2v1h-2zM15 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM10 7h2v1h-2zM14 7h3v1h-3zM19 7h2v1h-2zM0 8h1v1h-1zM6 8h1v1h-1zM8 8h4v1h-4zM16 8h4v1h-4zM21 8h2v1h-2zM25 8h3v1h-3zM0 9h2v1h-2zM4 9h2v1h-2zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM16 9h6v1h-6zM23 9h2v1h-2zM26 9h2v1h-2zM1 10h2v1h-2zM4 10h3v1h-3zM9 10h1v1h-1zM13 10h5v1h-5zM23 10h2v1h-2zM0 11h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM8 11h2v1h-2zM12 11h2v1h-2zM19 11h1v1h-1zM25 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h2v1h-2zM10 12h4v1h-4zM15 12h2v1h-2zM18 12h2v1h-2zM22 12h2v1h-2zM28 12h1v1h-1zM0 13h2v1h-2zM7 13h2v1h-2zM10 13h3v1h-3zM16 13h1v1h-1zM19 13h2v1h-2zM22 13h3v1h-3zM27 13h2v1h-2zM0 14h1v1h-1zM4 14h1v1h-1zM6 14h2v1h-2zM9 14h2v1h-2zM12 14h1v1h-1zM17 14h2v1h-2zM20 14h1v1h-1zM23 14h1v1h-1zM25 14h2v1h-2zM1 15h5v1h-5zM7 15h3v1h-3zM11 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM0 16h2v1h-2zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM16 16h2v1h-2zM21 16h1v1h-1zM23 16h1v1h-1zM25 16h2v1h-2zM0 17h1v1h-1zM5 17h1v1h-1zM9 17h1v1h-1zM11 17h4v1h-4zM17 17h4v1h-4zM22 17h3v1h-3zM26 17h3v1h-3zM0 18h2v1h-2zM3 18h5v1h-5zM11 18h1v1h-1zM15 18h1v1h-1zM18 18h3v1h-3zM23 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM0 19h1v1h-1zM7 19h2v1h-2zM10 19h1v1h-1zM13 19h1v1h-1zM18 19h3v1h-3zM22 19h2v1h-2zM0 20h1v1h-1zM6 20h1v1h-1zM8 20h1v1h-1zM11 20h1v1h-1zM14 20h2v1h-2zM17 20h1v1h-1zM20 20h5v1h-5zM26 20h3v1h-3zM8 21h3v1h-3zM12 21h1v1h-1zM14 21h1v1h-1zM17 21h4v1h-4zM24 21h2v1h-2zM0 22h7v1h-7zM9 22h3v1h-3zM17 22h1v1h-1zM19 22h2v1h-2zM22 22h1v1h-1zM24 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM11 23h2v1h-2zM14 23h3v1h-3zM19 23h2v1h-2zM24 23h1v1h-1zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h6v1h-6zM16 24h1v1h-1zM18 24h8v1h-8zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM10 25h2v1h-2zM14 25h1v1h-1zM17 25h1v1h-1zM19 25h1v1h-1zM21 25h1v1h-1zM25 25h3v1h-3zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM10 26h4v1h-4zM15 26h1v1h-1zM18 26h1v1h-1zM21 26h2v1h-2zM24 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM10 27h2v1h-2zM13 27h2v1h-2zM16 27h1v1h-1zM18 27h1v1h-1zM21 27h1v1h-1zM23 27h4v1h-4zM28 27h1v1h-1zM0 28h7v1h-7zM8 28h2v1h-2zM11 28h2v1h-2zM15 28h5v1h-5zM21 28h3v1h-3zM26 28h1v1h-1z' },
-  d: { 이름:'트레이너 데스크', 주소:'https://m.site.naver.com/2jPMl', n:29, p:'M0 0h7v1h-7zM10 0h2v1h-2zM15 0h2v1h-2zM18 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h3v1h-3zM12 1h3v1h-3zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h4v1h-4zM13 2h1v1h-1zM15 2h1v1h-1zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h1v1h-1zM16 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM15 4h6v1h-6zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM12 7h1v1h-1zM14 7h3v1h-3zM19 7h2v1h-2zM0 8h1v1h-1zM6 8h1v1h-1zM8 8h1v1h-1zM10 8h3v1h-3zM16 8h4v1h-4zM21 8h2v1h-2zM25 8h3v1h-3zM1 9h4v1h-4zM9 9h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM16 9h6v1h-6zM23 9h2v1h-2zM26 9h2v1h-2zM0 10h1v1h-1zM2 10h2v1h-2zM5 10h4v1h-4zM13 10h5v1h-5zM23 10h2v1h-2zM3 11h3v1h-3zM7 11h1v1h-1zM9 11h1v1h-1zM11 11h3v1h-3zM19 11h1v1h-1zM25 11h1v1h-1zM1 12h2v1h-2zM4 12h4v1h-4zM9 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM15 12h2v1h-2zM18 12h2v1h-2zM22 12h2v1h-2zM28 12h1v1h-1zM0 13h1v1h-1zM4 13h2v1h-2zM7 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM16 13h1v1h-1zM19 13h2v1h-2zM22 13h3v1h-3zM27 13h2v1h-2zM0 14h1v1h-1zM2 14h2v1h-2zM5 14h3v1h-3zM11 14h2v1h-2zM17 14h2v1h-2zM20 14h1v1h-1zM23 14h1v1h-1zM25 14h2v1h-2zM0 15h3v1h-3zM4 15h1v1h-1zM7 15h4v1h-4zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM2 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM16 16h2v1h-2zM21 16h1v1h-1zM23 16h1v1h-1zM25 16h2v1h-2zM0 17h3v1h-3zM4 17h1v1h-1zM7 17h2v1h-2zM10 17h1v1h-1zM12 17h3v1h-3zM17 17h4v1h-4zM22 17h3v1h-3zM26 17h3v1h-3zM0 18h2v1h-2zM3 18h2v1h-2zM6 18h3v1h-3zM12 18h1v1h-1zM15 18h1v1h-1zM18 18h3v1h-3zM23 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM0 19h1v1h-1zM4 19h2v1h-2zM8 19h4v1h-4zM13 19h1v1h-1zM18 19h3v1h-3zM22 19h2v1h-2zM0 20h1v1h-1zM2 20h2v1h-2zM6 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM14 20h2v1h-2zM20 20h5v1h-5zM26 20h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM19 21h2v1h-2zM24 21h2v1h-2zM0 22h7v1h-7zM11 22h1v1h-1zM18 22h3v1h-3zM22 22h1v1h-1zM24 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h3v1h-3zM14 23h3v1h-3zM18 23h3v1h-3zM24 23h1v1h-1zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h6v1h-6zM16 24h2v1h-2zM19 24h7v1h-7zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM9 25h2v1h-2zM14 25h1v1h-1zM17 25h3v1h-3zM21 25h1v1h-1zM25 25h3v1h-3zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM9 26h7v1h-7zM21 26h2v1h-2zM24 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM21 27h1v1h-1zM23 27h4v1h-4zM28 27h1v1h-1zM0 28h7v1h-7zM8 28h4v1h-4zM17 28h1v1h-1zM19 28h1v1h-1zM21 28h3v1h-3zM26 28h1v1h-1z' },      /* 새 주소 (2026-10-29) */
+  d: { 이름:'트레이너 데스크', 주소:'https://m.site.naver.com/2kbh7', n:29, p:'M0 0h7v1h-7zM9 0h1v1h-1zM11 0h3v1h-3zM16 0h4v1h-4zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h5v1h-5zM18 1h1v1h-1zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM12 2h2v1h-2zM16 2h2v1h-2zM19 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM10 3h1v1h-1zM13 3h3v1h-3zM18 3h2v1h-2zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM11 4h1v1h-1zM13 4h2v1h-2zM16 4h3v1h-3zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h7v1h-7zM18 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM9 7h2v1h-2zM14 7h1v1h-1zM17 7h4v1h-4zM0 8h1v1h-1zM3 8h1v1h-1zM5 8h2v1h-2zM8 8h1v1h-1zM15 8h1v1h-1zM18 8h2v1h-2zM21 8h1v1h-1zM23 8h1v1h-1zM1 9h4v1h-4zM7 9h4v1h-4zM14 9h2v1h-2zM22 9h1v1h-1zM25 9h1v1h-1zM28 9h1v1h-1zM2 10h1v1h-1zM5 10h2v1h-2zM8 10h3v1h-3zM12 10h1v1h-1zM16 10h2v1h-2zM19 10h3v1h-3zM23 10h5v1h-5zM1 11h1v1h-1zM4 11h1v1h-1zM8 11h1v1h-1zM10 11h1v1h-1zM14 11h2v1h-2zM18 11h1v1h-1zM20 11h2v1h-2zM24 11h1v1h-1zM26 11h2v1h-2zM0 12h2v1h-2zM3 12h1v1h-1zM6 12h1v1h-1zM9 12h1v1h-1zM11 12h1v1h-1zM16 12h3v1h-3zM21 12h2v1h-2zM25 12h1v1h-1zM27 12h2v1h-2zM0 13h4v1h-4zM8 13h3v1h-3zM12 13h1v1h-1zM15 13h1v1h-1zM17 13h5v1h-5zM0 14h7v1h-7zM9 14h2v1h-2zM12 14h1v1h-1zM15 14h2v1h-2zM18 14h1v1h-1zM20 14h3v1h-3zM25 14h4v1h-4zM0 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM10 15h5v1h-5zM16 15h2v1h-2zM19 15h2v1h-2zM23 15h1v1h-1zM25 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM9 16h9v1h-9zM19 16h2v1h-2zM23 16h1v1h-1zM27 16h1v1h-1zM1 17h1v1h-1zM3 17h3v1h-3zM9 17h1v1h-1zM15 17h1v1h-1zM17 17h1v1h-1zM21 17h3v1h-3zM25 17h1v1h-1zM28 17h1v1h-1zM0 18h1v1h-1zM4 18h1v1h-1zM6 18h3v1h-3zM10 18h4v1h-4zM17 18h2v1h-2zM20 18h2v1h-2zM27 18h2v1h-2zM3 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM11 19h3v1h-3zM15 19h7v1h-7zM24 19h1v1h-1zM27 19h2v1h-2zM0 20h1v1h-1zM2 20h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM10 20h2v1h-2zM14 20h1v1h-1zM16 20h1v1h-1zM20 20h5v1h-5zM26 20h1v1h-1zM8 21h2v1h-2zM11 21h3v1h-3zM15 21h3v1h-3zM20 21h1v1h-1zM24 21h1v1h-1zM26 21h3v1h-3zM0 22h7v1h-7zM10 22h1v1h-1zM13 22h3v1h-3zM17 22h2v1h-2zM20 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h6v1h-6zM16 23h1v1h-1zM20 23h1v1h-1zM24 23h5v1h-5zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM9 24h2v1h-2zM14 24h4v1h-4zM20 24h5v1h-5zM27 24h1v1h-1zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h3v1h-3zM13 25h4v1h-4zM19 25h1v1h-1zM22 25h5v1h-5zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM9 26h4v1h-4zM17 26h2v1h-2zM23 26h4v1h-4zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h2v1h-2zM16 27h2v1h-2zM19 27h2v1h-2zM22 27h1v1h-1zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h1v1h-1zM10 28h1v1h-1zM16 28h3v1h-3zM20 28h1v1h-1zM22 28h2v1h-2zM25 28h1v1h-1zM27 28h1v1h-1z' },      /* 새 주소 (2026-10-29) */
 };
 const 앱QR = (k, 크기) => { const o = 앱링크[k] || 앱링크.m, q = 4;
   return '<svg class="aq-svg" xmlns="http://www.w3.org/2000/svg" viewBox="' + (-q) + ' ' + (-q) + ' ' + (o.n + q * 2) + ' ' + (o.n + q * 2) + '" width="' + 크기 + '" height="' + 크기 + '" shape-rendering="crispEdges"><rect x="' + (-q) + '" y="' + (-q) + '" width="' + (o.n + q * 2) + '" height="' + (o.n + q * 2) + '" fill="#fff"/><path d="' + o.p + '" fill="#000"/></svg>'; };
