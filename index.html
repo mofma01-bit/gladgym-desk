@@ -938,6 +938,8 @@ body:has(.rs-selbar) #toast,body:has(#pop.on .pk-foot) #toast,body:has(#pop.on .
 .tx-cmed{display:flex;flex-direction:column;gap:6px;margin:4px 0}.tx-cmed textarea{min-height:64px}.tx-cmed .r{display:flex;gap:6px;justify-content:flex-end}
 .rowlog{margin-top:12px}.rowlog summary{cursor:pointer}.rowlog .rl{font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}.rowlog .rl .t{color:var(--sub);margin-right:6px}
 .mfw{position:relative;display:inline-flex;width:var(--mf);height:var(--mf);flex:none;vertical-align:middle}
+.mfw .mf.nm1 svg{width:58%;height:58%}.mfw .mf.nm1.tx{font-size:calc(var(--mf) * .34);letter-spacing:-.03em}
+svg.pfi{width:58%;height:58%;display:block}.mc-ph.none svg.pfi{width:42%;height:42%}
 .mfw .mf{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1.3px solid rgba(240,211,160,.4);background:rgba(240,211,160,.06);color:var(--gold);font-weight:900;font-size:calc(var(--mf) * .36)}
 .mfw .mf.ph img{width:100%;height:100%;object-fit:cover;display:block}.mfw .mf.ph.bad img{display:none}
 .mfw .mf.gl{letter-spacing:-.02em}.mfw .mf.gl-pt{color:#7fc9d6;background:rgba(127,201,214,.14);border-color:rgba(127,201,214,.45)}.mfw .mf.gl-tg{color:#e9e1d1;background:rgba(233,225,209,.12);border-color:rgba(233,225,209,.42)}
@@ -2121,8 +2123,6 @@ body{word-break:keep-all}
 .ps-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .bp-row{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:baseline;background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}
 .bp-row b{font-weight:800}.bp-row span{color:#cfc7b8;font-size:13.5px}.bp-row em{font-style:normal;color:var(--gold);font-weight:800}.bp-row small{grid-column:1/-1;color:#8f887e;font-size:13px}.bp-row.dim b{color:#cfc7b8}
-.fbp{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.fbp .fbc{display:inline-flex;align-items:center;gap:4px;max-width:100%;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--cream);font:inherit;font-size:13px;padding:3px 10px 3px 6px;cursor:pointer}
-.fbp .fbc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}.fbp .fbc i{font-style:normal;color:var(--sub);cursor:pointer;padding:0 2px}.fbp .fbc.star i{color:var(--gold)}.fbp .fbadd{border-style:dashed;color:var(--teal);padding-left:10px}
 .bp-row2{background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:7px;font-size:14px}.bp-row2.dim{opacity:.85}
 .bp-row2 .a{display:flex;align-items:center;gap:8px}.bp-row2 .a b{font-size:15px;font-weight:800}
 .bp-row2 .b{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;color:#cfc7b8;font-size:13.5px}.bp-row2 .b b{color:var(--cream)}
@@ -2972,6 +2972,20 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .dadd.open .dadd-m{display:flex}.dadd-m button{border:0;background:transparent;color:var(--cream);font:inherit;font-size:14px;font-weight:800;text-align:left;padding:10px 12px;border-radius:8px;cursor:pointer}.dadd-m button:hover{background:rgba(255,255,255,.07)}.dadd-m small{display:block;color:var(--sub);font-size:13px;font-weight:600}
 .my-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-left:8px;vertical-align:middle}
 .my-seg button{border:0;background:transparent;color:var(--sub);font:inherit;font-size:13px;font-weight:800;padding:4px 12px;cursor:pointer}.my-seg button.on{background:var(--cream);color:#1a1a18}
+/* 색 네모 = 아이콘 (2026-11-03 대표 「첫 글자 네모는 뜻이 없다」 시안 A) — 네모 색 · 크기는 그대로, 글자 대신 --ic 그림 */
+#body .sec > .lbl.nt.icx::before,#body .sumit.nt.icx .k2::before{content:"" !important;background-image:var(--ic) !important;background-repeat:no-repeat !important;background-position:center !important;background-size:64% !important}
+.gi.icx{font-size:0 !important;color:transparent !important;background-image:var(--ic) !important;background-repeat:no-repeat !important;background-position:center !important;background-size:64% !important}
+.gi.icx.icph,.nt.icx.icph::before{background-size:cover !important;background-position:center !important}
+.jfh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}.jfh b{font-size:16px}.jfx{background:none;border:0;color:var(--sub);font-size:18px;cursor:pointer;padding:4px 6px}
+.jfs{font-size:13px;color:var(--sub);margin:2px 0 10px}.jfq{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:transparent;color:inherit;padding:8px 10px;font-size:14px;margin-bottom:10px}
+.jfl{display:flex;flex-direction:column;gap:8px;overflow:auto;min-height:0}
+.jfc{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 12px;cursor:pointer;background:rgba(255,255,255,.03)}.jfc.open{border-color:rgba(255,255,255,.5)}
+.jfc .t{font-size:14px;line-height:1.55;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.jfc.open .t{display:block}
+.jfc .m{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:13px;color:var(--sub)}
+.jfst{background:none;border:0;font-size:20px;line-height:1;color:var(--sub);cursor:pointer;padding:2px 4px}.jfst.on{color:var(--gold)}
+.jfc .act{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.jfc .act .btn,.jfhid{flex:none;width:auto}.jfhid{margin-top:10px;align-self:flex-start}
+.jfopen{margin:6px 0}
+.tx-pop .jfw{display:flex;flex-direction:column;max-height:min(78vh,720px)}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3112,7 +3126,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '543';
+const BUILD = '554';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3285,7 +3299,7 @@ const 권한줄 = [
   ['메뉴', 'health', '건강검진', '서버 · 앱 점검 결과 한 장', [1, 0, 0, 0, 0]],
   ['메뉴', 'security', '보안', '밤 보안 점검 · 보안 일지', [1, 0, 0, 0, 0]],      /* 2026-10-30 18:38 대표 「보안 · 일지」 — 대표자 · 최고관리자만 */      /* 2026-10-30 대표 「만들어」 — 대표자 · 최고관리자만 */
   ['메뉴', 'trash', '휴지통', '삭제한 것 복원', [1, 0, 0, 0, 0]],
-  ['회원 · 기록', 'scope', '회원 보기 범위', '전체 = 다른 트레이너 회원 · 리포트 · 예약률까지 (읽기)', ['a', 'm', 'm', 'm', 'a']],
+  ['회원 · 기록', 'scope', '회원 보기 범위', '전체 = 다른 트레이너 회원 · 리포트 · 예약률까지 (읽기)', ['a', 'a', 'm', 'm', 'a']],      /* 중간관리자 a — 기본 화면은 본인(관리모드대상) · 「관리자로 보기」 때만 전체 (2026-11-03 대표 「필요하면 전체로 보기도 장승훈 · 조민철만」) */
   ['회원 · 기록', 'otherrec', '남의 담당 회원 기록 수정', '잠수 사유 등', [1, 0, 0, 0, 0]],
   ['회원 · 기록', 'ptsale', 'PT 매출 담당 지정', '팝업에서 담당 · 카테고리 선택', [1, 1, 1, 0, 1]],
   ['회원 · 기록', 'assignall', '배정 전체 보기', '모든 TG · 체험 배정 · 미배정 · 담당 칸 (읽기)', [1, 0, 0, 0, 1]],
@@ -3313,14 +3327,15 @@ let 권한값 = {};      /* desk_perm.perm — loadWork 가 받는다 */
    최고관리자 본인 화면(내화면중) = 등급을 「트레이너」로 · 서버 자료도 본인 범위로(crm 에 대신 = 본인) → 트레이너와 똑같은 화면.
    「관리자로 보기」 = 최고관리자 권한 그대로(전체 · 선생님 계정으로 보기). 이 창에만 기억 · 잠기면 꺼짐(다른 사람이 열 수도 있어서). 대표자는 늘 전체 */
 let 관리모드 = (() => { try{ return sessionStorage.getItem('gg_desk_admode') === '1'; }catch(e){ return false; } })();
-const 관리모드대상 = p => !!p && p.super !== true && (p.grade === '최고관리자' || (!p.grade && p.role === 'admin'));
+const 관리모드대상 = p => !!p && p.super !== true && (p.grade === '최고관리자' || p.grade === '중간관리자' || (!p.grade && p.role === 'admin'));      /* 2026-11-03 대표 「장승훈 · 조민철 본인 것만 · 필요하면 전체로 보기도 둘만」 → 중간관리자도 기본 = 본인 화면 · 「관리자로 보기」 */
 const 내화면중 = () => !진짜ME && 관리모드대상(ME) && !관리모드;
 /* KPI 칩 꼴 — 최고관리자 계정 화면(본인이든 대표가 「계정 보기」로 보든) = 기본 본인 · 트레이너 · 맨 오른쪽 전체 (2026-10-20 대표 「조민철 칩 적용 안 됨」 — 대표는 계정 보기로 확인한다) */
 const 관리자칩꼴 = () => 관리모드대상(ME) && (진짜ME ? 진짜ME.super === true : !관리모드);
 function 관리모드켜기(on){ 관리모드 = !!on; try{ sessionStorage.setItem('gg_desk_admode', 관리모드 ? '1' : '0'); }catch(e){}
   if(!관리모드 && 진짜ME){ try{ 보기끼움뺌(); ME = 진짜ME; 진짜ME = null; }catch(e){} }
   보기새로(); toast(관리모드 ? '관리자로 보는 중이에요' : '내 화면으로 돌아왔어요'); }
-const 등급of = p => { p = p || ME; if(!p) return ''; if(p === ME && (내화면중() || (진짜ME && 관리모드대상(ME)))) return '트레이너';      /* 선생님 계정으로 볼 때도 그 선생님 본인 화면(트레이너 꼴 · 중앙 15:4x 서버도 같게) */ if(p.super === true) return '대표자'; if(등급들.includes(p.grade)) return p.grade;
+let 현황본인눈 = false;      /* 현황판을 셀 때만 켬 — 대표자가 아니면 트레이너 눈으로 본인 것만 (2026-11-03 대표) */
+const 등급of = p => { p = p || ME; if(!p) return ''; if(p === ME && (현황본인눈 || 내화면중() || (진짜ME && 관리모드대상(ME)))) return '트레이너';      /* 선생님 계정으로 볼 때도 그 선생님 본인 화면(트레이너 꼴 · 중앙 15:4x 서버도 같게) */ if(p.super === true) return '대표자'; if(등급들.includes(p.grade)) return p.grade;
   return ({ admin:'최고관리자', fc:'FC' })[p.role] || '트레이너'; };
 const 보임직함 = p => { const g = 등급of(p); return g === '대표자' ? '대표자' : g === '인턴' ? '인턴' : g === 'FC' ? 'FC' : '트레이너'; };      /* 20:33 대표 「000 트레이너라고만 · 나는 대표자」 */
 function 권한칸(k, g){ const r = 권한줄.find(x => x[1] === k); if(!r) return 0; if(g === '대표자') return k === 'scope' ? 'a' : 1; if(r[5] === 'fix') return 0;
@@ -4439,7 +4454,7 @@ const 내즐겨찾기 = mid => !!ME && (D.favs || []).some(f => f.member_id === 
 function 회원얼굴(mid, 크기, 별없음){      /* 별없음 — 바로 옆에 ☆ 단추가 있는 회원 목록 */ if(!회원사진) 회원사진받기();
   const m = memOf(mid) || {}, g = 갈래딱[갈래of(m)], av = (회원사진 || {})[mid], 주 = !av ? '' : /^(https?|data):/.test(av) ? av : media(av);
   const 속 = 주 ? '<span class="mf ph"><img src="' + esc(주) + '" alt="" onerror="this.parentNode.classList.add(\'bad\')"></span>' + (g ? '<em class="mfg mg-' + g[1] + '">' + g[0] + '</em>' : '')
-    : g ? '<span class="mf gl gl-' + g[1] + '">' + g[0] + '</span>' : '<span class="mf nm1">' + esc((m.name || '?').slice(0, 1)) + '</span>';
+    : g ? '<span class="mf gl gl-' + g[1] + '">' + g[0] + '</span>' : '<span class="mf nm1 tx" title="' + esc(m.name || '') + '">회원</span>';      /* 프로필 원 규칙 (2026-11-03 대표): 회원 = 사진 → 갈래(PT · TG …) → 모르면 「회원」 · 트레이너 = 사진 → 사람 그림 */
   return '<span class="mfw" style="--mf:' + (크기 || 36) + 'px">' + 속 + (!별없음 && 내즐겨찾기(mid) ? '<i class="mfs" title="내 즐겨찾기">★</i>' : '') + '</span>'; }
 /* 트레이너 CRM = PT 관리 (2026-10-14 대표 「헬스장 CRM 이 아니라 PT 관리를 위한 트레이너 CRM」) — 갈래 · 상태는 중앙 정본 그대로
    · PT관리(m) = 일반FC 가 아니고 종료도 아닌 회원(PT회원 · 운동가이드 · 체험수업) — 피드백 탭 명단
@@ -5791,14 +5806,23 @@ function 해부받기(각){ if(해부받음[각]) return 해부받음[각];
   const 하나 = src => new Promise(ok => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = src; });
   return 해부받음[각] = Promise.all([하나(앱터 + 'img/body3/남/몸_' + 각 + '.webp'), 하나(앱터 + 'img/body3/남/부위_' + 각 + '.png')]).then(([몸, 부]) => { if(!몸 || !부) return null;
     const c = document.createElement('canvas'); c.width = 부.naturalWidth; c.height = 부.naturalHeight; const x = c.getContext('2d', { willReadFrequently:true }); x.drawImage(부, 0, 0); return { 몸, 부: x.getImageData(0, 0, c.width, c.height) }; }); }
+/* 2D 부위 그림 (2026-11-03 대표 「3D 말고 그림으로」) — 회원 앱 리포트와 같은 img/body-plan.png 의 닫힌 칸을 근칸 씨앗에서 채운다 · 묶키 = 해부칸묶음 이름(가슴 · 앞 허벅지 …) */
+const 몸2씨 = {"trap":[[237,180],[312,183],[681,228],[801,228]],"chest":[[201,216],[315,216]],"chest_up":[[201,216],[315,216]],"delt_f":[[174,213],[363,213]],"delt_s":[[174,213],[363,213],[636,216],[837,216]],"delt_r":[[636,216],[837,216]],"biceps":[[168,264],[378,264],[126,297],[417,297]],"triceps":[[636,270],[855,270],[642,312],[849,309]],"forearm":[[108,363],[138,372],[438,363],[399,372],[600,375],[885,375],[579,363],[912,363],[618,381],[870,378],[591,405],[900,402]],"abs":[[273,297],[255,342],[279,342],[264,375],[279,375],[240,411],[279,411]],"oblique":[[183,291],[366,291],[201,366],[348,366],[201,426],[348,423]],"midback":[[681,228],[801,228]],"lats":[[651,282],[843,282],[675,378],[816,378]],"lowback":[[741,333],[750,333]],"glute":[[690,438],[780,438]],"glute_med":[[690,438],[780,438],[192,462],[354,462]],"quad":[[192,462],[354,462],[210,486],[339,486],[180,552],[369,555],[192,639],[357,642]],"adductor":[[228,504],[321,501],[240,591],[309,591],[741,531],[753,531]],"ham":[[654,498],[837,504],[660,558],[831,558],[675,537],[813,537],[687,645],[807,648]],"calf":[[651,705],[825,705],[651,807],[657,807],[843,810]],"shin":[[162,702],[384,693],[165,750],[384,756],[222,681],[327,681]]};
+let 몸2판 = null;
+function 몸2받기(){ return 몸2판 || (몸2판 = new Promise(ok => { const im = new Image(); im.onload = () => { const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; const x = c.getContext('2d', { willReadFrequently:true }); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0); ok({ W: c.width, H: c.height, d: x.getImageData(0, 0, c.width, c.height).data }); }; im.onerror = () => ok(null); im.src = 앱터 + 'img/body-plan.png'; })); }
+function 몸2채움(d, W, H, x0, y0, c){ const 봄 = new Uint8Array(W * H), 밝 = i => !봄[i >> 2] && d[i] > 200 && d[i + 1] > 200 && d[i + 2] > 200, st = [[x0, y0]];
+  while(st.length){ let [x, y] = st.pop(), i = (y * W + x) * 4; if(!밝(i)) continue; while(x > 0 && 밝(i - 4)){ x--; i -= 4; }
+    let 위 = false, 아래 = false; while(x < W && 밝(i)){ 봄[i >> 2] = 1; d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2];
+      if(y > 0){ if(밝(i - W * 4)){ if(!위){ st.push([x, y - 1]); 위 = true; } } else 위 = false; }
+      if(y < H - 1){ if(밝(i + W * 4)){ if(!아래){ st.push([x, y + 1]); 아래 = true; } } else 아래 = false; }
+      x++; i += 4; } } }
 async function 해부그리기(묶키){ if(해부그린[묶키]) return 해부그린[묶키];
-  const 묶 = 묶키.split(','), 둘 = await Promise.all([해부받기('000'), 해부받기('180')]); if(!둘[0] || !둘[1]) return 해부그린[묶키] = '';
-  const W = 둘[0].부.width, H = 둘[0].부.height, out = document.createElement('canvas'); out.width = W * 2; out.height = H; const o = out.getContext('2d');
-  둘.forEach((r, n) => { o.drawImage(r.몸, n * W, 0, W, H); const 덮 = o.createImageData(W, H), s = r.부.data, t = 덮.data;
-    const 표 = 해부칸.map((k, j) => ({ c: 해부칸색[j], g: 해부칸묶음[k] })).filter(z => 묶.includes(z.g)).map(z => ({ c: z.c, 색: [1, 3, 5].map(i => parseInt(해부색[z.g].slice(i, i + 2), 16)) }));
-    for(let i = 0; i < s.length; i += 4){ if(s[i + 3] < 128) continue; const m = 표.find(z => Math.abs(s[i] - z.c[0]) < 25 && Math.abs(s[i + 1] - z.c[1]) < 25 && Math.abs(s[i + 2] - z.c[2]) < 25); if(!m) continue; t[i] = m.색[0]; t[i + 1] = m.색[1]; t[i + 2] = m.색[2]; t[i + 3] = 215; }
-    const ov = document.createElement('canvas'); ov.width = W; ov.height = H; ov.getContext('2d').putImageData(덮, 0, 0); o.drawImage(ov, n * W, 0); });
-  return 해부그린[묶키] = out.toDataURL('image/png'); }
+  const 묶 = 묶키.split(',').filter(Boolean), 판 = await 몸2받기(); if(!판) return 해부그린[묶키] = '';
+  const d = new Uint8ClampedArray(판.d);
+  해부칸.forEach(k => { const g = 해부칸묶음[k]; if(!묶.includes(g) || !몸2씨[k] || !해부색[g]) return; const c = [1, 3, 5].map(i => parseInt(해부색[g].slice(i, i + 2), 16)); 몸2씨[k].forEach(([x, y]) => 몸2채움(d, 판.W, 판.H, x, y, c)); });
+  const 큰 = document.createElement('canvas'); 큰.width = 판.W; 큰.height = 판.H; 큰.getContext('2d').putImageData(new ImageData(d, 판.W, 판.H), 0, 0);
+  const 작 = document.createElement('canvas'); 작.width = 512; 작.height = Math.round(512 * 판.H / 판.W); 작.getContext('2d').drawImage(큰, 0, 0, 작.width, 작.height);
+  return 해부그린[묶키] = 작.toDataURL('image/png'); }
 let 해부중 = false;
 async function 해부칠하기(){ if(해부중) return; 해부중 = true;
   try{ for(const cv of [...document.querySelectorAll('canvas[data-anat]:not([data-done])')]){ const u = await 해부그리기(cv.dataset.anat); cv.dataset.done = '1'; if(!u) continue;
@@ -5856,7 +5880,7 @@ function 루틴표보기(s){
     + '<div class="rsp-h">' + 루틴표표지(s) + '<div><b>' + esc(s.title || '(이름 없음)') + '</b><small>' + esc(((s.tags || []).concat([보임이름(s.owner || '')])).filter(Boolean).join(' · ')) + '</small></div></div><span class="sp"></span>'
     + (고 && !스 ? '<button class="btn sm rs-photo" data-act="tx:rsphotox" data-k="' + esc(s.id) + '">' + 사진아이콘 + '사진으로 다시 만들기</button>' : '')
     + '<button class="btn gold sm" data-act="tx:sgive" data-k="' + esc(s.id) + '">회원에게 주기</button>'
-    + (고 ? '<button class="btn ghost sm" data-act="tx:rsmeta" data-k="' + esc(s.id) + '">루틴표 수정</button>' : '')
+    + (고 ? '<button class="btn ed sm" data-act="tx:rsmeta" data-k="' + esc(s.id) + '">루틴표 수정</button>' : '')
     + (s.owner !== 나이름() ? '<button class="btn ghost sm" data-act="tx:rscopy" data-k="' + esc(s.id) + '">복사해서 내 루틴표로</button>' : '') + '</div>'
     + (s.note ? '<div class="rsp-note">' + esc(s.note) + '</div>' : '')
     + (L.length ? L.map(줄).join('') : '<div class="empty why"><b>아직 루틴이 없습니다</b>' + (고 ? '아래 「＋ 루틴 추가」로 만들어 주세요' : '만든 선생님이 추가하면 보입니다') + '</div>')
@@ -6699,6 +6723,8 @@ async function 노션영상받기(mid){
   catch(e){ if(/→ 404/.test((e && e.message) || '')) 노션영상.없음 = true; 노션영상.줄[mid] = []; }
   if(S.mid === mid && S.tab === 'comment') render();
 }
+/* 노션 「부위 → 종목」 묶음 이름 — 서버가 ["💪 ○○ 운동루틴", "루틴1 (4/8 수업)"] 꼴 글자로 줘서 그대로 보였다(2026-11-02) → 「 › 」로 잇기 */
+const 노션묶음이름 = c => { const t = String(c || '').trim(); if(/^\[/.test(t)){ try{ const a = JSON.parse(t); if(Array.isArray(a)) return a.map(z => String(z || '').trim()).filter(Boolean).join(' › '); }catch(e){} } return t; };
 function 노션영상칸(mid){
   if(노션영상.없음) return '';
   let xs = 노션영상.줄[mid];
@@ -6706,7 +6732,7 @@ function 노션영상칸(mid){
   if(xs === null) return '<div class="sec nm-sec"><div class="lbl">노션에서 옮겨 온 피드백</div><div class="sub3">불러오는 중이에요…</div></div>';
   xs = xs.filter(x => x.s3_key);      /* 유튜브 링크는 뺀다 — 모든 회원 페이지에 같이 들어 있던 틀 안내 영상 두 개(폼롤러 마사지 · 오픈북 스트레칭)라 회원 피드백이 아니다(중앙 10/16 18:43) */
   if(!xs.length) return '';
-  const 묶 = new Map(); xs.forEach(x => { const k = String(x.chain || '').trim() || '(분류 없음)'; if(!묶.has(k)) 묶.set(k, []); 묶.get(k).push(x); });
+  const 묶 = new Map(); xs.forEach(x => { const k = 노션묶음이름(x.chain) || '(분류 없음)'; if(!묶.has(k)) 묶.set(k, []); 묶.get(k).push(x); });
   const 날 = x => x.notion_edited ? String(x.notion_edited).slice(0, 10) : '';
   const 줄 = x => { const 이름 = esc(x.caption || x.file || (x.link ? '유튜브' : '영상'));
     if(x.link && !x.s3_key) return '<div class="nm-it"><span>' + 이름 + ' <span class="sub3">' + 날(x) + '</span></span><a class="btn ghost sm" href="' + esc(x.link) + '" target="_blank" rel="noopener">유튜브 ›</a></div>';
@@ -6944,7 +6970,7 @@ function tabComment대화(){
   }
 
   return '<div class="cols"><div class="sec">'
-    + '<div class="lbl">' + (w ? dateFull(w.on_date) + ' · ' + esc(w.kind||'') + ' · 종목별 피드백'
+    + '<div class="lbl" id="cmleft">' + (w ? dateFull(w.on_date) + ' · ' + esc(w.kind||'') + ' · 종목별 피드백'
         : '종목별 피드백') + '</div>' + 왼쪽 + '</div>'
     + '<div class="sec">' + 오른쪽 + '</div></div>' + 노션영상칸(S.mid);
 }
@@ -7465,7 +7491,7 @@ function 챗대화(){
     방들.sort((p, q) => { const x = (챗.글.filter(m => m.room === p).slice(-1)[0] || {}).created_at || '', y = (챗.글.filter(m => m.room === q).slice(-1)[0] || {}).created_at || ''; return p === 'all' ? -1 : q === 'all' ? 1 : y > x ? 1 : y < x ? -1 : 0; });      /* 최근 대화가 위 (카톡처럼) · 전체방은 맨 위 */
     return '<div class="gc-title">대화</div>' + (모안 ? '<div class="gc-unread">' + 모안 + '개의 안 읽은 글이 있어요<span class="sp"></span><button data-act="tx:gcreadall">모두 읽기</button></div>' : '')
       + '<div class="gc-body list">' + 방들.map(r => { const 끝 = 챗.글.filter(m => m.room === r).slice(-1)[0], 이 = 챗방이름(r), 안 = 챗안읽음(r), 색 = r === 'all' ? '#e9cf9b' : (선생님색(이) || '#d9d4cb');
-      return '<button class="gc-room" data-act="tx:gcroom" data-k="' + esc(r) + '"><span class="av" style="background:' + esc(색) + '">' + esc(r === 'all' ? '전' : 이.slice(0, 1)) + '</span><span class="tx"><b>' + esc(이) + (끝 ? '<em>' + 챗때(끝.created_at) + '</em>' : '') + '</b><small>' + esc(끝 ? (끝.files && 끝.files.length ? '사진 ' : '') + (끝.link ? '🔗 ' + (끝.link.title || '') + ' ' : '') + (끝.body || '') : '대화가 없어요') + '</small></span><span class="t">' + (안 ? '<i>' + 안 + '</i>' : '') + '</span></button>'; }).join('') + '</div>';
+      return '<button class="gc-room" data-act="tx:gcroom" data-k="' + esc(r) + '"><span class="av" style="background:' + esc(색) + '">' + (r === 'all' ? 여럿그림 : 직원그림) + '</span><span class="tx"><b>' + esc(이) + (끝 ? '<em>' + 챗때(끝.created_at) + '</em>' : '') + '</b><small>' + esc(끝 ? (끝.files && 끝.files.length ? '사진 ' : '') + (끝.link ? '🔗 ' + (끝.link.title || '') + ' ' : '') + (끝.body || '') : '대화가 없어요') + '</small></span><span class="t">' + (안 ? '<i>' + 안 + '</i>' : '') + '</span></button>'; }).join('') + '</div>';
   }
   const r = 챗.방, 글 = 챗.글.filter(m => m.room === r);
   return '<div class="gc-rh"><button class="gc-ic" data-act="tx:gcroom" data-k="" title="대화 목록">‹</button><b>' + esc(챗방이름(r)) + '</b></div><div class="gc-body">'
@@ -9405,8 +9431,8 @@ function 청소관리판(){
     + (z.memo ? '<div class="cl-zd">' + esc(z.memo) + '</div>' : '')
     + '<div class="cl-its">' + (할일들(z).length ? 할일들(z).map(x => 청소줄(x, z.id)).join('') : '<div class="sub3">아직 청소가 없어요</div>') + '</div>'
     + (고칠 && 순 && 순.zid === z.id ? '<div class="c"><small>▲▼ 로 차례를 바꾸고 저장해요</small><span class="bp-act"><button class="btn ghost sm" data-act="tx:clordx">취소</button><button class="btn gold sm" data-act="tx:clordok">순서 저장</button></span></div>'
-    : 고칠 ? '<div class="c"><small></small><span class="bp-act">' + (할일들(z).length > 1 ? '<button class="btn ghost sm" data-act="tx:clord" data-v2="' + esc(z.id) + '">순서</button>' : '') + '<button class="btn sub sm" data-act="tx:cladd" data-v2="' + esc(z.id) + '">＋ 청소 추가</button>' + (z.kind !== '당직' ? '<button class="btn sub sm" data-act="tx:clwho" data-v2="' + esc(z.id) + '">담당 수정</button>' : '')
-    + '<button class="btn ghost sm" data-act="tx:clzone" data-v2="' + esc(z.id) + '">구역 수정</button></span></div>' : '') + '</div>'; };
+    : 고칠 ? '<div class="c"><small></small><span class="bp-act">' + (할일들(z).length > 1 ? '<button class="btn ghost sm" data-act="tx:clord" data-v2="' + esc(z.id) + '">순서</button>' : '') + '<button class="btn sub sm" data-act="tx:cladd" data-v2="' + esc(z.id) + '">＋ 청소 추가</button>' + (z.kind !== '당직' ? '<button class="btn ed sm" data-act="tx:clwho" data-v2="' + esc(z.id) + '">담당 수정</button>' : '')
+    + '<button class="btn ed sm" data-act="tx:clzone" data-v2="' + esc(z.id) + '">구역 수정</button></span></div>' : '') + '</div>'; };
   const 쓰임 = new Set(); 구.forEach(z => (z.items || []).forEach(id => 쓰임.add(id)));
   const 켜 = (청소.목 || []).filter(x => x.active !== false), 꺼 = (청소.목 || []).filter(x => x.active === false), 없는 = 켜.filter(x => !쓰임.has(x.id));
   const 없줄 = x => '<div class="bp-row2"><div class="a"><b>' + 청소글(x) + '</b><span style="margin-left:auto"><button class="btn sub sm" data-act="tx:clmove" data-v2="' + esc(x.id) + '">구역에 넣기</button><button class="btn ghost sm" data-act="tx:cloff" data-v2="' + esc(x.id) + '">삭제</button></span></div></div>';
@@ -10723,10 +10749,11 @@ const 이번분기 = (d) => { const x = d ? new Date(d) : new Date();
    프로필 사진은 작으니 **staff.photo 에 그림 자체를 담는다** — 권한도 만료도 없다 */
 async function 사진채우기(){ return; }
 /* 사람 하나를 동그란 사진으로 — 사진이 없으면 지금처럼 이름 두 글자 */
+const 직원그림 = '<svg class="pfi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>', 여럿그림 = '<svg class="pfi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14a6.5 6.5 0 0 1 3.5 6"/></svg>';      /* 트레이너 사진 없을 때 · 단체 방 (2026-11-03 대표) */
 function 얼굴(p, 크기){
   const sz = 크기 || 30;
   const url = (p && p.photo) || '';
-  const 속 = url ? '<img src="'+esc(url)+'" alt="">' : esc(((p&&p.name)||'?').slice(-2));
+  const 속 = url ? '<img src="'+esc(url)+'" alt="">' : 직원그림;      /* 이름 두 글자 → 사람 그림 (2026-11-03 대표 「트레이너는 사진 없으면 사람 모습」) */
   const 칠 = url ? '' : 사람색칠((p&&p.name)||'');      /* 사진이 없으면 트레이너 고유색 */
   return '<span class="tx-face tx-c-'+esc((p&&p.color)||'gray')+'" '
     + 'style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz*0.34)+'px' + (칠 ? ';' + 칠 : '') + '" '
@@ -10735,7 +10762,7 @@ function 얼굴(p, 크기){
 /* 담당자 동그라미 = 트레이너 고유색 (2026-10-19 대표 「업무 데이터베이스를 비롯 모든 담당자 매핑에는 고유색으로」 · 정본 데이터/선생님_색.json) */
 const 사람색칠 = n => { const 반 = 선생님반전(n), 색 = 선생님색(n); return 반 ? 'background:' + esc(반.색) + ';color:' + esc(반['글자'] || '#131312') : 색 ? 'background:' + esc(색) + ';color:#131312' : ''; };
 const 아바타 = id => { const p = 사람(id), 칠 = 사람색칠(p.name);
-  return '<span class="tx-av tx-c-'+esc(p.color||'gray')+'"' + (칠 ? ' style="' + 칠 + '"' : '') + ' title="'+esc(p.name)+'">'+esc((p.name||'?').slice(-2))+'</span>'; };
+  return '<span class="tx-av tx-c-'+esc(p.color||'gray')+'"' + (칠 ? ' style="' + 칠 + '"' : '') + ' title="'+esc(p.name)+'">'+직원그림+'</span>'; };
 /* 이름 딱지 — 동그라미(이름 끝 두 글자) + 이름을 나란히 두면 「인수 양인수」처럼 두 번 읽힌다 (2026-10-20 대표 「그냥 양인수 자체를 색을 입혀야지」) → 이름 하나에 그 사람 고유색 */
 const 이름딱지 = id => { const p = 사람(id), 칠 = 사람색칠(p.name);
   return '<span class="tx-nm tx-c-'+esc(p.color||'gray')+'"' + (칠 ? ' style="' + 칠 + '"' : '') + ' title="'+esc(p.name||'')+'">'+esc(보임이름(p.name)||'?')+'</span>'; };
@@ -14148,7 +14175,7 @@ function vHome(){
   const 사진비 = (g.ratio === '4:5') ? '0.8' : '1';
   const 얼굴칸 = (ME && ME.photo)
       ? '<span class="mc-ph" style="--phr:' + 사진비 + '"><img src="' + esc(ME.photo) + '" alt=""></span>'
-      : '<span class="mc-ph none" style="--phr:' + 사진비 + '">' + esc((ME.name||'?').slice(-2)) + '</span>';
+      : '<span class="mc-ph none" style="--phr:' + 사진비 + '">' + 직원그림 + '</span>';
   const 이름표 = ME ? '<button class="mycard big c-'+esc(H.색)+'" data-act="tx:me">'
       + '<span class="mc-top">' + 얼굴칸
         + '<span class="mc-nm">' + esc(ME.name)
@@ -14419,7 +14446,11 @@ function 숫자줄(){
   /* ⭐ 두 단 — **할 일이 있는 것이 윗줄**, 0 인 것은 아랫줄로 내린다
        (2026-09-30 대표 「죽어있는건 아래줄 · 살아있는건 윗줄로」).
      아침마다 보는 화면이라 **눈이 윗줄에서 멈춰야** 한다. */
-  const 다 = 현황칸.filter(c => (!c.보임 || c.보임()) && (!현황허용[c.k] || 현황허용[c.k]())).map(c => ({ c, v: 현황셈하기(c.k) }));
+  /* 관리자 현황판(내가 할 일 / 선생님 현황)은 대표자만 · 나머지(최고 · 중간관리자 포함)는 트레이너처럼 본인 것만 (2026-11-03 대표 「장승훈은 관리자처럼 뜨고 조민철은 안 떠 · 둘 다 본인 것만 · 관리자 현황판은 양인수만」) */
+  const 대표판 = 대표인가(); let 다;
+  현황본인눈 = !대표판;
+  try{ 다 = 현황칸.filter(c => (!c.보임 || c.보임()) && (!현황허용[c.k] || 현황허용[c.k]())).map(c => ({ c, v: 현황셈하기(c.k) })); }
+  finally{ 현황본인눈 = false; }
   const 칸 = (x, i, xs) => '<button class="num' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (i > 0 && 현황묶음(xs[i - 1].c.k) !== 현황묶음(x.c.k) ? ' gs' : '') + '"'
     + ' data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
@@ -14437,7 +14468,7 @@ function 숫자줄(){
   /* 2026-10-14 대표 「없는 것이라는 게 생뚱맞고 정렬도 안 맞고」 → 한 줄로 접고, 펼치면 윗줄처럼 칸을 맞춘다 */
   const 접힘 = 죽.length ? '<div class="nrow zline"><button class="zbtn" data-act="tx:zopen">나머지 <b>' + 죽.length + '가지</b>는 지금 0건입니다<i>' + (S.zOpen ? '접기 ⌃' : '펼치기 ⌄') + '</i></button></div>'
         + (S.zOpen ? '<div class="nrow zgrid">' + 죽.map(없는칸).join('') + '</div>' : '') : '';
-  if(!배정관리자()) return '<div class="homenums">' + 줄(산, '오늘 볼 것이 없습니다 👍') + 접힘 + '</div>';
+  if(!대표판) return '<div class="homenums">' + 줄(산, '오늘 볼 것이 없습니다 👍') + 접힘 + '</div>';
   const 머 = (글, 덧) => '<div class="nh"><b>' + 글 + '</b><small>' + 덧 + '</small></div>';
   return '<div class="homenums two"><div class="ngrp me">' + 머('내가 할 일', '대표 · 관리자가 처리') + 줄(산.filter(x => !선생님칸.has(x.c.k)), '지금 할 일이 없습니다', 7) + '</div>'
     + '<div class="ngrp tr">' + 머('선생님 현황', '선생님들이 처리') + 줄(산.filter(x => 선생님칸.has(x.c.k)), '지금 밀린 일이 없습니다', 7) + 접힘 + '</div></div>';
@@ -15709,21 +15740,54 @@ document.addEventListener('mouseup', async function(){
 });
 
 /* 종목별 추천 피드백 (2026-10-30 결정함 d1030c_fb · 103단계 ex_feedback) — 공용(owner 없음 · 노션) + 내 것 · ⭐ 먼저 · 칩 누르면 칸에 들어감 */
-const 추천목 = exid => (D.exfb || []).filter(x => x.ex_id === exid && (!x.owner || x.owner === 나이름())).sort((a, b) => ((b.stars || []).includes(나이름()) - (a.stars || []).includes(나이름())) || (!!b.owner - !!a.owner) || String(b.created_at || '').localeCompare(String(a.created_at || '')));
-const 추천펼침 = new Set();      /* 칩 12개 넘으면 더 보기 · 접기 */
-function 추천칩(vid, 칸id){ const exid = String(vid || '').split(':')[0]; if(!D.exfb) return ''; const L = 추천목(exid), 나 = 나이름(), 다 = 추천펼침.has(exid);
-  return '<div class="fbp">' + (다 ? L : L.slice(0, 12)).map(x => '<button class="fbc' + ((x.stars || []).includes(나) ? ' star' : '') + '" data-act="tx:fbpick" data-k="' + esc(칸id) + '" data-v2="' + esc(x.id) + '" title="' + esc(x.body) + '"><i data-fbstar="' + esc(x.id) + '">' + ((x.stars || []).includes(나) ? '★' : '☆') + '</i><span>' + esc(x.body) + '</span></button>').join('')
-    + (L.length > 12 ? '<button class="fbc" data-act="tx:fbmore" data-k="' + esc(exid) + '">' + (다 ? '접기' : '더 보기 ' + (L.length - 12)) + '</button>' : '')
-    + '<button class="fbc fbadd" data-act="tx:fbsave" data-k="' + esc(칸id) + '" data-v2="' + esc(exid) + '">＋ 지금 쓴 것 저장</button></div>'; }
-async function 추천저장(칸id, exid){ const 글 = (($('#' + 칸id) || {}).value || '').trim(); if(!글) return toast('저장할 피드백을 먼저 입력해 주세요');
-  if(추천목(exid).some(x => x.body === 글)) return toast('이미 저장된 피드백이에요');
-  const 줄 = { ex_id:exid, body:글, owner:나이름(), src:'직접', stars:[] };
-  try{ const o = await ssend('ex_feedback', 'POST', [줄], 'return=representation'); (D.exfb = D.exfb || []).push((o && o[0]) || Object.assign({ id:'t' + Date.now() }, 줄)); toast('저장했어요 · 이 종목에서 골라 쓸 수 있어요'); 추천다시(); }
-  catch(e){ toast(/ex_feedback|404|42P01/.test(String(e.message)) ? '아직 저장할 수 없어요 · 서버 준비(103단계)가 아직이에요' : '저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
-async function 추천별(id){ const x = (D.exfb || []).find(z => String(z.id) === String(id)); if(!x) return; const 나 = 나이름(), 옛 = x.stars || [], 새 = 옛.includes(나) ? 옛.filter(n => n !== 나) : 옛.concat([나]);
-  x.stars = 새; 추천다시(); try{ await ssend('ex_feedback?id=eq.' + encodeURIComponent(id), 'PATCH', { stars:새 }); }catch(e){ x.stars = 옛; 추천다시(); toast('즐겨찾기를 저장하지 못했어요'); } }
-function 추천다시(){ document.querySelectorAll('.fbp').forEach(e => { const b = e.querySelector('.fbadd'); if(!b) return; const 칸 = b.dataset.k, t = document.createElement('div'); t.innerHTML = 추천칩(b.dataset.v2 + ':a', 칸); e.replaceWith(t.firstChild); }); }
-document.addEventListener('click', e => { const s = e.target.closest && e.target.closest('[data-fbstar]'); if(!s) return; e.stopPropagation(); e.preventDefault(); 추천별(s.dataset.fbstar); }, true);
+/* 지난 피드백 — 이 종목에 내가 쓴 피드백 전부 (2026-11-03 대표 A안 「종목에 썼던 모든 피드백 · ★ 누르면 위로」 · 옛 칩 · 샘플 저장 없앰) */
+const 지난 = { 글:null, 받는중:null, exid:'', 칸:'', 열린:'', 찾기:'', 숨김봄:false, 보:[] };
+async function 지난받기(){ if(지난.글) return 지난.글;
+  if(!지난.받는중) 지난.받는중 = 전부받기('comments?select=variant_id,body,created_at&trainer=eq.' + encodeURIComponent(나이름()) + '&order=created_at.desc,id').then(r => (지난.글 = r)).finally(() => { 지난.받는중 = null; });
+  return 지난.받는중; }
+function 추천칩(vid, 칸id){ const exid = String(vid || '').split(':')[0]; if(!exid) return ''; const n = 지난.글 ? 지난목(exid, 나이름()).filter(o => !o.hid).length : 0;
+  return '<button class="btn sm jfopen" data-act="tx:jfopen" data-k="' + esc(칸id) + '" data-v2="' + esc(exid) + '">지난 피드백' + (n ? ' ' + n : '') + '</button>'; }
+
+const 지난날 = s => s ? (+String(s).slice(5, 7)) + '/' + (+String(s).slice(8, 10)) : '';
+function 지난목(exid, 나){ const 묶 = new Map();      /* 같은 글은 한 장 · n번 씀 · 마지막 쓴 날 */
+  (지난.글 || []).forEach(c => { if(String(c.variant_id || '').split(':')[0] !== exid) return; const b = String(c.body || '').trim(); if(!b) return;
+    const o = 묶.get(b) || { body:b, n:0, last:'' }; o.n += 1; if(String(c.created_at || '') > o.last) o.last = String(c.created_at || ''); 묶.set(b, o); });
+  (D.exfb || []).forEach(x => { if(x.ex_id !== exid || x.owner !== 나) return; const b = String(x.body || '').trim(), o = 묶.get(b);
+    if(o) o.row = x; else if((x.stars || []).includes(나) || x.gone_at) 묶.set(b, { body:b, n:0, last:String(x.created_at || ''), row:x }); });
+  return [...묶.values()].map(o => Object.assign(o, { star:!!(o.row && (o.row.stars || []).includes(나)), hid:!!(o.row && o.row.gone_at) })).sort((a, b) => (b.star - a.star) || b.last.localeCompare(a.last)); }
+function 지난속(이름, 나, 끝){ const 주 = 'btn main sm', 보조 = 'btn ghost sm';  const L = 지난목(지난.exid, 나), q = 지난.찾기.trim(), 보 = L.filter(o => o.hid === 지난.숨김봄 && (!q || o.body.includes(q))), 숨수 = L.filter(o => o.hid).length; 지난.보 = 보;
+  const 카드 = (o, i) => { const 열 = 지난.열린 === o.body;
+    return '<div class="jfc' + (열 ? ' open' : '') + '" data-act="tx:jfcard" data-k="' + i + '"><div class="t">' + esc(o.body) + '</div>'
+      + (열 ? '<div class="act"><button class="' + 주 + ' jfput" data-act="tx:jfput" data-k="' + i + '">불러오기</button>' + (지난.숨김봄 ? '<button class="' + 보조 + '" data-act="tx:jfback" data-k="' + i + '">다시 보이기</button>' : '<button class="' + 보조 + '" data-act="tx:jfhide" data-k="' + i + '">목록에서 숨기기</button>') + '</div>' : '')
+      + '<div class="m"><span>' + (o.n > 1 ? o.n + '번 씀 · ' : '') + 지난날(o.last) + '</span>' + (지난.숨김봄 ? '' : '<button class="jfst' + (o.star ? ' on' : '') + '" data-act="tx:jfstar" data-k="' + i + '" aria-label="즐겨찾기">' + (o.star ? '★' : '☆') + '</button>') + '</div></div>'; };
+  return '<div class="jfh"><b>' + (지난.숨김봄 ? '숨긴 글 · ' : '지난 피드백 · ') + esc(이름) + '</b><button class="jfx" data-act="tx:jfclose" aria-label="닫기">✕</button></div>'
+    + '<div class="jfs">' + (지난.숨김봄 ? '누르면 펼쳐져요 · 「다시 보이기」로 돌아와요' : '내가 쓴 것만 ' + L.filter(o => !o.hid).length + '개 · ★ 먼저 · 최근 순') + '</div>'
+    + (지난.숨김봄 ? '' : '<input class="jfq" id="jfq" placeholder="검색" value="' + esc(지난.찾기) + '">')
+    + '<div class="jfl" id="jfl">' + (보.length ? 보.map(카드).join('') : '<div class="jfs">' + (q ? '검색 결과가 없어요' : 지난.숨김봄 ? '숨긴 글이 없어요' : '이 종목에 쓴 피드백이 아직 없어요') + '</div>') + '</div>'
+    + (숨수 || 지난.숨김봄 ? '<button class="' + 보조 + ' jfhid" data-act="tx:jfhid">' + (지난.숨김봄 ? '돌아가기' : '숨긴 글 ' + 숨수) + '</button>' : ''); }
+function 지난그리기(){ const d = $('#txpop'); if(!d) return; const 이름 = ((D.ex || []).find(e => e.id === 지난.exid) || {}).name || '';
+  d.innerHTML = '<div class="jfw">' + 지난속(이름, 나이름(), 'tx:') + '</div>';
+  const q = $('#jfq'); if(q){ q.oninput = () => { 지난.찾기 = q.value; 지난.열린 = ''; const 새 = document.createElement('div'); 새.innerHTML = 지난속(이름, 나이름(), 'tx:'); const l = $('#jfl'), nl2 = 새.querySelector('#jfl'); if(l && nl2) l.replaceWith(nl2); }; } }
+async function 지난열기(칸id, exid){ Object.assign(지난, { exid, 칸:칸id, 열린:'', 찾기:'', 숨김봄:false });
+  가운데창('<div class="jfw"><div class="jfs">불러오는 중…</div></div>', 600);
+  try{ await 지난받기(); }catch(e){ 쪽지닫기(); return toast('지난 피드백을 불러오지 못했어요'); }
+  지난그리기(); }
+async function 지난줄(o, 값){ const 나 = 나이름();      /* ★ · 숨김 = ex_feedback(owner 나 · ex_id · body) 한 줄 */
+  if(o.row){ await ssend('ex_feedback?id=eq.' + encodeURIComponent(o.row.id), 'PATCH', 값); Object.assign(o.row, 값); return; }
+  const 줄 = Object.assign({ ex_id:지난.exid, body:o.body, owner:나, src:'즐겨찾기', stars:[] }, 값), r = await ssend('ex_feedback', 'POST', [줄], 'return=representation');
+  (D.exfb = D.exfb || []).push(Object.assign({}, 줄, (Array.isArray(r) && r[0]) || {})); }
+async function 지난손(a, k){ const o = 지난.보[+k], 나 = 나이름();
+  if(a === 'jfclose'){ 쪽지닫기(); return; }
+  if(a === 'jfhid'){ 지난.숨김봄 = !지난.숨김봄; 지난.열린 = ''; 지난그리기(); return; }
+  if(!o) return;
+  if(a === 'jfcard'){ 지난.열린 = 지난.열린 === o.body ? '' : o.body; 지난그리기(); return; }
+  if(a === 'jfput'){ const t = $('#' + 지난.칸); 쪽지닫기(); if(t){ t.value = (t.value.trim() ? t.value.replace(/\s+$/, '') + String.fromCharCode(10) : '') + o.body; t.focus(); } return; }
+  try{
+    if(a === 'jfstar'){ const 옛 = (o.row && o.row.stars) || []; await 지난줄(o, { stars:옛.includes(나) ? 옛.filter(n => n !== 나) : 옛.concat([나]) }); }
+    if(a === 'jfhide'){ if(!await 묻기('이 글을 목록에서 숨길까요?' + String.fromCharCode(10) + '회원에게 보낸 피드백은 그대로예요')) return; await 지난줄(o, { gone_at:new Date().toISOString(), gone_by:나 }); 지난.열린 = ''; }
+    if(a === 'jfback'){ if(!await 묻기('이 글을 다시 보이게 할까요?')) return; await 지난줄(o, { gone_at:null, gone_by:null }); 지난.열린 = ''; }
+  }catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); }
+  지난그리기(); document.querySelectorAll('.jfopen').forEach(b => { const n = 지난목(b.dataset.v2, 나).filter(x => !x.hid).length; b.textContent = '지난 피드백' + (n ? ' ' + n : ''); }); }
 /* ══ 피드백 남기기 ══ **여기 하나**가 실행한다 (2026-09-29 대표
      「입구도 여러개 실행도 여러개인 작업은 없는지」).
    입구는 둘이어도 된다 — 회원판 「보내기」 · 빠른 피드백 「보내기」.
@@ -16322,9 +16386,8 @@ async function txAct(a, el){
   if(a==='secst'){ 보안판.글 = (($('#secact') || {}).value); 보안판.고름 = v2; 보안조치창(k); return; }
   if(a==='secsave'){ await 보안조치저장(k); return; }
   if(a==='sgcur'){ const [m0, s0] = String(k).split('|'); await 진행중으로(m0, s0); return; }
-  if(a==='fbpick'){ const x = (D.exfb || []).find(z => String(z.id) === String(v2)), t = $('#' + k); if(x && t){ t.value = (t.value.trim() ? t.value.replace(/\s+$/, '') + String.fromCharCode(10) : '') + x.body; t.focus(); } return; }
-  if(a==='fbsave'){ await 추천저장(k, v2); return; }
-  if(a==='fbmore'){ if(추천펼침.has(k)) 추천펼침.delete(k); else 추천펼침.add(k); 추천다시(); return; }
+  if(a==='jfopen'){ await 지난열기(k, v2); return; }      /* 지난 피드백 (2026-11-03 A안) */
+  if(a==='jfclose' || a==='jfhid' || a==='jfcard' || a==='jfput' || a==='jfstar' || a==='jfhide' || a==='jfback'){ await 지난손(a, k); return; }
   if(a==='rsphoto'){ 사진표고르기(); return; }
   if(a==='spon'){ const [i, j] = String(k).split('|').map(Number), x = 사진표 && 사진표.routines[i] && 사진표.routines[i].items[j]; if(x){ x.on = !x.on; 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진표판(); } return; }
   if(a==='spvar'){ 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진그림판(k); return; }
@@ -17743,8 +17806,40 @@ function 네임텍입히기(){ const b = document.getElementById('body'); if(!b 
   b.querySelectorAll('.sumit:not(.nt)').forEach(t => { const k = t.querySelector('.k2'); if(!k) return; const 이름 = k.textContent.replace(/[›>]/g, '').trim(); if(!이름) return;
     t.classList.add('nt'); t.style.setProperty('--c', t.style.getPropertyValue('--c') || 네임텍색(이름)); k.dataset.gi = 네임텍글자(이름); });
   b.querySelectorAll('.sec > .lbl:first-child:not(.nt)').forEach(l => { const s = l.parentElement; if(s.closest('.tgrp, .as-qc, .pop')) return; const 이름 = (l.childNodes[0] && l.childNodes[0].textContent || l.textContent).replace(/[\d,]+\s*(건|명|개|일)?\s*$/, '').trim(); if(!이름 || /^\d/.test(이름)) return;      /* 날짜 머리(2026. 10. 27)는 네임텍 안 붙임 */
-    l.classList.add('nt'); s.classList.add('ntsec'); s.style.setProperty('--c', s.style.getPropertyValue('--c') || 네임텍색(이름)); l.dataset.gi = 네임텍글자(이름); }); }
+    l.classList.add('nt'); s.classList.add('ntsec'); s.style.setProperty('--c', s.style.getPropertyValue('--c') || 네임텍색(이름)); l.dataset.gi = 네임텍글자(이름); }); 네모아이콘입히기(); }      /* 네임텍은 class 만 바꿔서 지켜보기에 안 걸린다 — 끝에 바로 아이콘 */
 new MutationObserver(() => { clearTimeout(네임텍입히기.t); 네임텍입히기.t = setTimeout(네임텍입히기, 0); }).observe(document.getElementById('body') || document.body, { childList:true, subtree:true });
+/* ══ 색 네모 아이콘 ══ 2026-11-03 대표 노션 「의미 없이 카드 앞자가 다 들어가 있다(VOC 의 V · 재등록 임박의 재)」 → 시안 A
+   모든 색 네모(.gi · 네임텍 .nt 첫 글자)에 그 칸 이름에 맞는 그림 하나 — 표는 여기 하나 · 위에서부터 먼저 맞는 것 · 표에 없는 이름은 점(시험 데스크네모아이콘이 찾아 알림)
+   ⛔ 새 칸을 만들면 이름이 표에 걸리는지 본다. 첫 글자로 되돌리지 않는다 */
+const 네모길 = {
+  청소:'M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8zM18 15l.8 1.7 1.7.8-1.7.8L18 20l-.8-1.7-1.7-.8 1.7-.8z',
+  상자:'M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7M12 11v10', 말:'M4 5h16v11H9l-5 4z', 전화:'M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 4 5a2 2 0 0 1 2-2z',
+  돌기:'M20 11a8 8 0 0 0-14.5-4.5M4 3v4h4M4 13a8 8 0 0 0 14.5 4.5M20 21v-4h-4', 덤벨:'M6 7v10M3 10v4M18 7v10M21 10v4M6 12h12',
+  사람:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0', 별:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z',
+  휴지통:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6', 보냄:'M21 3L3 10l7 3 3 7zM10 13l11-10', 경고:'M12 3l10 18H2zM12 10v4M12 17v.5',
+  그림:'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4M15 9h.01', 돈:'M12 3v18M7 7h7a3 3 0 0 1 0 6H8a3 3 0 0 0 0 6h9', 문서:'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
+  공지:'M4 10v4h3l6 4V6L7 10zM17 9a4 4 0 0 1 0 6', 할일:'M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2',
+  시계:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2', 달력:'M4 5h16v15H4zM4 10h16M8 3v4M16 3v4', 점검:'M8 4h8v3H8zM6 5H5v16h14V5h-1M9 13l2 2 4-4',
+  몸:'M3 12h4l3-7 4 14 3-7h4', 식단:'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 3-3 6s1 3 3 3v9', 자물쇠:'M6 11h12v10H6zM8 11V7a4 4 0 0 1 8 0v4',
+  진행:'M7 4l13 8-13 8z', 더하기:'M12 5v14M5 12h14', 완료:'M4 12l5 5L20 6', 점:'M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0' };
+const 네모표 = [[/보내는 때|몇 시|시간대/, '시계'], [/당직|공휴일|휴무/, '달력'], [/구역/, '청소'], [/고객|성별/, '사람'], [/^최근/, '시계'], [/직접 추가|새로 추가/, '더하기'], [/입력한|후보/, '할일'], [/청소/, '청소'], [/비품|구매/, '상자'], [/VOC|소리|건의/, '말'], [/휴지통|삭제|사라짐/, '휴지통'], [/못 ?보냄|실패|못 받|오류/, '경고'],
+  [/재등록|만료|컴백/, '돌기'], [/상담|연락|부름/, '전화'], [/피드백|대화|요청|댓글/, '말'], [/즐겨찾기|★/, '별'], [/발송|보냄|보내/, '보냄'],
+  [/자료|초상권|사진|홍보|준비 완료/, '그림'], [/매출|결제|PT 매출|돈/, '돈'], [/리포트|보고/, '문서'], [/공지|필독|숙지|매뉴얼|강의/, '공지'], [/업무|할 일|일정/, '할일'],
+  [/점검|확인|돌아보기/, '점검'], [/인바디|체형|몸|체중/, '몸'], [/식단|칼로리/, '식단'], [/락커/, '자물쇠'], [/이번 주|주간|달력|연차|휴가/, '달력'],
+  [/대기|나중|기다|보내는 때|시간|일 뒤|일 안|예약/, '시계'], [/루틴|운동|수업|준비운동|스트레칭|TG|체험|가이드|종목/, '덤벨'], [/회원|담당|선생님|트레이너|분$|사람/, '사람'],
+  [/진행/, '진행'], [/완료|종료|끝/, '완료'], [/전체/, '할일']];
+const 네모주소들 = {};
+const 네모열쇠 = 이름 => { const t = String(이름 || ''); if(t && (W.staff || []).some(p => p && p.name && t.replace(/\s/g, '').startsWith(p.name))) return '사람';      /* 선생님 이름 묶음(조민철 · 장승훈 …) = 사람 (2026-11-03 대표 「(장)장승훈」) */ const 찾 = 네모표.find(([r]) => r.test(t)); return 찾 ? 찾[1] : '점'; };
+const 네모주소 = 이름 => { const k = 네모열쇠(이름); return 네모주소들[k] || (네모주소들[k] = 'url("data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#121211" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="' + 네모길[k] + '"/></svg>') + '")'); };
+const 네모이름 = e => { if(e.classList.contains('gi')){ const h = e.parentElement || e; const 글 = [...h.childNodes].filter(n => n !== e && (n.nodeType === 3 || (n.nodeType === 1 && n.matches('b,strong')))).map(n => n.textContent).join(' ').trim(); return 글 || (h.textContent || '').replace(e.textContent, '').trim(); }
+  const k = e.matches('.sumit') ? (e.querySelector('.k2') || e) : e; return ((k.childNodes[0] && k.childNodes[0].textContent) || k.textContent || '').trim(); };
+function 네모아이콘입히기(){ document.querySelectorAll('.gi:not(.icx), .nt:not(.icx)').forEach(e => { if(e.closest('.mn-pin') || e.matches('.as-q, .ntsec')) return;
+  if(e.matches('.nt') && !e.matches('.sumit, .lbl')) return;
+  const 이름 = 네모이름(e); e.dataset.ick = 네모열쇠(이름); e.style.setProperty('--ic', 네모주소(이름)); e.classList.add('icx');
+  if(e.dataset.ick === '사람'){ const t = 이름.replace(/\s/g, ''), p = (W.staff || []).find(x => x && x.name && t.startsWith(x.name)); if(p && p.photo){ e.style.setProperty('--ic', 'url("' + p.photo + '")'); e.classList.add('icph'); } }      /* 선생님 사진이 있으면 사진 (2026-11-03) */
+  if(e.classList.contains('gi')){ e.setAttribute('aria-hidden', 'true'); } }); }
+let 네모예약 = 0;
+new MutationObserver(() => { if(네모예약) return; 네모예약 = requestAnimationFrame(() => { 네모예약 = 0; try{ 네모아이콘입히기(); }catch(e){} }); }).observe(document.documentElement, { childList: true, subtree: true });
 function 구분머리꾸밈(h, 이름){
   const 글 = [...h.childNodes].filter(x => x.nodeType === 3 && x.textContent.trim()), 끝 = 글[글.length - 1];
   const m = 끝 && 끝.textContent.match(/^(.*?)[\s·]*(\d+)\s*(건|개|명)?\s*$/);
@@ -18096,7 +18191,10 @@ document.addEventListener('click', async function(ev){
   if(cw){ S.cmw = cw.dataset.cmw; S.cmopen = null; S.cmprev = null;
     const w0 = D.w.find(x=>x.id===S.cmw);
     if(w0){ S.cday = w0.on_date; S.calMonth = w0.on_date.slice(0,7); }
-    render(); return; }
+    render();
+    /* 고른 수업의 종목별 피드백은 왼쪽 위에 나온다 — 아래에서 누르면 바뀐 게 안 보이고 화면이 노션 칸으로 밀렸다(2026-11-02 대표 「아무 반응 없이 왜 이동하지」) → 그 자리로 올림 */
+    setTimeout(() => { const 왼 = document.getElementById('cmleft'); if(왼 && 왼.getBoundingClientRect().top < 60){ 왼.style.scrollMarginTop = '140px'; 왼.scrollIntoView({ block: 'start', behavior: 'smooth' }); } }, 80);      /* render 뒤 「스크롤 그대로」가 끝난 다음에 올림 */
+    return; }
 
   /* 회원 상태 막대·칩 — 누르면 그 상태만, 같은 걸 또 누르면 풀린다 (2026-09-22) */
   const kt = t.closest('[data-mkind]');
