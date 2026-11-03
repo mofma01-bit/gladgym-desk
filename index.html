@@ -3004,6 +3004,8 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .pz-save{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:10px}
 @media (max-width:760px){.rcb{grid-template-columns:1fr}.rcex{grid-template-columns:1fr}.rcfoot{grid-template-columns:1fr}}
 .rtgrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:4px 0 12px}.rtc2{display:flex;flex-direction:column;gap:5px;background:var(--dark-2,#1b1a17);border:1px solid var(--line);border-radius:14px;padding:8px 8px 10px}.rtc2 b{font-size:14px;line-height:1.3}.rtc2 small{font-size:13px;color:var(--sub)}.rtc2 .rsi{width:100%}
+.lshero{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;width:100%;min-height:150px;margin:6px 0 14px;padding:28px 30px;border-radius:22px;border:1.5px solid #5a5246;cursor:pointer;color:#fff;font:inherit;text-align:left;background-color:#2a2620;background-size:cover;background-position:right center}.lshero b{font-size:28px;font-weight:900;letter-spacing:-.5px}.lshero .go{background:var(--cream);color:#2a1c14;border-radius:999px;padding:9px 18px;font-weight:800;font-size:15px}
+.lsbig.lssm{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 20px}.lsbig.lssm .lsb{min-height:0;padding:14px 16px;border-radius:14px}.lsbig.lssm .lsb b{font-size:16px}.lsbig.lssm .lsb small{font-size:13px;margin-top:4px}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3144,7 +3146,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '557';
+const BUILD = '559';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -5899,6 +5901,7 @@ function 루틴표보기(s){
     + (고 && !스 ? '<button class="btn sm rs-photo" data-act="tx:rsphotox" data-k="' + esc(s.id) + '">' + 사진아이콘 + '사진으로 다시 만들기</button>' : '')
     + '<button class="btn gold sm" data-act="tx:sgive" data-k="' + esc(s.id) + '">회원에게 주기</button>'
     + (고 ? '<button class="btn ed sm" data-act="tx:rsmeta" data-k="' + esc(s.id) + '">루틴표 수정</button>' : '')
+    + (고 && 루틴표고침(s) ? '<button class="btn ghost sm wn" data-act="tx:rshide" data-k="' + esc(s.id) + '">루틴표 삭제</button>' : '')      /* 수정 창 안이 아니라 수정 옆에 (2026-11-03 대표) */
     + (s.owner !== 나이름() ? '<button class="btn ghost sm" data-act="tx:rscopy" data-k="' + esc(s.id) + '">복사해서 내 루틴표로</button>' : '') + '</div>'
     + (s.note ? '<div class="rsp-note">' + esc(s.note) + '</div>' : '')
     + (L.length ? L.map(줄).join('') : '<div class="empty why"><b>아직 루틴이 없습니다</b>' + (고 ? '아래 「＋ 루틴 추가」로 만들어 주세요' : '만든 선생님이 추가하면 보입니다') + '</div>')
@@ -6000,7 +6003,7 @@ function 루틴표정보판(id){ const s = id ? (D.rs || []).find(x => x.id === 
       + '<div class="rs-sw">' + 표지색들.map(x => '<button class="' + (!c.path && !c.img && c.color === x ? 'on' : '') + '" style="background:' + x + '" data-act="tx:rscolor" data-k="' + x + '" title="글자 표지"></button>').join('') + '</div>'
       + '<label class="btn ghost sm rs-up">사진 올리기<input type="file" accept="image/*" id="rsfile" hidden></label>' + (c.path ? '<button class="btn ghost sm" data-act="tx:rscolor" data-k="' + esc(c.color || 표지색들[0]) + '">사진 삭제</button>' : '') + '</div></div>'
     + '<label>안내<textarea class="inp" id="rsno" rows="3" placeholder="예) 운동 전 필수 — 폼롤러 마사지 · 고관절 스트레칭 후 밴드 워크로 웜업">' + esc(표편.note) + '</textarea></label>'
-    + '<div class="cmacts"><button class="btn gold" data-act="tx:rssave">저장</button>' + (s && 루틴표고침(s) ? '<button class="btn ghost wn" data-act="tx:rshide" data-k="' + esc(s.id) + '">루틴표 삭제</button>' : '') + '</div></div>'); }
+    + '<div class="cmacts"><button class="btn gold" data-act="tx:rssave">저장</button>' + '' + '</div></div>'); }
 function 루틴표값읽기(){ if(!표편) return; const t = document.getElementById('rsti'), n = document.getElementById('rsno'); if(t) 표편.title = t.value; if(n) 표편.note = n.value; }
 async function 루틴표저장(){ 루틴표값읽기(); if(!표편) return; if(!표편.title.trim()){ toast('이름을 입력해 주세요'); return; }
   const 새 = !표편.id; if(!await 묻기((새 ? '루틴표를 만들까요?' : '루틴표를 수정할까요?') + String.fromCharCode(10) + 표편.title.trim())) return;
@@ -17394,22 +17397,26 @@ function v관리자할것(){
     + 카드('#A8A2E1', '재등록', '재등록 임박', 재.map(o => '<button class="card click rowc" data-m="' + esc(o.m.id) + '"><div><div class="t1">' + esc(o.m.name || '') + '</div><div class="t2">PT 남은 ' + o.남 + '회' + (o.끝 ? ' · ' + esc(o.끝.slice(5).replace('-', '/')) + ' 끝' : '') + ' · 담당 ' + esc(o.m.trainer || '없음') + '</div></div><span class="rt">›</span></button>'), '', '')
     + '</div>';
 }
-function vToday(){
+function vToday(수업판){      /* 수업판 = 「수업 기록」 화면 — 앱 오늘처럼 예약 · 개인운동 지정 두 칸 (2026-11-03) */
   const mine = m => S.who==='전체' || (memOf(m).trainer||'')===S.who;
   const 오늘운동 = D.w.filter(w=>w.on_date===TODAY && mine(w.member_id));
   const 지정 = (D.m || []).filter(m => (m.role || 'member') === 'member' && mine(m.id)).map(m => [m, 오늘루틴(m.id)]).filter(o => o[1]);      /* 오늘 루틴 (2026-10-27 대표 「개인운동 지정은 없는데 버튼이?」) */
   if(typeof 예약률 !== 'undefined' && !예약률.답 && !예약률.중 && Date.now() - (예약률.때 || 0) > 600000) setTimeout(예약률받기, 0);
   const 예약 = 오늘예약목록();
-  const 예약칸 = 예약 == null ? '' : '<div class="sec"><div class="lbl">오늘 예약 ' + 예약.length + '명<span class="r" style="font-weight:500;color:var(--sub)">CRM 예약</span></div>'
+  const 예약칸 = 예약 == null ? '' : '<div class="sec"><div class="lbl">' + (수업판 ? '오늘 수업 예약 ' : '오늘 예약 ') + 예약.length + '명<span class="r" style="font-weight:500;color:var(--sub)">CRM 예약</span></div>'
     + 몇줄('예약', '오늘 예약', 예약.map(x => { const 기록 = x.m && 오늘운동.some(w => w.member_id === x.m.id);
         return '<' + (x.m ? 'button class="card click rowc tdbk' + (기록 ? ' done' : '') + '" data-act="tx:lsgorec" data-k="' + esc(x.m.id) + '"' : 'div class="card rowc tdbk"') + '>'      /* 누르면 바로 기록 (2026-10-24 대표 「예약자를 누르면 바로 시작」) */
-          + '<div><div class="t1">' + esc(x.name || '') + '</div><div class="t2">' + esc(x['종목'] || '수업') + ' 예약 ' + esc(x['시각'] || '') + (S.who === '전체' ? ' · ' + esc(예약이름(x.담당)) : '') + '</div></div>'
-          + '<span class="tag ' + (기록 ? 'teal' : '') + '">' + (기록 ? '기록함' : x['상태'] === '완료' ? '출석' : x['상태'] === '노쇼' ? '노쇼' : '수업 전') + '</span></' + (x.m ? 'button' : 'div') + '>'; }),
+          + (x.m ? (f => { const 갈 = { PT:'PT', 서비스:'PT', 가이드:'TG', 체험:'체험' }[x['종목']]; return 갈 && f.includes('>회원<') ? f.replace('>회원<', '>' + 갈 + '<') : f; })(회원얼굴(x.m.id, 30)) + ' ' : '') + '<div style="flex:1;min-width:0"><div class="t1">' + esc(x.name || '') + '</div><div class="t2">' + esc(x['시각'] || '') + ' · ' + esc(x['종목'] || '수업') + (S.who === '전체' ? ' · ' + esc(예약이름(x.담당)) : '') + '</div></div>'
+          + '<span class="tag ' + (기록 ? 'teal' : x['상태'] === '노쇼' ? '' : 'gold') + '">' + (기록 ? '기록함' : x['상태'] === '완료' ? '출석' : x['상태'] === '노쇼' ? '노쇼' : '수업하기') + '</span></' + (x.m ? 'button' : 'div') + '>'; }),      /* 「수업 전」 → 「수업하기」 (2026-11-03 대표) */
       '<div class="empty why"><b>오늘 CRM 예약이 없습니다</b>예약이 들어오면 매시 정각에 여기 나와요</div>') + '</div>';
   /* ⛔ 「일주일 넘게 안 온 회원」은 **뺐다** (2026-09-29).
        `w.done` 만 세서 **오늘 운동 중인 사람이 「기록 없음」** 으로 떴고,
        앱을 한 번도 안 쓴 회원까지 전부 들어왔다. 안 온 사람이 아니라 앱을 안 쓰는 사람이었다.
        진짜 안 오신 분은 **브로제이 출입 기준 「잠수 회원」** 이 맞다 — 매주 업무로 올라온다. */
+  const 지정칸 = '<div class="sec"><div class="lbl">' + (수업판 ? '오늘 개인운동 지정한 회원 ' : '오늘 루틴 ') + 지정.length + '명' + '<span class="r" data-act="tx:go" data-k="rtmake">＋ 루틴표 주기</span></div>'
+    + 몇줄('지정', '오늘 루틴', 지정.map(o => '<button class="card click rowc gold" data-m="' + esc(o[0].id) + '">' + 회원얼굴(o[0].id, 30) + ' <div style="flex:1;min-width:0"><div class="t1">' + esc(o[0].name || '') + '</div><div class="t2">' + esc(o[1].글) + '</div></div><span class="rt">›</span></button>'),
+      '<div class="empty">오늘 개인운동을 지정한 회원이 없습니다<br><button class="btn gold sm" data-act="tx:go" data-k="rtmake" style="margin-top:10px">＋ 루틴표 주기</button></div>') + '</div>';
+  if(수업판) return '<div class="cols">' + (예약칸 || '<div class="sec"><div class="lbl">오늘 수업 예약</div><div class="empty">예약을 불러오는 중이에요</div></div>') + 지정칸 + '</div>';      /* 앱 오늘 화면과 같은 두 칸 */
   return '<div class="cols3">' + 예약칸
     + '<div class="sec"><div class="lbl">오늘 운동 ' + 오늘운동.length + '건</div>'
     + 몇줄('운동', '오늘 운동', 오늘운동.map(w=>'<button class="card click rowc" data-m="' + esc(w.member_id) + '">'
@@ -17718,9 +17725,10 @@ function render0(){
   } else if(S.view==='lesson'){      /* 수업 기록 — 큰 단추 넷 + 오늘 예약 (2026-10-23 대표 메뉴 모음 시안) */
     top.innerHTML = '<h1>수업 기록</h1><span class="cnt">' + dateFull(TODAY) + '</span>';
     const 칸 = 수업판칸.filter(([v]) => 할수(v)), 피 = +((document.getElementById('cmbdg') || {}).textContent || 0), 리 = +((document.getElementById('rsbdg') || {}).textContent || 0);
-    b.innerHTML = '<div class="lsbig">' + 칸.map(([v, 이름, 말]) => '<button class="lsb" type="button" data-act="tx:lsgo" data-k="' + v + '"><b>' + 이름 + '</b><small>' + (v === 'cmall' && 피 ? '남겨 주세요 ' + 피 : v === 'reports' && 리 ? '확인할 것 ' + 리 : 말) + '</small></button>').join('')
+    b.innerHTML = (칸.some(([v]) => v === 'today') ? '<button class="lshero" type="button" data-act="tx:lsgo" data-k="today" style="background-image:linear-gradient(100deg,rgba(20,19,17,.94) 35%,rgba(20,19,17,.45)),url(' + 앱터 + 'img/hero-rack.jpg)"><b>회원을 찾아 기록합니다</b><span class="go">회원 검색</span></button>' : '')      /* 앱 오늘 화면과 같은 큰 카드 (2026-11-03) */
+      + '<div class="lsbig lssm">' + 칸.filter(([v]) => v !== 'today').map(([v, 이름, 말]) => '<button class="lsb" type="button" data-act="tx:lsgo" data-k="' + v + '"><b>' + 이름 + '</b><small>' + (v === 'cmall' && 피 ? '남겨 주세요 ' + 피 : v === 'reports' && 리 ? '확인할 것 ' + 리 : 말) + '</small></button>').join('')
       + '<button class="lsb lssmp" type="button" data-act="tx:smpopen"><b>📱 회원 화면 샘플</b><small>회원에게 앱 쓰는 법 보여 주기 · 저장 안 됨</small></button></div>'      /* 2026-10-28 결정함 sample=a · 10-30 대표 「티도 안 나고 끼여 있다」 → 큰 단추 줄 안 같은 꼴 카드 */
-      + (할수('today') ? '<div id="lstoday"></div>' + vToday() : '');
+      + (할수('today') ? '<div id="lstoday"></div>' + vToday(true) : '');
   } else if(S.view==='today'){
     top.innerHTML = '<h1>오늘 운동</h1><span class="cnt">' + dateFull(TODAY) + '</span>';
     b.innerHTML = vToday();
