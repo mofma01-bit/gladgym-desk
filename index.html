@@ -1756,6 +1756,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .lc-link{margin-bottom:10px}.lc-h{font-size:20px;margin:4px 0 4px}.lc-body{margin-top:12px}
 .lc-nx{display:flex;align-items:center;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}.lc-nx .sp{flex:1}.lc-ok{color:#8fd1c4;font-weight:800;font-size:14px}
 @media (max-width:820px){ .lc{grid-template-columns:1fr} .lc-side{border-right:0;border-bottom:1px solid var(--line);max-height:40vh} }
+.tx-tag.tx-reg{background:#1e343b;color:#bfe6ec;border:1px solid #3f7281;margin-left:6px}
 .wdel{margin-left:8px;padding:5px 12px;border-radius:999px;border:1px solid #6a3a32;color:#ffb4a9;font-size:13px;font-weight:800;cursor:pointer}.wdel:hover{background:#2a1916}
 .dk-notice{display:flex;align-items:center;gap:10px;width:100%;background:#211e18;border:1px solid #5a4a2c;border-radius:12px;padding:11px 14px;color:var(--cream);font:inherit;cursor:pointer;text-align:left}
 .dk-notice .i{font-size:17px}.dk-notice b{color:var(--gold);font-size:15px}.dk-notice .m{color:var(--sub);font-size:14px;font-weight:700}.dk-notice em{margin-left:auto;font-style:normal;color:var(--gold);font-weight:800;font-size:14px}
@@ -3237,7 +3238,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '592';
+const BUILD = '593';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10446,7 +10447,9 @@ function 예상판그리기(){
    이번 주(월요일) 본인 줄이 sales_forecast 에 없으면 그 주 내내 뜬다(월요일 연차 → 화요일에 뜸) · 「입력」 또는 「예상 매출 없음」만 멈춘다 · 오늘 하루 닫기 없음 · ✕ = 30분 뒤 다시
    대상 = 점검 표(중앙 weekly)에 이름이 있는 PT 선생님 본인 — 대표 · 관리만 하는 분은 안 뜸 · 금요일 돌아보기에는 이제 예상 매출이 없다 */
 const 이번주월 = () => { const d2 = 점검.답['이번']; if(d2 && d2['주']) return d2['주']; const t = new Date(TODAY + 'T00:00:00'), w = (t.getDay() + 6) % 7; t.setDate(t.getDate() - w); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); };
-const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답['이번']; return !!나 && !!d2 && Object.keys(d2['표'] || {}).includes(나); };
+const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답['이번']; if(!나 || 대표인가()) return false; if(d2 && Object.keys(d2['표'] || {}).includes(나)) return true; const g = 등급of(ME); return g === '트레이너' || g === '중간관리자'; };      /* 점검 표에 이름이 없거나 아직 안 왔어도 트레이너 · 중간관리자는 대상 (2026-11-04 20:08 대표 캡처 — 송영림 화면에 카드가 안 뜸) */
+const 예상팝업키 = () => 'gg_fcp_' + ((ME && ME.name) || '') + '_' + 이번주월();
+const 예상팝업본 = () => { try{ return localStorage.getItem(예상팝업키()) === '1'; }catch(e){ return false; } };      /* 팝업은 그 주 한 번만 — 그다음은 현황판 빛남 (2026-11-04 20:08 대표 「팝업은 한번만 그다음엔 현황판에 빛나게」) */
 const 예상미입력 = () => { const d2 = 점검.답['이번'], 주 = 이번주월(); if(!d2 || !점검메모.줄) return []; return Object.keys(d2['표'] || {}).filter(n => !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
 const 예상이번주 = () => { const 나 = (ME && ME.name) || '', 주 = 이번주월(); return (점검메모.예상 || []).some(x => x.trainer === 나 && x.week === 주); };
 function 예상팝업열기(강제){
@@ -10454,11 +10457,11 @@ function 예상팝업열기(강제){
   if(!점검.답['이번']){ 점검받기(); if(!강제) return; }
   if(!점검메모.줄){ 점검메모받기(); if(!강제) return; }
   if(!강제 && (!예상대상() || 예상이번주())) return;
-  if(!강제 && 팝업막힘('예상')) return;      /* ✕ = 30분 뒤 다시 (팝업 줄 규칙) */
+  if(!강제 && (팝업막힘('예상') || 예상팝업본())) return;      /* 한 주 한 번만 · 그다음은 현황판 카드 */
   const 열림 = $('#pop').classList.contains('on');
   if(!강제 && 열림 && 지금팝업 === '예상') return;
   if(!강제 && 열림){ 팝업차례('예상', () => 예상팝업열기()); return; }
-  팝업줄빼기('예상'); 다음강제 = !!강제; const 주 = 이번주월();
+  팝업줄빼기('예상'); 다음강제 = !!강제; const 주 = 이번주월(); if(!강제){ try{ localStorage.setItem(예상팝업키(), '1'); }catch(e){} }
   popOpen('<div class="ps-pop fcp"><div class="ps-h">이번 주 예상 매출 · ' + (+주.slice(5, 7)) + '/' + (+주.slice(8, 10)) + ' 주</div>'
     + '<div class="sub3" style="margin:4px 0 14px">매주 월요일에 이번 달 예상 매출을 확인해 주세요<br>바뀐 게 없으면 그대로 저장 · 들어올 매출이 없으면 「예상 매출 없음」</div>'
     + '<div class="rv-foot"><button class="btn ghost" data-act="tx:fcp0" style="flex:1">예상 매출 없음</button><button class="btn main" data-act="tx:fcpin" style="flex:1">입력</button></div></div>');
@@ -11307,7 +11310,7 @@ const 표정의 = {
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
       {k:'nshow', 이름:'연출용', 고정:false,
         칸:['counselors','name','phone','content','channels','at','note','reg','extra.s1','extra.sent','extra.r1','extra.r2','extra.r3','created_at']},
-      {k:'ns2',  이름:'2차 설문톡', 고정:false, 규칙:[{ k:'extra.s2', cmp:'filled', v:null }], ord:{k:'extra.s2', dir:'desc'},      /* 2차 설문톡이 나간 분만 — 연락하고 체크 (2026-10-30 대표) */
+      {k:'ns2',  이름:'2차 설문톡', 고정:false, 규칙:[{ k:'extra.s2', cmp:'filled', v:null }, { k:'extra.crm_reg', cmp:'empty', v:null }],      /* 등록한 분은 뺌 (2026-11-04) */ ord:{k:'extra.s2', dir:'desc'},      /* 2차 설문톡이 나간 분만 — 연락하고 체크 (2026-10-30 대표) */
         칸:['name','phone','extra.s2','extra.c2','counselors','content','reg','note','created_at']},
     ],
     템플릿:[
@@ -12349,18 +12352,19 @@ function 표칸들(key){
   return 다.filter(c => !c.숨김);
 }
 /* 같은 번호 상담 합침 — 남는 줄 extra.merged_from[ids] · 합쳐진 줄 extra.archived + merged_into (2026-10-26 중앙 · 대표 「매일 밤 자동 합침」) · 합쳐진 줄은 목록에서 이미 뺀다 */
+const 등록함칩 = (key, r) => { const d = key === 'leads' && r && r.extra && r.extra.crm_reg; return d ? '<span class="tx-tag tx-reg" title="상담 뒤 정식 등록 — 2차 설문톡 · 연락에서 빠짐">등록함 ' + esc(날짜한글(d)) + '</span>' : ''; };      /* 중앙 extra.crm_reg = CRM 첫 정식 등록일 (2026-11-04) */
 const 합침칩 = (key, r) => { const n = key === 'leads' && r && r.extra && Array.isArray(r.extra.merged_from) ? r.extra.merged_from.length : 0; return n ? '<span class="tx-tag tx-merge" title="같은 번호 상담 ' + n + '줄을 이 줄로 합쳤어요">합침 ' + n + '</span>' : ''; };
 function 표칸값(key, c, r){
   if(c.k === 표정의[key].제목열)
-    return '<b>' + esc(String(r[c.k] == null ? '' : r[c.k]) || '이름 없음') + '</b>' + 합침칩(key, r);
+    return '<b>' + esc(String(r[c.k] == null ? '' : r[c.k]) || '이름 없음') + '</b>' + 합침칩(key, r) + 등록함칩(key, r);
   if(c.타입 === 'people' || c.타입 === 'multi'){      /* 표 칸은 한 줄 — 첫 하나 + 「외 n명 · 외 n개」 (2026-10-22) */
-    const v = (c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k]) || [];
+    const v = (값읽기(r, c.k)) || [];
     if(Array.isArray(v) && v.length > 1) return '<span class="tx-nms one">' + 외몇(c.타입 === 'people' ? 사람칩(c, v[0]) : 옵칩(c, v[0], esc(v[0])), c.타입 === 'people' ? v.map(i => 사람(i).name || '') : v.map(String), c.타입 === 'people' ? '명' : '개') + '</span>';
   }
   if(key === 'tasks' && c.k === 'done' && r.kind === '대표공지'){ const 나 = (ME && ME.name) || '', 대 = 공지대상(r);      /* 공지 = 체크 대신 읽음 (2026-10-27 대표) */
     if(!할수('popup')) return 공지읽음(r, 나) ? '<span class="tx-rd ok">✓ 읽음</span>' : '<span class="tx-rd">안 읽음</span>';
     return '<span class="tx-rd">' + (r.done ? '내림 · ' : '') + '읽음 ' + 대.filter(n => 공지읽음(r, n)).length + '/' + 대.length + '</span>'; }
-  const v0 = c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k];
+  const v0 = 값읽기(r, c.k);
   if(c.타입 !== 'check' && 값없나(v0)) return 퇴사담당칩(c, r) || '';      /* 표 칸은 빈칸 그대로 — 「비어 있음」은 페이지에서만 (2026-10-26 대표 「비어있음 하지말고 그냥 비워놔」) */
   if(c.타입 === 'text' || c.타입 === 'long') return '<span class="tx-clamp">' + esc(블록글자(v0)) + '</span>';      /* 긴 글은 두 줄까지 · 칸을 누르면 전체 (노션처럼) */
   return 속성값보기(c, r);
@@ -13381,7 +13385,7 @@ const 퇴사담당칩 = (c, r) => { if(c && c.k === 'staff_id' && r && !r.staff_
   const L = c && c.k === 'owners' && r && r.extra && Array.isArray(r.extra.n_owner) ? r.extra.n_owner : [];
   return L.map(n => '<span class="tx-tag ret">(퇴사) ' + esc(n) + (할수('table') ? '<button data-act="tx:retdel" data-id="' + esc(r.id) + '" data-v2="' + esc(n) + '" title="지우기">✕</button>' : '') + '</span>').join(''); };
 function 속성값보기(c, r){
-  const v = c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k];
+  const v = 값읽기(r, c.k);
   if(c.타입 === 'check') return '<span class="tx-cb '+(v?'on':'')+'">'+(v?'✓':'')+'</span>';
   if(값없나(v)) return 퇴사담당칩(c, r) || '<span class="tx-pmut">비어 있음</span>';
   if(c.타입 === 'select')   return 옵칩(c, v, esc((c.표시||{})[v]||v));
@@ -13400,7 +13404,7 @@ try{ 빈속성숨김 = localStorage.getItem('gg_desk_pempty') === '1'; }catch(e)
 function 속성줄들(key, r, 편집){
   const 본문 = 본문열쇠(key);
   /* 체크박스는 꺼져 있어도 「빈 것」으로 치지 않는다 */
-  const 값비었나 = c => c.타입 !== 'check' && 값없나(c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k]);
+  const 값비었나 = c => c.타입 !== 'check' && 값없나(값읽기(r, c.k));
   const 빈수 = 열들(key).filter(c => c.k !== 본문 && 값비었나(c)).length;
   const 줄 = c => {
     if(c.k === 본문) return '';                        /* 본문은 아래 글 편집기에서 쓴다 */
@@ -13551,7 +13555,7 @@ function 속성편집(key, id, k, el){
     return;
   }
   const c = 열들(key).find(z => z.k === k); if(!c) return;
-  const v = c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k];
+  const v = 값읽기(r, c.k);
   const 넣기 = nv => 속성저장(key, id, k, nv);
   if(c.타입 === 'check'){ 넣기(!v); return; }
   if(c.타입 === 'select' || c.타입 === 'multi'){
@@ -13721,7 +13725,7 @@ async function txView(key, id){
     + (key === 'tasks' && r.kind === '대표공지' ? 공지칸(r) : '')
     + 속성줄들(key, r, 편집)
     + (본문키 ? '<div class="tx-sec" id="txbwrap">'+블록들(bs, 편집, urlmap)+'</div>' : '')
-    + 긴열.slice(1).map(c => '<div class="tx-sec"><div class="lbl">'+c.이름+'</div><div class="tx-body">'+링크살리기((c.늘림 ? (r.extra||{})[c.k.slice(6)] : r[c.k])||'')+'</div></div>').join('')
+    + 긴열.slice(1).map(c => '<div class="tx-sec"><div class="lbl">'+c.이름+'</div><div class="tx-body">'+링크살리기((값읽기(r, c.k))||'')+'</div></div>').join('')
     + (key === 'leads' ? 상담1차칸(r, 편집) : '') + (key === 'manual' ? 매뉴얼읽음칸(r) : '') + (key === 'tasks' && r.kind === '대표공지' ? 매뉴얼읽음칸(r, 'tasks', 공지대상(r)) : '') + (key === 'leave' && r.kind === '당직' ? 당직교체칸(r) : '')
     + ((r.files||[]).length ? '<div class="tx-sec"><div class="lbl">파일과 미디어</div>'+첨부칸(key, r, 편집, urls)+'</div>' : '')
     + (key === 'leads' && (r.extra || {}).transcript ? '<details class="tx-sec tx-tr"><summary class="lbl">통화 원문</summary><div class="tx-body">' + esc(String(r.extra.transcript)).replace(/\n/g, '<br>') + '</div></details>' : '')
@@ -14791,7 +14795,7 @@ function 홈배치붙이기(){
      「누르면 사이페이지에서 업무 할 수 있도록 띄워 · 현황판에 숫자만 뜨고 업무를 찾아다녀야 하잖아」)
    ⛔ 세는 식과 목록을 뽑는 식을 **따로 쓰지 않는다** — 여기 한 곳에서 뽑고 숫자줄은 길이만 센다.
       (따로 두면 4를 눌렀는데 3개가 뜬다) */
-const 이차연락줄 = () => (W.leads || []).filter(r => (r.extra || {}).s2 && !(r.extra || {}).c2);
+const 이차연락줄 = () => (W.leads || []).filter(r => (r.extra || {}).s2 && !(r.extra || {}).c2 && !(r.extra || {}).crm_reg);      /* 그 사이 정식 등록한 분 = 뺌 (2026-11-04 19:44 대표 「등록한 사람은 등록함으로 표시하고 보내지 않는다」) */
 const 급한칸 = ['첫연락', '오늘없음', '요청', '실패', '못감'];      /* 바로 행동할 것 = 빨간 점 (2026-11-03 대표) */
 const 현황칸 = [
   { k:'부름', 이름:'나를 부른 댓글',   색:'warn' },
@@ -14805,7 +14809,7 @@ const 현황칸 = [
   { k:'오늘없음', 이름:'기록 없는 수업', 색:'warn', 셈: () => 오늘기록없음().length, 직접: () => 오늘없음판() },
   { k:'상담', 이름:'오늘 상담',        색:'gold' },
   { k:'예상미입력', 이름:'예상 매출 미입력', 색:'gold', 셈: () => 예상미입력().length, 직접: () => 예상판열기(예상미입력()[0] || ''), 보임: () => 대표인가() && 할수('check') && !점검메모.없음 },      /* 대표 화면 — 이번 주 안 적은 선생님 수 (2026-11-04 18:34 대표 「나한테는 예상매출 미입력으로」) */
-  { k:'예상', 이름:'이번 주 예상 매출', 색:'gold', 셈: () => (예상대상() && !예상이번주()) ? 1 : 0, 직접: () => 예상판열기((ME && ME.name) || ''), 보임: () => 할수('check') && !점검메모.없음 },      /* 상담 다음 · 빛남 · 입력 또는 「예상 매출 없음」 해야 빠짐 (2026-11-04 대표) */
+  { k:'예상', 이름:'이번 주 예상 매출', 색:'gold', 셈: () => (점검메모.줄 && 예상대상() && !예상이번주()) ? 1 : 0, 직접: () => 예상판열기((ME && ME.name) || ''), 보임: () => 할수('check') && !점검메모.없음 },      /* 상담 다음 · 빛남 · 입력 또는 「예상 매출 없음」 해야 빠짐 (2026-11-04 대표) */
   /* 청소 누락 — 어제 체크가 빠진 것 · 기록 권한자 = 전부 · 그 밖 = 내 것만 (2026-10-21 대표 「어떤 체크박스가 체크 안 됐는지 볼 수 있게만」) */
   { k:'청소', 이름:'청소 누락', 색:'warn', 셈: () => 청소누락().length, 직접: () => 청소누락판(), 보임: () => !!청소.목 && !청소.없음 && 청소.목.length > 0 },
   /* 담당이 전산(마지막 수업 선생님)과 다른 회원 — 누구나 명단을 보고, 맞추기는 관리자 등급만 (2026-10-14) */
@@ -14870,7 +14874,7 @@ function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
   setTimeout(락커받기, 0); setTimeout(못감받기, 0); setTimeout(TG정리받기, 0); setTimeout(데스크알림받기, 0);
-  setTimeout(() => { try{ 예상팝업열기(); }catch(e){} }, 0);      /* 이번 주 예상 매출 — 점검 자료를 안 받았으면 받고 뜬다 (2026-11-04 · 점검 화면을 열 때만 뜨던 것) */
+  setTimeout(() => { try{ if(할수('check') && !점검메모.줄 && !점검메모.중) 점검메모받기(); 예상팝업열기(); }catch(e){} }, 0);      /* 카드용 예상 매출 자료는 점검 표와 따로 받는다 */      /* 이번 주 예상 매출 — 점검 자료를 안 받았으면 받고 뜬다 (2026-11-04 · 점검 화면을 열 때만 뜨던 것) */
   if((!배정.줄 || Date.now() - (배정.때 || 0) > 120000) && !배정.중 && 할수('assign')) setTimeout(배정받기, 0);      /* 2분마다 다시 받음 — 못감받기 안(10분 거름 뒤)에 두어 10분에 한 번만 받았다 (2026-10-28 19:07 대표 「배정해도 알림이 없다」) */      /* 현황판 「락커 만료자 · 락커 TM」 (2026-10-25 · 안에서 10분 거름) */      /* 10분 지났으면 오늘 수업 다시 (안에서 거른다) */
   /* ⭐ 두 단 — **할 일이 있는 것이 윗줄**, 0 인 것은 아랫줄로 내린다
        (2026-09-30 대표 「죽어있는건 아래줄 · 살아있는건 윗줄로」).
