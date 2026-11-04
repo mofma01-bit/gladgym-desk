@@ -2524,7 +2524,7 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .mqimg{display:block;margin:0 0 10px;border-radius:12px;overflow:hidden;background:#fff}.mqimg img{display:block;width:100%;height:auto}.mqpdf{display:block;margin:0 0 8px;padding:10px 12px;border-radius:10px;border:1px solid #3a352c;color:var(--cream);text-decoration:none;font-weight:800}.mqbody{white-space:pre-wrap;font-size:15px;line-height:1.7;color:var(--cream)}
 .mqf label{display:block;font-size:13px;color:var(--sub);margin:10px 0 4px}.mqf label small{font-weight:600}.mqup{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px;border:1.5px dashed #4a453b;border-radius:12px;color:var(--cream);text-align:center;outline:none;cursor:text}.mqup:focus,.mqup.on{border-color:var(--gold-2);background:#231e16}.mqup small{color:var(--sub)}.mqup small button{background:none;border:0;color:var(--gold);font:inherit;font-weight:800;cursor:pointer}
 .mqfs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.mqfs span{position:relative;display:flex;align-items:center;gap:4px;height:64px;min-width:64px;padding:0 8px;border-radius:10px;border:1px solid #3a352c;background:#1a1917;font-size:13px}.mqfs img{width:64px;height:64px;object-fit:cover;border-radius:9px;margin:0 -8px}.mqfs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#2a2622;color:var(--cream);font-size:12px;cursor:pointer}
-.ps-pay{display:flex;align-items:center;gap:8px;margin:6px 0 2px;font-size:14px;color:var(--sub)}.ps-pay b{color:var(--cream);font-weight:800}.ps-pay .no{color:var(--gold);font-weight:800}.ps-pay small{font-size:13px}
+.ps-pay{display:flex;align-items:center;gap:8px;margin:6px 0 2px;font-size:14px;color:var(--sub)}.ps-pay .btn{margin-left:4px}.ps-pay b{color:var(--cream);font-weight:800}.ps-pay .no{color:var(--gold);font-weight:800}.ps-pay small{font-size:13px}
 .kt-re{align-self:flex-start;margin-top:4px;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--gold-2);background:#2a2316;color:var(--gold);font:inherit;font-size:13px;font-weight:800;cursor:pointer}
 .kt-inp.ask{border-color:var(--gold-2);color:var(--gold)}
 .kt-quote{display:flex;flex-direction:column;gap:2px;padding:8px 12px;margin-bottom:8px;border-left:3px solid var(--gold-2);background:#231e16;border-radius:8px}.kt-quote b{font-size:13.5px;color:var(--gold)}.kt-quote span{font-size:13.5px;color:var(--cream)}
@@ -3230,7 +3230,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '585';
+const BUILD = '586';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8982,10 +8982,23 @@ function 매출줄(g, 손){
 }
 /* 결제수단 — 중앙이 채움(관리자일지 결제방식과 같은 규칙 · 나눠 낸 결제는 주문 전체 기준 · 두 줄 같은 값) · 칸이 없으면 안 그림 (2026-11-04) */
 const 결제수단시작 = '2026-11';
+/* 이 PT 결제의 「확인할 매출」 한 건 — 키오스크 · 운톡마켓 · 바우처처럼 목록에 없는 결제는 null (수정 단추 없음) */
+const 매출결제건 = g => { const ys = (g && g.줄) || [], ks = new Set(ys.map(y => String(y.sale_key)));
+  const pid = (ys.find(y => y.pay_id) || {}).pay_id; if(pid) return 매확찾(pid) || null;      /* 중앙이 pt_sales.pay_id(= 확인할 매출 결제 id)를 실으면 그걸로 */
+  const 후 = 매확결제().filter(o => (o['갈래'] || []).indexOf('PT') >= 0 && (gg => !!gg && gg.줄.some(y => ks.has(String(y.sale_key))))(매확PT묶음(o)));
+  return 후.length === 1 ? 후[0] : null; };      /* 그 전엔 회원 · 날로 맞춤 — 같은 날 PT 결제가 둘이면 못 가려서 단추를 안 띄운다(엉뚱한 결제를 고치지 않게 · 2026-11-04 중앙 「pt_sales.order_key 는 결제 id 가 아님」) */
 function 결제수단줄(g){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pay_method' in y)) return '';
-  const pm = (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
-  if(!pm && !ys.some(y => String(y.paid_at || '').slice(0, 7) >= 결제수단시작)) return '';      /* 9 · 10월 = 「확인할 매출」로 고를 수 없던 달 · 비어도 「미확인」을 안 띄움 (2026-11-04 실측 9월 42 · 10월 40줄 빈칸 · 11월 14줄 다 참) */
-  return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span><small>「확인할 매출」에서 골라 주세요</small>') + '</div>'; }
+  const o = 매출결제건(g), 고 = o && o['고름'] ? 매확G(o) : '';      /* 데스크에서 방금 고친 값이 먼저 — 표(pt_sales)는 중앙이 10분 안에 따라온다 */
+  const pm = 고 || (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
+  if(!pm && !o && !ys.some(y => String(y.paid_at || '').slice(0, 7) >= 결제수단시작)) return '';
+  const 단 = o && 매확단추봄() ? '<button class="btn ed sm" data-act="tx:pspay" data-k="' + esc(o.id) + '">' + (o['고름'] ? '수정' : '고르기') + '</button>' : '';      /* 「확인할 매출」 쓰는 사람만 (2026-11-04 대표) */
+  return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span>' + (단 ? '' : '<small>「확인할 매출」에서 골라 주세요</small>')) + 단 + '</div>'; }
+/* 가운데 창 — 「확인할 매출」 카드 한 장 그대로(수단 · 나눈 금액 · 결제메모 · TG메모 · 저장하면 잠김 · 「수정」) · 닫으면 PT 매출을 다시 그림 */
+function 결제수정창(){ const id = S.psPay, o = 매확찾(id); if(!o){ S.psPay = null; return; }
+  쪽지끝 = null;      /* 다시 그릴 때 앞 창의 닫기(=PT 매출 다시 그림 · psPay 비움)가 돌지 않게 */
+  가운데창('<div class="tx-ph" id="pspaywin"><b>결제수단 수정</b><button data-act="tx:pspayx">✕</button></div><div class="sub3" style="margin-bottom:8px">저장하면 다음 시트 최신화(10 · 14 · 18시 · 밤 10시) 때 관리자일지 결제방식에도 들어가요</div>' + 매확줄(o), 600);
+  S.psPay = id; 쪽지끝 = () => { S.psPay = null; if(판머리 === 'PT 매출' && $('#pop').classList.contains('on')) 매출판(); }; }
+
 /* 자세히 — ① 나눠 낸 결제(날짜 · 금액) ② 누가 · 무엇을 한 줄씩. 사람 이름은 사람 · 서버가 결제내역으로 한 것은 「자동(결제내역)」 */
 const 기록누구 = l => { const b = String(l.by || ''); return /대표|양인수/.test(b) ? '양인수' : /^중앙|^6번/.test(b) ? '자동(결제내역)' : b; };
 const 기록무엇 = l => { const 뒤 = l.after || {}, 값 = [뒤.trainer !== undefined ? (뒤.trainer || '센터 매출') : '', 뒤.category || ''].filter(Boolean).join(' · ');
@@ -9949,6 +9962,7 @@ const 매확색 = k => { const 팔 = new Map(속성팔레트()); return 팔.get(
 const 매확칸들 = [['6~9', 6, 9], ['9~12', 9, 12], ['12~15', 12, 15], ['15~18', 15, 18], ['18~22', 18, 22]];
 const 매확목적 = ['다이어트', '근력', '체형교정', '건강·체력', '통증·재활'];
 /* 결제 한 줄 */
+const 매확누가 = n => n === '시트' ? '시트에서 고침' : (n || '');      /* 관리자일지에서 직접 고친 값 = 중앙이 「시트」로 적음 (2026-11-04 대표 14:55 「만들어」 · 시트 ↔ 데스크 양쪽) */
 function 매확G(o){ const v = o['고름']; if(!v) return ''; if(v.G) return v.G; const ks = 매확수단.filter(k => (v['금액'] || {})[k] !== undefined); return ks.length === 1 ? ks[0] : ks.map(k => k + ' ' + 매확원(v['금액'][k])).join(' / '); }
 function 매확메모칸(종류, id, 자리, 단추, 저장){
   const 적 = 매확.펼침[종류 + id];
@@ -10048,7 +10062,7 @@ function 매확TG칸(열쇠, tg, 횟수, 저장, 자동열림, 저장단추){   
     + '<span class="sc-tgl-p">' + esc(적음 ? 매확TG글(f, tg).split(String.fromCharCode(10))[0] : 매확이전글(tg)) + '</span></button>'
     + (저장 && typeof 저장 === 'object' && 저장['누가'] ? '<div class="sc-mlog"><b>' + esc(저장['누가']) + '</b> · ' + esc(매확때(저장['때'])) + ' 저장 → 배정 표 FC 메모에 덧붙음</div>' : ''); }
 /* PT 담당 — 이 결제의 PT 매출 줄(pt_sales · order_key 같음 · 없으면 회원 카드 + 같은 날) */
-const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
+const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.pay_id && String(x.pay_id) === String(o.id)) || (x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
   return 줄.length ? { 키: 매출묶음키(줄[0]), 줄, 머리: 줄[0] } : null; };
 function 매확PT줄(o){
   const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '">담당</span>';
@@ -10064,8 +10078,8 @@ function 매확줄(o){
   if(고른){      /* 저장함 — 카드 전체 잠김 · 읽기만 · 「수정」 하나로 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22 대표 「저장하면 잠기고 완료 표시 · 부분 수정 말고」) */
     const 메 = o['메모'] && o['메모']['글'], 티 = o['TG메모'] && (typeof o['TG메모'] === 'object' ? o['TG메모']['글'] : o['TG메모']);
     h = h.replace('<span class="sc-amt2">', '<span class="sc-saved">저장함 ✓</span><span class="sc-amt2">');
-    h += '<div class="sc-ro"><span class="k">결제수단</span><b>' + esc(매확G(o)) + '</b><span class="by">' + esc(v['누가'] || '') + ' · ' + esc(매확때(v['때'])) + '</span></div>'
-      + ((v['전'] || []).length ? '<div class="sc-mlog">' + v['전'].map(x => '이전: <b>' + esc(x.G || '') + '</b> · ' + esc(x['누가'] || '') + ' ' + esc(매확때(x['때']))).join('<br>') + '</div>' : '')
+    h += '<div class="sc-ro"><span class="k">결제수단</span><b>' + esc(매확G(o)) + '</b><span class="by">' + esc(매확누가(v['누가'])) + ' · ' + esc(매확때(v['때'])) + '</span></div>'
+      + ((v['전'] || []).length ? '<div class="sc-mlog">' + v['전'].map(x => '이전: <b>' + esc(x.G || '') + '</b> · ' + esc(매확누가(x['누가'])) + ' ' + esc(매확때(x['때']))).join('<br>') + '</div>' : '')
       + '<div class="sc-ro"><span class="k">결제메모</span>' + (메 ? '<span>' + esc(메) + '</span>' : '<span class="sub3">없음</span>') + '</div>' + (메 ? 매확CRM결과(o) : '')
       + (tg ? '<div class="sc-ro"><span class="k">TG메모</span>' + (티 ? '<span>' + esc(String(티).split(String.fromCharCode(10))[0]) + '</span>' : '<span class="sub3">없음 · ' + esc(매확이전글(tg)) + '</span>') + '</div>' : '')
       + (PT있음 ? 매확PT줄(o) : '')
@@ -10222,6 +10236,7 @@ function 매확락커판(){
       : '<div class="empty why"><b>최근 락커 판매가 없습니다</b>락커를 팔면 여기에 나와요</div>'));
 }
 function 매확다시(){
+  if(S.psPay && document.getElementById('pspaywin')){ 결제수정창(); 매확홈단추그리기(); return; }      /* PT 매출 카드에서 연 결제수단 수정 창 (2026-11-04) */
   if(배정TG창.k && document.getElementById('txpop') && 매확.TGF[배정TG창.k]){ 배정TG창그리기(); return; }      /* 고객 정보 화면 TG 메모 창 */
   const pop = $('#pop');
   if(pop.classList.contains('on') && !pop.classList.contains('tx-side') && 매확.팝) 매확팝업(true);
@@ -16674,6 +16689,10 @@ async function txAct(a, el){
   if(a==='sctsave'){ await 매확TG저장(k, v2); return; }      /* 확인할 매출 (2026-10-21) */
   if(a==='scm'){ 매확수단누름(v2, k); return; }
   if(a==='scsave'){ await 매확저장(v2); return; }
+  if(a==='pspay'){ const o = 매확찾(k); if(!o) return toast('이 결제는 「확인할 매출」에 없어요 · 잠시 뒤 다시 눌러 주세요');
+    if(o['고름'] && !매확.고침[k]){ 매확.고침[k] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[k]['금액']); if(ks.length === 1) 매확.고침[k]['금액'][ks[0]] = +o['합'] || 0; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); }      /* 바로 수정 모드 = scedit 과 같다 */
+    S.psPay = String(o.id); 결제수정창(); return; }
+  if(a==='pspayx'){ 쪽지닫기(); return; }      /* PT 매출 카드 → 결제수단 수정 (2026-11-04 대표) */
   if(a==='scedit'){ const o = 매확찾(v2); if(o && o['고름']){ 매확.고침[v2] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[v2]['금액']); if(ks.length === 1) 매확.고침[v2]['금액'][ks[0]] = +o['합'] || 0; if(o.TG) 매확.TG열림['p' + v2] = '열림'; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); } 매확다시(); return; }      /* 수정 = 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22) · CRM 에 들어간 메모는 안내 (대표 17:39) */
   if(a==='sccancel'){ delete 매확.고침[v2]; delete 매확.펼침['메모' + v2]; delete 매확.TGF['p' + v2]; delete 매확.TG바뀜['p' + v2]; delete 매확.TG열림['p' + v2]; 매확다시(); return; }
   if(a==='sctedit'){ 매확.TG수정[k] = true; 매확.TG열림[k] = '열림'; 매확다시(); return; }
