@@ -3231,7 +3231,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '589';
+const BUILD = '591';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3465,7 +3465,7 @@ const 현황허용 = { 부름: () => 할수('tasks'), 실패: () => 수업알림
 const 수업판칸 = [['today', '✍ 수업 기록하기', '회원 찾아서 바로 기록'], ['cmall', '💬 피드백', '남겨 주세요 · 요청'], ['rtmake', '📋 루틴표 · 스트레칭', '루틴표 만들기 · 회원에게 주기'], ['reports', '📄 리포트 내역', '보낸 수업 리포트']];      /* 2026-10-23 대표 「수업 기록 한곳에」 */
 function 메뉴가림(){ { const b = document.querySelector('.nav[data-v="lesson"]'); if(b) b.style.display = 수업판칸.some(([v]) => 할수(v)) ? '' : 'none'; }
   document.querySelectorAll('.nav[data-v]').forEach(b => { const v = b.dataset.v; if(!권한메뉴.has(v)) return;
-  b.style.display = (v === 'members' ? 회원범위() !== 'x' && 할수(v) : 할수(v)) ? '' : 'none'; }); }
+  b.style.display = (v === 'trash' ? !!ME : v === 'members' ? 회원범위() !== 'x' && 할수(v) : 할수(v)) ? '' : 'none'; }); }      /* 휴지통 = 모두(선생님 = 내 것만 · 화면에서 나눔 · 2026-11-04 대표) */
 const 관리자 = () => !!(ME && ME.role==='admin');      /* ⚠ 2026-10-20 부터 화면 판단은 묶음(할수)으로 — 이건 서버 규칙(is_admin)과 같은 뜻으로만 남긴다 */
 const 전체봄 = () => 회원범위() === 'a';      /* 센터 전체 보기 = 회원 보기 범위 「전체」 (2026-10-20 묶음) */
 const 관리칸됨 = c => !c || !c.관리자만 || 할수(typeof c.관리자만 === 'string' ? c.관리자만 : 'table');      /* 「관리자만」 칸 · 틀 — 칸마다 묶음 열쇠 */
@@ -8462,7 +8462,7 @@ function 점검받기(주){
   if(먼저 && S.view === 'check') setTimeout(() => { if(S.view === 'check' && 점검.새로중 === k) render(); }, 0);      /* 「바꾸는 중」을 바로 그린다 — 다른 받기가 화면을 다시 그려 줄 때만 떴다 (2026-10-20) */
   crm('weekly', 주 ? { 주 } : {}).then(d2 => { 점검.답[k] = d2; 점검.받음[k] = true; 점검.때[k] = Date.now(); 점검두기(k, d2); if(d2 && d2['주']){ 점검.답[d2['주']] = d2; 점검.받음[d2['주']] = true; 점검.때[d2['주']] = Date.now(); } 점검.방금 = Date.now(); })
     .catch(e => { if(먼저) 점검.새로왜 = (e && e.message) || '받지 못했어요'; else 점검.왜 = (e && e.message) || '받지 못했어요'; })
-    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check') render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
+    .finally(() => { 점검.중 = ''; 점검.새로중 = ''; if(S.view === 'check' || (S.view === 'home' && 점검.답['이번'])) render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} if(점검.방금) setTimeout(() => { if(S.view === 'check' && Date.now() - 점검.방금 > 5500){ 점검.방금 = 0; render(); } }, 6000); });
 }
 /* 칩 줄 오른쪽 표시 — 바꾸는 중(금색 고리) / 방금 바뀜(초록 · 6초) / 못 바꿈(다시 받기) / 평소(○시 ○분 기준) */
 function 점검표시(){ const k = 점검.주 || '이번', 때 = 점검.때[k];
@@ -8711,7 +8711,7 @@ function 점검메모받기(){
   if(점검메모.중 || 점검메모.줄) return; 점검메모.중 = true; const 달 = TODAY.slice(0, 7);
   Promise.all([sget('weekly_notes?select=*&order=created_at.asc&limit=20000').catch(() => null), sget('sales_forecast?select=*&month=eq.' + 달 + '&order=created_at.asc').catch(() => null)])
     .then(([a, b]) => { 점검메모.없음 = a === null || b === null; 점검메모.줄 = a || []; 점검메모.예상 = b || []; })
-    .finally(() => { 점검메모.중 = false; if(S.view === 'check') render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} });
+    .finally(() => { 점검메모.중 = false; if(S.view === 'check' || (S.view === 'home' && 점검메모.줄)) render(); try{ 예상팝업열기(); 돌아보기열기(); }catch(e){} });
 }
 const 점검회원키 = s => { const m = /^(.*?)\s*\((\d{4})\)\s*$/.exec(String(s || '')), mm = m && D.m.find(x => (x.name || '').trim() === m[1].trim() && x.phone4 === m[2]); return mm && /^c/.test(mm.id) ? mm.id.slice(1) : ''; };
 const 메모종류 = k => /^TG(첫|다음|재연락|끝|등록)$/.test(k) ? 'TG' : k === 'PT재등록' ? '재등록' : k === '소진' ? '소진' : '';
@@ -10441,6 +10441,7 @@ function 예상판그리기(){
    대상 = 점검 표(중앙 weekly)에 이름이 있는 PT 선생님 본인 — 대표 · 관리만 하는 분은 안 뜸 · 금요일 돌아보기에는 이제 예상 매출이 없다 */
 const 이번주월 = () => { const d2 = 점검.답['이번']; if(d2 && d2['주']) return d2['주']; const t = new Date(TODAY + 'T00:00:00'), w = (t.getDay() + 6) % 7; t.setDate(t.getDate() - w); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); };
 const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답['이번']; return !!나 && !!d2 && Object.keys(d2['표'] || {}).includes(나); };
+const 예상미입력 = () => { const d2 = 점검.답['이번'], 주 = 이번주월(); if(!d2 || !점검메모.줄) return []; return Object.keys(d2['표'] || {}).filter(n => !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
 const 예상이번주 = () => { const 나 = (ME && ME.name) || '', 주 = 이번주월(); return (점검메모.예상 || []).some(x => x.trainer === 나 && x.week === 주); };
 function 예상팝업열기(강제){
   if(!ME || 진짜ME || !할수('check') || 점검메모.없음) return; if(!강제 && 돌아시험막음()) return;
@@ -10987,9 +10988,12 @@ function vReports(){
         + 묶[d].map(줄).join('') + '</div>').join('');
 }
 
+/* 휴지통 나눔 — 대표(전체 권한) = 전체 · 선생님 = 내가 지운 것 + 내 담당 회원 것만 (2026-11-04 18:38 대표 「삭제하면 각 선생님별 휴지통 · 나는 전체 · 서버가 아닌 화면에서 나누면 된다」) */
+const 휴지통전체권 = () => 할수('trash') || 대표인가();
+const 휴지통내것 = t => { const 나 = (ME && ME.name) || '', d = t.data || {}, mid = d.member_id || d.mid || ''; return !!나 && (t.deleted_name === 나 || (!!mid && ((memOf(mid) || {}).trainer || '') === 나)); };
 function vTrash(){
-  if(!할수('trash'))
-    return '<div class="empty">휴지통은 <b>권한이 있는 분</b>만 볼 수 있어요</div>';
+  if(!ME) return '<div class="empty why"><b>로그인이 필요합니다</b>로그인 화면에서 들어온 뒤 휴지통을 열어 주세요</div>';
+  const 전부 = 휴지통전체권(), 볼것 = 전부 ? (휴지통 || []) : (휴지통 || []).filter(휴지통내것), 비움권 = 할수('purge');
   if(휴지통없음)
     return '<div class="note" style="border-color:var(--warn)">'
       + '<b style="color:var(--warn)">휴지통을 아직 준비 중이에요</b>'
@@ -11000,17 +11004,18 @@ function vTrash(){
   const 지금 = Date.now();
   const 남은날 = t => 휴지통일수 - Math.floor((지금 - new Date(t.deleted_at).getTime())/864e5);
   const 묶음 = {};
-  휴지통.forEach(t => { (묶음[t.tbl] = 묶음[t.tbl] || []).push(t); });
+  볼것.forEach(t => { (묶음[t.tbl] = 묶음[t.tbl] || []).push(t); });
 
   const 요약 = '<div class="sumbar">'
-    + '<div class="sumit"><span class="k2">휴지통에 있는 것</span><span class="v2">' + 휴지통.length + '</span></div>'
+    + '<div class="sumit"><span class="k2">휴지통에 있는 것</span><span class="v2">' + 볼것.length + '</span></div>'
     + '<div class="sumit warn"><span class="k2">7일 안에 사라짐</span><span class="v2">'
-      + 휴지통.filter(t => 남은날(t) <= 7).length + '</span></div>'
+      + 볼것.filter(t => 남은날(t) <= 7).length + '</span></div>'
     + '<div class="sumit gold"><span class="k2">' + 휴지통일수 + '일 뒤 자동 삭제</span>'
       + '<span class="v2">켜짐</span></div>'
     + '</div>';
 
-  if(!휴지통.length) return 요약 + '<div class="empty">휴지통이 비어 있어요</div>';
+  const 안내 = 전부 ? '' : '<div class="note" style="margin-bottom:10px">내가 지운 것과 내 담당 회원 것만 보여요</div>';
+  if(!볼것.length) return 안내 + 요약 + '<div class="empty why"><b>휴지통이 비어 있습니다</b>지운 것은 ' + 휴지통일수 + '일 동안 여기 남아요</div>';
 
   const 줄 = t => {
     const d = 남은날(t);
@@ -11022,12 +11027,12 @@ function vTrash(){
         + (t.deleted_name ? ' · ' + esc(t.deleted_name) : '') + ' 지움</div></div>'
       + '<span class="tag ' + (d <= 7 ? 'warn' : '') + '">' + (d > 0 ? d + '일 남음' : '곧 사라짐') + '</span>'
       + '<button class="btn sub sm" data-trrs="' + t.id + '">복원</button>'
-      + '<button class="btn ghost sm" data-trdel="' + t.id + '">영구 삭제</button></div>';
+      + (비움권 ? '<button class="btn ghost sm" data-trdel="' + t.id + '">영구 삭제</button>' : '') + '</div>';      /* 영구 삭제 · 비우기 = 대표만 */
   };
-  return 요약
-    + '<div class="sec"><div class="lbl">전부 비우기'
+  return 안내 + 요약
+    + (비움권 ? '<div class="sec"><div class="lbl">전부 비우기'
     + '<span class="r"><button class="btn ghost sm" data-act="trsweep">'
-    + 휴지통일수 + '일 지난 것 지금 비우기</button></span></div></div>'
+    + 휴지통일수 + '일 지난 것 지금 비우기</button></span></div></div>' : '')
     + Object.keys(묶음).map(k => '<div class="sec"><div class="lbl">'
         + esc(표이름[k] || k) + ' ' + 묶음[k].length + '건</div>'
         + 묶음[k].map(줄).join('') + '</div>').join('');
@@ -14793,6 +14798,7 @@ const 현황칸 = [
   { k:'운동', 이름:'수업 기록 완료',    색:'gold' },      /* 2026-10-19 대표 「수업 기록 완료 · 수업은 완료되었는데 기록이 없는 건도 볼 수 있게」 */
   { k:'오늘없음', 이름:'기록 없는 수업', 색:'warn', 셈: () => 오늘기록없음().length, 직접: () => 오늘없음판() },
   { k:'상담', 이름:'오늘 상담',        색:'gold' },
+  { k:'예상미입력', 이름:'예상 매출 미입력', 색:'gold', 셈: () => 예상미입력().length, 직접: () => 예상판열기(예상미입력()[0] || ''), 보임: () => 대표인가() && 할수('check') && !점검메모.없음 },      /* 대표 화면 — 이번 주 안 적은 선생님 수 (2026-11-04 18:34 대표 「나한테는 예상매출 미입력으로」) */
   { k:'예상', 이름:'이번 주 예상 매출', 색:'gold', 셈: () => (예상대상() && !예상이번주()) ? 1 : 0, 직접: () => 예상판열기((ME && ME.name) || ''), 보임: () => 할수('check') && !점검메모.없음 },      /* 상담 다음 · 빛남 · 입력 또는 「예상 매출 없음」 해야 빠짐 (2026-11-04 대표) */
   /* 청소 누락 — 어제 체크가 빠진 것 · 기록 권한자 = 전부 · 그 밖 = 내 것만 (2026-10-21 대표 「어떤 체크박스가 체크 안 됐는지 볼 수 있게만」) */
   { k:'청소', 이름:'청소 누락', 색:'warn', 셈: () => 청소누락().length, 직접: () => 청소누락판(), 보임: () => !!청소.목 && !청소.없음 && 청소.목.length > 0 },
@@ -14852,7 +14858,7 @@ const 현황묶음 = k => k === '상담' ? 0 : 현황수업칸.has(k) ? 2 : 1;
    ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
    ④ 보기만 하는 「수업 기록 완료」 맨 끝 · 묶음 구분선 없음(차례가 곧 묶음) · 새 칸은 여기 적지 않으면 맨 뒤로 간다 */
 const 현황차례 = ['첫연락', '오늘없음', '요청', '실패', '못감', '상담', '예상', '설문2차', '락커만료', '락커TM', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
-const 현황자리 = x => (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);
+const 현황자리 = x => x.c.k === '상담' ? -2 : (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
 const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '다음주연차']);      /* 「2차 설문톡 연락」은 대표 · 관리자 일 → 「내가 할 일」 (2026-11-03 23:11 대표) */
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
@@ -14870,7 +14876,7 @@ function 숫자줄(){
   finally{ 현황본인눈 = false; }
   const 판색 = ['#d9d3c9'];      /* 한 톤 (2026-11-03 대표 「알록달록 · 무슨 기준인지」) */      /* 틀⑥ 숫자 칸 = 색 판 + 아이콘 + 이름 › (2026-11-03 대표 확정 · 상담은 그대로 빛남) */
   const 칸 = (x, i, xs) => { const 색 = 판색[Math.max(0, 현황칸.indexOf(x.c)) % 판색.length];
-    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + ((x.c.k === '상담' || x.c.k === '예상') && x.v ? ' hot' : '') + (x.v && 급한칸.includes(x.c.k) ? ' ur' : '') + '"'
+    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + ((x.c.k === '상담' || x.c.k === '예상' || x.c.k === '예상미입력') && x.v ? ' hot' : '') + (x.v && 급한칸.includes(x.c.k) ? ' ur' : '') + '"'
     + ' style="--c:' + 색 + '" data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
     + '<span class="nk"><span class="nic" style="--ic:' + esc(네모주소(x.c.이름)) + '"></span><span class="k">' + x.c.이름 + '</span><em class="go">›</em></span><span class="v">' + x.v + '</span></button>'; };
@@ -18052,7 +18058,7 @@ function render0(){
      (2026-09-17 대표: 「휴지통 안나오는데?」) */
   메뉴가림();      /* 등급 권한 — 휴지통 포함 (2026-10-19) */
   if(ME && !진짜ME && 회원범위() !== 'a' && S.who !== ME.name && S.who !== '담당없음') S.who = ME.name;      /* 본인 담당 범위면 늘 본인으로 */
-  if(권한메뉴.has(S.view) && S.view !== 'home' && (!할수(S.view) || (S.view === 'members' && 회원범위() === 'x'))) S.view = 'home';      /* 주소 · 뒤로로 들어와도 막는다 */
+  if(권한메뉴.has(S.view) && S.view !== 'home' && S.view !== 'trash' && (!할수(S.view) || (S.view === 'members' && 회원범위() === 'x'))) S.view = 'home';      /* 주소 · 뒤로로 들어와도 막는다 */
   if(S.view === 'perm'){ if(!할수('perm')){ S.view = 'home'; } else { top.innerHTML = '<h1>권한 설정</h1><span class="cnt">대표자만 볼 수 있어요</span>'; b.innerHTML = 권한화면(); gnbDraw(); return; } }
   if(txRender()){
     const n2 = W.tasks.filter(r=>!r.done && 내것(r.owners)).length, bd2 = $('#txbdg');
@@ -18586,7 +18592,8 @@ document.addEventListener('click', async function(ev){
   /* ── 휴지통 ── 영구 삭제는 되돌릴 수 없어 가운데 팝업으로 한 번 더 묻는다 */
   const 되살 = t.closest('[data-trrs]');
   if(되살){ const it = 휴지통.find(x=>String(x.id)===되살.dataset.trrs); if(!it) return;
-    (async ()=>{ try{ await 되살리기(it);
+    if(!휴지통전체권() && !휴지통내것(it)) return toast('내가 지운 것이나 내 담당 회원 것만 복원할 수 있어요');      /* 화면에서 나눔 (2026-11-04) */
+    (async ()=>{ if(!await 묻기('「' + (it.label || '이 항목') + '」을 복원할까요?')) return; try{ await 되살리기(it);
         휴지통 = 휴지통.filter(x=>x.id!==it.id);
         toast('복원했어요. 새로고침하면 보여요');
         await 휴지통읽기(); render(); }
