@@ -2514,7 +2514,7 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .tp-c{cursor:pointer}.tp-c.pick .tp-bar{box-shadow:0 0 0 3px #bfe6ec,0 0 18px rgba(191,230,236,.45)}.tp-c.pick .tp-amt{color:#bfe6ec}.tp-names>div{cursor:pointer}.tp-names>div.pick{color:#bfe6ec;font-weight:900}
 .lsp-g{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;padding:28px 12px;color:var(--sub);font-size:14px}.lsp-g b{color:var(--cream);font-size:15px}
 .mq{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid #4f7f86;background:#15292c;min-width:0}.mq .t{flex:none;font-size:15px;font-weight:900;color:#bfe6ec;white-space:nowrap}
-.mq .mqs{flex:none;width:200px;height:38px;border-radius:999px;border:1px solid #4f7f86;background:#10221f;color:#e6f6f9;font:inherit;font-size:13.5px;padding:0 14px}.mq .g{display:flex;gap:8px;flex:1;min-width:0;overflow:hidden}
+.mq .mqs{flex:none;width:200px;height:38px;border-radius:999px;border:1px solid #4f7f86;background:#10221f;color:#e6f6f9;font:inherit;font-size:13.5px;padding:0 14px}.mq .g{display:flex;gap:8px;flex:1;min-width:0;overflow:hidden;margin-left:8px;padding-left:18px;border-left:1px solid #4f7f86}
 .mq .g button{flex:none;height:38px;padding:0 14px;border-radius:999px;border:1px solid #2f5a60;background:#183034;color:#e6f6f9;font:inherit;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap}.mq .mqe{align-self:center;font-size:13px;color:#8fb9c0}
 .mq .all{flex:none;height:38px;padding:0 14px;border-radius:999px;border:0;background:#bfe6ec;color:#10292c;font:inherit;font-size:14px;font-weight:900;cursor:pointer}
 #mqw .mqg{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:900;color:#bfe6ec;margin:12px 0 6px}#mqw .mqg small{color:var(--sub);font-weight:700}#mqw .mql{min-height:8px}
@@ -2524,6 +2524,7 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .mqimg{display:block;margin:0 0 10px;border-radius:12px;overflow:hidden;background:#fff}.mqimg img{display:block;width:100%;height:auto}.mqpdf{display:block;margin:0 0 8px;padding:10px 12px;border-radius:10px;border:1px solid #3a352c;color:var(--cream);text-decoration:none;font-weight:800}.mqbody{white-space:pre-wrap;font-size:15px;line-height:1.7;color:var(--cream)}
 .mqf label{display:block;font-size:13px;color:var(--sub);margin:10px 0 4px}.mqf label small{font-weight:600}.mqup{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px;border:1.5px dashed #4a453b;border-radius:12px;color:var(--cream);text-align:center;outline:none;cursor:text}.mqup:focus,.mqup.on{border-color:var(--gold-2);background:#231e16}.mqup small{color:var(--sub)}.mqup small button{background:none;border:0;color:var(--gold);font:inherit;font-weight:800;cursor:pointer}
 .mqfs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.mqfs span{position:relative;display:flex;align-items:center;gap:4px;height:64px;min-width:64px;padding:0 8px;border-radius:10px;border:1px solid #3a352c;background:#1a1917;font-size:13px}.mqfs img{width:64px;height:64px;object-fit:cover;border-radius:9px;margin:0 -8px}.mqfs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#2a2622;color:var(--cream);font-size:12px;cursor:pointer}
+.ps-pay{display:flex;align-items:center;gap:8px;margin:6px 0 2px;font-size:14px;color:var(--sub)}.ps-pay b{color:var(--cream);font-weight:800}.ps-pay .no{color:var(--gold);font-weight:800}.ps-pay small{font-size:13px}
 .kt-re{align-self:flex-start;margin-top:4px;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--gold-2);background:#2a2316;color:var(--gold);font:inherit;font-size:13px;font-weight:800;cursor:pointer}
 .kt-inp.ask{border-color:var(--gold-2);color:var(--gold)}
 .kt-quote{display:flex;flex-direction:column;gap:2px;padding:8px 12px;margin-bottom:8px;border-left:3px solid var(--gold-2);background:#231e16;border-radius:8px}.kt-quote b{font-size:13.5px;color:var(--gold)}.kt-quote span{font-size:13.5px;color:var(--cream)}
@@ -3229,7 +3230,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '583';
+const BUILD = '585';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8966,7 +8967,7 @@ function 매출줄(g, 손){
       + '<div class="ps-amt">' + 원(합) + '</div></div>'
     + '<div class="ps-sub">' + esc(x.product || x.tag || '') + ' · ' + esc(매출때(x).split(' ')[0]) + ' 결제 · ' + 매출꼬리(st)
       + (앞 ? ' · 담당 <b>' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? ' · ' + esc(앞.category) : '') : '') + '</div>'
-    + g.줄.map(매출환줄).join('') + 덜
+    + 결제수단줄(g) + g.줄.map(매출환줄).join('') + 덜
     + (손 === false ? '' : '<div class="ps-act">'
       + (고침 ? 매출고름칸(g) + (st !== '미확인' ? '<button class="btn ghost sm" data-act="tx:psedit" data-k="' + esc(id) + '">취소</button>' : '') : (st !== '삭제됨' ? '<button class="btn ed sm" data-act="tx:psedit" data-k="' + esc(id) + '">수정</button>' : ''))
       + (매출관리자() && st === '선택됨' && !고침 ? '<button class="btn main sm" data-act="tx:pconf" data-k="' + esc(id) + '">확정</button>' : '')
@@ -8979,6 +8980,12 @@ function 매출줄(g, 손){
       + '</div>')
     + (매출.연기록 === id ? 매출기록칸(g) : '') + '</div>';
 }
+/* 결제수단 — 중앙이 채움(관리자일지 결제방식과 같은 규칙 · 나눠 낸 결제는 주문 전체 기준 · 두 줄 같은 값) · 칸이 없으면 안 그림 (2026-11-04) */
+const 결제수단시작 = '2026-11';
+function 결제수단줄(g){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pay_method' in y)) return '';
+  const pm = (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
+  if(!pm && !ys.some(y => String(y.paid_at || '').slice(0, 7) >= 결제수단시작)) return '';      /* 9 · 10월 = 「확인할 매출」로 고를 수 없던 달 · 비어도 「미확인」을 안 띄움 (2026-11-04 실측 9월 42 · 10월 40줄 빈칸 · 11월 14줄 다 참) */
+  return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span><small>「확인할 매출」에서 골라 주세요</small>') + '</div>'; }
 /* 자세히 — ① 나눠 낸 결제(날짜 · 금액) ② 누가 · 무엇을 한 줄씩. 사람 이름은 사람 · 서버가 결제내역으로 한 것은 「자동(결제내역)」 */
 const 기록누구 = l => { const b = String(l.by || ''); return /대표|양인수/.test(b) ? '양인수' : /^중앙|^6번/.test(b) ? '자동(결제내역)' : b; };
 const 기록무엇 = l => { const 뒤 = l.after || {}, 값 = [뒤.trainer !== undefined ? (뒤.trainer || '센터 매출') : '', 뒤.category || ''].filter(Boolean).join(' · ');
@@ -12047,7 +12054,7 @@ async function 필자받기(){ if(필자.중) return; 필자.중 = true;
   필자.중 = false; if(S.view === 'home') render(); if(document.getElementById('mqw')) 필자전체(필자.q || ''); }
 const 필자차례 = () => (필자.줄 || []).slice().sort((a, b) => ((b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)) || ((a.sort || 0) - (b.sort || 0)));
 const 필자종류 = x => { const fs = x.files || [], 사 = fs.filter(z => z.kind === 'photo').length, 피 = fs.filter(z => z.kind !== 'photo').length;
-  return [사 ? '🖼 사진 ' + 사 : '', 피 ? '📄 ' + (피 > 1 ? '파일 ' + 피 : 'PDF') : '', String(x.body || '').trim() ? '📝 글' : ''].filter(Boolean).join(' · '); };
+  return [사 ? '🖼 사진 ' + 사 : '', 피 ? '📄 ' + (피 > 1 ? '파일 ' + 피 : fs.some(z => z.kind === 'file') ? '파일' : 'PDF') : '', String(x.body || '').trim() ? '📝 글' : ''].filter(Boolean).join(' · '); };
 function 필자료줄(){ return ''; }
 function 필수자료줄(){
   if(필자.줄 === null && !필자.중) setTimeout(필자받기, 0);
@@ -12087,7 +12094,7 @@ async function 필자차례저장(묶){ if(!묶) return; const ids = [...묶.que
 function 필자보기(id){ const x = (필자.줄 || []).find(z => z.id === id); if(!x) return; const fs = x.files || [];
   가운데창('<div class="tx-ph"><b>' + esc(x.title || '') + '</b><button data-act="popclose">✕</button></div>'
     + fs.filter(z => z.kind === 'photo').map(z => '<a class="mqimg" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"><img src="' + esc(media(z.path)) + '" alt=""></a>').join('')
-    + fs.filter(z => z.kind !== 'photo').map(z => '<a class="mqpdf" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener">📄 ' + esc(z.name || 'PDF') + ' 열기</a>').join('')
+    + fs.filter(z => z.kind !== 'photo').map(z => '<a class="mqpdf" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"' + (z.kind === 'file' ? ' download="' + esc(z.name || '') + '"' : '') + '>' + (z.kind === 'file' ? '📎 ' : '📄 ') + esc(z.name || 'PDF') + (z.kind === 'file' ? ' 내려받기' : ' 열기') + '</a>').join('')
     + (String(x.body || '').trim() ? '<div class="mqbody">' + esc(x.body) + '</div>' : '')
     + '<div class="cmacts" style="margin-top:12px">' + (필자쓰기() ? '<button class="btn ed sm" data-act="tx:mqe" data-k="' + esc(x.id) + '">수정</button>' : '') + '<button class="btn ghost sm" data-act="tx:mqall">‹ 전체</button><button class="btn ghost sm" data-act="popclose">닫기</button></div>', 620); }
 /* 추가 · 수정 — 이름 · 사진 / 첨부(붙여넣기 · 올리기 · 끌어다 놓기) · 내용 */
@@ -12096,9 +12103,9 @@ function 필자편집(id){ const x = id ? (필자.줄 || []).find(z => z.id === 
   const p = 필자.편;
   가운데창('<div class="tx-ph"><b>' + (x ? '필수자료 수정' : '필수자료 추가') + '</b><button data-act="tx:mqex">✕</button></div>'
     + '<div class="mqf"><label>이름</label><input class="inp" id="mqt" value="' + esc(p.title) + '" placeholder="예) 무이자 할부">'
-    + '<label>사진 · 첨부파일 <small>여러 개</small></label><div class="mqup" id="mqup" tabindex="0"><b>📋 복사한 사진은 여기 누르고 Ctrl + V</b><small>또는 <button type="button" data-act="tx:mqpick">📎 파일 올리기</button> (사진 · PDF) · 끌어다 놓기</small></div>'
+    + '<label>사진 · 첨부파일 <small>여러 개</small></label><div class="mqup" id="mqup" tabindex="0"><b>📋 복사한 사진은 여기 누르고 Ctrl + V</b><small>또는 <button type="button" data-act="tx:mqpick">📎 파일 올리기</button> (사진 · PDF · PPT · 엑셀 · 한글 …) · 끌어다 놓기</small></div>'
     + (p.올리는중 ? '<div class="sub3">올리는 중… ' + p.올리는중 + '개</div>' : '')
-    + '<div class="mqfs">' + p.files.map((z, i) => '<span>' + (z.kind === 'photo' ? '<img src="' + esc(media(z.path)) + '" alt="">' : '📄 ' + esc(z.name || 'PDF')) + '<button type="button" data-act="tx:mqfx" data-k="' + i + '" title="삭제">✕</button></span>').join('') + '</div>'
+    + '<div class="mqfs">' + p.files.map((z, i) => '<span>' + (z.kind === 'photo' ? '<img src="' + esc(media(z.path)) + '" alt="">' : (z.kind === 'file' ? '📎 ' : '📄 ') + esc(z.name || 'PDF')) + '<button type="button" data-act="tx:mqfx" data-k="' + i + '" title="삭제">✕</button></span>').join('') + '</div>'
     + '<label>내용 <small>첨부 없이 글만 써도 돼요</small></label><textarea class="inp" id="mqb" rows="5" placeholder="예) 2 ~ 6개월 무이자 · 삼성 · 현대 · KB …">' + esc(p.body) + '</textarea></div>'
     + '<div class="cmacts" style="margin-top:12px">' + (x ? '<button class="btn ghost sm wn" data-act="tx:mqdel" data-k="' + esc(x.id) + '">삭제</button>' : '') + '<span style="flex:1"></span><button class="btn ghost sm" data-act="tx:mqex">취소</button><button class="btn gold sm" data-act="tx:mqsave">저장</button></div>', 560);
   const up = document.getElementById('mqup'), 읽 = () => { const t = document.getElementById('mqt'), b = document.getElementById('mqb'); if(t) p.title = t.value; if(b) p.body = b.value; };
@@ -12106,12 +12113,14 @@ function 필자편집(id){ const x = id ? (필자.줄 || []).find(z => z.id === 
   up.addEventListener('dragover', e => { e.preventDefault(); up.classList.add('on'); }); up.addEventListener('dragleave', () => up.classList.remove('on'));
   up.addEventListener('drop', e => { e.preventDefault(); up.classList.remove('on'); 읽(); 필자올리기([...(e.dataTransfer.files || [])]); });
   document.getElementById('mqt').oninput = 읽; document.getElementById('mqb').oninput = 읽; }
-async function 필자올리기(fs){ const p = 필자.편; if(!p) return; fs = fs.filter(f => /^image\//.test(f.type) || f.type === 'application/pdf'); if(!fs.length) return toast('사진이나 PDF 만 붙일 수 있어요');
+const 필자끝 = f => { const m = String(f.name || '').toLowerCase().match(/\.([a-z0-9]{1,6})$/); return m ? m[1] : (f.type === 'application/pdf' ? 'pdf' : 'bin'); };      /* 저장 이름 = 영문 끝말만(한글 이름은 화면에만) */
+async function 필자올리기(fs){ const p = 필자.편; if(!p) return; const 큰 = fs.filter(f => f.size > 50 * 1024 * 1024); fs = fs.filter(f => f.size && f.size <= 50 * 1024 * 1024);      /* 사진 · PDF 만 → 모든 파일 (2026-11-04 노션 「필수자료에 파일도 올라가게」) */
+  if(큰.length) toast('50MB 넘는 파일은 올릴 수 없어요 — ' + 큰.map(f => f.name).join(', ').slice(0, 40)); if(!fs.length) return;
   p.올리는중 += fs.length; 필자편집(p.id);
   for(const f of fs){ const 사진 = /^image\//.test(f.type);
-    try{ const blob = 사진 ? await 줄이기(f) : f, path = 'quick/' + (p.id || 'new') + '/' + Date.now() + Math.random().toString(36).slice(2, 6) + (사진 ? '.jpg' : '.pdf');
-      const r = await fetch(SB_URL + '/storage/v1/object/media/' + path, { method:'POST', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + 열쇠(), 'Content-Type': 사진 ? 'image/jpeg' : 'application/pdf' }, body: blob });
-      if(!r.ok) throw new Error(await r.text()); p.files.push({ path, kind: 사진 ? 'photo' : 'pdf', name: f.name || (사진 ? '사진' : 'PDF') }); }
+    try{ const 끝 = 사진 ? 'jpg' : 필자끝(f), 피 = 끝 === 'pdf', blob = 사진 ? await 줄이기(f) : f, path = 'quick/' + (p.id || 'new') + '/' + Date.now() + Math.random().toString(36).slice(2, 6) + '.' + 끝;
+      const r = await fetch(SB_URL + '/storage/v1/object/media/' + path, { method:'POST', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + 열쇠(), 'Content-Type': 사진 ? 'image/jpeg' : 피 ? 'application/pdf' : (f.type || 'application/octet-stream') }, body: blob });
+      if(!r.ok) throw new Error(await r.text()); p.files.push({ path, kind: 사진 ? 'photo' : 피 ? 'pdf' : 'file', name: f.name || (사진 ? '사진' : 피 ? 'PDF' : '파일') }); }
     catch(e){ toast('올리지 못했어요 — ' + String(e.message || '').slice(0, 50)); }
     p.올리는중 = Math.max(0, p.올리는중 - 1); }
   필자편집(p.id); }
@@ -14626,6 +14635,13 @@ function 배치읽기(){
     if(b.맨위){ const j = 목.indexOf(b.k); if(j > 0){ 목.splice(j, 1); 목.unshift(b.k); } }
   });
 
+  /* 모든 직원 같은 자리 — 「바로아래」 블록은 그 블록 바로 밑 (2026-11-04 대표 「청소구역이 프로필 바로 아래 · 필수 자료와 공지가 상단에 고정」) · 옛 배치에 어디 있든 여기서 바로잡힌다 */
+  홈블록.forEach(function(b){
+    if(!b.바로아래) return;
+    const 목 = 좌.indexOf(b.k) >= 0 ? 좌 : 우, j = 목.indexOf(b.k);
+    if(j < 0 || 목.indexOf(b.바로아래) < 0) return;
+    목.splice(j, 1); 목.splice(목.indexOf(b.바로아래) + 1, 0, b.k); });
+
   let 폭 = +((b && b.폭) != null ? b.폭 : 폭기본);
   폭 = Math.min(폭최대, Math.max(폭최소, isNaN(폭) ? 폭기본 : 폭));
   return { 좌, 우, 폭 };
@@ -14639,6 +14655,7 @@ function 옮김판(단, 자리, k){
   const 목 = B[단];
   const 이름 = (홈블록.find(x => x.k === k) || {}).이름 || k;
   const v = 단 + '.' + 자리;
+  const 정 = 홈블록.find(x => x.k === k) || {}, 자고정 = 블록자리고정(k), 위고정 = 목.filter(블록자리고정).length;      /* 고정 블록은 못 옮기고 · 다른 블록은 그 위로 못 올라간다 (2026-11-04) */
   /* ⛔ 이름을 이어 붙이지 않는다 (`'tx:hm' + act`). 그러면 **찾기로 안 걸리고**
      단추 점검기도 못 읽는다. 통째로 적는다 (2026-09-29) */
   const b = (act, 글, 막힘) => '<button data-act="' + act + '" data-v2="' + v + '"'
@@ -14646,23 +14663,25 @@ function 옮김판(단, 자리, k){
   return '<div class="hmove" data-keep="1">'
     + '<div class="ttl">' + esc(이름) + '</div>'
     + '<div class="g">'
-    + b('tx:hmup', '↑ 위로', 자리 <= 0)
-    + b('tx:hmdown', '↓ 아래로', 자리 >= 목.length - 1)
+    + b('tx:hmup', '↑ 위로', 자고정 || 자리 <= 위고정)
+    + b('tx:hmdown', '↓ 아래로', 자고정 || 자리 >= 목.length - 1)
     + b('tx:hmswap', (단 === '좌' ? '→ 오른쪽 단으로' : '← 왼쪽 단으로'),
-        !!(홈블록.find(x => x.k === k) || {}).단고정)
-    + b('tx:hmtop', '⤒ 맨 위로', 자리 <= 0)
+        !!정.단고정)
+    + b('tx:hmtop', '⤒ 맨 위로', 자고정 || 자리 <= 위고정)
     + '</div>'
-    + ((홈블록.find(x => x.k === k) || {}).단고정
-        ? '<div class="why">넓어서 이 단에만 둘 수 있어요</div>' : '')
+    + (자고정 ? '<div class="why">모든 직원이 같은 자리로 봅니다</div>'
+       : 정.단고정 ? '<div class="why">넓어서 이 단에만 둘 수 있어요</div>' : '')
     + '<button class="x" data-act="tx:hmclose">닫기</button></div>';
 }
 
 /* ⛔ 2026-10-01 — 이 함수 이름이 페이지 블록용 `블록옮기기(부터, 까지, 아래)` 와 **겹쳤다.**
    JS 는 나중 선언이 이기므로, 페이지에서 블록을 끌어 옮기면 **이 홈 배치용이 불려** 조용히 안 먹었다.
    홈 배치용은 이름을 갈랐다. (같은 이름 두 번 선언은 `앱배포.py` 관문 `중복정의점검` 이 막는다) */
+const 블록자리고정 = k => { const x = 홈블록.find(y => y.k === k) || {}; return !!(x.맨위 || x.바로아래); };      /* 내 이름표 · 오늘 내 청소 · 공지(필수자료) = 모든 직원 같은 자리 (2026-11-04 대표) */
 function 홈블록옮기기(B, 단, 자리, 할것){
   const 목 = B[단]; if(!목 || 목[자리] == null) return B;
   const k = 목[자리];
+  if(블록자리고정(k)){ toast('「' + ((홈블록.find(x => x.k === k)||{}).이름 || k) + '」은 모든 직원이 같은 자리로 봅니다'); return B; }
   /* 못박힌 블록은 단을 못 바꾼다 — 판에서도 막지만, 여기서 한 번 더 막는다 */
   if(할것 === 'swap' && (홈블록.find(x => x.k === k) || {}).단고정){
     toast('「' + ((홈블록.find(x => x.k === k)||{}).이름 || k) + '」은 넓어서 이 단에만 둘 수 있어요');
@@ -14784,7 +14803,12 @@ const 현황셈하기 = k => {
 /* 현황판 줄 세우기 (2026-11-02 대표) — ① 상담이 맨 앞 · 빛남 「상담이 가장 중요 · 가장 1번 · 가장 눈에 띄게」 ② 업무끼리 ③ 수업끼리 (뒤죽박죽 말고) — 관리자는 상담이 「내가 할 일」 첫 칸 */
 const 현황수업칸 = new Set(['운동', '오늘없음', '누락', '밀림', '요청', '실패', '첫연락', '첫TG', '담당', '빈담당', '배정없음', 'TG정리']);
 const 현황묶음 = k => k === '상담' ? 0 : 현황수업칸.has(k) ? 2 : 1;
-const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '설문2차', '다음주연차']);
+/* ⭐ 현황판 차례 (2026-11-04 대표 「빨간불을 가장 좌측 · 행동요건에 따라」 — 11/03 23:11 말씀 · 시안 현황판배치_시안_1103)
+   ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
+   ④ 보기만 하는 「수업 기록 완료」 맨 끝 · 묶음 구분선 없음(차례가 곧 묶음) · 새 칸은 여기 적지 않으면 맨 뒤로 간다 */
+const 현황차례 = ['첫연락', '오늘없음', '요청', '실패', '못감', '상담', '설문2차', '락커만료', '락커TM', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
+const 현황자리 = x => (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);
+const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '다음주연차']);      /* 「2차 설문톡 연락」은 대표 · 관리자 일 → 「내가 할 일」 (2026-11-03 23:11 대표) */
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
   if(청소오래됨() && !청소.중) setTimeout(청소받기, 0);      /* 현황판 「청소 누락」 (2026-10-21) */
@@ -14800,13 +14824,13 @@ function 숫자줄(){
   finally{ 현황본인눈 = false; }
   const 판색 = ['#d9d3c9'];      /* 한 톤 (2026-11-03 대표 「알록달록 · 무슨 기준인지」) */      /* 틀⑥ 숫자 칸 = 색 판 + 아이콘 + 이름 › (2026-11-03 대표 확정 · 상담은 그대로 빛남) */
   const 칸 = (x, i, xs) => { const 색 = 판색[Math.max(0, 현황칸.indexOf(x.c)) % 판색.length];
-    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (x.v && 급한칸.includes(x.c.k) ? ' ur' : '') + (i > 0 && 현황묶음(xs[i - 1].c.k) !== 현황묶음(x.c.k) ? ' gs' : '') + '"'
+    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + (x.c.k === '상담' && x.v ? ' hot' : '') + (x.v && 급한칸.includes(x.c.k) ? ' ur' : '') + '"'
     + ' style="--c:' + 색 + '" data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
     + '<span class="nk"><span class="nic" style="--ic:' + esc(네모주소(x.c.이름)) + '"></span><span class="k">' + x.c.이름 + '</span><em class="go">›</em></span><span class="v">' + x.v + '</span></button>'; };
   /* 0 인 것은 숫자 없이 이름만 한 줄로 (2026-10-12 대표 「4번부터 10번까지도 진행」 — 9/30 「죽어있는 건 아랫줄」을 한 줄 글로 줄임. 눌러서 가는 것은 그대로) */
   const 없는칸 = x => '<button class="dz" data-act="tx:numopen" data-v2="' + x.c.k + '" title="' + x.c.이름 + ' — 눌러서 그 페이지로">' + x.c.이름 + '</button>';
-  const 산 = 다.filter(x => x.v).map((x, i) => [x, i]).sort((p, q) => (현황묶음(p[0].c.k) - 현황묶음(q[0].c.k)) || (p[1] - q[1])).map(z => z[0]), 죽 = 다.filter(x => !x.v);
+  const 산 = 다.filter(x => x.v).map((x, i) => [x, i]).sort((p, q) => (현황자리(p[0]) - 현황자리(q[0])) || (p[1] - q[1])).map(z => z[0]), 죽 = 다.filter(x => !x.v);
   /* ⭐ 두 줄이 **같은 칸 수**를 쓴다 — 그래야 위아래가 세로로 맞고 한 줄이 안 접힌다.
      `auto-fit` 은 줄마다 칸 수가 달라져 아랫줄이 접혔다 (2026-09-30). */
   /* ⭐ 줄마다 **자기 칸 수**로 폭을 꽉 채운다 (2026-09-30 대표 「여백을 왜 남기는거야?」).
@@ -15978,7 +16002,7 @@ async function 배정추가(){
      · 잠수 회원 → 매주 **업무 데이터베이스**에 올라온다 (매일 볼 일이 아니다)
    되살리려면 이 표에 한 줄 더하고 `그릴것` 에 그리는 식을 붙이면 된다. */
 const 홈블록 = [
-  { k:'band',  이름:'내 이름표',        단:'좌' },
+  { k:'band',  이름:'내 이름표',        단:'좌', 단고정:'좌', 맨위:1 },      /* 모든 직원 왼쪽 맨 위 · 바로 아래 청소 (2026-11-04 대표) */
   /* 현황판은 숫자 여섯 칸이라 **좁은 단에 안 들어간다** — 오른쪽 단에 못박는다
      (2026-09-29 대표 「우측에 있는 메뉴는 우측 안에서만 움직이게」) */
   { k:'nums',  이름:'현황판',           단:'우', 단고정:'우' },
@@ -15990,7 +16014,7 @@ const 홈블록 = [
   /* 비품 — 연월차 바로 아래 · 모두가 눌러서 읽기 · 구매 입력 · 선구매 · 다시 알림 · 취소는 관리자만(서버 「넣기」) (2026-10-20 대표 20:35) */
   { k:'supply', 이름:'비품',            단:'좌' },
   /* 오늘 내 청소 — 비품 아래 · 체크박스만 · 기록 · 관리는 권한자에게 링크 (2026-10-21 대표) */
-  { k:'clean', 이름:'오늘 내 청소',      단:'좌' },
+  { k:'clean', 이름:'오늘 내 청소',      단:'좌', 단고정:'좌', 바로아래:'band' },      /* 모든 직원 프로필(내 이름표) 바로 아래 고정 (2026-11-04 14:09 대표 「청소구역이 프로필 바로 아래」) */
 ];
 /* 위 = 두 단을 가로지르는 맨 윗줄 (2026-09-17 대표: 「현황판을 가장 상단에 열로 구축하고」) */
 const 단차례 = ['위','좌','우'];
@@ -16686,7 +16710,7 @@ async function txAct(a, el){
   if(a==='mqe'){ 필자.편 = null; 쪽지닫기(); 필자편집(k); return; }
   if(a==='mqex'){ 필자.편 = null; 쪽지닫기(); 필자전체(''); return; }
   if(a==='mqsave'){ await 필자저장(); return; }
-  if(a==='mqpick'){ const inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.accept = 'image/*,application/pdf'; inp.onchange = () => { const t = document.getElementById('mqt'), b = document.getElementById('mqb'); if(필자.편){ if(t) 필자.편.title = t.value; if(b) 필자.편.body = b.value; } 필자올리기([...(inp.files || [])]); }; inp.click(); return; }
+  if(a==='mqpick'){ const inp = document.createElement('input'); inp.type = 'file'; inp.multiple = true; inp.onchange = () => { const t = document.getElementById('mqt'), b = document.getElementById('mqb'); if(필자.편){ if(t) 필자.편.title = t.value; if(b) 필자.편.body = b.value; } 필자올리기([...(inp.files || [])]); }; inp.click(); return; }
   if(a==='mqfx'){ const p = 필자.편; if(!p) return; const t = document.getElementById('mqt'), b = document.getElementById('mqb'); if(t) p.title = t.value; if(b) p.body = b.value; p.files.splice(+k, 1); 필자편집(p.id); return; }
   if(a==='mqpin'){ const x = (필자.줄 || []).find(z => z.id === k); if(!x || !필자쓰기()) return; const 켬 = !x.pinned;
     if(켬 && (필자.줄 || []).filter(z => z.pinned).length >= 4) return toast('홈은 4개까지예요 · 하나를 빼 주세요');
