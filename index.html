@@ -3230,7 +3230,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '586';
+const BUILD = '587';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8766,7 +8766,7 @@ async function 메모기록(c, o, st, rs){ const 종 = 메모종류(c.k); if(!�
 /* ══ 쉬면 새로고침 알림 ══ 2026-10-16 대표 「띄워만 놓고 일정 시간 작업이 없으면 새로고침해서 다시 신호를 받게」 → 13:42 「저절로 새로고침~!? 동작이 멈추고 작동하려는 사람이 새로고침하게 · 하단에 알림 표시 · 직접 새로고침」
    손(마우스 · 자판 · 누르기 · 휠 · 터치)이 10분 없으면 화면을 멈추고(살짝 어둡게 · 눌러지지 않게) 아래에 알림 띠 → 「새로고침」을 사람이 누른다 → 새 자료 · 새 판(BUILD).
    새로고침 뒤 보던 화면(메뉴 · 담당 거름 · 연 회원)은 되돌린다. 적다 만 글이 있으면 「이어서 쓰기」도 준다(글이 사라지면 안 된다) */
-const 쉼기준 = 10 * 60 * 1000;
+const 쉼기준 = 60 * 60 * 1000, 쉼글 = '1시간';      /* 10분 → 1시간 (2026-11-04 16:11 대표 「잠그는 시간 너무 빨라서 매번 로딩이 느린데 1시간으로」) · 1시간 동안은 자리를 비워도 열려 있다(대표께 말씀드림) */
 let 마지막손 = Date.now(), 쉼멈춤 = false;
 ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach(ev => document.addEventListener(ev, () => { if(!쉼멈춤) 마지막손 = Date.now(); }, { passive:true, capture:true }));
 function 적다만글(){
@@ -8784,10 +8784,23 @@ function 쉼새로고침(){      /* 이름은 그대로 — 2026-10-19 부터 �
     if(관리모드){ 관리모드 = false; try{ sessionStorage.setItem('gg_desk_admode', '0'); }catch(e){} }      /* 관리자로 보기도 끈다 — 다른 사람이 열 수도 있다 (2026-10-20) */      /* 2026-10-20 대표 「잠금이 안 풀림」 — 대신 보기 중 잠기면 잠금 풀기까지 「보기만」으로 막혔다 */
     로그인판(잠금칩들().length ? 'lock' : 'login'); return true; }
   const 글 = 적다만글(), el = document.createElement('div'); el.id = 'idlewall';
-  el.innerHTML = '<div class="iw-mid"><b>새로고침이 필요합니다</b><span>10분 동안 사용이 없어 멈췄어요. 새로고침하면 보던 화면으로 돌아와요</span><button class="btn main" data-iw="reload">새로고침</button></div>'
-    + '<div class="iw-bar"><span class="iw-dot"></span><div class="iw-tx"><b>지금은 새 매출이 안 들어와요</b><span>10분 동안 사용이 없었어요. 새로고침해 주세요</span></div>'
+  el.innerHTML = '<div class="iw-mid"><b>새로고침이 필요합니다</b><span>' + 쉼글 + ' 동안 사용이 없어 멈췄어요. 새로고침하면 보던 화면으로 돌아와요</span><button class="btn main" data-iw="reload">새로고침</button></div>'
+    + '<div class="iw-bar"><span class="iw-dot"></span><div class="iw-tx"><b>지금은 새 매출이 안 들어와요</b><span>' + 쉼글 + ' 동안 사용이 없었어요. 새로고침해 주세요</span></div>'
     + (글 ? '<button class="btn ghost" data-iw="go">이어서 쓰기</button>' : '') + '<button class="btn main" data-iw="reload">새로고침</button></div>';
   document.body.appendChild(el); return true;
+}
+/* 잠금 풀 때 — 페이지를 다시 부르지 않고 새 자료만 받는다(2분 받기와 같은 것들) · 보던 화면 그대로 · 잠긴 동안 생긴 결제 · 할 일은 풀자마자 팝업 줄로
+   새 판(BUILD)이 올라가 있으면 그때만 지금처럼 다시 부름 (2026-11-04 16:11 대표 「새것만 받기 · 팝업 뜨게」) */
+async function 새판있음(){ try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { cache:'no-store' }); if(!r.ok) return false; const m = (await r.text()).match(/const BUILD = '(\d+)'/); return !!(m && m[1] !== BUILD); }catch(e){ return false; } }
+async function 잠금풀림새로(){
+  $('#txlogin').classList.remove('on'); 쉼멈춤 = false; 마지막손 = Date.now(); 로그인.고른 = ''; 로그인.핀 = '';
+  if(await 새판있음()){ 쉼다시(); return; }
+  try{ await load(); }catch(e){ console.warn('잠금 풀림 — 자료 받기 실패', e); }
+  const 강 = [() => 매출받기(), () => 비품받기(), () => 팝업받기(), () => 데스크알림받기(true), () => TG정리받기(true), () => 필자받기()];
+  if(typeof 락커 !== 'undefined') 락커.때 = 0; if(typeof 못감 !== 'undefined') 못감.때 = 0;      /* 10분 거름을 풀어 숫자줄이 바로 다시 받게 */
+  강.forEach(f => { try{ f(); }catch(e){} });
+  render();
+  if(typeof 매확 !== 'undefined'){ 매확.마지막 = 0; try{ await 매확받기(); }catch(e){} 매확다시띄움(); }      /* 잠긴 동안 들어온 결제 · 락커 · TG = 풀자마자 (팝업 규칙 그대로 · 다른 창이 열려 있으면 줄) */
 }
 function 쉼다시(뷰){      /* 뷰 = 'home' 이면 홈부터 (잠금 풀기 · 2026-10-23 대표 「잠겼다가 다시 들어가면 다시 초기화」) */
   try{ sessionStorage.setItem('gg_resume', JSON.stringify(뷰 ? { view:뷰, t:Date.now() } : { view:S.view, who:S.who, mid:S.mid, tab:S.tab, t:Date.now() })); }catch(e){}
@@ -17552,7 +17565,7 @@ async function 들어온회원열기(){
 /* ══ 데스크 로그인 ══ 2026-10-19 대표 17:52~59(중앙 창) 확정 · 18:06 「데스크 창에서만」 · 18:36 「잠금번호 키보드로도」 · 시안 설계서\시험페이지\데스크로그인_1019.html
    아이디 = 전화번호(브로제이 직원 명단 정본 · 퇴사하면 막힘) · 비밀번호 8자리↑ + 특수문자 1개↑(서버가 검사) · 문자 인증은 처음(가입) · 잊었을 때만
    창구 POST /app/otp/ — send {phone} · pwset {phone, code, pw} · pwlogin {phone, pw} · renew {token} · pinstate · pinset · pinopen {token, pin}
-   10분 쉬면 잠금 — 이 창에서 로그인한 계정 칩만 · 4자리 · 5번 틀리면 그 계정만 이 창에서 로그아웃 · 대표(super)는 칩 없음(잠기면 로그아웃) */
+   1시간 쉬면 잠금(2026-11-04 · 10분이었음) — 이 창에서 로그인한 계정 칩만 · 4자리 · 5번 틀리면 그 계정만 이 창에서 로그아웃 · 대표(super)는 칩 없음(잠기면 로그아웃) */
 const 로그인 = { 판:'login', 단계:1, 전화:'', 코드:'', 초:0, 타이머:null, 핀:'', 핀1:'', 고른:'', 왜:'', 안내:'' };
 /* 가입 승인 대기 안내 — 서버 글 「앞 · 뒤」를 두 줄로 (2026-10-19 대표 「대표가 승인해 줘야 그때 들어올 수 있어」) */
 const 대기안내 = t => { const [a, ...b] = String(t || '').split(' · '); return '<div class="lg-wait"><b>' + esc(a) + '</b>' + (b.length ? '<small>' + esc(b.join(' · ')) + '</small>' : '') + '</div>'; };
@@ -17607,9 +17620,9 @@ function 로그인그리기(){
       + '<div class="lg-rules" id="lgrl"><span data-r="len">8자리 이상</span><span data-r="sp">특수문자 1개 이상 (! @ # 같은 것)</span><span data-r="eq">두 칸이 같아요</span></div>'
       + '<label class="lg-lab" for="lgp2">한 번 더</label><input class="inp" id="lgp2" type="password" autocomplete="new-password" placeholder="같은 비밀번호"><div class="err" id="lgerr">' + esc(L.왜) + '</div><button class="btn gold" type="button" data-lg="pwset" id="lgpwgo" disabled>' + (잊음 ? '저장하고 들어가기' : '만들고 들어가기') + '</button>';
     h += '<div class="lg-links"><button type="button" data-lg="go" data-v="' + (ME ? 'close' : 'login') + '">‹ ' + (ME ? '닫기' : '로그인으로') + '</button><span></span></div>'; }
-  else if(L.판 === 'pinset') h = 핀판(L.핀1 ? '한 번 더 눌러 주세요' : '잠금 번호 정하기', L.핀1 ? '같은 번호 4자리' : '10분 쉬면 잠겨요 · 이 번호로 다시 열어요');
+  else if(L.판 === 'pinset') h = 핀판(L.핀1 ? '한 번 더 눌러 주세요' : '잠금 번호 정하기', L.핀1 ? '같은 번호 4자리' : 쉼글 + ' 쉬면 잠겨요 · 이 번호로 다시 열어요');
   else if(L.판 === 'lock'){ const 칩 = 잠금칩들();
-    if(!L.고른) h = '<div class="lg-lt"><div style="font-size:26px">🔒</div><h2>잠겼어요</h2><p>10분 동안 사용이 없었어요 · 본인 이름을 눌러 주세요</p></div>'
+    if(!L.고른) h = '<div class="lg-lt"><div style="font-size:26px">🔒</div><h2>잠겼어요</h2><p>' + 쉼글 + ' 동안 사용이 없었어요 · 본인 이름을 눌러 주세요</p></div>'
       + '<div class="lg-accs">' + (칩.length ? 칩.map(a => '<div class="lg-acc"><button type="button" class="lg-pick" data-lg="pick" data-v="' + esc(a.name) + '"><span class="lg-av" style="--c:' + esc(선생님색(a.name) || '#8A857B') + '">' + esc(String(a.name).slice(0, 1)) + '</span><span><b>' + esc(a.name) + '</b><small>잠금 번호로 열기</small></span></button><button type="button" class="lg-out" data-lg="out" data-v="' + esc(a.name) + '">로그아웃</button></div>').join('') : '<div class="lg-lead" style="text-align:center">이 창에 로그인한 사람이 없어요</div>') + '</div>'
       + '<button class="btn ghost" type="button" data-lg="go" data-v="login">다른 사람으로 로그인</button>';
     else h = 핀판(계정직함(L.고른), '잠금 번호 4자리', '<div class="lg-links" style="margin:-4px 0 2px"><button type="button" data-lg="back">‹ 다른 사람</button><span></span></div>'); }
@@ -17661,10 +17674,10 @@ async function 핀확인(){ const L = 로그인, 핀 = L.핀; if(핀.length !== 
     return; }
   if(L.판 === 'lock' && L.고른){ const a = 계정들().find(x => x.name === L.고른); if(!a){ L.고른 = ''; 로그인그리기(); return; }
     try{ const d = await otp('pinopen', { token: a.token, pin: 핀 });
-      if(d && d.ok){ const 그대로 = AUTH && AUTH.name === a.name && 적다만글();
+      if(d && d.ok){ const 같은 = !!(AUTH && AUTH.name === a.name);
         try{ sessionStorage.setItem(지금키, a.name); }catch(e){}
-        if(그대로){ $('#txlogin').classList.remove('on'); 쉼멈춤 = false; 마지막손 = Date.now(); L.고른 = ''; if(typeof 매확 !== 'undefined') 매확.마지막 = 0; return; }      /* 적다 만 글이 있으면 그 화면 그대로 */
-        쉼다시('home'); return; }
+        if(같은){ await 잠금풀림새로(); return; }      /* 같은 사람 = 다시 부르지 않음 · 새 자료만 · 보던 화면 그대로 (2026-11-04) */
+        쉼다시('home'); return; }      /* 다른 사람 = 계정이 바뀌니 지금처럼 다시 부름 */
       if(d && d['다시로그인']){ 계정빼기(a.name); L.고른 = ''; L.왜 = ''; toast(계정직함(a.name) + '는 이 창에서 로그아웃됐어요 · 비밀번호로 다시 들어와 주세요'); 로그인그리기(); return; }
       L.핀 = ''; L.왜 = ((d && d.why) || '번호가 달라요') + (d && d['남은'] != null ? ' · ' + d['남은'] + '번 남았어요' : ''); 로그인그리기(); 핀흔들();
     }catch(e){ L.핀 = ''; L.왜 = e.message; 로그인그리기(); }
