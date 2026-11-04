@@ -3090,6 +3090,12 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .hblk > .homenums .num.nc .nic{width:22px;height:22px;border-radius:7px;flex:none;background:var(--c) var(--ic) center/14px no-repeat}
 .hblk > .homenums .nrow.live .num.nc .v{display:block;color:var(--c);margin-top:4px;line-height:1.1}
 .hblk > .homenums .num.nc.hot{background:rgba(232,196,128,.12)}.hblk > .homenums .num.nc.hot .v{color:var(--gold)}
+/* 현황판 칸 = 가운데 타일 — 숫자 가운데 크게 · 이름 아래 · 급한 칸 = 위 붉은 띠 + 붉은 숫자 (2026-11-04 19:08 대표 시안 현황판칸_시안_1104 「B」 · 「넓은 칸에 숫자가 한쪽으로 쏠림」) */
+.hblk > .homenums .nrow.live .num.nc{display:flex !important;flex-direction:column-reverse;align-items:center;justify-content:center;text-align:center !important;gap:2px;padding:12px 8px !important;min-height:92px}
+.hblk > .homenums .num.nc .nk{justify-content:center;width:100%}.hblk > .homenums .num.nc .nk .k{flex:none !important;text-align:center !important}
+.hblk > .homenums .num.nc .nic,.hblk > .homenums .num.nc .go{display:none}
+.hblk > .homenums .nrow.live .num.nc .v{margin-top:0 !important;font-size:34px;line-height:1.1}
+.hblk > .homenums .num.nc.ur::after{display:none}.hblk > .homenums .num.nc.ur{box-shadow:inset 0 3px 0 #e5484d;border-color:#7a3a3a !important}.hblk > .homenums .nrow.live .num.nc.ur .v{color:#ff8a8a !important}
 .pwa-app{flex-basis:100%;display:block;margin-top:8px;font-size:14px;font-weight:800;color:var(--gold-2,#e2c184);text-decoration:none}
 </style></head><body>
 
@@ -3231,7 +3237,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '591';
+const BUILD = '592';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
