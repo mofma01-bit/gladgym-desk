@@ -3260,7 +3260,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '606';
+const BUILD = '607';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9101,7 +9101,7 @@ function 누락판(){
    미확인 → 모든 선생님 팝업 「PT 매출이 발생했습니다!」 → 담당 + 카테고리 → 선택됨 → 관리자 팝업 「해당 매출이 맞는지 확인해 주세요」 → 확정(누적은 확정만).
    담당 빈칸 = 센터 매출(카테고리 「센터」). 바뀜(환불 · 수정 · 삭제 · 사람수정 · 사람삭제)은 「○○ 트레이너의 ○○ 매출이 …되었습니다」 팝업. 삭제는 줄을 안 지우고 「삭제됨」(관리자 · 되돌리기 있음).
    모든 사람 손은 pt_sales_log 에 한 줄씩(자세히). 목록 이름 「PT 매출」(「담당 미정」 금지 — TG · 체험과 헷갈림) */
-const 매출 = { 줄:null, 없음:false, 끔:new Set(), 탭:'확정',      /* 확정이 먼저 열림 (2026-11-03 밤 노션 대표) */ 기록:{}, 연기록:'', 고침:'', 선생:'' };
+const 매출 = { 줄:null, 없음:false, 끔:new Set(), 탭:'',      /* 빈칸 = 처음 열 때 확정 · 담당 고를 것 있으면 담당 선택 (2026-11-03 · 11-05 대표) */ 기록:{}, 연기록:'', 고침:'', 선생:'' };
 const 매출갈래 = ['TG', '재등록', 'SNS', '지정상담', '체험', '체험전환', '소개'];      /* 2026-10-16 18:09 대표 「지정상담이랑 체험 카테고리 나눠」 — 옛 「지정상담&체험」 줄은 중앙이 둘 중 하나로 다시 나눈다 */
 const 매출관리자 = () => 할수('saleok');
 const 매출쉼 = g => (g.줄 || [g]).some(x => x.snooze_until && String(x.snooze_until).slice(0, 10) > TODAY);      /* 관리자가 미룬 매출 — 그날까지 팝업 · 칩에서 뺀다 (2026-10-26 대표 「담당을 고객이 이번 주 중 정해 주기로」) */
@@ -9197,7 +9197,7 @@ const 매출환줄 = x => { const 원줄 = x.refund_of ? (매출.줄 || []).find
 function 매출줄(g, 손){
   if(!g.줄) g = 묶음of(g.id) || { 키:g.sale_key, 줄:[g], 머리:g };      /* 옛 부르는 꼴(줄 하나) 도 받는다 */
   const x = g.머리, id = x.id, st = 묶음상태(g), 산 = g.줄.filter(y => y.status !== '삭제됨'), 합 = (산.length ? 산 : g.줄).reduce((a, y) => a + (+y.amount || 0), 0), 환 = 합 < 0, 앞 = 묶음고른값(g);
-  const 덜 = g.줄.length > 1 && 산.some(y => y.status !== st) ? '<div class="ps-chg">한 결제 중 일부가 아직 ' + ({ 미확인:'선택 필요', 선택됨:'확정 필요' }[st] || st) + ' — 저장하면 같은 값으로 맞춥니다</div>' : '';
+  const 덜 = g.줄.length > 1 && 산.some(y => y.status !== st) ? '<div class="ps-chg">한 결제 중 일부가 아직 ' + ({ 미확인:'담당 선택 필요', 선택됨:'관리자 확정 대기' }[st] || st) + ' — 저장하면 같은 값으로 맞춥니다</div>' : '';
   const 고침 = st === '미확인' || 매출.고침 === id;
   return '<div class="ps-row' + (환 ? ' neg' : '') + (st === '삭제됨' ? ' gone' : '') + '" id="psr_' + esc(id) + '">'
     + '<div class="ps-top"><div class="ps-who"><b>' + esc(x.name || '') + '</b> <span class="sub3">···' + esc(x.phone4 || '') + '</span>' + (g.줄.some(매출시험줄) ? ' <span class="tag warn">시험</span>' : '') + (x.reg ? ' <span class="tag">' + esc(x.reg) + '</span>' : '') + '</div>'
@@ -9285,7 +9285,8 @@ function 매출판(){
   const 내것 = g => !매출.선생 || g.줄.some(x => (x.trainer || '') === 매출.선생);      /* 팀 막대에서 고른 선생님 매출만 (2026-10-23 대표) — 탭 숫자도 같은 범위로 센다 (22:00 「확정하라고 해 놓고 리스트 안 떠」) */
   const 온 = { 미확인: gs.filter(g => 묶음상태(g) === '미확인'), 확인대기: gs.filter(g => 묶음상태(g) === '선택됨'), 확정: gs.filter(g => 묶음상태(g) === '확정'), 삭제됨: gs.filter(g => 묶음상태(g) === '삭제됨') };
   const 묶 = {}; Object.keys(온).forEach(k => { 묶[k] = 온[k].filter(내것); });
-  const 탭 = [['확정', '확정'], ['미확인', '선택 필요'], ['확인대기', '확정 필요'], ['삭제됨', '삭제됨']].filter(([k]) => k !== '삭제됨' || 묶.삭제됨.length);      /* 확정이 가장 왼쪽 (2026-11-03 밤 노션 대표) */
+  if(!매출.탭) 매출.탭 = 온.미확인.length ? '미확인' : '확정';      /* 처음 열 때 = 「전체 매출(확정)」 · 담당 고를 매출이 있을 때만 「담당 선택 필요」 (2026-11-05 23:19 대표 「선택할 게 있을 때 빼고는 확정 탭이 첫 번째로」) */
+  const 탭 = [['확정', '전체 매출 (확정)'], ['미확인', '담당 선택 필요'], ['확인대기', '관리자 확정 대기'], ['삭제됨', '삭제됨']].filter(([k]) => k !== '삭제됨' || 묶.삭제됨.length);      /* 확정이 가장 왼쪽 (2026-11-03 밤 노션 대표) · 이름은 트레이너가 바로 알게 (11-05 23:19) */
   const 볼 = 묶[매출.탭] || 묶.확정, 딴 = (온[매출.탭] || 온.미확인).length - 볼.length;
   판열기('PT 매출', 팀게이지() + 달칸 + '<div class="nmtabs">' + 탭.map(([k, l]) => '<button class="nmtab' + (매출.탭 === k ? ' on' : '') + '" data-act="tx:ptab" data-k="' + k + '">' + l + '<b>' + 묶[k].length + '</b></button>').join('') + '</div>'
     + (매출.탭 === '확정' && 지 === 이 ? 팀순위() : '')      /* 순위는 이번 달 것이라 다른 달을 볼 땐 뺀다 */
@@ -17108,7 +17109,7 @@ async function txAct(a, el){
   if(a==='bplist'){ try{ localStorage.setItem('gg_bipum_seen', TODAY); }catch(e){} popClose(); 비품판(); return; }
   if(a==='popen'){ 매출.끔.clear(); popClose(); 매출팝업(true); if(!$('#pop').classList.contains('on')) 매출판(); return; }
   if(a==='pconfirm'){ 매출.탭 = '확인대기'; 매출판(); return; }      /* 관리자 확정 단추 (2026-10-21) */
-  if(a==='plist'){ 매출.탭 = 매출관리자() && !(매출.줄 || []).some(x => x.status === '미확인') ? '확인대기' : '미확인'; 매출판(); return; }
+  if(a==='plist'){ 매출.탭 = ''; 매출판(); return; }
   if(a==='plater'){ (매출.줄 || []).forEach(x => { if(x.status === '미확인' || x.status === '선택됨') 매출.끔.add(x.id); }); try{ localStorage.setItem('gg_ptsale_seen', new Date().toISOString()); }catch(e){} popClose(); 매출칩(); return; }
   if(a==='asask'){ 배정.물 = 배정.물 === k ? '' : k; render(); return; }
   if(a==='aspg'){ 배정.페 = Math.max(0, 배정.페 + (+k || 0)); render(); return; }
@@ -19785,7 +19786,7 @@ document.addEventListener('click', async function(ev){
 });
 
 /* 맨 위 띠 버튼 */
-$('#gsale').addEventListener('click', function(){ 매출.탭 = '미확인'; 매출판(); });
+$('#gsale').addEventListener('click', function(){ 매출.탭 = ''; 매출판(); });      /* 빈칸 = 매출판이 고름(확정 · 고를 것 있으면 담당 선택) */
 $('#gnotice').addEventListener('click', function(){
   popOpen('<h2>공지사항</h2>'
     + '<div class="card"><div class="t1">로그인이 붙었습니다</div>'
