@@ -1349,11 +1349,11 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-mid .tx-ph b{font-size:17px}.tx-mid .cl-ed{gap:14px}.tx-mid .cl-ed label,.tx-mid .cl-ed .cl-lb{display:grid;gap:6px;font-size:14px;color:#c9c1b2;font-weight:700}
 .tx-mid .inp{height:42px;font-size:15px}.tx-mid .cl-days{gap:6px}.tx-mid .cl-days button{min-width:44px;height:40px;padding:0 12px;font-size:14px;border-radius:10px}
 .tx-mid .btn.gold{height:46px;font-size:15px}.tx-mid .cl-ed small{font-weight:500;color:#8f887e;font-size:13px}
-.tx-pop{position:fixed;z-index:95;background:var(--dark-2);border:1px solid var(--line);border-radius:12px;
-  padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.55);max-height:360px;overflow-y:auto;overflow-x:hidden;
+.tx-pop{position:fixed;z-index:95;background:#25231f;border:1px solid #4f4637;border-radius:12px;      /* 작은 창은 바탕과 구분되게 — 조금 밝은 판 + 옅은 금빛 테두리 (2026-11-05 22:26 대표 「검정 배경에 흰 글씨라 구분이 안 돼 · 창은 구분되게」) */
+  padding:6px;box-shadow:0 16px 38px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.5);max-height:360px;overflow-y:auto;overflow-x:hidden;
   overscroll-behavior:contain}
 /* 찾는 칸은 목록이 길어도 늘 보이게 위에 붙여 둔다 */
-.tx-pop #txopq{position:sticky;top:-6px;z-index:2;background:var(--dark-2)}
+.tx-pop #txopq{position:sticky;top:-6px;z-index:2;background:#25231f}
 .tx-pop .inp{width:100%;padding:8px 10px;font-size:13px}
 .tx-pop textarea.inp{resize:vertical;min-height:76px}
 .tx-pop .hd,.tx-pop .hd2{font-size:13px;color:#7c766e;padding:4px 9px 6px;font-weight:700}
@@ -1362,7 +1362,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-pmenu{display:flex;flex-direction:column;gap:1px}
 .tx-pmenu button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:7px 9px;
   border-radius:8px;font-size:13px;font-weight:600;color:var(--cream)}
-.tx-pmenu button:hover{background:var(--dark-3);color:var(--gold)}
+.tx-pmenu button:hover{background:#322f29;color:var(--gold)}
 .tx-pmenu button.wn{color:var(--warn)}
 .tx-pmenu button.wn:hover{background:var(--warn);color:#1b1b19}
 .tx-pmenu button.mut{color:#6f6a63;font-weight:500}
@@ -1680,6 +1680,11 @@ body.resizing{cursor:col-resize;user-select:none}
 .rs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
 .sgchips{display:flex;flex-wrap:wrap;gap:8px}.sgc{border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}.sgc small{font-size:11.5px;color:var(--sub);font-weight:600}.sgc.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}.sgc.on small{color:#5a4a30}.sgc.done{opacity:.5;cursor:default}
 .sggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.sgg{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:12px;padding:9px 12px;font:inherit;text-align:left;cursor:pointer}.sgg b{font-size:14.5px}.sgg small{font-size:12px;color:var(--gold-2);font-weight:700}.sgg.done{opacity:.42;cursor:default}.sgg.done small{color:var(--sub)}.sgg.on{border-color:var(--gold);background:rgba(232,196,128,.16)}.sgg.on small{color:var(--gold)}.sgsec{margin:0 0 14px}.sgh{font-weight:900;font-size:14.5px;margin:0 0 6px}.sgh small{color:var(--sub);font-weight:600;margin-left:4px}.sgnote{color:var(--sub);font-size:13px;margin:-4px 0 10px}
+.rsv-st{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 2px;padding:8px 10px;border:1px solid #3f7281;border-radius:12px;background:linear-gradient(180deg,#1d3036,#162327)}.rsv-stl{font-weight:900;color:#bfe6ec;font-size:13.5px}.rsv-sti .pkim{width:38px;height:38px;border-radius:8px;overflow:hidden;display:inline-flex}.rsv-sti .pkim img{width:100%;height:100%;object-fit:contain;background:#fff}.rsv-stn{display:flex;flex-direction:column;margin-right:auto}.rsv-stn b{font-size:14px}.rsv-stn small{color:var(--sub);font-size:12px}
+.stcopy{font-size:13.5px;font-weight:800;color:#d6ecff;background:rgba(70,150,230,.18);border:1px solid #4f8fd0;border-radius:9px;padding:8px 10px;margin:2px 2px 6px;line-height:1.5}      /* 경고문 파랗게 (22:26 대표 「빨갛게든 파랗게든 눈에 띄게」 · 톤 문서 빨강 금지라 파랑) */.rsv-x.stup{position:relative;cursor:pointer}.rsv-x.stup .stupi{position:absolute;left:0;right:0;top:0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:300;color:#fffcf8;background:rgba(10,9,8,.55);border-radius:12px;opacity:0;transition:opacity .15s;pointer-events:none}.rsv-x.stup:hover .stupi{opacity:1}@media (hover:none){.rsv-x.stup .stupi{opacity:1;background:rgba(10,9,8,.28);font-size:30px}}      /* 마우스 올리면 큰 ＋ (22:19) */.pkim video{width:100%;height:100%;object-fit:cover}
+.rsv-tie{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 2px;font-size:13px}.rsv-tie>span{color:#bfe6ec;font-weight:900}.rsv-tiec{border:1px solid #3f7281;background:rgba(63,114,129,.16);color:#d8f1f7;border-radius:999px;padding:3px 11px;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer}
+.rsv-stadd{display:block;width:100%;margin:8px 0 2px;padding:9px 12px;border:1px dashed #3f7281;border-radius:12px;background:none;color:#bfe6ec;font:inherit;font-weight:800;font-size:13.5px;text-align:left;cursor:pointer}.rsv-stadd small{color:var(--sub);font-weight:600;margin-left:6px}.rs-stauto{border:1px solid #3f7281;color:#bfe6ec;background:rgba(63,114,129,.18)}
+.stpk{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}.stpk-c{display:flex;flex-direction:column;gap:6px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--dark-3);color:var(--cream);font:inherit;text-align:left;cursor:pointer}.stpk-c.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(232,196,128,.2)}.stpk-g{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%}.stpk-g .pkim{width:100%;aspect-ratio:1;height:auto;border-radius:8px;overflow:hidden}.stpk-g .pkim img{width:100%;height:100%;object-fit:contain;background:#fff}.stpk-c b{font-size:14.5px}.stpk-c small{color:var(--sub);font-size:12.5px}.stpk-r{font-style:normal;font-size:11.5px;color:#2a1c14;background:var(--gold);border-radius:6px;padding:0 6px;margin-left:4px}
 .rs-cw{position:relative;min-width:0}.rs-cw>.rs-card{width:100%}.rs-hov{position:absolute;top:0;left:0;width:100%;aspect-ratio:3/4;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:8px;padding:0 10%;border-radius:12px;background:rgba(10,9,8,.62);opacity:0;transition:opacity .15s;pointer-events:none}.rs-cw:hover .rs-hov,.rs-cw:focus-within .rs-hov{opacity:1}.rs-cw:hover .rs-hov button,.rs-cw:focus-within .rs-hov button{pointer-events:auto}@media (hover:none){.rs-hov{opacity:1;background:rgba(10,9,8,.45)}.rs-hov button{pointer-events:auto}}      /* 덮개는 누름 통과(표지 눌러 열기) · 단추만 눌림 */      /* 마우스 올리면 표지 어둡게 · 단추 크게 (2026-11-05 20:52 대표) */
 .rs-hov button{border:1.5px solid rgba(255,255,255,.75);background:rgba(20,19,17,.55);color:#fffcf8;border-radius:12px;min-height:38px;padding:6px 10px;font:inherit;font-size:14px;font-weight:900;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}.rs-hov button:hover{background:rgba(20,19,17,.85)}.rs-hov button:first-child{background:var(--gold);color:#2a1c14;border-color:var(--gold)}.rs-hov button:first-child:hover{filter:brightness(1.06)}
 .rs-card{display:flex;flex-direction:column;background:none;border:0;color:var(--cream);font:inherit;text-align:left;cursor:pointer;padding:0;min-width:0}
@@ -1763,7 +1768,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-tag.tx-reg{background:#1e343b;color:#bfe6ec;border:1px solid #3f7281;margin-left:6px}
 .rv-fc{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px;padding:10px 12px;border-radius:12px;border:1px solid #7a3a3a;background:#2a1716}.rv-fc span{flex:1;min-width:0;display:flex;flex-direction:column}.rv-fc small{color:var(--sub);font-size:13px}
 .lk-memo{display:flex;gap:8px;margin-top:8px}.lk-memo .inp{flex:1;min-width:0;height:38px;font-size:14px}
-.homenums .nh{display:flex;align-items:baseline;gap:8px}.homenums .nfold{margin-left:auto;background:none;border:1px solid var(--line);border-radius:999px;color:var(--sub);font:inherit;font-size:13px;font-weight:700;padding:3px 12px;cursor:pointer}.homenums .nsum{color:var(--sub);font-size:14px}.homenums .nsum b.ur{color:#ff8a8a}
+.homenums .nh{display:flex;align-items:baseline;gap:8px}.homenums .nfold{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(240,211,160,.08);border:1px solid var(--gold-2);border-radius:999px;color:var(--gold);font:inherit;font-size:13.5px;font-weight:800;padding:4px 14px;cursor:pointer}.homenums .nfold i{font-style:normal;font-size:10px}.homenums .nfold:hover{background:rgba(240,211,160,.16)}      /* 칸 통째 접기 — 아래 「0건 펼치기」(글자만)와 구분되게 금빛 알약 (2026-11-05 22:45 대표) */.homenums .nsum{color:var(--sub);font-size:14px}.homenums .nsum b.ur{color:#ff8a8a}
 .wdel{margin-left:8px;padding:5px 12px;border-radius:999px;border:1px solid #6a3a32;color:#ffb4a9;font-size:13px;font-weight:800;cursor:pointer}.wdel:hover{background:#2a1916}
 .dk-notice{display:flex;align-items:center;gap:10px;width:100%;background:#211e18;border:1px solid #5a4a2c;border-radius:12px;padding:11px 14px;color:var(--cream);font:inherit;cursor:pointer;text-align:left}
 .dk-notice .i{font-size:17px}.dk-notice b{color:var(--gold);font-size:15px}.dk-notice .m{color:var(--sub);font-size:14px;font-weight:700}.dk-notice em{margin-left:auto;font-style:normal;color:var(--gold);font-weight:800;font-size:14px}
@@ -1956,7 +1961,8 @@ body .figbox2{background:radial-gradient(80% 50% at 50% 30%,rgba(240,211,160,.09
 .pkc2 .pkms{position:absolute;top:7px;left:7px;font-size:12px;font-weight:800;color:var(--teal);background:rgba(20,30,28,.9);border:1px solid #3c5a53;border-radius:999px;padding:1px 8px}
 .pkc2 .pked{position:absolute;top:7px;left:7px;font-size:13px;font-weight:700;color:var(--cream);background:rgba(20,19,17,.88);border:1px solid #4a463d;border-radius:8px;padding:2px 9px}
 .pkc2.new{border-style:dashed;align-items:center;justify-content:center;min-height:150px;color:var(--gold);font-weight:800;font-size:14px;padding:0}
-.pkc2.new span{display:block;font-size:30px;text-align:center;line-height:1.1}
+.pkc2.new span{display:block;font-size:30px;text-align:center;line-height:1.1}.pkc2.new b{display:block;text-align:center;font-size:14px;color:var(--gold);padding:0 8px;word-break:keep-all}.pkc2.new small{display:block;text-align:center;font-size:12.5px;color:var(--sub);font-weight:600;margin-top:2px}
+.pzbox.pinb{width:min(520px,100%)}.pinb-b{display:flex;flex-direction:column;gap:8px;padding:16px 18px}.pinb-b .stcopy{margin:4px 0 0}.pinb-up{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:96px;border:1.5px dashed #5a4c33;border-radius:12px;cursor:pointer;color:var(--gold);font-weight:800;font-size:15px}.pinb-up:hover{background:#25231f}.pinb-up small{color:var(--sub);font-weight:600;font-size:13px}
 .pkim{display:flex;align-items:center;justify-content:center;height:96px;background:#1b1a17;border-bottom:1px solid #2c2b27}
 .pkim img{width:100%;height:100%;object-fit:contain;background:#fff}
 .pkim.ph>svg{width:34px;height:34px;stroke:#6f685c;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -3254,7 +3260,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '605';
+const BUILD = '606';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4068,7 +4074,9 @@ const 카드그림 = e => { if(그림있음.has(e.id)) return 그림칸(e.id);
   if(u) return '<span class="pkim"><img src="' + esc(u) + '" alt="" loading="lazy"></span>';
   if(근그림있음.has(e.id)) return '<span class="pkim"><img src="' + 앱터 + 'img/ex_mus/' + encodeURIComponent(e.id) + '.webp" alt="" loading="lazy"></span>';
   return 부위번(e) != null ? '<span class="pkim ph"><span class="pti p' + 부위번(e) + '"><i></i></span></span>' : '<span class="pkim ph">' + 사람그림 + '</span>'; };
-const 스트그림 = x => { const id = String(x.v || '').split(':')[0]; return id && 그림있음.has(id) ? 그림칸(id) : '<span class="pkim ph">' + 사람그림 + '</span>'; };
+const 스트그림 = x => { const id = String(x.v || '').split(':')[0], e = id && (D.ex || []).find(z => z.id === id), m = e && (e.media || []).slice(-1)[0];      /* 올린 사진 · 영상이 먼저 (2026-11-05 22:18 대표 「스트레칭 썸네일 사진이나 영상으로 · 누르면 바로 업로드」) */
+  if(m && m.path) return m.kind === 'video' ? '<span class="pkim"><video src="' + esc(media(m.path)) + '#t=0.1" muted playsinline preload="metadata"></video></span>' : '<span class="pkim"><img src="' + esc(media(m.path)) + '" alt="" loading="lazy"></span>';
+  return id && 그림있음.has(id) ? 그림칸(id) : '<span class="pkim ph">' + 사람그림 + '</span>'; };
 const 스트칸들 = ['목·어깨', '가슴·팔', '등·허리', '엉덩이', '다리', '추가한 동작'];
 const 스트칸 = { s01:'목·어깨', s02:'목·어깨', s03:'목·어깨', s06:'목·어깨', s31:'목·어깨', m04:'목·어깨', m05:'목·어깨', m08:'목·어깨', s34:'목·어깨',
   s04:'가슴·팔', s05:'가슴·팔', s07:'가슴·팔', s08:'가슴·팔', m06:'가슴·팔', m18:'가슴·팔', s33:'가슴·팔',
@@ -6151,7 +6159,8 @@ function 루틴표보기(s){
   const 넣는중 = !스 && 종목픽 && 판머리 && String(판머리).includes('종목 추가') && L.some(r => r.id === 종목픽.rid), 새것 = new Set(((넣는중 && 종목픽.새) || []).map(String));
   const 선 = S.rsSel && L.some(r => r.id === S.rsSel.rid) ? S.rsSel : null;
   const 줄 = (r, k) => { const 고른다 = 선 && 선.rid === r.id, 목 = 스 ? [] : (D.ri || []).filter(x => x.routine_id === r.id).sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    const 칸들 = 스 ? (r.items || []).map(it => '<div class="rsv-x">' + 스트칸그림(it) + '<small>' + esc((세트동작(it) || { n:'?' }).n) + '</small></div>')
+    const 칸들 = 스 ? (r.items || []).map(it => { const vid = it.k === 'lib' ? (z => z ? String(z.v || '').split(':')[0] : '')(ST.concat(MS).find(q => q.i === it.i)) : '', 올림 = vid && 종목급();
+        return '<div class="rsv-x' + (올림 ? ' stup' : '') + '"' + (올림 ? ' data-act="tx:stmedia" data-k="' + esc(vid) + '" title="눌러서 사진 · 영상 올리기"' : '') + '>' + 스트칸그림(it) + (올림 ? '<span class="stupi">＋</span>' : '') + '<small>' + esc((세트동작(it) || { n:'?' }).n) + '</small></div>'; })
       : 목.map((x, i) => { const 켬 = 고른다 && 선.ids.includes(String(x.id));
           return '<div class="rsv-x' + (새것.has(String(x.id)) ? ' new' : '') + (켬 ? ' on' : '') + '"' + (고른다 ? ' data-act="tx:rsselx" data-k="' + esc(x.id) + '"' : '') + '>' + 종목그림(x.variant_id) + '<small>' + esc(vaName(x.variant_id) || '?') + '</small>'
             + (고른다 ? '<span class="rsv-ck">✓</span>' : 고 ? '<button class="rsv-del" data-act="tx:rsxdel" data-k="' + esc(x.id) + '" title="이 종목 삭제">✕</button>'
@@ -6162,11 +6171,12 @@ function 루틴표보기(s){
            + (고 && !고른다 ? '<button class="btn ed sm" data-act="' + (스 ? 'tx:rsredit' : 'tx:rsrn') + '" data-k="' + esc(r.id) + '">✎ 수정</button>' : ''))      /* 이름은 자동 「루틴 N」 · 옆 「수정」으로 이름 + 설명 (2026-10-28 노션 낮) */
       + (고 && !스 && 목.length ? '<button class="btn ' + (고른다 ? 'gold' : 'ed') + ' sm" data-act="tx:rssel" data-k="' + esc(고른다 ? '' : r.id) + '">' + (고른다 ? '다중선택 끝' : '☑ 다중선택') + '</button>' : '')      /* 수정 옆에 나란히 · 「다중선택」 (2026-11-02 대표 「양 끝이라 안 보여」 시안 A1) */
       + '<span class="sp"></span></div>'      /* 「자세히 수정」 없앰 → 「선택」 (2026-11-02 대표 · 순서는 카드 ‹ › · 목적은 설명이 대신) */
-      + '<div class="rsv-ex">' + 칸들.join('') + (고 && !고른다 ? '<button class="rsv-plus" data-act="' + (스 ? 'tx:rsredit' : 'tx:rspick') + '" data-k="' + esc(r.id) + '"><span>＋</span>' + (스 ? '동작' : '종목') + '</button>' : '') + (!칸들.length && !고 ? '<span class="sub3">아직 종목이 없습니다</span>' : '') + '</div></div>'; };
+      + '<div class="rsv-ex">' + 칸들.join('') + (고 && !고른다 ? '<button class="rsv-plus" data-act="' + (스 ? 'tx:rsredit' : 'tx:rspick') + '" data-k="' + esc(r.id) + '"><span>＋</span>' + (스 ? '동작' : '종목') + '</button>' : '') + (!칸들.length && !고 ? '<span class="sub3">아직 종목이 없습니다</span>' : '') + '</div>' + (스 ? 묶인웨이트줄(r) : 묶음줄(r, 고)) + '</div>'; };
   const 선줄 = 선 && L.find(r => r.id === 선.rid), 선수 = 선 ? 선.ids.length : 0;
   return '<div class="rsv' + (넣는중 ? ' picking' : '') + '"><div class="rsv-top">'
     + '<div class="rsp-h">' + 루틴표표지(s) + '<div><b>' + esc(s.title || '(이름 없음)') + '</b><small>' + esc(((s.tags || []).concat([보임이름(s.owner || '')])).filter(Boolean).join(' · ')) + '</small></div></div><span class="sp"></span>'
     + (고 && !스 ? '<button class="btn sm rs-photo" data-act="tx:rsphotox" data-k="' + esc(s.id) + '">' + 사진아이콘 + '사진으로 다시 만들기</button>' : '')
+    + (고 && !스 && L.length ? '<button class="btn sm rs-stauto" data-act="tx:rsstauto" data-k="' + esc(s.id) + '">🧘 부위 맞춤으로 운동 전 스트레칭 묶기</button>' : '')
     + '<button class="btn gold sm" data-act="tx:sgive" data-k="' + esc(s.id) + '">회원에게 주기</button>'
     + (고 ? '<button class="btn ed sm" data-act="tx:rsmeta" data-k="' + esc(s.id) + '">루틴표 수정</button>' : '')
     + (고 && 루틴표고침(s) ? '<button class="btn ghost sm wn" data-act="tx:rshide" data-k="' + esc(s.id) + '">루틴표 삭제</button>' : '')      /* 수정 창 안이 아니라 수정 옆에 (2026-11-03 대표) */
@@ -6176,6 +6186,45 @@ function 루틴표보기(s){
     + (고 ? '<button class="rsv-add" data-act="' + (스 ? 'tx:rsradd' : 'tx:rsadd') + '" data-k="' + esc(s.id) + '">＋ 루틴 추가</button>' : '')
     + (선줄 ? '<div class="rs-selbar">루틴 ' + (L.indexOf(선줄) + 1) + ' · <b>' + 선수 + '개</b> 선택<button class="btn ghost sm" data-act="tx:rsselall">전체 선택</button><button class="btn ghost sm" data-act="tx:rsseldel"' + (선수 ? '' : ' disabled') + '>삭제</button><button class="btn ghost sm" data-act="tx:rssel" data-k="">취소</button></div>' : '')
     + '</div>'; }
+/* ══ 웨이트 루틴 ↔ 스트레칭 세트 묶기 ══ 2026-11-05 21:44 대표 「웨이트 루틴 만들기에서 스트레칭 루틴과 세트시키기 · 지정되면 루틴에 맞는 스트레칭을 같이 구성해 세트로」 · 21:45 「쉽게 만들고 세트 · 회원에게 보내게 · 시안」
+   루틴 줄마다 「＋ 스트레칭 세트로 묶기」(내 스트레칭 · 그림 카드 · 그 자리 ＋ 새 스트레칭) · 위 「🧘 부위 맞춤 스트레칭 묶기」(루틴 종목 부위 → 맞는 스트레칭 저절로) · 묶이면 줄 아래 「🧘 먼저 스트레칭 · 이름 · n동작」 · 회원에게 주기 한 번이면 같이 감
+   저장 = routines.prep_id (127단계 SQL) */
+const 스트세트들 = () => (D.ps || []).filter(x => (x.items || []).length).sort((a, b) => (b.trainer === 나이름()) - (a.trainer === 나이름()));
+/* 스트레칭 루틴표 — 이 스트레칭이 묶인 웨이트 루틴 (21:52 대표 「묶여 있는 건 스트레칭 루틴표에도 확인되도록」) */
+function 묶인웨이트줄(x){ const rs = (D.r || []).filter(r => r.prep_id && r.prep_id === x.id); if(!rs.length) return '';
+  return '<div class="rsv-tie"><span>🔗 묶인 웨이트 루틴</span>' + rs.map(r => { const s = (D.rs || []).find(z => z.id === r.sheet_id); return '<button class="rsv-tiec" data-act="tx:rsopen" data-k="' + esc(r.sheet_id || '') + '">' + esc((s ? s.title + ' · ' : '') + '루틴 ' + (r.no || '') + (r.name && !/^루틴 \d+$/.test(r.name) ? ' ' + r.name : '')) + '</button>'; }).join('') + '</div>'; }
+function 묶음줄(r, 고){ const x = r.prep_id && (D.ps || []).find(z => z.id === r.prep_id);
+  if(x) return '<div class="rsv-st"><span class="rsv-stl">🧘 운동 전 스트레칭</span>' + (x.items || []).slice(0, 5).map(it => '<span class="rsv-sti">' + 스트칸그림(it) + '</span>').join('') + '<span class="rsv-stn"><b>' + esc(x.name || '스트레칭') + '</b><small>' + (x.items || []).length + '동작</small></span>'
+    + (고 ? '<button class="btn ed sm" data-act="tx:rsstpick" data-k="' + esc(r.id) + '">수정</button><button class="btn ghost sm" data-act="tx:rsstoff" data-k="' + esc(r.id) + '">풀기</button>' : '') + '</div>';
+  return 고 ? '<button class="rsv-stadd" data-act="tx:rsstpick" data-k="' + esc(r.id) + '">＋ 운동 전 스트레칭 묶기</button>' : ''; }
+/* 부위 맞춤 — 루틴 종목의 부위(하체 · 상체 · 전신)를 세고, 이름이 그 부위인 스트레칭을 고른다 · 없으면 아무것도 안 붙임 */
+const 부위말 = { 하체:/하체|다리|엉덩|고관절|힙/, 상체:/상체|어깨|가슴|등|팔|목/, 전신:/전신|직장인|기본/ };
+function 루틴부위(r){ const 셈 = { 하체:0, 상체:0 }; (D.ri || []).filter(x => x.routine_id === r.id).forEach(x => { const e = exOf((vaOf(x.variant_id) || {}).ex_id) || {}; if(/하체|엉덩|다리/.test(e.part || '')) 셈.하체++; else if(e.part && e.part !== '유산소') 셈.상체++; });
+  return 셈.하체 && 셈.상체 && Math.min(셈.하체, 셈.상체) * 2 >= Math.max(셈.하체, 셈.상체) ? '전신' : 셈.하체 >= 셈.상체 ? (셈.하체 ? '하체' : '') : '상체'; }
+function 맞는스트(r){ const 부 = 루틴부위(r); if(!부) return null; const ss = 스트세트들(); return ss.find(x => 부위말[부].test(x.name || '')) || (부 !== '전신' ? ss.find(x => 부위말.전신.test(x.name || '')) : null) || null; }
+let 스트묶기 = null;      /* { rid } */
+function 스트묶기판(){ const r = (D.r || []).find(x => x.id === (스트묶기 || {}).rid); if(!r) return; const ss = 스트세트들(), 추천 = 맞는스트(r);
+  판열기('루틴 ' + (r.no || '') + (r.name && !/^루틴 \d+$/.test(r.name) ? ' · ' + esc(r.name) : '') + ' — 운동 전 스트레칭 묶기',
+    '<div class="sub3" style="margin-bottom:10px">운동 전에 할 스트레칭 선택</div>'
+    + (ss.length ? '<div class="stpk">' + ss.map(x => '<button class="stpk-c' + (r.prep_id === x.id ? ' on' : '') + '" data-act="tx:rsstset" data-k="' + esc(r.id + '|' + x.id) + '"><span class="stpk-g">' + (x.items || []).slice(0, 4).map(it => 스트칸그림(it)).join('') + '</span><b>' + esc(x.name || '스트레칭') + (추천 && 추천.id === x.id ? ' <i class="stpk-r">부위 맞춤</i>' : '') + '</b><small>' + (x.items || []).length + '동작 · ' + esc(보임이름(x.trainer || '')) + '</small></button>').join('') + '</div>'
+      : '<div class="empty why"><b>만든 스트레칭 루틴이 없습니다</b>아래에서 바로 만들어 묶어요</div>')
+    + '<button class="btn gold sm" data-act="tx:rsstnew" data-k="' + esc(r.id) + '" style="margin-top:10px">＋ 새 스트레칭 루틴 만들고 묶기</button>'); }
+async function 스트묶기저장(rid, pid){ const r = (D.r || []).find(x => x.id === rid); if(!r) return false;
+  try{ await ssend('routines?id=eq.' + encodeURIComponent(rid), 'PATCH', { prep_id: pid || null }, 'return=minimal'); r.prep_id = pid || null; return true; }
+  catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); return false; } }
+/* 스트레칭 동작 썸네일 올리기 — 사진은 줄여서 · 영상은 우리 방식대로 가볍게(영상줄이기 = 720p 다시 녹화 · 안 되는 기기는 원본) */
+function 스트사진고르기(id, 카메라){ const e = (D.ex || []).find(z => z.id === id); if(!e) return;
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*,video/*'; if(카메라) inp.setAttribute('capture', 'environment'); inp.style.display = 'none'; document.body.appendChild(inp);
+  inp.onchange = async () => { const f = (inp.files || [])[0]; inp.remove(); if(!f) return; const 영상 = /^video\//.test(f.type); if(!영상 && !/^image\//.test(f.type)) return toast('사진이나 영상만 올릴 수 있어요');
+    if(!await 묻기('「' + (e.name || '') + '」 썸네일을 이 ' + (영상 ? '영상' : '사진') + '으로 할까요?' + String.fromCharCode(10) + '회원 앱 스트레칭에도 그대로 보여요')) return;      /* 22:20 대표 「저작권 — 직접 찍은 사진 or 영상만」 */
+    try{ let blob = f; if(영상){ toast('영상을 가볍게 만드는 중이에요'); const 작 = await 영상줄이기(f, true); if(작) blob = 작; if(blob.size > 60 * 1024 * 1024) return toast('영상이 너무 커요 · 60MB 까지'); } else blob = await 줄이기(f);
+      toast('올리는 중이에요'); const ext = 영상 ? (/webm/.test(blob.type || f.type) ? 'webm' : 'mp4') : 'jpg', path = 'exmedia/' + e.id + '/' + Date.now() + '.' + ext;
+      const r = await fetch(SB_URL + '/storage/v1/object/media/' + path, { method:'POST', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + 열쇠(), 'Content-Type': 영상 ? (ext === 'webm' ? 'video/webm' : 'video/mp4') : 'image/jpeg' }, body: blob });
+      if(!r.ok) throw new Error(await r.text()); const md = (e.media || []).concat([{ kind: 영상 ? 'video' : 'photo', path }]);
+      await ssend('exercises?id=eq.' + encodeURIComponent(e.id), 'PATCH', { media: md }, 'return=minimal'); e.media = md;
+      기록남기기({ area:'종목', action:'수정', tbl:'exercises', row_id:e.id, detail:'스트레칭 썸네일 ' + (영상 ? '영상' : '사진') + ' — ' + (e.name || '') }); toast('올렸어요'); render(); }
+    catch(er){ toast('올리지 못했어요 — ' + String(er.message || '').slice(0, 60)); } };
+  inp.click(); }
 /* ＋ 종목 — 그림 고르기 창 (2026-10-27 결정 pick grid · photo choose) · 부위 칩 · 검색 · 누르면 그 루틴 끝에 바로 · 하는 법이 여럿이면 골라서 */
 let 종목픽 = null;      /* { rid, 부위, q, ex, 새:[이번에 넣은 종목 id] } */
 function 종목픽판(){ const p = 종목픽; if(!p) return; const r = (D.r || []).find(x => x.id === p.rid); if(!r) return;
@@ -6682,23 +6731,32 @@ function 세트창(){
   el.innerHTML = '<div class="pzbox rteb"><div class="pzhd"><b>' + (PZ.새 ? '새 스트레칭 루틴' : '스트레칭 루틴 수정') + '</b></div><div class="rte"><div class="rte-main">'
     + '<div class="rte-step"><div class="rte-sh">' + n(PZ.name.trim(), 1) + '<b>스트레칭 루틴 이름</b><span class="req">필수</span></div><input class="rte-inp" id="pzname" maxlength="24" value="' + esc(PZ.name) + '" placeholder="예) 하체 수업 전 풀기" autocomplete="off">'
       + '<input class="rte-inp" id="pzmemo" maxlength="60" value="' + esc(PZ.memo) + '" placeholder="한 줄 설명 (선택 · 회원에게 보여요) — 예) 골반 앞쪽 풀기" autocomplete="off" style="margin-top:8px"></div>'
-    + '<div class="rte-step' + (PZ.items.length ? '' : ' need') + '"><div class="rte-sh">' + n(PZ.items.length, 2) + '<b>동작</b><small>검색하거나 칩을 눌러 동작을 추가</small><span class="req">' + (PZ.items.length ? '동작 ' + PZ.items.length + '개' : '1개 이상') + '</span></div>'
+    + '<div class="rte-step' + (PZ.items.length ? '' : ' need') + '"><div class="rte-sh">' + n(PZ.items.length, 2) + '<b>동작</b><small>누른 순서대로 번호 · 다시 누르면 해제</small><span class="req">' + (PZ.items.length ? '동작 ' + PZ.items.length + '개' : '1개 이상') + '</span></div>'
       + '<div class="rte-sbox"><span class="mg">⌕</span><input class="rte-inp" id="pzq" type="search" value="' + esc(PZ.q2 || '') + '" placeholder="동작 검색 — 목 · 햄스트링 · 폼롤러" autocomplete="off"></div>'
       + '<div class="chips rte-parts">' + 스트칸들.map(c => '<button class="rte-part chip' + (!q2 && 칸 === c ? ' on' : '') + '" data-act="pzk" data-v2="' + c + '">' + c + '<em>' + 줄.filter(x => x.c === c).length + '</em></button>').join('') + '</div>'
-      + '<div class="pzlist pkg2" id="pzgrid"><button class="pkc2 new" data-act="pinew" data-ps="추가한 동작" data-psnm="" style="' + (!q2 && 칸 === '추가한 동작' ? '' : 'display:none') + '"><div><span>＋</span>새 동작</div></button>'
+      + '<div class="pzlist pkg2" id="pzgrid"><button class="pkc2 new" id="pznewc" data-act="pinew"><div><span>＋</span><b id="pznewt">' + 새동작글(PZ.q2) + '</b><small>목록에 없으면</small></div></button>'
         + 줄.map(x => { const k = 담순.indexOf(x.k) + 1, 보임 = q2 ? 검색키(x.찾).includes(q2) : x.c === 칸;
             return '<button class="pkc2' + (k ? ' on' : '') + '" data-act="pztog" data-v2="' + esc(x.k) + '" data-ps="' + esc(x.c) + '" data-psnm="' + esc(x.찾) + '" style="' + (보임 ? '' : 'display:none') + '">' + x.그림
               + (x.마 ? '<span class="pkms">마사지</span>' : '') + '<span class="pkt"><b>' + esc(x.n) + '</b><small>' + esc(x.s) + '</small></span><em class="pkad">' + (k || '＋') + '</em></button>'; }).join('') + '</div>'
-      + '<div class="rte-tbl" style="margin-top:12px">' + (PZ.items.length ? PZ.items.map((it, i) => { const v = 세트동작(it) || { n:'(없는 동작)', t:'' };
-          return '<div class="rte-row rs"><span class="hdl">' + (i ? '<button class="x" data-act="pzup" data-i="' + i + '" title="위로">▲</button>' : '') + '</span><span class="no">' + (i + 1) + '</span><span class="nm">' + esc(v.n) + '<small>' + (it.k === 'lib' ? '목록 동작' : '추가한 동작') + (v.t ? ' · ' + esc(v.t) : '') + '</small></span><button class="x" data-act="pzrm" data-i="' + i + '" title="삭제">✕</button></div>'; }).join('')
-        : '<div class="rte-empty"><b>아직 추가한 동작이 없습니다</b>위에서 검색하거나 동작을 눌러 주세요</div>') + '</div></div>'
+      + '</div>'      /* 아래 담은 목록 없앰 — 카드 번호가 순서 · 다시 누르면 해제 (2026-11-05 22:26 대표 「아래 항목이 하나 더 있는 이유 · 간결하게」) */
     + (PZ.새 ? '' : '<button class="btn ghost" data-act="pzdel" style="margin-top:4px">이 스트레칭 루틴 삭제</button>')
     + '</div><div class="rte-pv"><div class="rte-pvh">회원 앱에서 이렇게 보여요</div><div class="rte-phone">' + 미리 + '</div></div></div>'
     + '<div class="rte-bar"><div class="in"><div class="st">' + 상태 + '</div><button class="btn ghost" data-act="pzclose">취소</button><button class="rte-go' + (됨 ? ' ready' : '') + '" data-act="pzsave">저장</button></div></div></div>';
 }
 /* 종목 만들기 창 — 왼쪽 내 종목 목록 · 오른쪽 이름/시간/설명/사진·영상. 세트를 고치다 열면(PZ) 닫을 때 세트 창으로 돌아간다 */
 let PI = null;
+function 새동작창(){
+  return '<div class="pzbox pinb"><div class="pzhd"><b>새 동작</b><button class="btn ghost sm" data-act="piclose">‹ 돌아가기</button></div><div class="pinb-b">'
+    + '<input class="inp" id="pion" maxlength="24" value="' + esc(PI.name) + '" placeholder="동작 이름  예) 장요근 늘이기" autocomplete="off">'
+    + '<input class="inp" id="piot" maxlength="16" value="' + esc(PI.time) + '" placeholder="시간 · 횟수  예) 좌우 30초" autocomplete="off">'
+    + '<input class="inp" id="piod" maxlength="140" value="' + esc(PI.descr) + '" placeholder="설명 (선택)" autocomplete="off">'
+    + '<div class="stcopy">저작권 문제로 직접 찍은 사진 · 영상만 가능합니다</div>'
+    + '<label class="pinb-up"><input type="file" id="pifile" accept="image/*,video/*" multiple hidden><span>📷 사진 · 영상 추가</span><small id="pifn">선택 · 영상은 가볍게 줄여서 올려요</small></label>'
+    + '</div><div class="pzft"><span style="flex:1"></span><button class="btn gold" data-act="pisave">만들고 이 루틴에 추가</button></div></div>';
+}
+document.addEventListener('change', ev => { if(!ev.target || ev.target.id !== 'pifile') return; const n = (ev.target.files || []).length, e = document.getElementById('pifn'); if(e) e.textContent = n ? '파일 ' + n + '개 선택됨' : '선택 · 영상은 가볍게 줄여서 올려요'; });
 function 종목창(){
+  if(PZ && PI && PI.새) return 새동작창();
   const 내 = 내종목();
   return '<div class="pzbox">'
     + '<div class="pzhd"><b>스트레칭 종목 만들기</b><button class="btn ghost sm" data-act="piclose">' + (PZ ? '‹ 세트로 돌아가기' : '닫기') + '</button></div>'
@@ -6791,8 +6849,10 @@ async function 파일지우기(paths, 앞){
     catch(e){ console.warn('파일 못 지움', p, e); } }
 }
 const 새종목 = () => ({ id:'pi'+Date.now(), name:'', time:'', descr:'', media:[], 새:true });
+/* 새 동작 자리 — 2026-11-05 22:36 대표 「스트레칭 루틴에서 종목 추가할 때 어디서 하냐 · 간결하게 쉽게」 · 동작 그림 칸마다 맨 앞 「＋ 새 동작」 · 검색 중이면 「＋ ‘검색어’ 새 동작」(이름 채워 열림) · 창은 이름 · 시간 · 설명 · 사진 · 영상 하나 → 「만들고 이 루틴에 추가」 */
+const 새동작글 = q => { const t = String(q || '').trim(); return t ? '‘' + esc(t.slice(0, 14)) + '’ 새 동작' : '새 동작'; };
 async function 종목손잡이(a, act){
-  if(a==='pilist' || a==='pinew'){ if(PZ) 세트글담기(); PI = 새종목(); 세트창(); return true; }
+  if(a==='pilist' || a==='pinew'){ if(PZ) 세트글담기(); PI = 새종목(); if(PZ && a === 'pinew') PI.name = String(PZ.q2 || '').trim().slice(0, 24); 세트창(); if(PZ) setTimeout(() => { const e = document.getElementById(PI && PI.name ? 'piot' : 'pion'); if(e) e.focus(); }, 30); return true; }
   if(!PI) return false;
   if(a==='piclose'){ PI = null; 세트창(); return true; }
   const 글 = () => { ['name:pion','time:piot','descr:piod'].forEach(k => { const [f, id] = k.split(':'), el = document.getElementById(id); if(el) PI[f] = el.value.trim(); }); };
@@ -6803,9 +6863,9 @@ async function 종목손잡이(a, act){
     const fs = Array.from((document.getElementById('pifile').files)||[]), media = PI.media.slice();
     try{ for(let i=0;i<fs.length;i++){ const f = fs[i], 영상 = /^video\//.test(f.type);
         if(!영상 && !/^image\//.test(f.type)) continue;
-        if(영상 && f.size > 60*1024*1024){ toast('영상은 60MB 까지 올릴 수 있어요'); return true; }
         toast('올리는 중이에요 (' + (i+1) + '/' + fs.length + ')');
-        const blob = 영상 ? f : await 줄이기(f), ext = 영상 ? (/webm/.test(f.type) ? 'webm' : 'mp4') : 'jpg', path = 'prep/items/' + PI.id + '/' + Date.now() + '_' + i + '.' + ext;
+        let blob = 영상 ? f : await 줄이기(f); if(영상){ const 작 = await 영상줄이기(f, true); if(작) blob = 작; if(blob.size > 60*1024*1024){ toast('영상이 너무 커요 — 60MB 까지 올릴 수 있어요'); return true; } }
+        const ext = 영상 ? (/webm/.test(blob.type || f.type) ? 'webm' : 'mp4') : 'jpg', path = 'prep/items/' + PI.id + '/' + Date.now() + '_' + i + '.' + ext;
         const r = await fetch(SB_URL+'/storage/v1/object/media/'+path, { method:'POST',
           headers:{ apikey:SB_KEY, Authorization:'Bearer '+열쇠(), 'Content-Type': 영상 ? (ext==='webm' ? 'video/webm' : 'video/mp4') : 'image/jpeg' }, body: blob });
         if(!r.ok) throw new Error(await r.text());
@@ -6864,14 +6924,13 @@ async function 세트손잡이(a, act){
     const sc = (document.querySelector('.pzlist')||{}).scrollTop || 0; 세트창(); const l = document.querySelector('.pzlist'); if(l) l.scrollTop = sc; return true; }
   if(a==='pzmt'){ const k = act.dataset.v2, i = PZ.member_ids.indexOf(k); if(i >= 0) PZ.member_ids.splice(i,1); else PZ.member_ids.push(k); 세트창();
     if(i < 0){ const e = document.getElementById('pzmq'); if(e){ e.focus(); e.setSelectionRange(e.value.length, e.value.length); } } return true; }
-  if(a==='pzup'){ const i = +act.dataset.i; if(i > 0){ const t = PZ.items[i-1]; PZ.items[i-1] = PZ.items[i]; PZ.items[i] = t; } 세트창(); return true; }
-  if(a==='pzrm'){ if(!await 묻기('세트에서 이 동작을 삭제할까요?')) return true; PZ.items.splice(+act.dataset.i, 1); 세트창(); return true; }
   if(a==='pzsave'){ PZ.name = (PZ.name||'').trim(); PZ.memo = (PZ.memo||'').trim();
     if(!PZ.name){ toast('스트레칭 루틴 이름을 입력해 주세요'); return true; }
     if(!PZ.items.length){ toast('동작을 하나 이상 추가해 주세요'); return true; }
     const row = Object.assign({ id:PZ.id, trainer:PZ.trainer || 나이름(), name:PZ.name, memo:PZ.memo, items:PZ.items, member_ids:PZ.member_ids, updated_at:new Date().toISOString() }, PZ.sheet_id ? { sheet_id:PZ.sheet_id, no:PZ.no || 0 } : {});      /* 스트레칭 루틴표 안 루틴 (84단계) */
     try{ await ssend('prep_sets?on_conflict=id', 'POST', [row], 'resolution=merge-duplicates');
-      D.ps = (D.ps||[]).filter(z => z.id !== row.id).concat([row]); PZ = null; 세트창(); toast('저장했어요'); render(); }
+      D.ps = (D.ps||[]).filter(z => z.id !== row.id).concat([row]); const 묶을 = PZ.묶을; PZ = null; 세트창();
+      if(묶을 && await 스트묶기저장(묶을, row.id)) toast('만들고 운동 전 스트레칭으로 묶었어요'); else toast('저장했어요'); render(); }
     catch(e){ toast('못 저장했어요 — ' + e.message); } return true; }
   if(a==='pzdel'){ if(!await 묻기('이 스트레칭 루틴을 삭제할까요? 받은 회원 화면에서도 사라집니다.')) return true;
     try{ await ssend('prep_sets?id=eq.' + encodeURIComponent(PZ.id), 'DELETE');
@@ -10644,6 +10703,7 @@ document.addEventListener('change', ev => { const f = ev.target && ev.target.dat
 const 검색칸들 = ['asq', 'rsq', 'rtq', 'rlgq', 'pzmq', 'pzgq', 'bpsq', 'q', 'pq', 'lspq', 'pzq'];
 document.addEventListener('input', ev => { const t = ev.target; if(!t || t.id !== 'pzq' || !PZ) return; PZ.q2 = t.value; const q = 검색키(t.value), 칸 = 스트칸들.includes(PZ.갈) ? PZ.갈 : PZ.갈 === 'y' ? '추가한 동작' : 스트칸들[0];      /* 세트창 동작 검색 (2026-10-26) — 칩과 상관없이 전체 */
   document.querySelectorAll('#pzgrid [data-ps]').forEach(el => { el.style.display = (q ? !!el.dataset.psnm && 검색키(el.dataset.psnm).includes(q) : el.dataset.ps === 칸) ? '' : 'none'; });
+  const nt = document.getElementById('pznewt'); if(nt) nt.innerHTML = 새동작글(t.value);
   document.querySelectorAll('#pzmodal .chips [data-act="pzk"]').forEach(c => c.classList.toggle('on', !q && c.dataset.v2 === 칸)); });
 /* 목록에 이름을 적는 방식은 새 검색칸을 빠뜨린다 — 10/26 배정 묶음 탭 찾기(asgq)가 빠져 「지민」이 「ㅈㅣㅁㅣㄴ」(대표 20:55). 이제 class="srch" 인 글 칸은 저절로 같이 지킨다 */
 const 검색칸인가 = t => !!t && (검색칸들.indexOf(t.id) >= 0 || (t.tagName === 'INPUT' && /^(text|search|)$/.test(t.getAttribute('type') || '') && ((t.classList && t.classList.contains('srch')) || t.getAttribute('type') === 'search' || /q$/.test(t.id || '') || /검색|찾/.test(t.getAttribute('placeholder') || '') || (t.dataset && (t.dataset.jbq || t.dataset.srch)))));
@@ -11123,7 +11183,7 @@ function vReports(){
     const 꼬리 = r.state === '보냄' ? (때(r.sent_at) + ' 나감')
                : r.state === '대기' ? 나갈때(r)
                : esc(r.fail_why || '이유를 모릅니다');
-    return '<div class="card rowc">'
+    return '<div class="card rowc">' + (r.member_id ? 회원얼굴(r.member_id) : '')      /* 프로필 = PT · TG 딱지 같은 규칙 (2026-11-05 대표 「PT · TG 프로필 동일한 규칙 · 나간 리포트 그대로 볼 수 있게」) */
       + '<div style="flex:1;min-width:0">'
       + '<div class="t1">' + esc(r.member_name || '') + ' 회원님'
         + '<span class="tag ' + 표[0] + '" style="margin-left:7px">' + 표[1] + '</span></div>'
@@ -11131,6 +11191,7 @@ function vReports(){
         + esc(r.trainer || '') + ' · ' + esc(r.summary || '') + '</div>'
       + '<div class="t2" style="margin-top:2px;opacity:.75">요청 ' + 때(r.queued_at) + ' · ' + 꼬리
         + (r.tried > 1 ? ' · ' + r.tried + '번 시도' : '') + '</div></div>'
+      + (r.state === '보냄' && r.workout_id && r.member_id ? '<button class="btn sub sm" data-act="tx:rsview" data-k="' + esc(r.member_id + '|' + r.workout_id) + '">보낸 리포트 보기 ›</button>' : '')
       + (발송실패(r)
           ? '<span class="rsbtns"><button class="btn ghost sm" data-act="tx:rsdel" data-i="' + esc(r.id) + '">삭제</button><button class="btn sub sm" data-act="tx:rsretry" data-i="' + esc(r.id) + '">다시 보내기</button></span>'
           : '')
@@ -15070,7 +15131,7 @@ function 숫자줄(){
   const 머 = (글, 덧) => '<div class="nh"><b>' + 글 + '</b><small>' + 덧 + '</small></div>';
   return '<div class="homenums two"><div class="ngrp me">' + 머('내가 할 일', '대표 · 관리자가 처리') + 줄(산.filter(x => !선생님칸.has(x.c.k)), '지금 할 일이 없습니다', 7) + '</div>'
     + (() => { const 선 = 산.filter(x => 선생님칸.has(x.c.k)), 접 = 선생접힘(), 급 = 선.filter(x => 급한칸.includes(x.c.k)).reduce((a, x) => a + x.v, 0), 합 = 선.reduce((a, x) => a + x.v, 0);      /* 대표 화면 선생님 현황 접기 · 펼치기 (2026-11-05 대표) */
-        return '<div class="ngrp tr' + (접 ? ' fold' : '') + '">' + 머('선생님 현황', '선생님들이 처리').replace('</div>', '<button class="nfold" data-act="tx:trfold">' + (접 ? '펼치기 ⌄' : '접기 ⌃') + '</button></div>')
+        return '<div class="ngrp tr' + (접 ? ' fold' : '') + '">' + 머('선생님 현황', '선생님들이 처리').replace('</div>', '<button class="nfold" data-act="tx:trfold"><i>' + (접 ? '▼' : '▲') + '</i>' + (접 ? '현황 펼치기' : '현황 접기') + '</button></div>')
           + (접 ? '<div class="nrow none nsum">' + (급 ? '<b class="ur">급한 일 ' + 급 + '</b> · ' : '') + '선생님 일 ' + 합 + '건 · 펼치면 보여요</div>' : 줄(선, '지금 밀린 일이 없습니다', 7) + 접힘) + '</div>'; })() + '</div>';
 }
 
@@ -16726,6 +16787,12 @@ async function txAct(a, el){
   if(a==='lsgorec'){ if(AUTH && AUTH.token){ 앱기록창(k); 쪽지닫기(); } else { 쪽지닫기(); 회원판열기(k); } return; }      /* 회원 검색 · 오늘 예약 → 바로 기록 */
   if(a==='arclose'){ 앱기록닫기(); if(S.mid) loadMember(S.mid); return; }
   if(a==='smpopen'){ 회원샘플열기(); return; }
+  if(a==='stmedia'){ if(!(D.ex || []).some(z => z.id === k)) return toast('이 동작을 종목 사전에서 못 찾았어요');      /* 스트레칭 동작 썸네일 — 누르면 바로 올리기 · 폰 = 촬영하기 · 갤러리 / PC = 폴더 (2026-11-05 22:19 대표) */
+    쪽지열기(el, '<div class="tx-pmenu dsel-m"><div class="stcopy">저작권 문제로 직접 찍은 사진 · 영상만 가능합니다</div>' + (촬영기기()
+        ? '<button data-act="tx:stmcam" data-k="' + esc(k) + '"><i class="dot"></i><span class="t">📷 촬영하기</span></button><button data-act="tx:stmalb" data-k="' + esc(k) + '"><i class="dot"></i><span class="t">🖼 갤러리에서 선택</span></button>'
+        : '<button data-act="tx:stmalb" data-k="' + esc(k) + '"><i class="dot"></i><span class="t">📁 폴더에서 선택</span></button>') + '</div>', 220); return; }      /* 올리기 단추가 뜨는 창에 저작권 안내 (22:21 대표) · PC 도 창을 거쳐 폴더 */
+  if(a==='stmcam' || a==='stmalb'){ 쪽지닫기(); 스트사진고르기(k, /cam$/.test(a)); return; }
+  if(a==='rsview'){ const [mid, wid] = String(k).split('|'); 앱기록창(mid, wid); return; }      /* 보낸 리포트 = 회원이 받은 리포트 화면 그대로 */
   if(a==='mrpt'){ if(!k) return toast('아직 리포트가 없어요'); 앱기록창(S.mid, k); return; }      /* 리포트 보기 = 앱 리포트 화면 그대로 (C-4) */
   if(a==='mdonex'){ 기록끝 = null; render(); return; }
   if(a==='rsdel'){      /* 리포트 발송 실패 삭제 — 묻고 휴지통으로(되살리기 됨) · 2026-10-23 대표 「테스트 안 보내도 되는데 삭제가 없어 불편」 */
@@ -16828,6 +16895,15 @@ async function txAct(a, el){
     if(이름 === (r.name || '') && 설명 === (r.sub || '')){ S.rsRn = null; render(); return; } if(!await 묻기('「' + 이름 + '」' + (설명 ? ' · ' + 설명 : '') + String.fromCharCode(10) + '이대로 수정할까요?')) return;
     try{ await ssend('routines?id=eq.' + encodeURIComponent(k), 'PATCH', { name:이름, sub:설명 }); r.name = 이름; r.sub = 설명; S.rsRn = null; toast('수정했어요'); render(); }catch(err){ toast('수정하지 못했어요 — ' + String(err.message || '').slice(0, 60)); } return; }      /* 루틴표 열기 · 주기 (2026-10-27) */
   if(a==='sgive'){ S.sgQ = ''; S.sgPick = null; 주기판(k); return; }
+  if(a==='rsstpick'){ 스트묶기 = { rid:k }; 스트묶기판(); return; }
+  if(a==='rsstset'){ const [rid, pid] = String(k).split('|'), x = (D.ps || []).find(z => z.id === pid) || {}; if(!await 묻기('이 루틴에 「' + (x.name || '스트레칭') + '」을 묶을까요?' + String.fromCharCode(10) + '회원이 이 루틴을 열면 먼저 떠요')) return; if(await 스트묶기저장(rid, pid)){ 스트묶기 = null; popClose(); toast('묶었어요'); render(); } return; }
+  if(a==='rsstoff'){ if(!await 묻기('이 루틴의 스트레칭 묶음을 풀까요?')) return; if(await 스트묶기저장(k, null)){ toast('풀었어요'); render(); } return; }
+  if(a==='rsstauto'){ const L = 표루틴들((D.rs || []).find(x => x.id === k) || {}), 짝 = L.map(r => [r, 맞는스트(r)]).filter(([r, x]) => x && r.prep_id !== x.id);
+    if(!짝.length) return toast('부위에 맞는 스트레칭이 없어요' + String.fromCharCode(10) + '스트레칭 루틴 이름에 「하체 · 상체 · 전신」을 넣어 주세요');
+    if(!await 묻기('루틴 ' + 짝.length + '개에 부위 맞춤 스트레칭을 묶을까요?' + String.fromCharCode(10) + 짝.map(([r, x]) => '루틴 ' + (r.no || '') + ' → ' + (x.name || '')).join(String.fromCharCode(10)))) return;
+    let n = 0; for(const [r, x] of 짝){ if(await 스트묶기저장(r.id, x.id)) n++; else break; } if(n){ toast(n + '개 묶었어요'); render(); } return; }
+  if(a==='rsstnew'){ const r = (D.r || []).find(x => x.id === k) || {}; popClose(); 스트묶기 = null;      /* 바로 만들기 → 저장하면 이 루틴에 묶음 (21:52 대표 「스트레칭 루틴 만들러 가는 것도 바로 연결」) */
+    PZ = { id:'ps' + Date.now(), trainer:나이름(), name:((r.name && !/^루틴 \d+$/.test(r.name)) ? r.name + ' ' : '') + '운동 전 스트레칭', memo:'', items:[], member_ids:[], 새:true, 묶을:k }; 세트창(); return; }
   if(a==='sgpk'){ const 고 = S.sgPick || { sid:S.sgSid, ids:[] }; const i = 고.ids.indexOf(k); if(i >= 0) 고.ids.splice(i, 1); else 고.ids.push(k); S.sgPick = 고; 주기판(S.sgSid); return; }
   if(a==='sggo'){ const 고 = S.sgPick; if(!고 || !고.ids.length) return; const s = (D.rs || []).find(x => x.id === 고.sid) || {}, 이름 = 고.ids.map(id => (memOf(id) || {}).name || '').join(', ');
     if(!await 묻기('「' + (s.title || '') + '」 루틴표를 ' + 고.ids.length + '명에게 줄까요?' + String.fromCharCode(10) + 이름)) return;
