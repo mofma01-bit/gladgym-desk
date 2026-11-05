@@ -1678,6 +1678,10 @@ body.resizing{cursor:col-resize;user-select:none}
 .pl-rows{display:flex;flex-direction:column;gap:6px;margin:8px 0}.pl-rows label{display:flex;align-items:center;gap:10px}.pl-rows label b{width:52px;flex:none}.pl-rows .pl-sel{flex:1;min-width:0}.pl-rows .x{background:none;border:0;color:var(--sub);cursor:pointer}
 .rs-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 16px}.mn-chips.sm button{padding:5px 11px;font-size:13px}.rs-new{margin-left:auto}
 .rs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
+.sgchips{display:flex;flex-wrap:wrap;gap:8px}.sgc{border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}.sgc small{font-size:11.5px;color:var(--sub);font-weight:600}.sgc.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}.sgc.on small{color:#5a4a30}.sgc.done{opacity:.5;cursor:default}
+.sggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.sgg{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:12px;padding:9px 12px;font:inherit;text-align:left;cursor:pointer}.sgg b{font-size:14.5px}.sgg small{font-size:12px;color:var(--gold-2);font-weight:700}.sgg.done{opacity:.42;cursor:default}.sgg.done small{color:var(--sub)}.sgg.on{border-color:var(--gold);background:rgba(232,196,128,.16)}.sgg.on small{color:var(--gold)}.sgsec{margin:0 0 14px}.sgh{font-weight:900;font-size:14.5px;margin:0 0 6px}.sgh small{color:var(--sub);font-weight:600;margin-left:4px}.sgnote{color:var(--sub);font-size:13px;margin:-4px 0 10px}
+.rs-cw{position:relative;min-width:0}.rs-cw>.rs-card{width:100%}.rs-hov{position:absolute;top:0;left:0;width:100%;aspect-ratio:3/4;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:8px;padding:0 10%;border-radius:12px;background:rgba(10,9,8,.62);opacity:0;transition:opacity .15s;pointer-events:none}.rs-cw:hover .rs-hov,.rs-cw:focus-within .rs-hov{opacity:1}.rs-cw:hover .rs-hov button,.rs-cw:focus-within .rs-hov button{pointer-events:auto}@media (hover:none){.rs-hov{opacity:1;background:rgba(10,9,8,.45)}.rs-hov button{pointer-events:auto}}      /* 덮개는 누름 통과(표지 눌러 열기) · 단추만 눌림 */      /* 마우스 올리면 표지 어둡게 · 단추 크게 (2026-11-05 20:52 대표) */
+.rs-hov button{border:1.5px solid rgba(255,255,255,.75);background:rgba(20,19,17,.55);color:#fffcf8;border-radius:12px;min-height:38px;padding:6px 10px;font:inherit;font-size:14px;font-weight:900;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}.rs-hov button:hover{background:rgba(20,19,17,.85)}.rs-hov button:first-child{background:var(--gold);color:#2a1c14;border-color:var(--gold)}.rs-hov button:first-child:hover{filter:brightness(1.06)}
 .rs-card{display:flex;flex-direction:column;background:none;border:0;color:var(--cream);font:inherit;text-align:left;cursor:pointer;padding:0;min-width:0}
 .rs-card b{font-size:15px;font-weight:800;margin-top:8px;line-height:1.35}.rs-card small{color:var(--sub);font-size:12.5px;margin-top:2px}
 .rs-covs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:8px;max-width:320px}.rs-covs button{position:relative;padding:0;border:2px solid transparent;border-radius:9px;overflow:hidden;background:none;cursor:pointer;aspect-ratio:3/4}.rs-covs button.on{border-color:var(--gold)}.rs-covs img{width:100%;height:100%;object-fit:cover;display:block}.rs-covs span{position:absolute;left:0;right:0;bottom:0;font-size:13px;font-weight:800;color:#f2ead9;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 2px 3px;text-align:center}
@@ -1759,6 +1763,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-tag.tx-reg{background:#1e343b;color:#bfe6ec;border:1px solid #3f7281;margin-left:6px}
 .rv-fc{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px;padding:10px 12px;border-radius:12px;border:1px solid #7a3a3a;background:#2a1716}.rv-fc span{flex:1;min-width:0;display:flex;flex-direction:column}.rv-fc small{color:var(--sub);font-size:13px}
 .lk-memo{display:flex;gap:8px;margin-top:8px}.lk-memo .inp{flex:1;min-width:0;height:38px;font-size:14px}
+.homenums .nh{display:flex;align-items:baseline;gap:8px}.homenums .nfold{margin-left:auto;background:none;border:1px solid var(--line);border-radius:999px;color:var(--sub);font:inherit;font-size:13px;font-weight:700;padding:3px 12px;cursor:pointer}.homenums .nsum{color:var(--sub);font-size:14px}.homenums .nsum b.ur{color:#ff8a8a}
 .wdel{margin-left:8px;padding:5px 12px;border-radius:999px;border:1px solid #6a3a32;color:#ffb4a9;font-size:13px;font-weight:800;cursor:pointer}.wdel:hover{background:#2a1916}
 .dk-notice{display:flex;align-items:center;gap:10px;width:100%;background:#211e18;border:1px solid #5a4a2c;border-radius:12px;padding:11px 14px;color:var(--cream);font:inherit;cursor:pointer;text-align:left}
 .dk-notice .i{font-size:17px}.dk-notice b{color:var(--gold);font-size:15px}.dk-notice .m{color:var(--sub);font-size:14px;font-weight:700}.dk-notice em{margin-left:auto;font-style:normal;color:var(--gold);font-weight:800;font-size:14px}
@@ -3056,6 +3061,15 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .rct.ca .rr{grid-template-columns:minmax(120px,1.4fr) 1fr 1fr}.rct .rr>span{display:flex;align-items:center;justify-content:center;min-height:38px;font-size:14px;font-weight:800;color:var(--cream);border-left:1px solid #2a2722;letter-spacing:-.3px}.rct .rr>span.n{justify-content:flex-start;padding:4px 10px;border-left:0}.rct .rr>span.r1{border-left:2px solid #3a352c}
 .rct .rr.hd{background:#2c2924}.rct .rr.hd>span{font-size:13px;color:var(--sub);font-weight:700;min-height:32px}.rct em{font-style:normal;padding:2px 8px;border-radius:5px;color:#141311;font-size:13.5px;font-weight:900;line-height:1.35}.rcex{display:grid;grid-template-columns:minmax(140px,220px) 1fr auto;gap:6px 14px;align-items:center;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.08)}.rcex:last-child{border-bottom:0}.rcex b{font-size:14px}
 .rcs{display:flex;flex-wrap:wrap;gap:6px}.rcs span{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 8px}.rcs span i{font-style:normal;color:var(--sub);margin-right:4px;font-size:12px}.rcs .z{color:var(--sub)}.rcv{font-size:13px;color:var(--sub);white-space:nowrap}
+.xa-ch{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}.xa-ch button{border:1px solid var(--line);border-radius:999px;padding:4px 13px;font-size:13.5px;font-weight:800;color:var(--sub);background:none;cursor:pointer}.xa-ch button.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}
+.xa-ls{display:flex;flex-direction:column;gap:8px}.xa-it{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--dark-3)}.xa-it .t{flex:1;min-width:0}.xa-it b{font-size:15px}
+.xa-it small{display:block;color:var(--sub);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.xa-new{color:#ff9d8a;font-size:12px;font-weight:900;margin-left:6px}
+.xa-done{display:block;margin-top:12px;background:none;border:0;color:var(--sub);font-weight:800;font-size:14px;cursor:pointer;padding:6px 0}
+.rcjb{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.jbgo{border:1px solid #3a6aa0;background:rgba(80,140,220,.14);color:#9cc8ff;border-radius:999px;padding:4px 12px;font-size:13.5px;font-weight:800;cursor:pointer}
+#jblist{display:flex;flex-direction:column;gap:8px;margin:8px 0}.jbopt{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--dark-3);color:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.jbopt i{width:16px;height:16px;border-radius:50%;border:2px solid #5a554c;flex:none}.jbopt.on{border-color:var(--gold-2,#d6b87e);background:rgba(232,196,128,.12)}.jbopt.on i{border:5px solid var(--gold)}
+.jbnew{display:block;width:100%;text-align:center;color:#9cc8ff;font-weight:800;font-size:14px;padding:8px 0;background:none;border:0;cursor:pointer}.jbhint{color:var(--sub);font-size:13.5px;text-align:center;margin-top:6px}
+.jbnone{color:var(--sub);font-size:14px;line-height:1.6;padding:6px 2px}.jbnone b{display:block;color:inherit}.jbdone{display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--sub)}.jbdone b{color:inherit}
 .rcmore{align-self:center}.rcfoot{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:16px;margin-top:6px}.rc8{display:flex;gap:8px;align-items:center;background:none;border:0;color:inherit;padding:0;cursor:pointer}.rc8 small{color:var(--sub)}
 .rcback{margin-bottom:10px}
 .pz.ed .pzed{cursor:pointer}.pz.ed .pzed input,.pz.ed .pz-days input{display:none}.pz.ed .pz-days label{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px 0;font-weight:800;border-left:1px solid #2a241b;cursor:pointer}.pz.ed .pz-days label:first-child{border-left:0}
@@ -3240,7 +3254,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '600';
+const BUILD = '605';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4072,6 +4086,7 @@ const isPrepRoutine = r => !!r && /준비운동/.test(r.grp || '');
 const exOf = id => D.ex.find(e=>e.id===id) || {id:id,name:'?',part:'?',equip:''};
 const vaOf = vid => D.va.find(v=>v.id===vid) || null;
 const vaName = vid => {
+  if(String(vid || '').startsWith('memo:')) return String(vid).slice(5);      /* 간편추가 종목 = 이름만 (2026-11-05) */
   if(isPrepItem(vid)){ const x = prepOf(vid); return x ? x.n : vid; }
   const v=vaOf(vid); if(!v) return vid;
   const e=exOf(v.ex_id); return e.name + (v.name ? ' ('+v.name+')' : ''); };
@@ -5894,7 +5909,110 @@ let RT = null;
 const 목적기본 = ['근력','근비대','근지구력','다이어트','체형 교정','재활 · 통증','파워','초보 입문'];
 function 목적목록(){ const 더 = [...new Set((D.r || []).map(r => String(r.purpose || '').trim()).filter(x => x && x.length <= 12))].filter(x => !목적기본.includes(x));
   const 목 = 목적기본.concat(더); if(RT && RT.purpose && !목.includes(RT.purpose)) 목.push(RT.purpose); return 목; }
-const 고를종목 = () => (D.ex || []);      /* 2026-10-27 대표 「트레이너가 바로 추가하고 모두가 검색」 — 승인 없음 · 정리는 종목 사전 */
+const 고를종목 = () => (D.ex || []).filter(e => !붙은곳(e));      /* 다른 종목으로 만든 「직접 추가」 종목은 빠짐 (2026-11-05 ②A) */
+/* ══ 종목 만들기 (붙이기) ══ 2026-11-05 대표 시안2 「이대로 만들어」 · 17:27 「종목 만들기라고 하자」 — 앱과 같은 규칙
+   지난 기록 카드 아래 간편추가(memo:이름) · 직접 추가 종목 줄마다 「이름 · 종목 만들기 ›」 → 「어떤 종목인가요?」(비슷한 3개 · 검색 · ＋ 새 종목) → 「… 종목으로 만들었어요」
+   ① 이 회원의 같은 이름 기록 전부 + 피드백 · 1RM · 피드백 요청 같이(B) ② 옛 이름 = 고른 종목의 별칭 · 직접 추가 종목은 고르는 목록에서 빠지고 「직접 추가」 칸에 「→ … 종목으로 만듦」(A) */
+const 정규 = s => String(s || '').replace(/\s+/g, '').toLowerCase();
+let 별칭판 = null;
+function 별칭주인(){ const ex = D.ex || []; if(별칭판 && 별칭판.ex === ex && 별칭판.n === ex.length) return 별칭판.m; const m = new Map();
+  ex.forEach(e => (e.aliases || []).forEach(a => { if(String(a).startsWith('⇢')) return; const k = 정규(a); if(k && !m.has(k)) m.set(k, e); })); 별칭판 = { ex, n:ex.length, m }; return m; }
+const 붙은곳 = e => { if(!e || !e.owner) return null; const t = (e.aliases || []).find(a => String(a).startsWith('⇢')); if(!t) return null; const o = (D.ex || []).find(x => x.id === String(t).slice(1)); return o && o.id !== e.id ? o : null; };      /* 「종목 만들기」로 만든 것만 — 그 종목 별칭 칸의 「⇢종목id」 (앱과 같음) */
+const 붙일vid = vid => { vid = String(vid || ''); if(vid.startsWith('memo:')) return vid !== 'memo:트레이너 메모' && !!vid.slice(5).trim(); const v = vaOf(vid); return !!(v && (exOf(v.ex_id) || {}).owner); };
+const 붙일이름 = vid => String(vid || '').startsWith('memo:') ? String(vid).slice(5) : (exOf((vaOf(vid) || {}).ex_id) || {}).name || '';
+function 같은줄(j){ const k = 정규(j.nm), ws = new Set(D.w.filter(w => w.member_id === j.mid).map(w => w.id));
+  const 맞 = vid => { vid = String(vid || ''); if(vid.startsWith('memo:')) return vid !== 'memo:트레이너 메모' && 정규(vid.slice(5)) === k; const v = vaOf(vid), e = v && (D.ex || []).find(x => x.id === v.ex_id); return !!(e && e.owner) && 정규(e.name) === k; };
+  return (M.wi || []).filter(it => ws.has(it.workout_id) && 맞(it.variant_id)); }
+const 두글자 = s => { const t = 정규(s), r = []; for(let i = 0; i < t.length - 1; i++) r.push(t.slice(i, i + 2)); return r.length ? r : [t]; };
+function 닮음(a, b){ const x = 두글자(a), y = 두글자(b); let n = 0; const z = y.slice(); x.forEach(g => { const i = z.indexOf(g); if(i >= 0){ n++; z.splice(i, 1); } }); return 2 * n / (x.length + y.length); }
+const 붙일후보 = j => (D.ex || []).filter(e => e.id !== j.src && 첫벌(e) && !붙은곳(e) && !(e.owner && 정규(e.name) === 정규(j.nm)));
+function 비슷한종목(j){ return 붙일후보(j).filter(e => !e.owner).map(e => ({ e, s: Math.max(닮음(j.nm, e.name), ...(e.aliases || []).map(a => 닮음(j.nm, a))) }))
+  .filter(o => o.s > 0.2).sort((a, b) => b.s - a.s).slice(0, 3).map(o => o.e); }
+let 종목만들기 = null;
+function 붙일목록(){ const j = 종목만들기; if(!j) return ''; const q = 검색키(j.q || '');
+  const 후 = q ? 붙일후보(j).filter(e => 찾음(exKey(e), q)).sort((a, b) => (a.owner ? 1 : 0) - (b.owner ? 1 : 0)).slice(0, 8) : 비슷한종목(j);
+  if(!후.length) return q ? '<div class="jbnone"><b>찾는 종목이 없습니다</b>아래 「＋ 목록에 없으면 새 종목」으로 추가해 주세요</div>' : '<div class="jbnone"><b>이름이 비슷한 종목이 없습니다</b>위 검색칸에서 찾아 주세요</div>';
+  return 후.map(e => '<button class="jbopt' + (j.pick === e.id ? ' on' : '') + '" data-act="tx:jbpick" data-k="' + esc(e.id) + '"><i></i><span>' + esc(e.name || '') + '</span></button>').join(''); }
+function 종목만들기창(){ const j = 종목만들기; if(!j) return; const n = j.합 ? j.수 : 같은줄(j).length;
+  const 속 = (j.새
+      ? '<input class="inp" type="text" data-jbn="1" value="' + esc(j.newName == null ? j.nm : j.newName) + '" placeholder="종목 이름" style="margin-bottom:8px">'
+        + '<div class="chips">' + ['가슴','등','어깨','하체','복근','팔','기타'].map(p => '<button class="chip' + (j.part === p ? ' on' : '') + '" data-act="tx:jbpart" data-k="' + p + '">' + p + '</button>').join('') + '</div>'
+        + '<button class="jbnew" data-act="tx:jbnew">‹ 목록에서 선택</button>'
+      : '<input class="inp" type="search" data-jbq="1" value="' + esc(j.q || '') + '" placeholder="종목 검색" autocomplete="off">'
+        + '<div id="jblist">' + 붙일목록() + '</div>'
+        + (j.합 ? '' : '<button class="jbnew" data-act="tx:jbnew">＋ 목록에 없으면 새 종목</button>'))
+    + '<div class="jbhint">' + (j.합 ? (n == null ? '이 종목 기록을 세는 중…' : n < 0 ? '기록 수를 못 셌어요 · 합치면 이 종목 기록이 전부 바뀌어요' : '이 종목 기록 ' + n + '개가 함께 바뀌어요') : '같은 이름 기록 ' + n + '개가 함께 바뀌어요') + '</div>';
+  판열기((j.합 ? '어떤 종목과 합칠까요? · ' : '어떤 종목인가요? · ') + esc(j.nm), 속, '<button class="btn gold" data-act="tx:jbgo"' + (j.중 ? ' disabled' : '') + '>' + (j.중 ? (j.합 ? '합치는 중…' : '만드는 중…') : j.합 ? '합치기' : j.새 ? '새 종목으로 만들기' : '종목 만들기') + '</button>'); }
+document.addEventListener('input', ev => { const t = ev.target, j = 종목만들기; if(!j || !t || !t.dataset) return;
+  if(t.dataset.jbq){ j.q = t.value; const b = document.getElementById('jblist'); if(b) b.innerHTML = 붙일목록(); }
+  if(t.dataset.jbn) j.newName = t.value; });
+/* ══ 요청함 「직접 추가한 종목」 ══ 2026-11-05 18:09 대표 시안 2 「이대로 만들어」 — 「사용하기 편하게 · 복잡하지 않게」 · 「새로 만든 종목 ↔ 종목 만들기 헷갈림 · 새 → NEW · 용어 규칙에 맞게」
+   표 7칸 → 한 줄(이름 크게 + 아래 작은 한 줄) · 칩 전체 · NEW · 스트레칭 · 사진 없음 · 운동 종목 줄에 「합치기 ›」(관리자) · 합친 종목은 맨 아래 접음 */
+const 와과 = t => { const c = String(t || '').trim().slice(-1).charCodeAt(0); return c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 ? '과' : '와'; };
+function 직접추가목록(새, 본, 급){
+  const 칩 = [['전체', 새.length], ['NEW', 새.filter(x => x.때 > 본).length], ['스트레칭', 새.filter(x => x.갈 !== '운동 종목').length], ['사진 없음', 새.filter(x => !x.그림).length]], f = S.xrF || '전체';
+  const 맞 = x => f === 'NEW' ? x.때 > 본 : f === '스트레칭' ? x.갈 !== '운동 종목' : f === '사진 없음' ? !x.그림 : true, 보 = 새.filter(맞), 합 = (D.ex || []).filter(e => 붙은곳(e));
+  const 줄 = x => { const 운 = x.갈 === '운동 종목';
+    return '<div class="xa-it"><div class="t"><b>' + esc(x.이름) + '</b>' + (x.때 > 본 ? '<span class="xa-new">NEW</span>' : '') + '<small>' + esc([운 ? x.딸 : '스트레칭' + (x.딸 ? ' · ' + x.딸 : ''), x.누가, x.때 ? 짧은날(x.때) : '', x.그림 ? '사진 · 영상 ' + x.그림 : '사진 없음'].filter(Boolean).join(' · ')) + '</small></div>'
+      + (급 && 운 ? '<button class="jbgo" data-act="tx:xamerge" data-k="' + esc(x.id) + '">합치기 ›</button>' : '')
+      + (급 ? (운 ? '<button class="btn ed sm" data-act="exedit" data-v2="' + esc(x.id) + '">수정</button>' : '<button class="btn ed sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>') : '') + '</div>'; };
+  return '<div class="lbl" style="margin-top:22px">직접 추가한 종목 <span class="sub3">' + 새.length + '개 · 모두가 바로 검색해요</span></div>'
+    + (새.length ? '<div class="xa-ch">' + 칩.map(([k, n]) => '<button class="' + (f === k ? 'on' : '') + '" data-act="tx:xaf" data-k="' + k + '">' + k + ' ' + n + '</button>').join('') + '</div>'
+        + '<div class="xa-ls">' + (보.length ? 보.map(줄).join('') : '<div class="empty why"><b>이 칸에 종목이 없습니다</b>위 「전체」를 눌러 주세요</div>') + '</div>'
+      : '<div class="empty why"><b>아직 직접 추가한 종목이 없습니다</b>선생님이 앱 · 데스크에서 종목을 추가하면 여기에 보입니다</div>')
+    + (합.length ? '<button class="xa-done" data-act="tx:xadone">' + (S.xaDone ? '▾' : '▸') + ' 합친 종목 ' + 합.length + '개</button>'
+        + (S.xaDone ? '<div class="jbdone">' + 합.map(e => '<span><b>' + esc(e.name || '') + '</b> → ' + esc(붙은곳(e).name || '') + 와과(붙은곳(e).name) + ' 합침 · ' + esc(e.owner || '') + '</span>').join('') + '</div>' : '') : ''); }
+async function 합치기열기(exId){ const e = (D.ex || []).find(x => x.id === exId); if(!e || !e.owner) return;
+  종목만들기 = { 합:true, mid:'', nm:e.name || '', src:e.id, q:'', pick:'', 새:false, part:'', 수:null }; const 첫 = 비슷한종목(종목만들기)[0]; if(첫) 종목만들기.pick = 첫.id; 종목만들기창();
+  try{ const vs = (D.va || []).filter(v => v.ex_id === e.id).map(v => v.id); const r = vs.length ? await ssend('workout_items?select=id&limit=5000&variant_id=in.(' + vs.map(v => encodeURIComponent('"' + v + '"')).join(',') + ')', 'GET') : [];
+    if(종목만들기 && 종목만들기.src === e.id){ 종목만들기.수 = (r || []).length; 종목만들기창(); } }catch(er){ if(종목만들기) { 종목만들기.수 = -1; 종목만들기창(); } } }
+function 종목만들기열기(itemId){ const it = (M.wi || []).find(x => String(x.id) === String(itemId)), w = it && D.w.find(x => x.id === it.workout_id); if(!w || !붙일vid(it.variant_id)) return;
+  const v = vaOf(it.variant_id); 종목만들기 = { mid:w.member_id, nm:붙일이름(it.variant_id), src: v ? v.ex_id : '', q:'', pick:'', 새:false, part:'' };
+  const 첫 = 비슷한종목(종목만들기)[0]; if(첫) 종목만들기.pick = 첫.id; 종목만들기창(); }
+/* 합치기 = 직접 추가 종목 하나의 기록 전부(모든 회원) → 고른 종목 · 피드백 · 1RM · 피드백 요청 · 루틴 · 회원 설명까지 · 옛 이름 = 고른 종목 별칭 · 이 종목 = 「⇢」 표시(목록 · 검색에서 빠짐) */
+async function 합치기실행(j, 대상, T){ const src = (D.ex || []).find(x => x.id === j.src); if(!src) return;
+  const 옛 = (D.va || []).filter(v => v.ex_id === src.id).map(v => v.id).filter(v => v !== T); if(!옛.length) return toast('이 종목 그림(하는 법)을 못 찾았어요');
+  j.중 = true; 종목만들기창(); const q = 'variant_id=in.(' + 옛.map(v => encodeURIComponent('"' + v + '"')).join(',') + ')';
+  try{
+    await ssend('workout_items?' + q, 'PATCH', { variant_id:T }, 'return=minimal');
+    await ssend('comments?' + q, 'PATCH', { variant_id:T }, 'return=minimal');
+    for(const t of ['asks', 'one_rm', 'routine_items']) await ssend(t + '?' + q, 'PATCH', { variant_id:T }, 'return=minimal').catch(e => console.warn('합치기 ' + t, e));
+    if(정규(대상.name) !== 정규(src.name) && !(대상.aliases || []).some(a => 정규(a) === 정규(src.name))){
+      const al = (대상.aliases || []).concat([src.name]); await ssend('exercises?id=eq.' + encodeURIComponent(대상.id), 'PATCH', { aliases:al }, 'return=minimal'); 대상.aliases = al; 별칭판 = null; }
+    const al2 = (src.aliases || []).filter(a => !String(a).startsWith('⇢')).concat(['⇢' + 대상.id]); await ssend('exercises?id=eq.' + encodeURIComponent(src.id), 'PATCH', { aliases:al2 }, 'return=minimal'); src.aliases = al2;
+  }catch(e){ j.중 = false; 종목만들기창(); return toast('합치지 못했어요'); }
+  const 옮김 = x => { if(옛.includes(x.variant_id)) x.variant_id = T; };
+  [D.wi, M.wi, D.c, D.ri].forEach(xs => (xs || []).forEach(옮김));
+  종목만들기 = null; popClose(); toast((src.name || '') + ' → ' + (대상.name || '') + 와과(대상.name) + ' 합쳤어요'); render(); }
+async function 종목만들기실행(){ const j = 종목만들기; if(!j || j.중) return; let 대상 = null;
+  if(j.새){ const 이름 = String(j.newName == null ? j.nm : j.newName).trim().replace(/:/g, '·').slice(0, 40);
+    if(!이름) return toast('종목 이름을 입력해 주세요'); if(!j.part) return toast('부위를 선택해 주세요');
+    대상 = 붙일후보(j).find(e => 정규(e.name) === 정규(이름)) || null;
+    if(!대상){ j.중 = true; 종목만들기창(); const id = 'x' + Date.now() + Math.floor(Math.random() * 1000);
+      const 줄e = { id, name:이름, part:j.part, equip:'', cardio:false, sort:9000, owner:나이름(), media:[] }, 줄v = { id:id + ':a', ex_id:id, vkey:'a', name:'', descr:'', demo:false, sort:0 };
+      try{ await ssend('exercises?on_conflict=id', 'POST', [줄e], 'resolution=merge-duplicates,return=minimal'); await ssend('variants?on_conflict=id', 'POST', [줄v], 'resolution=merge-duplicates,return=minimal'); }
+      catch(e){ j.중 = false; 종목만들기창(); return toast('종목을 만들지 못했어요'); }
+      대상 = Object.assign({ aliases:[] }, 줄e); D.ex.push(대상); D.va.push(줄v); } }
+  else 대상 = (D.ex || []).find(e => e.id === j.pick);
+  if(!대상) return toast('종목을 선택해 주세요');
+  const 벌 = 첫벌(대상), T = 벌 ? 벌.id : 대상.id + ':a';
+  if(j.합) return 합치기실행(j, 대상, T);
+  const 줄 = 같은줄(j), 옛 = [...new Set(줄.map(it => it.variant_id))].filter(v => v !== T);
+  j.중 = true; 종목만들기창();
+  try{
+    for(const it of 줄) await ssend('workout_items?id=eq.' + it.id, 'PATCH', { variant_id:T }, 'return=minimal');
+    if(옛.length){ const q = 'member_id=eq.' + encodeURIComponent(j.mid) + '&variant_id=in.(' + 옛.map(v => encodeURIComponent('"' + String(v).replace(/"/g, '') + '"')).join(',') + ')';
+      await ssend('comments?' + q, 'PATCH', { variant_id:T }, 'return=minimal');
+      for(const t of ['asks', 'one_rm']) await ssend(t + '?' + q, 'PATCH', { variant_id:T }, 'return=minimal').catch(e => console.warn('종목 만들기 ' + t, e)); }
+    if(정규(대상.name) !== 정규(j.nm) && !(대상.aliases || []).some(a => 정규(a) === 정규(j.nm))){
+      const al = (대상.aliases || []).concat([j.nm]); await ssend('exercises?id=eq.' + encodeURIComponent(대상.id), 'PATCH', { aliases:al }, 'return=minimal'); 대상.aliases = al; 별칭판 = null; }
+    for(const id of [...new Set(줄.map(it => (vaOf(it.variant_id) || {}).ex_id).filter(Boolean))].filter(id => id !== 대상.id)){ const e = (D.ex || []).find(x => x.id === id); if(!e || !e.owner) continue;      /* ② 직접 추가 종목 숨김 표시 */
+      const al = (e.aliases || []).filter(a => !String(a).startsWith('⇢')).concat(['⇢' + 대상.id]); await ssend('exercises?id=eq.' + encodeURIComponent(id), 'PATCH', { aliases:al }, 'return=minimal'); e.aliases = al; }
+  }catch(e){ j.중 = false; 종목만들기창(); return toast('종목을 만들지 못했어요'); }
+  const 옮김 = x => { if(x.member_id === j.mid && 옛.includes(x.variant_id)) x.variant_id = T; };
+  줄.forEach(it => { it.variant_id = T; }); (D.wi || []).forEach(it => { if(줄.some(z => String(z.id) === String(it.id))) it.variant_id = T; }); (D.c || []).forEach(옮김);
+  종목만들기 = null; popClose(); toast((대상.name || '') + ' 종목으로 만들었어요'); render(); }
+      /* 2026-10-27 대표 「트레이너가 바로 추가하고 모두가 검색」 — 승인 없음 · 정리는 종목 사전 */
 const 종목고침 = e => !!e && (!e.owner ? 종목급() : (e.owner === 나이름() || 종목급()));      /* 수정 = 만든 사람 + 관리자 · 센터 종목은 관리자만 바로(그 밖은 「수정 요청」) (2026-10-30 결정함 d1030c_ex A · d1030_rename A) */
 const 동작고침 = x => !!x && (x.trainer === 나이름() || 종목급());
 const 추가동작 = () => (D.pi || []).slice().sort((a, b) => (b.trainer === 나이름()) - (a.trainer === 나이름()));      /* 트레이너가 추가한 스트레칭 동작 — 모두 · 내 것 먼저 */
@@ -6022,7 +6140,7 @@ function v루틴표(종류){
   return '<div class="rs-top"><div class="mn-chips"><button class="' + (탭 === '내' ? 'on' : '') + '" data-act="tx:rstab" data-k="내">내 것 ' + 다.filter(s => s.owner === 나).length + '</button><button class="' + (탭 === '전체' ? 'on' : '') + '" data-act="tx:rstab" data-k="전체">센터 전체 ' + 다.length + '</button></div>'
     + '<div class="mn-chips sm">' + 루틴표대상.map(t => '<button class="' + (대 === t ? 'on' : '') + '" data-act="tx:rstag" data-k="' + esc(t) + '">' + esc(t) + '</button>').join('') + '</div>'
     + (종류 === '스트레칭' ? '<button class="btn ghost sm" data-act="pilist">추가한 동작 ' + (D.pi || []).length + '개 · ＋ 새 동작</button>' : '') + '<div class="rs-btns">' + (종류 === '웨이트' ? '<button class="btn sm rs-photo" data-act="tx:rsphoto">' + 사진아이콘 + '사진으로 만들기</button>' : '') + '<button class="btn gold sm rs-new" data-act="tx:rsnew" data-k="' + 종류 + '">＋ ' + 종류 + ' 루틴표</button></div></div>'
-    + (목.length ? '<div class="rs-grid">' + 목.map(s => '<button class="rs-card" data-act="tx:rsopen" data-k="' + esc(s.id) + '">' + 루틴표표지(s) + '<b>' + esc(s.title || '(이름 없음)') + '</b><small>' + esc(보임이름(s.owner || '')) + ' · 루틴 ' + 표루틴들(s).length + ((s.tags || []).length ? ' · ' + esc(s.tags.join(' · ')) : '') + '</small></button>').join('') + '</div>'
+    + (목.length ? '<div class="rs-grid">' + 목.map(s => '<div class="rs-cw"><button class="rs-card" data-act="tx:rsopen" data-k="' + esc(s.id) + '">' + 루틴표표지(s) + '<b>' + esc(s.title || '(이름 없음)') + '</b><small>' + esc(보임이름(s.owner || '')) + ' · 루틴 ' + 표루틴들(s).length + ((s.tags || []).length ? ' · ' + esc(s.tags.join(' · ')) : '') + '</small></button><span class="rs-hov"><button data-act="tx:sgive" data-k="' + esc(s.id) + '">회원에게 주기</button><button data-act="tx:rscopy" data-k="' + esc(s.id) + '" title="이 루틴표를 그대로 복제 · 이름 · 표지만 바꿔 쓰기">복제하기</button></span></div>').join('')      /* 마우스 올리면 두 단추 (2026-11-05 대표 「가져가면 회원에게 주기 · 복제 둘 다」) */      /* 2026-11-05 노션 「복제하기 버튼 · 루틴 그대로 복사 · 이름이나 표지만 바꿔서 · 복사한 트레이너 루틴으로」 */ + '</div>'
       : '<div class="empty why"><b>' + (탭 === '내' ? '아직 만든 ' + 종류 + ' 루틴표가 없습니다' : 종류 + ' 루틴표가 없습니다') + '</b>「＋ ' + 종류 + ' 루틴표」로 만들어 주세요</div>')
     + (옛.length ? '<button class="rs-old" data-act="tx:' + (종류 === '웨이트' ? 'rsold' : 'rsoldst') + '"><b>옛 ' + (종류 === '웨이트' ? '루틴' : '스트레칭 루틴') + ' ' + 옛.length + '개</b><span>루틴표로 묶기 전에 만든 것</span><em>›</em></button>' : ''); }
 /* 루틴표 열기 — 매뉴얼 강좌처럼 왼쪽 루틴 · 오른쪽 종목 그림 · 그 자리에서 ＋ 루틴 · ＋ 종목 · 회원에게 주기 (2026-10-27 결정함 YZ1R1Urj) */
@@ -6092,11 +6210,25 @@ async function 종목픽넣기(vid){ const p = 종목픽, r = p && (D.r || []).f
 function 주기판(sid){ const s = (D.rs || []).find(x => x.id === sid); if(!s) return; S.sgSid = sid; const q = String(S.sgQ || '');
   const 이미 = new Set((D.gives || []).filter(g => g.sheet_id === sid).map(g => g.member_id));
   const ms = q.trim() ? 회원찾기목록(q, []) : (D.m || []).filter(m => (m.role || 'member') === 'member' && m.trainer === 나이름()).slice(0, 30);
+  return 주기판새(s, sid, q, 이미, q.trim() ? ms : (D.m || []).filter(m => (m.role || 'member') === 'member' && m.trainer === 나이름()));      /* 2026-11-05 20:48 대표 「B 모양 + 여러 명 · 이미 준 사람 흐리게 · 신규 · 재등록 · TG · 체험 나눠」 */
   판열기('「' + esc(s.title || '') + '」 회원에게 주기', '<input class="inp" id="sgq" type="search" value="' + esc(q) + '" placeholder="회원 이름 · 전화 뒷자리 검색" autocomplete="off" style="margin-bottom:10px">'
     + '<div class="sg-list">' + (ms.length ? ms.map(m => 이미.has(m.id) ? '<div class="card rowc"><div style="flex:1"><div class="t1">' + esc(m.name || '') + '</div></div><span class="tag">줬음</span></div>'
         : '<button class="card click rowc" data-act="tx:sgm" data-k="' + esc(sid + '|' + m.id) + '"><div style="flex:1;min-width:0"><div class="t1">' + esc(m.name || '') + '</div></div>' + (m.trainer && m.trainer !== 나이름() ? '<span class="tag">' + esc(m.trainer) + ' 회원</span>' : '') + '<span class="rt">주기 ›</span></button>').join('')
       : '<div class="empty why"><b>찾는 회원이 없습니다</b>이름이나 전화 뒷자리로 찾아 주세요</div>') + '</div>');
   setTimeout(() => { const e = document.getElementById('sgq'); if(e){ e.focus(); e.setSelectionRange(e.value.length, e.value.length); } }, 20); }
+/* 회원에게 주기 — 새 꼴 둘 (2026-11-05 시안) · A = 이름 칩 여러 명 골라 「n명에게 주기」 · B = 작은 칸 3줄 · 누르면 바로 주기 */
+function 주기판새(s, sid, q, 이미, ms){ const 고 = S.sgPick = S.sgPick && S.sgPick.sid === sid ? S.sgPick : { sid, ids:[] }, 나 = 나이름();
+  const 검 = '<input class="inp" id="sgq" type="search" value="' + esc(q) + '" placeholder="회원 이름 · 전화 뒷자리 검색" autocomplete="off" style="margin-bottom:10px">';
+  if(!ms.length) return 판열기('「' + esc(s.title || '') + '」 회원에게 주기', 검 + '<div class="empty why"><b>' + (q.trim() ? '찾는 회원이 없습니다' : '내 담당 회원이 없습니다') + '</b>이름이나 전화 뒷자리로 찾아 주세요</div>');
+  /* 묶음 — 신규 · 재등록(members.reg_kind · 중앙 정본이 채우면 저절로) · TG(운동가이드) · 체험(체험수업) · 갈래는 서버 판정(갈래of) */
+  const 묶of = m => { const g = 갈래of(m), r = (m.reg_kind || '').trim(); if(g === '운동가이드') return 'TG'; if(g === '체험수업') return '체험'; if(r === '신규' || r === '재등록') return r; if(g === 'PT회원') return 'PT'; return '그 밖'; };
+  const 차례 = ['신규', '재등록', 'PT', 'TG', '체험', '그 밖'], 묶 = {}; ms.forEach(m => { (묶[묶of(m)] = 묶[묶of(m)] || []).push(m); });
+  const 칸 = m => { const 줬 = 이미.has(m.id), 골 = 고.ids.includes(m.id), 남 = m.trainer && m.trainer !== 나 ? esc(m.trainer) + ' 회원' : '';
+    return 줬 ? '<div class="sgg done"><b>' + esc(m.name || '') + '</b><small>✓ 이미 줬음</small></div>'
+      : '<button class="sgg' + (골 ? ' on' : '') + '" data-act="tx:sgpk" data-k="' + esc(m.id) + '"><b>' + esc(m.name || '') + '</b><small>' + (골 ? '✓ 선택됨' : '선택 ›') + (남 ? ' · ' + 남 : '') + '</small></button>'; };      /* 20:55 대표 「추가 말고 선택」 */
+  const 속 = 차례.filter(k => (묶[k] || []).length).map(k => '<div class="lbl">' + k + ' <small>' + (q.trim() ? '검색 결과' : '내 담당') + '</small> <span class="sgn">' + 묶[k].length + '</span></div><div class="sggrid">' + 묶[k].sort((a, b) => (이미.has(a.id) - 이미.has(b.id)) || String(a.name || '').localeCompare(String(b.name || ''))).map(칸).join('') + '</div>').join('');      /* B 꼴 그대로 — 묶음마다 상자(lbl) 하나 (20:55 확정) */
+  return 판열기('「' + esc(s.title || '') + '」 회원에게 주기', 검 + (q.trim() ? '' : '<div class="sgnote">다른 회원은 위 검색 · 여러 명 눌러 한 번에</div>') + 속,
+    '<button class="btn gold" data-act="tx:sggo"' + (고.ids.length ? '' : ' disabled') + '>' + (고.ids.length ? 고.ids.length + '명에게 주기' : '회원을 눌러 선택하세요') + '</button>'); }
 async function 진행중으로(mid, sid){ const g = (D.gives || []).find(x => x.member_id === mid && x.sheet_id === sid), s = (D.rs || []).find(x => x.id === sid) || {}, m = memOf(mid) || {}; if(!g) return;
   if(!await 묻기('「' + (s.title || '') + '」을 ' + (m.name || '') + ' 회원의 진행 중 루틴표로 할까요?' + String.fromCharCode(10) + '회원 앱 운동 시작 맨 위에 떠요')) return;
   const at = new Date().toISOString();
@@ -6280,14 +6412,14 @@ async function 사진표저장(){ const P = 사진표; if(!P) return; const { �
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 document.addEventListener('change', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.spv || !사진표) return; const [i, j] = t.dataset.spv.split('|').map(Number), x = 사진표.routines[i] && 사진표.routines[i].items[j]; if(x && t.value){ x.vid = t.value; x.on = true; 사진표.title = (($('#sptitle') || {}).value || 사진표.title); 사진표판(); } });
 async function 루틴표복사(id){ const s = (D.rs || []).find(x => x.id === id); if(!s) return;
-  if(!await 묻기('「' + (s.title || '') + '」을 내 루틴표로 복사할까요?')) return;
-  try{ const nid = 's' + Date.now(), 몸 = { id:nid, title: s.title + ' (복사)', owner: 나이름(), tags: (s.tags || []).slice(), cover: Object.assign({}, s.cover || {}), note: s.note || '', sort:(D.rs || []).length };
+  if(!await 묻기('「' + (s.title || '') + '」을 내 루틴표로 복제할까요?' + String.fromCharCode(10) + '루틴 · 종목 그대로 · 이름 · 표지만 바꿔 쓰세요')) return;
+  try{ const nid = 's' + Date.now(), 몸 = { id:nid, kind: s.kind || 표종류(s), title: s.title + ' (복사)', owner: 나이름(), tags: (s.tags || []).slice(), cover: Object.assign({}, s.cover || {}), note: s.note || '', sort:(D.rs || []).length };
     await ssend('routine_sheets', 'POST', [몸]); D.rs.push(몸);
     for(const r of 루틴표루틴(id)){ const rid = 'r' + Date.now() + Math.floor(Math.random() * 1000), 줄 = { id:rid, member_id:null, no:r.no, name:r.name, purpose:r.purpose || '', grp:'', sheet_id:nid, sub:r.sub || '', by:나이름(), made_at:new Date().toISOString() };
       await ssend('routines', 'POST', [줄]); D.r.push(줄);
-      const it = (D.ri || []).filter(x => x.routine_id === r.id).sort((a, b) => (a.sort || 0) - (b.sort || 0)).map((x, i) => ({ routine_id:rid, sort:i, variant_id:x.variant_id, kg:null, reps:null, sets:x.sets || 3, rest:x.rest || 60 }));
+      const it = (D.ri || []).filter(x => x.routine_id === r.id).sort((a, b) => (a.sort || 0) - (b.sort || 0)).map((x, i) => ({ routine_id:rid, sort:i, variant_id:x.variant_id, kg:x.kg == null ? null : x.kg, reps:x.reps == null ? null : x.reps, sets:x.sets || 3, rest:x.rest || 60 }));      /* 그대로 복사 (2026-11-05) */
       if(it.length){ const made = await ssend('routine_items', 'POST', it, 'return=representation'); (made || []).forEach(z => D.ri.push(z)); } }
-    기록남기기({ area:'루틴표', action:'생성', tbl:'routine_sheets', row_id:nid, detail:'복사 — ' + s.title }); S.rsId = nid; S.rsTab = '내'; toast('내 루틴표로 복사했어요'); render(); }
+    기록남기기({ area:'루틴표', action:'생성', tbl:'routine_sheets', row_id:nid, detail:'복사 — ' + s.title }); S.rsId = nid; S.rsTab = '내'; toast('복제했어요' + String.fromCharCode(10) + '이름 · 표지를 바꿔 주세요'); render(); 표편 = null; 루틴표정보판(nid); }      /* 복제 뒤 바로 이름 · 표지 창 (2026-11-05) */
   catch(e){ toast('복사하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 document.addEventListener('change', e => { if(e.target && e.target.id === 'rsfile') 루틴표사진(e.target.files && e.target.files[0]); });
 function v루틴편집(){
@@ -6471,6 +6603,7 @@ function v내종목(){ const 나 = 나이름(), 칩들 = 내종목칩(), 부 = �
     + '<div class="mn-chips" style="margin:2px 0 8px">' + 칩들.map(k => '<button class="' + (부 === k ? 'on' : '') + '" data-act="tx:mypart" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') + '</div>'
     + 내보기단추()
     + '<div class="lbl"><span id="mylbl">' + esc(내종목머리(부, q, 수)) + '</span>' + (부 === '직접 추가' ? '<span class="my-seg"><button class="' + (S.myMine ? '' : 'on') + '" data-act="tx:mymine" data-k="">모두</button><button class="' + (S.myMine ? 'on' : '') + '" data-act="tx:mymine" data-k="1">내 것만</button></span>' : '') + '</div>' + 묶음
+    + (부 === '직접 추가' && !q ? (xs => xs.length ? '<div class="lbl" style="margin-top:18px">합친 종목 <span class="my-n">' + xs.length + '개</span></div><div class="jbdone">' + xs.map(e => '<span><b>' + esc(e.name || '') + '</b> → ' + esc(붙은곳(e).name || '') + 와과(붙은곳(e).name) + ' 합침</span>').join('') + '</div>' : '')((D.ex || []).filter(e => 붙은곳(e) && (!S.myMine || e.owner === 나))) : '')
     + '<div class="empty why" id="myempty"' + (수 ? ' style="display:none"' : '') + '><b>' + (부 === '직접 추가' && S.myMine && !q ? '아직 내가 직접 추가한 종목이 없습니다' : '이 칸에 종목이 없습니다') + '</b>루틴 만들기 · 앱 종목 선택에서 검색해 없으면 바로 추가돼요</div>'
     + (T.length ? '<div class="my-grp my-st"' + (T수 ? '' : ' style="display:none"') + '><div class="lbl" style="margin-top:18px">스트레칭 동작 <span class="my-n">' + T수 + '개</span></div><div class="my-grid c' + esc(내보기.칸) + '">' + T.map(x => 칸(스트칸그림({ k:'my', i:x.id }), x.name || '', x.time || '', x.trainer || '', 동작고침(x) ? '<button class="btn ed sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>' : '', ' data-mys="1"', T보임(x), 검색키((x.name || '') + (x.time || '') + (x.trainer || '')))).join('') + '</div></div>'
       : '<div class="lbl" style="margin-top:18px">스트레칭 동작 0개</div><div class="empty why"><b>아직 추가한 스트레칭 동작이 없습니다</b>스트레칭 루틴 수정 「추가한 동작」 칩에서 「＋ 새 동작」</div>')
@@ -6870,13 +7003,14 @@ function 지난기록탭(){
       + (유.length ? '<div class="rct ca"><div class="rr hd"><span class="n">유산소</span><span>시간</span><span>속도</span></div>' + 유.map(it => { const z = 세트(it)[0] || {}; return '<div class="rr"><span class="n"><em style="background:#b9b1a2">' + esc(vaName(it.variant_id)) + '</em></span><span>' + (z.reps ? z.reps + '분' : '—') + '</span><span>' + (z.spd ? z.spd + 'km/h' : '—') + '</span></div>'; }).join('') + '</div>' : '');      /* 앱 수업 기록 표와 같은 꼴 (2026-11-04 대표 시안 ⑤) */
     const 그림 = 칠 && 칠.length ? '<div class="rcfig"><span class="rcpic"><img src="' + 앱터 + 'img/body-plan.png" alt=""><canvas data-paint="' + esc(w.id) + '" width="1024" height="1024"></canvas></span><small>트레이너가 칠함</small></div>'
       : 묶.length ? '<div class="rcfig"><span class="rcpic"><canvas data-anat="' + esc(묶.join(',')) + '"></canvas></span><small>종목으로 자동</small></div>' : '<div class="rcfig"></div>';
+    const 만들줄 = (붙 => 붙.length ? '<div class="rcjb">' + 붙.map(it => '<button class="jbgo" data-act="tx:jbopen" data-k="' + esc(it.id) + '">' + esc(붙일이름(it.variant_id)) + ' · 종목 만들기 ›</button>').join('') + '</div>' : '')(its.filter(it => 붙일vid(it.variant_id)));
     덧말[w.id] = [esc(w.title || ''), its.length + '종목', 총 ? '든 무게 ' + Math.round(총).toLocaleString() + 'kg' : ''].filter(Boolean).join(' · ') + (w.done ? '' : ' · <b style="color:var(--gold)">하는 중</b>');
     return '<div class="rcday"><div class="rch">'
       + '<span class="r">' + (S.recEdit && S.day === w.id ? '<button class="btn main sm" data-act="tx:recback">수정 완료</button>'
           : '<button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button><button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button>')
         + (기록지움권(w) ? '<button class="btn ghost sm rcdel" data-act="tx:recdel" data-k="' + esc(w.id) + '">삭제</button>' : '') + '</span></div>'
       + (S.recEdit && S.day === w.id ? '<div class="rcedit">' + tabRecord(true) + '</div>'
-         : '<div class="rcb">' + 그림 + '<div class="rcl">' + (줄 || '<div class="sub3">종목이 없는 기록이에요</div>') + '</div></div>') + '</div>'; };
+         : '<div class="rcb">' + 그림 + '<div class="rcl">' + (줄 || '<div class="sub3">종목이 없는 기록이에요</div>') + 만들줄 + '</div></div>') + '</div>'; };
   setTimeout(() => { 해부칠하기(); 칠그리기(); }, 0);
   const 몸 = 보일.map(카드).join('');
   return '<div class="rcwrap">' + 날짜띠(ws, 번, 'tx:recnav', 덧말[ws[번].id]) + 몸 + 발 + '</div>'; }
@@ -10227,6 +10361,11 @@ function 앱기록창(mid, 리포트){
   el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + esc(m.name || '') + (리포트 ? ' · 리포트' : ' · 수업 기록') + '</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
     + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1&m=' + encodeURIComponent(mid) + (리포트 ? '&r=' + encodeURIComponent(리포트) : '') + '"></iframe></div>';
   document.body.appendChild(el); }
+/* 수업 기록 큰 카드 = 앱 그대로 열기 — 회원 없이 · 앱 「오늘」 탭부터 (2026-11-05 20:22 대표) */
+function 앱오늘창(){ 앱기록닫기(); const el = document.createElement('div'); el.id = 'apprec';
+  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>수업 기록</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
+    + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1"></iframe></div>';
+  document.body.appendChild(el); }
 /* 회원 화면 샘플 — 회원에게 앱 쓰는 법을 보여 줄 때 (2026-10-28 결정함 sample=a) · 가짜 회원 · 눌러도 저장 안 됨 · 닫으면 처음 상태 */
 function 회원샘플열기(){ 앱기록닫기(); const el = document.createElement('div'); el.id = 'apprec'; el.className = 'smp';
   el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>회원 화면 샘플</b><small>가짜 회원이에요 · 눌러도 저장되지 않아요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
@@ -10507,7 +10646,8 @@ document.addEventListener('input', ev => { const t = ev.target; if(!t || t.id !=
   document.querySelectorAll('#pzgrid [data-ps]').forEach(el => { el.style.display = (q ? !!el.dataset.psnm && 검색키(el.dataset.psnm).includes(q) : el.dataset.ps === 칸) ? '' : 'none'; });
   document.querySelectorAll('#pzmodal .chips [data-act="pzk"]').forEach(c => c.classList.toggle('on', !q && c.dataset.v2 === 칸)); });
 /* 목록에 이름을 적는 방식은 새 검색칸을 빠뜨린다 — 10/26 배정 묶음 탭 찾기(asgq)가 빠져 「지민」이 「ㅈㅣㅁㅣㄴ」(대표 20:55). 이제 class="srch" 인 글 칸은 저절로 같이 지킨다 */
-const 검색칸인가 = t => !!t && (검색칸들.indexOf(t.id) >= 0 || (t.tagName === 'INPUT' && t.classList && t.classList.contains('srch') && /^(text|search|)$/.test(t.getAttribute('type') || '')));
+const 검색칸인가 = t => !!t && (검색칸들.indexOf(t.id) >= 0 || (t.tagName === 'INPUT' && /^(text|search|)$/.test(t.getAttribute('type') || '') && ((t.classList && t.classList.contains('srch')) || t.getAttribute('type') === 'search' || /q$/.test(t.id || '') || /검색|찾/.test(t.getAttribute('placeholder') || '') || (t.dataset && (t.dataset.jbq || t.dataset.srch)))));
+/* ↑ 2026-11-05 노션 「검색창이 이렇게 한글이 밀리는 거 다 수정해 · 가끔 다른 창도 씹힐 때가 있어」(「회원에게 주기」 sgq = class inp · 목록에 없어 「ㄱㅣㅁㄷㅗ」) — 목록 대신 꼴로 : 검색 칸(type=search) · 아이디 끝 q · 자리글 「검색 · 찾」 · srch 전부 */
 /* 빨리 쳐도 한글이 안 깨지게 (2026-10-27 대표 「타이핑 빨리하면(평소 속도) 제대로 입력이 안 됨」 · 김채은 → 김ㅊㅐㅇㅡㄴ)
    글자 하나 끝날 때마다 화면을 다시 그려 검색칸이 새로 만들어졌고, 이미 시작된 다음 글자 조합이 끊겼다.
    → 조합 중이면 손잡이로 안 보냄 · 찾기 칸(아이디 끝 q · 검색칸들)은 손을 멈추고 0.18초 뒤 한 번만 보냄(그동안 조합이 이어지면 더 기다림) */
@@ -10684,7 +10824,7 @@ let XR없음 = false, XRW = null;
 const 종목급 = () => 할수('exok');
 const 종목본때 = () => { try{ return +localStorage.getItem('gg_ex_seen') || 0; }catch(e){ return 0; } };
 function 새로만든것(){ const 때 = id => { const n = +String(id || '').replace(/\D/g, '').slice(0, 13); return n > 1.6e12 ? n : 0; };
-  return (D.ex || []).filter(e => e.owner).map(e => ({ id:e.id, 갈:'운동 종목', 이름:e.name || '', 딸:[e.part, e.equip].filter(Boolean).join(' · '), 누가:e.owner, 때:때(e.id), 그림:(e.media || []).length }))
+  return (D.ex || []).filter(e => e.owner && !붙은곳(e)).map(e => ({ id:e.id, 갈:'운동 종목', 이름:e.name || '', 딸:[e.part, e.equip].filter(Boolean).join(' · '), 누가:e.owner, 때:때(e.id), 그림:(e.media || []).length }))
     .concat((D.pi || []).map(x => ({ id:x.id, 갈:'스트레칭 종목', 이름:x.name || '', 딸:x.time || '', 누가:x.trainer || '', 때:Date.parse(x.created_at || '') || 때(x.id) || Date.parse(x.updated_at || '') || 0, 그림:(x.media || []).length })))
     .sort((a, b) => b.때 - a.때); }
 function 종목배지(){ const bx = $('#xrbdg'); if(!bx) return; const nx = (D.ex && D.xr) ? 종목알림수() : 0; if(nx){ bx.textContent = nx; bx.style.display = ''; } else bx.style.display = 'none'; }
@@ -10714,10 +10854,7 @@ function vExReq(){
     + '<div class="lbl" style="margin-top:22px">종목 수정 요청 — 대기 ' + 대기.length + '</div>'
     + (대기.length ? '<div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px">' + 머리 + 대기.map(r => 줄(r, false)).join('') + '</table></div>'
         : '<div class="empty why"><b>대기 중인 요청이 없습니다</b>루틴 화면 「종목」 탭 · 앱 「보완 요청」으로 보내면 여기에 보입니다</div>')
-    + '<div class="lbl" style="margin-top:22px">트레이너가 새로 만든 종목 — ' + 새.length + ' <span class="sub3">승인 없이 모두가 검색해요 · 이름 · 사진이 이상하면 「수정」</span></div>'
-    + (새.length ? '<div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px"><tr><th>구분</th><th>이름</th><th>부위 · 기구</th><th>만든 사람</th><th>만든 날</th><th>사진 · 영상</th><th></th></tr>'
-          + 새.map(x => '<tr><td class="nw"><span class="tag ' + (x.갈 === '운동 종목' ? 'gold' : 'teal') + '">' + x.갈 + '</span></td><td><b>' + esc(x.이름) + '</b>' + (x.때 > 본 ? ' <span class="tag warn">새</span>' : '') + '</td><td><span class="sub3">' + esc(x.딸 || '—') + '</span></td><td>' + esc(x.누가 || '') + '</td><td class="nw">' + (x.때 ? 짧은날(x.때) : '—') + '</td><td>' + (x.그림 ? x.그림 + '개' : '<span class="sub3">없음</span>') + '</td><td class="nw">' + (급 ? (x.갈 === '운동 종목' ? '<button class="btn ed sm" data-act="exedit" data-v2="' + esc(x.id) + '">수정</button>' : '<button class="btn ed sm" data-act="tx:myst" data-k="' + esc(x.id) + '">수정</button>') : '') + '</td></tr>').join('') + '</table></div>'
-        : '<div class="empty why"><b>아직 새로 만든 종목이 없습니다</b>트레이너가 종목을 만들면 여기에 보입니다</div>')
+    + 직접추가목록(새, 본, 급)
     + (끝.length ? '<div class="lbl" style="margin-top:22px">처리한 요청 — 최근 ' + 끝.length + '</div><div class="card" style="padding:4px 6px;overflow-x:auto"><table class="mtb" style="min-width:760px">' + 머리 + 끝.map(r => 줄(r, true)).join('') + '</table></div>' : '');
 }
 function 요청반영창(){ const r = XRW, v = (D.va || []).find(z => z.ex_id === r.ex_id && z.vkey === r.vkey), 지금 = (v && v.descr) || '';
@@ -12749,7 +12886,7 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'Enter'){ e.preventDefault();
     const td = 칸찾기(id, k); if(!td) return;
     if(!칸안편집(key, id, k, td)) td.click(); return; }
-  if(e.key === 'Escape'){ 범위지우기(); 칸고름지우기(); return; }
+  if(e.key === 'Escape'){ 범위지우기(); 칸고름지우기(); if((고른행.ids || []).length){ 고른행 = { key:null, ids:[] }; 마지막고름 = null; render(); } return; }      /* 고른 줄도 Esc 로 풀림 (2026-11-05 노션 「선택 후 esc 누르면 전체 선택 해제 · 일일이 지워야 돼서 불편」) */
   if(e.key === 'Delete' || e.key === 'Backspace'){ const c = 열들(key).find(z => z.k === k), r = W[key].find(x => x.id === id);      /* 칸 비우기 — Ctrl+Z 로 되돌림 */
     if(c && r && !c.시스템 && !c.필수 && 고칠수있나(key, r) && !값없나(값읽기(r, k))){ e.preventDefault(); 묻기('「' + c.이름 + '」 칸을 비울까요?' + String.fromCharCode(10) + 'Ctrl + Z 로 되돌릴 수 있어요').then(ok => { if(ok) 속성저장하기(key, id, k, c.타입 === 'check' ? false : (c.타입 === 'multi' || c.타입 === 'people') ? [] : null); }); } return; }
   if(e.key === 'F2'){ e.preventDefault(); const td = 칸찾기(id, k); if(td && !칸안편집(key, id, k, td)) td.click(); return; }      /* F2 = 편집 (엑셀) */
@@ -14888,6 +15025,7 @@ const 현황셈하기 = k => {
    선생님이 처리하는 것만 여기 적는다 — 새 칸을 안 적으면 「내가 할 일」로 가서 묻히지 않는다 */
 /* 현황판 줄 세우기 (2026-11-02 대표) — ① 상담이 맨 앞 · 빛남 「상담이 가장 중요 · 가장 1번 · 가장 눈에 띄게」 ② 업무끼리 ③ 수업끼리 (뒤죽박죽 말고) — 관리자는 상담이 「내가 할 일」 첫 칸 */
 const 현황수업칸 = new Set(['운동', '오늘없음', '누락', '밀림', '요청', '실패', '첫연락', '첫TG', '담당', '빈담당', '배정없음', 'TG정리']);
+const 선생접힘 = () => { try{ return localStorage.getItem('gg_trfold') === '1'; }catch(e){ return false; } };      /* 이 기기에 기억 */
 const 현황묶음 = k => k === '상담' ? 0 : 현황수업칸.has(k) ? 2 : 1;
 /* ⭐ 현황판 차례 (2026-11-04 대표 「빨간불을 가장 좌측 · 행동요건에 따라」 — 11/03 23:11 말씀 · 시안 현황판배치_시안_1103)
    ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
@@ -14931,7 +15069,9 @@ function 숫자줄(){
   if(!대표판) return '<div class="homenums">' + 줄(산, '오늘 볼 것이 없습니다 👍') + 접힘 + '</div>';
   const 머 = (글, 덧) => '<div class="nh"><b>' + 글 + '</b><small>' + 덧 + '</small></div>';
   return '<div class="homenums two"><div class="ngrp me">' + 머('내가 할 일', '대표 · 관리자가 처리') + 줄(산.filter(x => !선생님칸.has(x.c.k)), '지금 할 일이 없습니다', 7) + '</div>'
-    + '<div class="ngrp tr">' + 머('선생님 현황', '선생님들이 처리') + 줄(산.filter(x => 선생님칸.has(x.c.k)), '지금 밀린 일이 없습니다', 7) + 접힘 + '</div></div>';
+    + (() => { const 선 = 산.filter(x => 선생님칸.has(x.c.k)), 접 = 선생접힘(), 급 = 선.filter(x => 급한칸.includes(x.c.k)).reduce((a, x) => a + x.v, 0), 합 = 선.reduce((a, x) => a + x.v, 0);      /* 대표 화면 선생님 현황 접기 · 펼치기 (2026-11-05 대표) */
+        return '<div class="ngrp tr' + (접 ? ' fold' : '') + '">' + 머('선생님 현황', '선생님들이 처리').replace('</div>', '<button class="nfold" data-act="tx:trfold">' + (접 ? '펼치기 ⌄' : '접기 ⌃') + '</button></div>')
+          + (접 ? '<div class="nrow none nsum">' + (급 ? '<b class="ur">급한 일 ' + 급 + '</b> · ' : '') + '선생님 일 ' + 합 + '건 · 펼치면 보여요</div>' : 줄(선, '지금 밀린 일이 없습니다', 7) + 접힘) + '</div>'; })() + '</div>';
 }
 
 /* ── 숫자를 누르면 **그 페이지로 간다** ──
@@ -16687,7 +16827,16 @@ async function txAct(a, el){
   if(a==='rsrnok'){ const e = document.getElementById('rsrnin'), 이름 = e ? e.value.trim() : '', sb = document.getElementById('rsrnsub'), 설명 = sb ? sb.value.trim() : '', r = (D.r || []).find(x => x.id === k); if(!r) return; if(!이름){ toast('루틴 이름을 입력해 주세요'); return; }
     if(이름 === (r.name || '') && 설명 === (r.sub || '')){ S.rsRn = null; render(); return; } if(!await 묻기('「' + 이름 + '」' + (설명 ? ' · ' + 설명 : '') + String.fromCharCode(10) + '이대로 수정할까요?')) return;
     try{ await ssend('routines?id=eq.' + encodeURIComponent(k), 'PATCH', { name:이름, sub:설명 }); r.name = 이름; r.sub = 설명; S.rsRn = null; toast('수정했어요'); render(); }catch(err){ toast('수정하지 못했어요 — ' + String(err.message || '').slice(0, 60)); } return; }      /* 루틴표 열기 · 주기 (2026-10-27) */
-  if(a==='sgive'){ S.sgQ = ''; 주기판(k); return; }
+  if(a==='sgive'){ S.sgQ = ''; S.sgPick = null; 주기판(k); return; }
+  if(a==='sgpk'){ const 고 = S.sgPick || { sid:S.sgSid, ids:[] }; const i = 고.ids.indexOf(k); if(i >= 0) 고.ids.splice(i, 1); else 고.ids.push(k); S.sgPick = 고; 주기판(S.sgSid); return; }
+  if(a==='sggo'){ const 고 = S.sgPick; if(!고 || !고.ids.length) return; const s = (D.rs || []).find(x => x.id === 고.sid) || {}, 이름 = 고.ids.map(id => (memOf(id) || {}).name || '').join(', ');
+    if(!await 묻기('「' + (s.title || '') + '」 루틴표를 ' + 고.ids.length + '명에게 줄까요?' + String.fromCharCode(10) + 이름)) return;
+    for(const mid of 고.ids.slice()){ const 줄 = { member_id:mid, sheet_id:고.sid, mode:'', days:{}, seq:[], by:나이름(), at:new Date().toISOString() };
+      try{ await ssend('sheet_gives?on_conflict=member_id,sheet_id', 'POST', [줄], 'resolution=merge-duplicates'); D.gives = (D.gives || []).filter(g => !(g.member_id === mid && g.sheet_id === 고.sid)).concat([줄]);
+        if(표종류(s) === '스트레칭') for(const p of 스트루틴(고.sid)){ if((p.member_ids || []).includes(mid)) continue; const ids = (p.member_ids || []).concat([mid]); await ssend('prep_sets?id=eq.' + encodeURIComponent(p.id), 'PATCH', { member_ids: ids }); p.member_ids = ids; }
+        기록남기기({ area:'루틴표', action:'생성', tbl:'sheet_gives', row_id:mid, customer:(memOf(mid) || {}).name || '', detail:'회원에게 주기 — ' + (s.title || '') }); }
+      catch(e){ toast('주지 못했어요 — ' + String(e.message || '').slice(0, 60)); break; } }
+    S.sgPick = null; toast(고.ids.length + '명에게 줬어요'); render(); 주기판(고.sid); return; }
   if(a==='sgm'){ const [sid, mid] = String(k).split('|'); await 주기저장(sid, mid); return; }
   if(a==='sgpick'){ 주기고르기판(k); return; }
   if(a==='sgmine'){ const [sid, mid] = String(k).split('|'); const w = document.getElementById('sgpvw'); if(w) w.remove(); await 주기저장(sid, mid); 주기고르기판(mid); return; }
@@ -16766,6 +16915,15 @@ async function txAct(a, el){
     if(o['고름'] && !매확.고침[k]){ 매확.고침[k] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[k]['금액']); if(ks.length === 1) 매확.고침[k]['금액'][ks[0]] = +o['합'] || 0; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); }      /* 바로 수정 모드 = scedit 과 같다 */
     S.psPay = String(o.id); 결제수정창(); return; }
   if(a==='pspayx'){ 쪽지닫기(); return; }      /* PT 매출 카드 → 결제수단 수정 (2026-11-04 대표) */
+  if(a==='jbopen'){ 종목만들기열기(k); return; }
+  if(a==='xamerge'){ 합치기열기(k); return; }
+  if(a==='xaf'){ S.xrF = k; render(); return; }
+  if(a==='xadone'){ S.xaDone = !S.xaDone; render(); return; }
+  if(a==='jbpick'){ if(종목만들기){ 종목만들기.pick = k; 종목만들기창(); } return; }
+  if(a==='jbnew'){ if(종목만들기){ 종목만들기.새 = !종목만들기.새; 종목만들기창(); } return; }
+  if(a==='jbpart'){ if(종목만들기){ 종목만들기.part = 종목만들기.part === k ? '' : k; 종목만들기창(); } return; }
+  if(a==='jbgo'){ 종목만들기실행(); return; }
+  if(a==='trfold'){ try{ localStorage.setItem('gg_trfold', 선생접힘() ? '0' : '1'); }catch(e){} render(); return; }
   if(a==='lkmemo'){ await 락커메모남기기(k); return; }      /* 락커 메모 → CRM (2026-11-05) */
   if(a==='scedit'){ const o = 매확찾(v2); if(o && o['고름']){ 매확.고침[v2] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[v2]['금액']); if(ks.length === 1) 매확.고침[v2]['금액'][ks[0]] = +o['합'] || 0; if(o.TG) 매확.TG열림['p' + v2] = '열림'; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); } 매확다시(); return; }      /* 수정 = 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22) · CRM 에 들어간 메모는 안내 (대표 17:39) */
   if(a==='sccancel'){ delete 매확.고침[v2]; delete 매확.펼침['메모' + v2]; delete 매확.TGF['p' + v2]; delete 매확.TG바뀜['p' + v2]; delete 매확.TG열림['p' + v2]; 매확다시(); return; }
@@ -16998,7 +17156,7 @@ async function txAct(a, el){
   if(a==='rvday1'){ try{ localStorage.setItem('gg_rv_day', TODAY); }catch(e){} 돌아.열림 = false; popClose(); return; }
   if(a==='ckre'){ const k = 점검.주 || '이번'; 점검.왜 = ''; 점검.새로왜 = ''; 점검.받음[k] = false; if(!점검.때[k]) delete 점검.답[k]; 점검받기(점검.주); render(); return; }      /* 점검 — 다시 받기 */
   if(a==='go'){ S.view = k; document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on', b.dataset.v===k)); render(); return; }
-  if(a==='lsgo'){ if(k === 'today'){ 기록회원창(); return; }      /* 수업 기록하기 = 회원 검색 → 바로 기록 (2026-10-24 대표) */
+  if(a==='lsgo'){ if(k === 'today'){ 앱오늘창(); return; }      /* 2026-11-05 20:22 대표 「데스크에서 앱이 열리게 · 예약 목록 바로 기록하기는 원래 창」 — 큰 카드 = 앱 그대로(오늘 탭 · 아래 탭 다섯) */      /* 수업 기록하기 = 회원 검색 → 바로 기록 (2026-10-24 대표) */
     가기(k); if(k === 'reports') 발송기록읽기().then(() => render()).catch(() => {}); return; }
   if(a==='vback' || a==='vfwd'){ 화면옮김(a === 'vback' ? -1 : 1); return; }
   if(a==='view' && 표상태[k].보기 === v2 && 할수('table') && el){ 보기탭메뉴(k, v2, el); return; }      /* 노션 보기 메뉴 (2026-10-26 대표 「보기뷰도 수정 및 삭제」) */
@@ -19828,6 +19986,11 @@ document.addEventListener('click', function(e){
 }, true);
 
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') popClose(); });
+/* 표에서 체크박스로 고른 줄 — Esc 한 번에 모두 풀기 (2026-11-05 노션 「데이터베이스에서 선택 후 esc 누르면 전체 선택 해제되기 · 일일이 지워야 돼서 불편」)
+   열린 창 · 입력 중이 아닐 때만 · 창이 열려 있으면 Esc 는 그 창 닫기 먼저 */
+document.addEventListener('keydown', e => { if(e.key !== 'Escape' || !(고른행.ids || []).length) return; const t = e.target;
+  if(t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return; if(document.querySelector('#pop.on, #txmask, #apprec')) return;
+  고른행 = { key:null, ids:[] }; 마지막고름 = null; render(); }, true);      /* 잡기 단계 — 창 닫기(popClose)보다 먼저 봐야 「창만 닫고 고른 줄은 그대로」 */
 $('#pop').addEventListener('click', function(e){ if(e.target.id==='pop') popClose(); });
 $('#toast').addEventListener('click', function(ev){
   if(ev.target.id !== 'toastundo' || !되돌리기함) return;
