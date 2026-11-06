@@ -3263,7 +3263,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '609';
+const BUILD = '610';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12396,10 +12396,13 @@ async function 필자차례저장(묶){ if(!묶) return; const ids = [...묶.que
   try{ for(const x of 바뀜) await usend('desk_quick?id=eq.' + encodeURIComponent(x.id), 'PATCH', { sort: x.sort, updated_at: new Date().toISOString() }); toast('차례를 바꿨어요'); render(); }
   catch(e){ toast('차례를 저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); 필자받기(); } }
 /* 보기 — 사진 · PDF · 글 */
-function 필자보기(id){ const x = (필자.줄 || []).find(z => z.id === id); if(!x) return; const fs = x.files || [];
+async function 필자보기(id){ const x = (필자.줄 || []).find(z => z.id === id); if(!x) return; const fs = x.files || [];
+  try{ await 주소받기(fs.map(z => z.path).filter(Boolean)); }catch(e){}      /* 서명 주소부터 — media 저장소는 잠겨 있어 서명 전 주소(object/public)는 「Bucket not found」(2026-11-06 노션 「필수자료 환불계산기 누르면 다운로드가 안 돼」) */
+  const 받기 = z => { const u = media(z.path); return z.kind === 'file' && /token=/.test(u) ? u + '&download=' + encodeURIComponent(z.name || '') : u; };      /* 엑셀 등 파일은 내려받기로 */
+  if(fs.some(z => z.path && !SIGNED[z.path] && !S3키(z.path))) toast('파일 주소를 받지 못했어요 — 잠시 뒤 다시 눌러 주세요');
   가운데창('<div class="tx-ph"><b>' + esc(x.title || '') + '</b><button data-act="popclose">✕</button></div>'
     + fs.filter(z => z.kind === 'photo').map(z => '<a class="mqimg" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"><img src="' + esc(media(z.path)) + '" alt=""></a>').join('')
-    + fs.filter(z => z.kind !== 'photo').map(z => '<a class="mqpdf" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"' + (z.kind === 'file' ? ' download="' + esc(z.name || '') + '"' : '') + '>' + (z.kind === 'file' ? '📎 ' : '📄 ') + esc(z.name || 'PDF') + (z.kind === 'file' ? ' 내려받기' : ' 열기') + '</a>').join('')
+    + fs.filter(z => z.kind !== 'photo').map(z => '<a class="mqpdf" data-p="' + esc(z.path) + '" href="' + esc(받기(z)) + '" target="_blank" rel="noopener"' + (z.kind === 'file' ? ' download="' + esc(z.name || '') + '"' : '') + '>' + (z.kind === 'file' ? '📎 ' : '📄 ') + esc(z.name || 'PDF') + (z.kind === 'file' ? ' 내려받기' : ' 열기') + '</a>').join('')
     + (String(x.body || '').trim() ? '<div class="mqbody">' + esc(x.body) + '</div>' : '')
     + '<div class="cmacts" style="margin-top:12px">' + (필자쓰기() ? '<button class="btn ed sm" data-act="tx:mqe" data-k="' + esc(x.id) + '">수정</button>' : '') + '<button class="btn ghost sm" data-act="tx:mqall">‹ 전체</button><button class="btn ghost sm" data-act="popclose">닫기</button></div>', 620); }
 /* 추가 · 수정 — 이름 · 사진 / 첨부(붙여넣기 · 올리기 · 끌어다 놓기) · 내용 */
