@@ -2287,7 +2287,12 @@ body{word-break:keep-all}
 .sc-etc{display:flex;align-items:center;gap:8px;margin-top:8px;max-width:520px}.sc-etc span{color:var(--teal);font-weight:800;font-size:13px;flex:none}.sc-etc input{flex:1;min-width:0;height:32px;border-radius:9px;border:1px solid var(--teal);background:var(--dark);color:var(--cream);padding:0 10px;font:inherit;font-size:14px}.sc-pay button{height:32px;min-width:0;padding:0 6px;border-radius:999px;border:1px solid var(--line);background:var(--dark-3);font:inherit;font-size:13px;font-weight:600;color:#d9d3c9;cursor:pointer}
 .sc-pay button.on{border-color:var(--teal);background:var(--teal-dim);color:var(--teal)}
 .sc-tgl{display:block;width:100%;text-align:left;margin-top:9px;padding:8px 11px;border-radius:9px;font:inherit;font-size:13px;color:#B0E299;cursor:pointer;background:color-mix(in srgb,#B0E299 9%,transparent);border:1px dashed color-mix(in srgb,#B0E299 45%,transparent)}
-.sc-tgl b{color:var(--cream);font-weight:700}.sc-tgl.done{border-style:solid}.sc-tgl-p{display:block;margin-top:3px;color:var(--sub);font-weight:500}
+.sc-tgl b{color:var(--cream);font-weight:700}
+@property --tga{syntax:'<angle>';initial-value:0deg;inherits:false}
+.sc-tgl:not(.done){position:relative;isolation:isolate}
+.sc-tgl:not(.done)::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--tga),transparent 0 62%,rgba(214,245,198,.95) 75%,transparent 88%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:tgEdge 3.6s linear infinite}
+@keyframes tgEdge{to{--tga:360deg}}
+@media (prefers-reduced-motion:reduce){.sc-tgl:not(.done)::before{animation:none;opacity:.5}}      /* 테두리를 따라 빛이 지나감 — 안 적은 TG메모만 (2026-11-06 19:51 대표 「가쪽으로 효과 · 빛이 지나가는」) */.sc-tgl.done{border-style:solid}.sc-tgl-p{display:block;margin-top:3px;color:var(--sub);font-weight:500}
 .sc-tgf{margin-top:9px;padding:10px 11px;border-radius:11px;background:color-mix(in srgb,#B0E299 7%,transparent);border:1px solid color-mix(in srgb,#B0E299 35%,transparent);display:grid;gap:8px}
 .sc-tgf-h{display:flex;align-items:center;font-size:13px;font-weight:800;color:#B0E299}.sc-fold{margin-left:auto;height:28px;padding:0 10px;border-radius:7px;border:1px solid var(--line);background:var(--dark-3);font:inherit;font-size:13px;font-weight:700;color:#cfc7b8;cursor:pointer}
 .sc-prev{font-size:13px;color:#cfc7b8;padding:7px 10px;border-radius:8px;background:var(--dark-3)}.sc-prev.none{color:var(--sub)}
@@ -3270,7 +3275,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '615';
+const BUILD = '616';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10316,7 +10321,7 @@ function 매확TG칸(열쇠, tg, 횟수, 저장, 자동열림, 저장단추){   
   if(열림) return 매확TG양식(열쇠, tg, 횟수, 저장단추);
   const 적음 = 매확TG있음(f);
   return '<button class="sc-tgl' + (적음 ? ' done' : '') + '" data-act="tx:sctopen" data-k="' + esc(열쇠) + '">TG ' + (+횟수 || 0) + '회 · <b>' + (적음 ? 'TG메모 적음 — 눌러서 보기' : 'TG메모를 남겨 주세요') + '</b> ⌄'
-    + '<span class="sc-tgl-p">' + esc(적음 ? 매확TG글(f, tg).split(String.fromCharCode(10))[0] : 매확이전글(tg)) + '</span></button>'
+    + (적음 ? '<span class="sc-tgl-p">' + esc(매확TG글(f, tg).split(String.fromCharCode(10))[0]) + '</span>' : '') + '</button>'      /* 안 적었으면 한 줄만 — 지난 TG 이력은 펼친 양식 안에 (2026-11-06) */
     + (저장 && typeof 저장 === 'object' && 저장['누가'] ? '<div class="sc-mlog"><b>' + esc(저장['누가']) + '</b> · ' + esc(매확때(저장['때'])) + ' 저장 → 배정 표 FC 메모에 덧붙음</div>' : ''); }
 /* PT 담당 — 이 결제의 PT 매출 줄(pt_sales · order_key 같음 · 없으면 회원 카드 + 같은 날) */
 const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.pay_id && String(x.pay_id) === String(o.id)) || (x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
@@ -10343,7 +10348,7 @@ function 매확줄(o){
       + '<div class="sc-sum"><span class="sp"></span><button class="btn ed sm" data-act="tx:scedit" data-v2="' + esc(o.id) + '">수정</button></div>';
     return h + '</div>';
   }
-  if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], true, '');      /* 처음부터 펼침 — 결제수단 · 배정 · TG메모를 한 화면에서 (2026-10-30 대표) */
+  if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], false, '');      /* 처음엔 접힘 · 누르면 양식 (2026-11-06 19:51 대표 「처음부터 펼쳐져 있는데 접혀 있게」 — 10/30 「처음부터 펼침」을 바꿈) */
   if(PT있음) h += 매확PT줄(o);
   h += '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="tx:scm" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
     + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '');
