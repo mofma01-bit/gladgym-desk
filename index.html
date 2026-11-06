@@ -3282,7 +3282,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '618';
+const BUILD = '619';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3371,10 +3371,19 @@ const S3만료 = {};
 async function S3부르기(길, 몸){ if(!AUTH || !AUTH.access_token) throw new Error('로그인이 필요해요');
   const r = await fetch('https://dash.gladgym.co.kr/app/media/' + 길, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(Object.assign(증표몸(), 몸 || {})) });
   if(!r.ok) throw new Error('서버에 닿지 못했어요 (' + r.status + ')'); const j = await r.json(); if(!j.ok) throw new Error(j.why || '안 되었어요'); return j; }
+/* 사진 · 영상 주소 받기 — 한꺼번에 90건 넘게 보내 서버 과다요청 차단(429)에 걸려 「열 수 없음」이 남던 것 (2026-11-06 23:19 중앙 실측 · 대표)
+   → 동시에 5개까지만 줄 세움 · 같은 사진은 한 번만 묻기 · 429 면 1.2 · 2.4 · 3.6 · 4.8초 뒤 다시(4번) · 진짜 거절(권한 · 없는 파일)만 실패 */
+const S3줄 = { 도는:0, 기다림:[], 묻는중:new Map() };
+function S3보기(k){ if(S3줄.묻는중.has(k)) return S3줄.묻는중.get(k);
+  const p = new Promise((끝, 실패) => { S3줄.기다림.push({ k, 끝, 실패 }); S3줄돌리기(); }).finally(() => S3줄.묻는중.delete(k));
+  S3줄.묻는중.set(k, p); return p; }
+function S3줄돌리기(){ while(S3줄.도는 < 5 && S3줄.기다림.length){ const 일 = S3줄.기다림.shift(); S3줄.도는++;
+  (async () => { let 마지막; for(let n = 0; n < 5; n++){ try{ const j = await S3부르기('view', { key: 일.k, 분: 1440 }); return 일.끝(j); }catch(e){ 마지막 = e; if(!/\(429\)/.test(String(e.message || ''))) break; await new Promise(r => setTimeout(r, 1200 * (n + 1) + Math.random() * 400)); } } 일.실패(마지막); })()
+    .finally(() => { S3줄.도는--; S3줄돌리기(); }); } }
 async function S3지우기(k){ try{ await S3부르기('delete', { key: k }); delete SIGNED[k]; }catch(e){ console.warn('S3 못 지움', k, e.message); } }
 async function 주소받기(paths){
   { const 지금 = Date.now(), s3 = [...new Set((paths||[]).filter(x => S3키(x) && (!SIGNED[x] || (S3만료[x] || 0) < 지금)))];
-    await Promise.all(s3.map(async k => { try{ const j = await S3부르기('view', { key: k, 분: 1440 }); if(j.url){ SIGNED[k] = j.url; S3만료[k] = Date.now() + 23 * 3600 * 1000; } }catch(e){ console.warn('S3 주소 못 받음', e.message); } })); }
+    await Promise.all(s3.map(async k => { try{ const j = await S3보기(k); if(j && j.url){ SIGNED[k] = j.url; S3만료[k] = Date.now() + 23 * 3600 * 1000; } }catch(e){ console.warn('S3 주소 못 받음', e.message); } })); }
   const 새것 = [...new Set((paths||[]).filter(x => x && !S3키(x) && !SIGNED[x]))];
   if(!새것.length) return;
   for(let i=0; i<새것.length; i+=100){
@@ -10713,7 +10722,8 @@ const 이번주월 = () => { const d2 = 점검.답['이번']; if(d2 && d2['주']
 const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답['이번']; if(!나 || 대표인가()) return false; if(d2 && Object.keys(d2['표'] || {}).includes(나)) return true; const g = 등급of(ME); return g === '트레이너' || g === '중간관리자'; };      /* 점검 표에 이름이 없거나 아직 안 왔어도 트레이너 · 중간관리자는 대상 (2026-11-04 20:08 대표 캡처 — 송영림 화면에 카드가 안 뜸) */
 const 예상팝업키 = () => 'gg_fcp_' + ((ME && ME.name) || '') + '_' + 이번주월();
 const 예상팝업본 = () => { try{ return localStorage.getItem(예상팝업키()) === '1'; }catch(e){ return false; } };      /* 팝업은 그 주 한 번만 — 그다음은 현황판 빛남 (2026-11-04 20:08 대표 「팝업은 한번만 그다음엔 현황판에 빛나게」) */
-const 예상미입력 = () => { const d2 = 점검.답['이번'], 주 = 이번주월(); if(!d2 || !점검메모.줄) return []; return Object.keys(d2['표'] || {}).filter(n => !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
+const 예상미입력 = () => { const d2 = 점검.답['이번'], 주 = 이번주월(); if(!d2 || !점검메모.줄) return []; const 퇴 = new Set([...퇴사명(), ...(W.staff || []).filter(p => p.active === false).map(p => String(p.name || '').trim())]), 대 = new Set((W.staff || []).filter(p => 등급of(p) === '대표자').map(p => String(p.name || '').trim()));
+  return Object.keys(d2['표'] || {}).filter(n => n !== '공통' && !퇴.has(n) && !대.has(n) && !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표의 「공통」 칸 · 퇴사자 · 대표는 사람 셈에서 뺌 — 재직 선생님만 (2026-11-06 23:28 대표 「조민철 · 장승훈 빼고 3명인데 미입력 5」) */      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
 const 예상남은날 = 날 => { const d = new Date((날 || TODAY) + 'T00:00:00').getDay(); return d === 0 ? 0 : 7 - d; };      /* 목 3 · 금 2 · 토 1 · 일 0 — 목요일부터 붉은 띠 (2026-11-05 대표 시안 ⑱) */
 const 예상이번주 = () => { const 나 = (ME && ME.name) || '', 주 = 이번주월(); return (점검메모.예상 || []).some(x => x.trainer === 나 && x.week === 주); };
 function 예상팝업열기(강제){
