@@ -3142,6 +3142,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .hblk > .homenums .nrow.live .num.nc .v{margin-top:0 !important;font-size:34px;line-height:1.1}
 .hblk > .homenums .num.nc.ur::after{display:none}.hblk > .homenums .num.nc.ur{box-shadow:inset 0 3px 0 #e5484d;border-color:#7a3a3a !important}.hblk > .homenums .nrow.live .num.nc.ur .v{color:#ff8a8a !important}
 .pwa-app{flex-basis:100%;display:block;margin-top:8px;font-size:14px;font-weight:800;color:var(--gold-2,#e2c184);text-decoration:none}
+.tx-notice .ntc-due{margin-left:8px;font-size:13px;font-weight:600;color:var(--sub, #c6bdb2)}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3282,7 +3283,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '619';
+const BUILD = '620';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -14429,6 +14430,7 @@ async function 블록저장(){
   try{
     const o = await usend(T.table+'?id=eq.'+BL.id, 'PATCH', { [BL.f]: 블록쓰기(BL.bs) }, 'return=representation');
     const r = W[BL.key].find(x=>x.id===BL.id); if(o && o[0] && r) Object.assign(r, o[0]);
+    if(o && o[0] && 시트 && 시트.key === BL.key && 시트.id === BL.id) 시트.값[BL.f] = o[0][BL.f];      /* 속성 저장이 옛 본문을 쓰지 않게 (2026-11-07) */
     const d = new Date();
     if(st) st.textContent = '저장됨 ' + (d.getHours()<12?'오전 ':'오후 ') + ((d.getHours()%12)||12) + ':' + String(d.getMinutes()).padStart(2,'0');
     if(S.view==='home' || 표정의[S.view]) render();
@@ -14625,6 +14627,7 @@ async function txSave(){
     body[c.k] = 값[c.k]===undefined ? null : 값[c.k];
   });
   if(ex) body.extra = ex;
+  if(BL && BL.key === key && BL.id === id && id){ 글자넣기(); body[BL.f] = 블록쓰기(BL.bs); 값[BL.f] = body[BL.f]; }      /* 본문은 블록 편집기가 가진 지금 것 — 팝업 열 때 담은 옛 본문으로 덮지 않는다 (2026-11-07 시상 공지 사진 사라짐) */
   body.vis = 값.vis || 'owners'; body.viewers = 값.vis==='picked' ? (값.viewers||[]) : [];
   if(key==='tasks'){ body.done_at = body.done ? (값.done_at||new Date().toISOString()) : null; body.template = 값.template||null; }
   if(key==='leave' && !할수('leaveok')){ body.staff_id = ME.id; delete body.status; }
@@ -14883,7 +14886,7 @@ function vHome(){
   /* ⛔ 홈은 사람마다 다르다 — 차례·켜짐·줄수는 `staff.home` 에서 읽는다 (2026-09-17) */
   const H = 내홈();
   const N = H.줄수;
-  const 나공 = (ME && ME.name) || '', 공지 = W.tasks.filter(r => 공지중(r) && 공지대상(r).includes(나공) && !공지읽음(r, 나공)).slice(0,3);      /* 홈 = 나한테 온 · 안 읽은 공지만 — 읽었어요 · 담당자에서 빼면 사라짐 (2026-10-28 22:51 대표 「읽었어요 체크해도 · 담당자에서 나를 빼도 떠 있다」) */
+  const 나공 = (ME && ME.name) || '', 공지 = W.tasks.filter(r => 공지중(r) && 공지대상(r).includes(나공) && (!공지읽음(r, 나공) || r.due)).sort((a, b) => (공지읽음(a, 나공) ? 1 : 0) - (공지읽음(b, 나공) ? 1 : 0)).slice(0,3);      /* 기한 정한 공지는 읽어도 기한까지 떠 있음 · 안 읽은 것 먼저 (2026-11-07 10:29 대표 「기간 정한 건 읽었음 해도 공지사항에 떠 있게」) */      /* 홈 = 나한테 온 · 안 읽은 공지만 — 읽었어요 · 담당자에서 빼면 사라짐 (2026-10-28 22:51 대표 「읽었어요 체크해도 · 담당자에서 나를 빼도 떠 있다」) */
   const 이번주 = W.leave.filter(표정의.leave.보기[0].필터).sort((a,b)=>(a.day||'')>(b.day||'')?1:-1).slice(0,N);
   const 대기 = 할수('leaveok') ? W.leave.filter(승인대기).length : 0;
 
@@ -14918,7 +14921,7 @@ function vHome(){
     + '<button class="tx-notice none" data-act="tx:new" data-k="tasks">＋ 공지 쓰기</button></div>' : '';
   const 막대 = 필수자료줄(), 공지판 = (막대 ? '<div class="sec" style="margin-bottom:' + (공지.length || 공지없음 ? '8' : '14') + 'px">' + 막대 + '</div>' : '') + (!공지.length ? 공지없음 : '<div class="sec" style="margin-bottom:14px">'
     + 공지.map(r=>'<button class="tx-notice" style="text-align:left;width:100%" data-act="tx:open" data-k="tasks" data-id="'+r.id+'">'
-      + '<div class="t1">📌 '+esc(r.title)+'</div>'
+      + '<div class="t1">📌 '+esc(r.title)+(r.due ? '<span class="ntc-due">' + (+r.due.slice(5, 7)) + '/' + (+r.due.slice(8, 10)) + '까지' + (공지읽음(r, 나공) ? ' · ✓ 읽음' : '') + '</span>' : '')+'</div>'
       + (블록요약(r.body)?'<div class="t2">'+esc(블록요약(r.body))+'</div>':'')+'</button>').join('')+'</div>');
 
   const 그릴것 = {
