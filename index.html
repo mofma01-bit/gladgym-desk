@@ -3373,7 +3373,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '629';
+const BUILD = '630';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12010,8 +12010,26 @@ function 보기고르기(){
 function 보기띠(){ const e = document.getElementById('asview'); if(!e) return;
   if(!진짜ME && 관리모드 && 관리모드대상(ME)){ e.innerHTML = '<div class="admband">🛡 관리자 화면<small>센터 전체를 보는 중</small></div>'; return; }      /* 2026-10-23 대표 「아예 분리」 */
   e.innerHTML = 진짜ME ? '<button class="asv" data-act="asexit" title="누르면 내 화면으로 돌아갑니다">👁 <b>' + esc(ME.name) + '</b> 선생님으로 보는 중<small>보기만 · 누르면 내 화면으로</small></button>' : ''; }
+/* 바뀐 줄만 받기 (2026-11-08 수파베이스 사고 뒤) — 업무 · 상담 · 연차는 서버가 고칠 때마다 updated_at 을 찍는다(0단계 touch_updated_at)
+   → 5분마다는 「마지막으로 받은 때 뒤에 바뀐 줄」만(보통 0~몇 KB) · 전체(≈2.7MB)는 30분에 한 번 · 지운 줄은 전체 받기 때 정리된다 */
+var 일전체때 = 0;
+const 최근바뀐때 = a => (a || []).reduce((m, r) => (r && r.updated_at || '') > m ? r.updated_at : m, '');
+function 줄섞기(목, 새, 남길){ let n = 0; (새 || []).forEach(r => { const i = 목.findIndex(x => x.id === r.id), 둠 = 남길(r);
+    if(i >= 0){ if(둠) 목[i] = r; else 목.splice(i, 1); n++; } else if(둠){ 목.unshift(r); n++; } }); return n; }
+async function 일증분받기(){
+  const 때 = { t:최근바뀐때(W.tasks), l:최근바뀐때(W.leads), v:최근바뀐때(W.leave) };
+  if(!W.tasks || !W.leads || !때.t || !때.l){ await loadWork(); return 1; }
+  일받은때 = Date.now(); const 번호 = 표쓰기번호;
+  const 받 = (t, m) => m ? uget(t + '?select=*&updated_at=gt.' + encodeURIComponent(m) + '&order=updated_at.asc&limit=1000').catch(() => null) : Promise.resolve([]);
+  const [a, b, c] = await Promise.all([받('tr_tasks', 때.t), 받('tr_leads', 때.l), 받('tr_leave', 때.v)]);
+  if(a === null || b === null || c === null) return 0;      /* 못 받으면 이번엔 그대로 — 다음 차례에 다시 */
+  if(받는새낡음(번호)) return 0;      /* 받는 동안 내가 쓴 것이 있으면 버림(loadWork 와 같은 규칙) */
+  const 보 = r => !진짜ME || 보기보임(r);
+  const n = 줄섞기(W.tasks, a, 보) + 줄섞기(W.leads, b, r => !(r.extra || {}).archived && 보(r)) + 줄섞기(W.leave || (W.leave = []), c, 보);
+  if(n) W.leads.sort((p, q) => String(q.created_at || '').localeCompare(String(p.created_at || '')));
+  return n; }
 async function loadWork(){
-  일받은때 = Date.now();      /* 1분 돌기가 방금 받은 것을 또 받지 않게 (11/08) */
+  일받은때 = Date.now(); 일전체때 = Date.now();      /* 1분 돌기가 방금 받은 것을 또 받지 않게 (11/08) · 전체 받은 때 */
   const 번호 = 표쓰기번호;
   const g = await Promise.all([
     uget('staff?select=*&order=name'),
@@ -20434,11 +20452,13 @@ boot();
 /* ⛔ 2026-11-08 사고 : 이 1분 돌기가 창을 내려 둬도(안 보여도) 업무 · 상담 · 직원 표 전체(≈2.7MB)와 회원 자료를 1분마다 통째로 받아
    수파베이스 무료 내보내기 5GB 를 11일 만에 26.8GB 로 넘겨 앱 · 데스크가 멈췄다(하루 최대 4.1GB · 99.9% 가 표 조회).
    → 보일 때만 · 표 전체는 5분 · 회원 자료는 3분에 한 번 · 다시 보이면 그때 한 번 */
-const 받기간격 = { 일: 5 * 60 * 1000, 회원: 3 * 60 * 1000 }; var 일받은때 = 0, 회원받은때 = 0;      /* var — boot() 가 이 줄보다 먼저 loadWork 를 부른다 */
+const 받기간격 = { 일: 5 * 60 * 1000, 회원: 3 * 60 * 1000, 전체: 30 * 60 * 1000 }; var 일받은때 = 0, 회원받은때 = 0;      /* var — boot() 가 이 줄보다 먼저 loadWork 를 부른다 */
 function 돌기받기(힘){ if(!ME || document.visibilityState !== 'visible') return false;
   const 지금 = Date.now(), r = { 회원: false, 일: false };
   if((S.view==='members'||S.view==='today'||S.view==='cmall'||S.view==='lesson') && (힘 || 지금 - 회원받은때 >= 받기간격.회원)){ 회원받은때 = 지금; load(); r.회원 = true; }
-  if((S.view==='home'||표정의[S.view]) && (힘 || 지금 - 일받은때 >= 받기간격.일)){ 일받은때 = 지금; r.일 = true; loadWork().then(() => { if(!$('#pop').classList.contains('on')) render(); }).catch(() => {}); }
+  if((S.view==='home'||표정의[S.view]) && (힘 || 지금 - 일받은때 >= 받기간격.일)){ 일받은때 = 지금; r.일 = true;
+    const 전체 = !W.tasks || 지금 - 일전체때 >= 받기간격.전체;
+    (전체 ? loadWork().then(() => 1) : 일증분받기()).then(n => { if(n && !$('#pop').classList.contains('on')) render(); }).catch(() => {}); }
   return r; }
 document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') 돌기받기(false); });
 setInterval(async function(){
