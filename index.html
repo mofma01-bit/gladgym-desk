@@ -2746,7 +2746,10 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .sv-sum{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.sv-sum span{font-size:13px;border:1px solid #3a4f6b;border-radius:999px;padding:1px 9px;color:#cfe0f5;background:rgba(80,140,220,.08)}.sv-warn{font-size:13px;color:#d9c9a8;margin-top:4px}
 .l1n{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid #e2ddd2;background:#faf8f3;border-radius:14px;padding:12px 16px;color:#2b2925}.l1n .m{flex:1;min-width:200px}.l1n .m small{display:block;color:#7a7468;font-size:13px}
 .l1n .stt{font-size:15px;font-weight:800;display:inline-flex;align-items:center;gap:7px}.l1n .stt::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}.l1n .stt.no{color:#8a8478}.l1n .stt.ok{color:#2b95cf}.l1n .stt.bad{color:#d64545}
-.l1tc{display:inline-flex;align-items:center;gap:6px;flex-wrap:nowrap}.l1tb{border-radius:8px;padding:3px 10px;font:inherit;font-size:13px;font-weight:800;border:0;cursor:pointer;background:#e9cf9e;color:#2a210a;white-space:nowrap}.l1tb.again{background:#fff;border:1px solid #d64545;color:#c03a3a}
+.l1tc{display:inline-flex;align-items:center;gap:10px;flex-wrap:nowrap}.l1dot{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;white-space:nowrap}.l1dot::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.l1dot.no{color:#8a8478}.l1dot.ok{color:#2b95cf}.l1dot.bad{color:#d64545}
+.l1tb{border-radius:8px;padding:3px 11px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;background:#fff;border:1px solid #c9c2b4;color:#2b2925;white-space:nowrap}.l1tb:hover{border-color:#8a8478}
+.l1pv{display:flex;flex-direction:column;align-items:flex-start;gap:3px;cursor:default}.l1err{font-size:12.5px;color:#a85a5a}
 .l1go{border-radius:12px;padding:11px 20px;font-weight:800;font-size:15px;border:0;cursor:pointer;background:#e9cf9e;color:#2a210a;font-family:inherit}.l1go.again{background:#fff;border:1px solid #d64545;color:#c03a3a}
 .asv .st{font-size:13.5px;font-weight:800;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;margin-right:4px}.asv .st::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}      /* 상태 = 점 + 글씨 (단추와 헷갈리지 않게 테두리 없음) */
 .asv .st.no{color:#8f887e}.asv .st.wait{color:#b9b1a2}.asv .st.ok{color:#9cc8ff}      /* 발송 전 · 작성 전 = 회색 · 작성완료 = 파랑 (2026-11-07 대표) */
@@ -3383,7 +3386,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '632';
+const BUILD = '633';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3878,7 +3881,12 @@ async function usend속(path, method, body, pref, 재){
 }
 
 /* 서버는 한 번에 1000줄만 준다(2026-11-02 실측 · limit=5000 → 1000) — 표 전체가 필요하면 이걸로 쪽쪽이 받는다 */
-async function 전부받기(q){ const 다 = []; for(let o = 0; o < 100000; o += 1000){ const r = await sget(q + '&limit=1000&offset=' + o); 다.push(...(r || [])); if(!r || r.length < 1000) break; } return 다; }
+/* 여러 쪽 표 = 첫 쪽 뒤로는 4쪽씩 동시에 · 차례(order)는 쪽 순서대로 붙여 그대로 (2026-11-09 — 6쪽을 한 쪽씩 기다려 느린 와이파이에서 1.8초) */
+async function 쪽나눠받기(받기, 끝){ const 다 = [], 첫 = await 받기(0); 다.push(...(첫 || [])); if(!첫 || 첫.length < 1000) return 다;
+  for(let 쪽 = 1; 쪽 < 끝; 쪽 += 4){ const 묶 = await Promise.all([0, 1, 2, 3].filter(i => 쪽 + i < 끝).map(i => 받기(쪽 + i)));
+    let 끝남 = false; for(const r of 묶){ if(끝남) break; 다.push(...(r || [])); if(!r || r.length < 1000) 끝남 = true; } if(끝남) break; }
+  return 다; }
+async function 전부받기(q){ return 쪽나눠받기(n => sget(q + '&limit=1000&offset=' + (n * 1000)), 100); }
 async function sget(path){
   if(AUTH && Date.now() > (AUTH.exp || 0)) await refreshAuth().catch(() => {});      /* 끝난 토큰이면 먼저 새로 받는다 */
   const r = await 수파fetch(SB_URL+'/rest/v1/'+path, { headers:HD, cache:'no-store' });
@@ -9185,14 +9193,22 @@ function 쉼새로고침(){      /* 이름은 그대로 — 2026-10-19 부터 �
 }
 /* 잠금 풀 때 — 페이지를 다시 부르지 않고 새 자료만 받는다(2분 받기와 같은 것들) · 보던 화면 그대로 · 잠긴 동안 생긴 결제 · 할 일은 풀자마자 팝업 줄로
    새 판(BUILD)이 올라가 있으면 그때만 지금처럼 다시 부름 (2026-11-04 16:11 대표 「새것만 받기 · 팝업 뜨게」) */
-async function 새판있음(){ try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { cache:'no-store' }); if(!r.ok) return false; const m = (await r.text()).match(/const BUILD = '(\d+)'/); return !!(m && m[1] !== BUILD); }catch(e){ return false; } }
+/* 새 판 확인 = 머리(HEAD)의 ETag 만 (1KB 미만) — 같으면 끝 · 다르거나 모르면 그때만 파일을 받아 BUILD 비교 (2026-11-09 · 전엔 잠금 풀 때마다 0.8MB) */
+let 판표 = '';
+async function 판표받기(){ try{ const r = await fetch(location.pathname, { method:'HEAD', cache:'no-store' }); return (r.ok && (r.headers.get('etag') || r.headers.get('last-modified'))) || ''; }catch(e){ return ''; } }
+async function 새판있음(){ const 지금 = await 판표받기(); if(판표 && 지금 && 지금 === 판표) return false;
+  try{ const r = await fetch(location.pathname + '?v=' + Date.now(), { cache:'no-store' }); if(!r.ok) return false; const m = (await r.text()).match(/const BUILD = '(\d+)'/); const 새 = !!(m && m[1] !== BUILD); if(!새 && 지금) 판표 = 지금; return 새; }catch(e){ return false; } }
 async function 잠금풀림새로(){
   $('#txlogin').classList.remove('on'); 쉼멈춤 = false; 마지막손 = Date.now(); 로그인.고른 = ''; 로그인.핀 = '';
+  const 풀기시작 = performance.now();
   if(await 새판있음()){ 쉼다시(); return; }
-  try{ await load(); }catch(e){ console.warn('잠금 풀림 — 자료 받기 실패', e); }
+  try{ render(); }catch(e){}      /* 갖고 있는 자료로 바로 화면 — 새 자료는 뒤에서 받아 조용히 바뀜 (2026-11-09 대표 「잠금 풀고 불러오는 시간」) */
+  느린곳('잠금 풀기 화면', 풀기시작);
   const 강 = [() => 매출받기(), () => 비품받기(), () => 팝업받기(), () => 데스크알림받기(true), () => TG정리받기(true), () => 필자받기()];
   if(typeof 락커 !== 'undefined') 락커.때 = 0; if(typeof 못감 !== 'undefined') 못감.때 = 0;      /* 10분 거름을 풀어 숫자줄이 바로 다시 받게 */
   강.forEach(f => { try{ f(); }catch(e){} });
+  try{ await load(); }catch(e){ console.warn('잠금 풀림 — 자료 받기 실패', e); }
+  try{ 회원받은때 = Date.now(); 일받은때 = 0; 돌기받기(false); }catch(e){}      /* 업무 자료만 맞춤 — 회원 자료는 방금 받음(두 번 받지 않게) */
   render();
   if(typeof 매확 !== 'undefined'){ 매확.마지막 = 0; try{ await 매확받기(); }catch(e){} 매확다시띄움(); }      /* 잠긴 동안 들어온 결제 · 락커 · TG = 풀자마자 (팝업 규칙 그대로 · 다른 창이 열려 있으면 줄) */
 }
@@ -11977,7 +11993,8 @@ function 줄세우기(rows, ord, key){
 
 /* ⛔ 서버는 한 번에 1000줄까지만 준다 — 그보다 많으면 나눠 받아야 한다
    (2026-09-09 상담 1093건이 1000건에서 잘렸다) */
-async function 모두가져(path, 쪽=1000){
+async function 모두가져(path, 쪽=1000){      /* 4쪽씩 동시에 (11/09) — 쪽 1000 이 아니면 옛 꼴(한 쪽씩) */
+  if(쪽 === 1000) return 쪽나눠받기(n => uget(path + '&limit=1000&offset=' + (n * 1000)), 30);
   const 다 = [];
   for(let i = 0; i < 30; i++){
     const 한쪽 = await uget(path + '&limit=' + 쪽 + '&offset=' + (i * 쪽));
@@ -12185,7 +12202,7 @@ function 업무범위줄(){ if(!할수('taskall')) return '';
 /* 상담 탭 「자동 발송」 — 관리자만 · 정본은 중앙 규칙판 카드(send_lead1 · send_survey2) · 「자세히」 = 규칙 화면 그 카드 (2026-10-30 대표 「관리자가 보는 상담탭에는 간단하게 자동 발송규칙」) */
 function 상담자동줄(){ if(!할수('rules')) return '';
   const 줄 = (b, 글, id) => '<span class="r"><b>' + b + '</b>' + 글 + '<button data-act="tx:rbgo" data-k="' + id + '">자세히</button></span>';
-  return '<span class="ld-auto"><i>자동 발송</i>' + 줄('1차 안내', '표 「1차 안내」 칸 · 상담 창의 「보내기」 단추 → 카톡(안 되면 문자) · 실패면 「다시 보내기」', 'send_lead1')
+  return '<span class="ld-auto"><i>자동 발송</i>' + 줄('1차 안내', '「1차 안내」 칸의 「보내기」 단추 → 카톡(안 되면 문자) · 보낸 뒤엔 「다시 보내기」(확인 창)', 'send_lead1')
     + 줄('2차 설문톡', '매일 14:10 · 상담 5~14일 · 미등록 · 1차 완료 → 자동(3차 없음)', 'send_survey2') + '</span>'; }
 function txTop(key){
   const T = 표정의[key], st = 표상태[key];
@@ -12702,12 +12719,20 @@ function 건강줄(z){ const 상 = z['상태'] || '없음', 색 = { 문제:'var(
     + '<span class="hc-nm"><b>' + esc(z['이름'] || '') + '</b><small>' + esc(z['뜻'] || '') + '</small></span>'
     + '<span class="hc-st" style="--c:' + 색 + '">' + esc(상) + '</span>'
     + '<span class="hc-why"><b>' + esc(z['까닭'] || '') + '</b><small>' + esc([z['때'] ? 시각한글(z['때']) : '', z['어디'] || ''].filter(Boolean).join(' · ')) + '</small></span></div>'; }
+/* 이 기기 불러오기 시간 (2026-11-09 대표 「5초 10초 걸리고」) — 최근 30번 · 이 기기에만 · 건강검진 맨 위 */
+function 느린곳(이름, 시작){ try{ const ms = Math.round(performance.now() - 시작), L = JSON.parse(localStorage.getItem('gg_slow') || '[]');
+    L.push({ k:이름, ms, at:new Date().toISOString(), net:(navigator.connection && navigator.connection.effectiveType) || '' }); localStorage.setItem('gg_slow', JSON.stringify(L.slice(-30))); if(ms > 3000) console.warn('느림 —', 이름, ms + 'ms'); }catch(e){} }
+function 느린곳판(){ let L = []; try{ L = JSON.parse(localStorage.getItem('gg_slow') || '[]'); }catch(e){} if(!L.length) return '';
+  const 묶 = {}; L.forEach(x => { (묶[x.k] = 묶[x.k] || []).push(x.ms); });
+  return '<div class="sec"><div class="lbl">이 기기 불러오기 시간 <span class="sub3">최근 ' + L.length + '번</span></div><div class="hc-list">'
+    + Object.keys(묶).map(k => { const a = 묶[k], 끝 = a[a.length - 1], 평 = Math.round(a.reduce((s, v) => s + v, 0) / a.length), 최 = Math.max(...a);
+      return '<div class="hc-row"><b>' + esc(k) + '</b><span class="sub3">마지막 ' + (끝 / 1000).toFixed(1) + '초 · 평균 ' + (평 / 1000).toFixed(1) + '초 · 가장 느림 ' + (최 / 1000).toFixed(1) + '초 · ' + a.length + '번</span></div>'; }).join('') + '</div></div>'; }
 function v건강검진(){
   if(!건강판.답){ if(!건강판.중 && !건강판.왜) setTimeout(건강받기, 0);
     return 건강판.왜 ? '<div class="empty why"><b>점검 결과를 아직 받지 못했습니다</b>서버 점검이 준비되면 여기에 뜹니다 · 잠시 뒤 다시 열어 주세요</div>' : '<div class="ck-load"><b>불러오는 중이에요</b></div>'; }
   const H = 건강판.답, 줄 = (H['줄'] || []).slice().sort((a, b) => (건강차례[a['상태']] ?? 2) - (건강차례[b['상태']] ?? 2)), 수 = k => 줄.filter(z => z['상태'] === k).length;
   const 칸 = (이름, L) => L.length ? '<div class="sec"><div class="lbl">' + 이름 + ' ' + L.length + '</div><div class="hc-list">' + L.map(건강줄).join('') + '</div></div>' : '';
-  return '<div class="hc">'
+  return '<div class="hc">' + 느린곳판()
     + '<div class="sumrow"><div class="sumit warn"><span class="k2">문제</span><span class="v2">' + 수('문제') + '</span></div><div class="sumit gold"><span class="k2">늦음</span><span class="v2">' + 수('늦음') + '</span></div>'
     + '<div class="sumit teal"><span class="k2">정상</span><span class="v2">' + 수('정상') + '</span></div><div class="sumit"><span class="k2">만든 때</span><span class="v2 hc-t">' + esc(H['만든때'] ? 시각한글(H['만든때']) : '—') + '</span></div></div>'
     + (H['병행'] ? '<div class="hc-note">11/5 까지는 함께 보는 주간이에요 · 문제가 있어도 알림은 안 가요</div>' : '')
@@ -12825,9 +12850,10 @@ function 표칸들(key){
 const 등록함칩 = (key, r) => { const d = key === 'leads' && r && r.extra && r.extra.crm_reg; return d ? '<span class="tx-tag tx-reg" title="상담 뒤 정식 등록 — 2차 설문톡 · 연락에서 빠짐">등록함 ' + esc(날짜한글(d)) + '</span>' : ''; };      /* 중앙 extra.crm_reg = CRM 첫 정식 등록일 (2026-11-04) */
 const 합침칩 = (key, r) => { const n = key === 'leads' && r && r.extra && Array.isArray(r.extra.merged_from) ? r.extra.merged_from.length : 0; return n ? '<span class="tx-tag tx-merge" title="같은 번호 상담 ' + n + '줄을 이 줄로 합쳤어요">합침 ' + n + '</span>' : ''; };
 /* 상담 표 「1차 안내」 칸 = 상태 + 그 자리 단추 (2026-11-09 13:42 대표 「노션 시절 발송 · 체크를 버튼으로 · 데이터베이스 상에서 거기에 버튼이 보이게」) */
-function 일차표칸(c, r){ const ex = r.extra || {}, v = ex.s1 || '대기', 실 = v === '실패';
-  const 단 = v !== '완료' && v !== '보류' && r.phone ? '<button class="l1tb' + (실 ? ' again' : '') + '" data-act="tx:lr1" data-id="' + esc(r.id) + '"' + (실 && ex.s1_err ? ' title="' + esc(ex.s1_err) + '"' : '') + '>' + (실 ? '다시 보내기' : '보내기') + '</button>' : '';
-  return '<span class="l1tc">' + 옵칩(c, v, esc((c.글표 || {})[v] || v)) + 단 + '</span>'; }
+function 일차표칸(c, r){ const ex = r.extra || {}, v = ex.s1 || '대기', 끝 = v === '완료', 실 = v === '실패' || (v === '보류' && !!ex.s1_err);
+  const k = 끝 ? 'ok' : 실 ? 'bad' : 'no', 말 = 실 ? '발송 실패' : (일차글[v] || v), 보냄 = 끝 || 실;
+  const 단 = v !== '보류' && r.phone ? '<button class="l1tb" type="button" data-act="tx:lr1" data-id="' + esc(r.id) + '">' + (보냄 ? '다시 보내기' : '보내기') + '</button>' : '';
+  return '<span class="l1tc"><span class="l1dot ' + k + '"' + (실 && ex.s1_err ? ' title="' + esc(ex.s1_err) + '"' : '') + '>' + esc(말) + '</span>' + 단 + '</span>'; }      /* 불(점) + 글 · 단추 하나 — 고르는 칸이 아니다(누르면 목록 안 열림) */
 function 표칸값(key, c, r){
   if(key === 'leads' && c.k === 'extra.s1') return 일차표칸(c, r);
   if(c.k === 표정의[key].제목열)
@@ -12919,7 +12945,7 @@ function txTable(key, rows){
             + (고침 ? ' data-act="tx:tedit" data-k="'+key+'" data-v2="'+esc(c.k)+'" data-id="'+r.id+'"' : '')
             + '>' + 표칸값(key, c, r) + (key === 'tasks' && (r.extra || {}).src === '반복업무' ? '<span class="tx-auto" title="중앙이 정해진 날 저절로 만든 업무">자동</span>' : '')      /* 반복 업무 딱지 (2026-10-26 중앙 task_repeat) */
             + '<button class="go" data-act="tx:open" data-k="'+key+'" data-id="'+r.id+'" title="페이지 열기">보기 ›</button></span>';
-          const 고침2 = (고침 || 모두쓰는칸(key, c)) && !잠;
+          const 고침2 = (고침 || 모두쓰는칸(key, c)) && !잠 && !(key === 'leads' && c.k === 'extra.s1');      /* 1차 안내 = 단추 칸 · 수정 칸 아님 (11/09 대표) */
           return '<span class="tx-td'+(고침2?' ed':'')+'" data-c="'+esc(c.k)+'" data-rid="'+r.id+'"'
             + (고침2 ? ' data-act="tx:tedit" data-k="'+key+'" data-id="'+r.id+'" data-v2="'+esc(c.k)+'"' : '')
             + '>' + 표칸값(key, c, r) + '</span>';
@@ -13893,10 +13919,12 @@ try{ 빈속성숨김 = localStorage.getItem('gg_desk_pempty') === '1'; }catch(e)
 function 속성줄들(key, r, 편집){
   const 본문 = 본문열쇠(key);
   /* 체크박스는 꺼져 있어도 「빈 것」으로 치지 않는다 */
-  const 값비었나 = c => c.타입 !== 'check' && 값없나(값읽기(r, c.k));
+  const 값비었나 = c => c.타입 !== 'check' && 값없나(값읽기(r, c.k)) && !(key === 'leads' && c.k === 'extra.s1');      /* 1차 안내 단추 칸은 비어도(옛 상담) 늘 보임 */
   const 빈수 = 열들(key).filter(c => c.k !== 본문 && 값비었나(c)).length;
   const 줄 = c => {
     if(c.k === 본문) return '';                        /* 본문은 아래 글 편집기에서 쓴다 */
+    if(key === 'leads' && c.k === 'extra.s1') return '<div class="tx-prow"><button class="tx-pname"' + (할수('table') ? ' data-act="tx:pmenu" data-k="' + key + '" data-v2="' + esc(c.k) + '"' : '') + '><i>' + (타입아이콘[c.타입] || '≡') + '</i><span>' + esc(c.이름) + '</span></button>'
+      + '<div class="tx-pval ro l1pv">' + 일차표칸(c, r) + (((r.extra || {}).s1 === '실패' || ((r.extra || {}).s1 === '보류' && (r.extra || {}).s1_err)) && (r.extra || {}).s1_err ? '<small class="l1err">' + esc(r.extra.s1_err) + '</small>' : '') + '</div></div>';      /* 1차 안내 = 단추 칸 (11/09) */
     const 잠 = !관리칸됨(c) || !!c.시스템;
     const 고침 = (편집 || 모두쓰는칸(key, c)) && !잠;
     return '<div class="tx-prow">'
@@ -14221,7 +14249,7 @@ async function txView(key, id){
     + 속성줄들(key, r, 편집)
     + (본문키 ? '<div class="tx-sec" id="txbwrap">'+블록들(bs, 편집, urlmap)+'</div>' : '')
     + 긴열.slice(1).map(c => '<div class="tx-sec"><div class="lbl">'+c.이름+'</div><div class="tx-body">'+링크살리기((값읽기(r, c.k))||'')+'</div></div>').join('')
-    + (key === 'leads' ? 상담1차칸(r, 편집) : '') + (key === 'manual' ? 매뉴얼읽음칸(r) : '') + (key === 'tasks' && r.kind === '대표공지' ? 매뉴얼읽음칸(r, 'tasks', 공지대상(r)) : '') + (key === 'leave' && r.kind === '당직' ? 당직교체칸(r) : '')
+    + (key === 'leads' && !열들('leads').some(c => c.k === 'extra.s1') ? 상담1차칸(r, 편집) : '') + (key === 'manual' ? 매뉴얼읽음칸(r) : '') + (key === 'tasks' && r.kind === '대표공지' ? 매뉴얼읽음칸(r, 'tasks', 공지대상(r)) : '') + (key === 'leave' && r.kind === '당직' ? 당직교체칸(r) : '')
     + ((r.files||[]).length ? '<div class="tx-sec"><div class="lbl">파일과 미디어</div>'+첨부칸(key, r, 편집, urls)+'</div>' : '')
     + (key === 'leads' && (r.extra || {}).transcript ? '<details class="tx-sec tx-tr"><summary class="lbl">통화 원문</summary><div class="tx-body">' + esc(String(r.extra.transcript)).replace(/\n/g, '<br>') + '</div></details>' : '')
     + '<div class="tx-sec"><div class="lbl">댓글 '+(댓글수(key,id)||'')+'</div>'+댓글칸(key, id)+'</div>'
@@ -14845,8 +14873,9 @@ const 늦은때 = () => { const t = window.__지금 ? new Date(window.__지금) 
 async function 상담1차보내기(id){
   const r = W.leads.find(x => x.id === id); if(!r) return;
   if((r.extra || {}).s1 === '보류'){ toast('1차 발송상태가 「보류」라 보내지 않았어요 · 「대기」로 바꾼 뒤 보내 주세요'); return; }      /* 보류 = 발송 막음 (2026-10-28 노션 낮) */
-  if(!await 묻기((r.name || '') + '님께 1차 안내를 보낼까요?\n카카오톡으로 보내고 안 되면 문자로 보냅니다' + 늦은때())) return;
-  try{ await crm('lead_remarket1', { id }); 기록남기기({ area:'상담', action:'발송', tbl:'tr_leads', row_id:id, customer:r.name || '', phone:r.phone, detail:'1차 안내(카톡 · 안 되면 문자)' });
+  const 다시 = ['완료', '실패'].includes((r.extra || {}).s1) || !!(r.extra || {}).s1_err;
+  if(!await 묻기(다시 ? (r.name || '') + '님께 1차 안내를 다시 보내시겠습니까?\n카카오톡으로 보내고 안 되면 문자로 보냅니다' + 늦은때() : (r.name || '') + '님께 1차 안내를 보낼까요?\n카카오톡으로 보내고 안 되면 문자로 보냅니다' + 늦은때())) return;
+  try{ await crm('lead_remarket1', 다시 ? { id, 다시: true } : { id }); 기록남기기({ area:'상담', action:'발송', tbl:'tr_leads', row_id:id, customer:r.name || '', phone:r.phone, detail:'1차 안내(카톡 · 안 되면 문자)' });
     const n = await uget('tr_leads?select=*&id=eq.' + encodeURIComponent(id)); if(n && n[0]) Object.assign(r, n[0]);
     else r.extra = Object.assign({}, r.extra || {}, { s1: '완료', s1_at: new Date().toISOString() });
     toast('1차 안내를 보냈어요'); if(시트 && 시트.key === 'leads' && 시트.id === id) txView('leads', id); render(); }      /* 표 칸 단추로 보냈으면 표에 그대로 (11/09) */
@@ -18359,8 +18388,10 @@ async function boot(){
   if(!앱창인가()){ 로그인판('login'); return; }      /* 크롬 탭 — 「데스크 앱으로 열어 주세요」만 */
   if(await 구글돌아옴()) authLoad();
   if(!AUTH){ 로그인판(잠금칩들().length ? 'lock' : 'login'); return; }
+  const 열기시작 = performance.now(); 판표받기().then(v => { 판표 = v; });      /* 지금 판의 표시 — 잠금 풀 때 새 판 확인을 가볍게 */
   try{
-    await loadWork();
+    회원미리 = 회원자료받기(); 회원미리.catch(() => {});      /* 업무 자료와 동시에 받기 시작 — 정리 · 그리기 차례는 그대로 (2026-11-09) */
+    const 업무시작 = performance.now(); await loadWork(); 느린곳('업무 자료', 업무시작);
     ME = (AUTH.sid && W.staff.find(x => x.id === AUTH.sid && x.active !== false))
       || (내메일() && W.staff.find(x=>(x.email||'').toLowerCase()===내메일() && x.active!==false))
       || (AUTH.token && AUTH.name && W.staff.find(x => x.name === AUTH.name && x.active !== false)) || null;
@@ -18391,7 +18422,7 @@ async function boot(){
     setTimeout(누락받기, 3500);
     setTimeout(오늘수업받기, 3800);      /* 오늘 기록 없는 수업 (2026-10-19) */
     setTimeout(() => { if(할수('perm') && AUTH) 데스크가입대기받기(); }, 4000);      /* 옛 구글 길(desk 증표)로 들어와도 받는다 */      /* 가입 승인 대기 — 대표자 내 메뉴 배지 (2026-10-19) */          /* 기록 빠진 수업 — 중앙 수업 명단 (2026-10-16) */
-    await load();
+    await load(); 느린곳('데스크 열기', 열기시작);
     이어보기();      /* 쉬어서 새로고침했으면 보던 화면으로 (2026-10-16) */
     들어온회원열기().catch(() => {});
     /* 브로제이 잔여를 받은 뒤라야 잠수 회원을 셀 수 있다 */
@@ -19034,9 +19065,10 @@ function popClose(){ if(typeof 종목픽 !== 'undefined' && 종목픽){ 종목�
 const 빈운동 = w => !(D.wi || []).some(i => i.workout_id === w.id) && !((M && M.ok === w.member_id && M.wi) || []).some(i => i.workout_id === w.id);
 let 운동만드는중 = false;
 /* ── 불러오기 ── */
-async function load(){
-  try{
-    const g = await Promise.all([
+/* 회원 자료 받기 = 한 번에 동시 (2026-11-09 — 뒤쪽 9가지를 차례로 기다려 센터 와이파이에서 3~5초) · 열 때는 업무 자료와 같이 미리 시작(회원미리) */
+let 회원미리 = null;
+function 회원자료받기(){ const 뒤 = (p, 기본) => p.then(v => ({ ok:true, v }), () => ({ ok:false, v:기본 }));
+  return Promise.all([Promise.all([
       sget('members?select=*&order=name'),
       sget('workouts?select=id,member_id,on_date,done,title,kind&order=on_date.desc&limit=600'),
       sget('workout_items?select=id,workout_id,variant_id,sort&order=id.desc&limit=3000'),
@@ -19048,21 +19080,26 @@ async function load(){
       sget('variants?select=*&order=sort'),
       sget('asks?select=*&limit=300').catch(()=>[]),
       전부받기('comments?select=member_id,variant_id&order=id').catch(()=>null),
-    ]);
+    ]), Promise.all([뒤(sget('prep_sets?select=*&order=created_at'), []), 뒤(sget('routine_sheets?select=*&order=sort,created_at'), []), 뒤(sget('ex_favs?select=trainer,ex_id'), []),
+      뒤(전부받기('ex_feedback?select=*&order=created_at.desc,id'), null), 뒤(sget('sheet_gives?select=*'), []), 뒤(sget('trainer_favs?select=trainer,member_id'), []),
+      뒤(sget('ex_requests?select=*&order=created_at.desc&limit=300'), []), 뒤(sget('comment_media?select=comment_id,kind,path&order=id.desc&limit=1000'), null), 뒤(sget('prep_items?select=*&order=created_at'), [])])]); }
+async function load(){
+  const 시작 = performance.now();
+  try{
+    const 미리 = 회원미리; 회원미리 = null;
+    const [g, x] = await (미리 ? 미리.catch(() => 회원자료받기()) : 회원자료받기());
     D.m=g[0]; D.w=g[1]; D.wi=g[2]; D.r=g[3]; D.ri=g[4]; D.c=g[5];
     D.aAll=g[6]; D.a=g[6].filter(x=>x.on_date===TODAY);
     D.ex=g[7]; D.va=g[8]; D.asks=g[9]||[]; D.cv=g[10];
-    try{ D.ps = await sget('prep_sets?select=*&order=created_at'); }catch(e){ D.ps = []; }
-    try{ D.rs = await sget('routine_sheets?select=*&order=sort,created_at'); }catch(e){ D.rs = []; }
-    try{ D.exfavs = await sget('ex_favs?select=trainer,ex_id'); }catch(e){ D.exfavs = []; }      /* 종목 즐겨찾기 (107단계) */
-    try{ D.exfb = await 전부받기('ex_feedback?select=*&order=created_at.desc,id'); }catch(e){ D.exfb = null; }      /* 종목별 추천 피드백 (103단계 · 없으면 칩 없음) */
-    try{ D.gives = await sget('sheet_gives?select=*'); }catch(e){ D.gives = []; }      /* 회원에게 준 루틴표 (84단계) */      /* 루틴표 (83단계 · 없으면 빈 채로) */
-    try{ D.favs = await sget('trainer_favs?select=trainer,member_id'); }catch(e){ D.favs = []; }      /* 즐겨찾기(별) — 회원앱 트레이너 화면과 같은 표 (2026-10-08) */
-    try{ D.xr = await sget('ex_requests?select=*&order=created_at.desc&limit=300'); XR없음 = false; }catch(e){ D.xr = []; XR없음 = true; }      /* 종목 보완 요청 (2026-10-13) — 표가 없으면 화면에서 알린다 */
-    try{ D.cmedia = await sget('comment_media?select=comment_id,kind,path&order=id.desc&limit=1000'); }catch(e){ D.cmedia = D.cmedia || []; }      /* 피드백 사진 · 영상 — 피드백 화면이 쓴다(전엔 「자료」 화면을 열어야만 받았다 · 2026-10-15) */
-    try{ D.pi = await sget('prep_items?select=*&order=created_at'); }catch(e){ D.pi = []; }      /* 내가 만든 스트레칭 종목 */      /* 스트레칭 세트 (2026-10-07) */
+    D.ps = x[0].v; D.rs = x[1].v; D.exfavs = x[2].v;      /* 종목 즐겨찾기 (107단계) */
+    D.exfb = x[3].v;      /* 종목별 추천 피드백 (103단계 · 없으면 칩 없음) */
+    D.gives = x[4].v;      /* 회원에게 준 루틴표 (84단계) */      /* 루틴표 (83단계 · 없으면 빈 채로) */
+    D.favs = x[5].v;      /* 즐겨찾기(별) — 회원앱 트레이너 화면과 같은 표 (2026-10-08) */
+    D.xr = x[6].v; XR없음 = !x[6].ok;      /* 종목 보완 요청 (2026-10-13) — 표가 없으면 화면에서 알린다 */
+    D.cmedia = x[7].ok ? x[7].v : (D.cmedia || []);      /* 피드백 사진 · 영상 — 피드백 화면이 쓴다(전엔 「자료」 화면을 열어야만 받았다 · 2026-10-15) */
+    D.pi = x[8].v;      /* 내가 만든 스트레칭 종목 */      /* 스트레칭 세트 (2026-10-07) */
     담당고르기채움();
-    render();
+    render(); 느린곳('회원 자료', 시작);
   }catch(e){
     $('#body').innerHTML = '<div class="empty">자료를 못 불러왔어요<br>'
       + '<span style="font-size:13px">' + esc(e.message) + '</span></div>';
