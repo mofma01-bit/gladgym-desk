@@ -3388,7 +3388,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '637';
+const BUILD = '638';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10453,7 +10453,7 @@ function 매확PT줄(o){
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
     return 머 + '<b class="sc-ptwho">' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? '<span class="sub3"> · ' + esc(앞.category) + '</span>' : '') + '<span class="sc-saved">' + (st === '확정' ? '확정 ✓' : '고름 ✓') + '</span>'
       + '<button class="btn ed sm" data-act="tx:scptg" data-k="' + esc(g.머리.id) + '">수정</button></div>';
-  return 머 + '확정은 「PT 매출」에서 해요<button class="btn ghost sm" data-act="tx:scpt">담당 선택</button></div>';
+  return 머 + '확정은 「PT 매출」에서 해요' + '<button class="btn ghost sm" data-act="tx:scpt" data-k="' + esc(o.id) + '">담당 선택</button></div>';
 }
 function 매확줄(o){
   const v = o['고름'], 고 = 매확.고침[o.id], tg = o.TG, 열쇠 = 'p' + o.id, PT있음 = (o['갈래'] || []).indexOf('PT') >= 0;
@@ -10535,7 +10535,7 @@ const 매확판묶음 = (k, 제목, 카드들, 남) => 카드들.length ? '<div 
 /* 팝업 — 락커 1/2 → 매출 2/2 */
 function 매확팝업(강제){
   if(!매확.답 || 진짜ME) return; if(!강제 && ($('#pop').classList.contains('on') || 글쓰는중())){ 팝업차례('확인할매출', () => 매확팝업()); return; } 팝업줄빼기('확인할매출');
-  if(!강제) 매확.팝칩 = '';      /* 새로 뜰 땐 칩 「전체」 — 고른 칩이 남아 새 결제가 가려졌다 (2026-10-26) */
+  if(!강제){ 매확.팝칩 = ''; 매확.방금.clear(); }      /* 새로 뜰 땐 칩 「전체」 — 고른 칩이 남아 새 결제가 가려졌다 (2026-10-26) · 방금 저장한 카드(잠김)는 그 팝업 안에서만 — ✕ 로 닫고 새 결제로 다시 뜨면 확정한 것까지 같이 떴다 (2026-11-10 대표 「이미 확정한 것도 계속 같이 뜰 필요 없어」) */
   const lk = 매확락할일().concat(매확미배정().filter(x => 매확락눌림(x) && 매확.방금.has('l' + x.id)));
   const 결 = 매확결제().filter(o => 매확미확인(o) || 매확.방금.has(String(o.id))), tg = 매확TG만().filter(x => !매확TG끝(x) || 매확.방금.has('t' + x['주문']));
   const 매출있음 = 결.length || tg.length;
@@ -17335,7 +17335,10 @@ async function txAct(a, el){
   if(a==='sctcancel'){ delete 매확.TG수정[k]; delete 매확.TGF[k]; delete 매확.TG바뀜[k]; delete 매확.TG열림[k]; 매확다시(); return; }
   if(a==='scmemo'){ await 매확메모저장(k, v2); return; }
   if(a==='sctgok'){ await 매확TG확인(v2); return; }
-  if(a==='scpt'){ popClose(); 매출.탭 = '미확인'; 매출판(); return; }
+  if(a==='scpt'){ popClose(); 매출.탭 = '미확인'; 판열기('PT 매출', '<div class="empty">불러오는 중이에요…</div>');      /* PT 매출은 처음 한 번만 받아 그 뒤 결제가 목록에 없었다 — 다시 받고 그 건으로 바로 (2026-11-10 대표 「담당 선택 누르면 선택창이 안 떠」) */
+    매출받기().then(() => { const o = 매확결제().find(x => String(x.id) === String(k)), g = o && 매확PT묶음(o);
+      if(g){ 매출.달 = 묶음달(g); 매출.탭 = { 선택됨:'확인대기', 확정:'확정' }[묶음상태(g)] || '미확인'; }
+      매출판(); const r = g && document.getElementById('psr_' + g.머리.id); if(r) r.scrollIntoView({ block:'center' }); else if(k) toast('PT 매출 표에 아직 안 들어왔어요 — 10분 안에 들어와요'); }); return; }
   if(a==='scptg'){ const g = 묶음of(k); popClose(); 매출.탭 = !g ? '미확인' : 묶음상태(g) === '확정' ? '확정' : 묶음상태(g) === '선택됨' ? '확인대기' : '미확인'; if(g) 매출.달 = 묶음달(g); 매출.고침 = k; 매출판(); return; }      /* 고른 담당 수정 — 매출 판 그 건을 고침 상태로 */
   if(a==='sclater'){ 매확.방금.clear(); 매확.팝 = false; 매확.팝칩 = ''; 매확.마지막 = Date.now(); popClose(); return; }      /* 30분 뒤 다시 (2026-10-21) */
   if(a==='scdone'){ 매확.방금.clear(); popClose(); 매확.tab = '고른것'; 매확판(); return; }      /* 0건 단추 = 확인한 매출 목록 (2026-11-03) */
