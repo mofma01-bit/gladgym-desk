@@ -2747,8 +2747,10 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .l1n{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid #e2ddd2;background:#faf8f3;border-radius:14px;padding:12px 16px;color:#2b2925}.l1n .m{flex:1;min-width:200px}.l1n .m small{display:block;color:#7a7468;font-size:13px}
 .l1n .stt{font-size:15px;font-weight:800;display:inline-flex;align-items:center;gap:7px}.l1n .stt::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}.l1n .stt.no{color:#8a8478}.l1n .stt.ok{color:#2b95cf}.l1n .stt.bad{color:#d64545}
 .l1tc{display:inline-flex;align-items:center;gap:10px;flex-wrap:nowrap}.l1dot{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;white-space:nowrap}.l1dot::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
-.l1dot.no{color:#8a8478}.l1dot.ok{color:#2b95cf}.l1dot.bad{color:#d64545}
-.l1tb{border-radius:8px;padding:3px 11px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;background:#fff;border:1px solid #c9c2b4;color:#2b2925;white-space:nowrap}.l1tb:hover{border-color:#8a8478}
+.l1dot{padding:4px 11px 4px 9px;border-radius:999px;font-size:13px}      /* 상태 = 옅은 색 알약 · 단추(흰 바탕 테두리)와 구분 (2026-11-10 대표) */
+.l1dot.no{color:#7d776c;background:#eeebe5}.l1dot.ok{color:#1f7fb4;background:#dff0fa}.l1dot.bad{color:#c03a3a;background:#fbe6e6}
+.l1tb{flex:none;width:86px;box-sizing:border-box;text-align:center;border-radius:8px;padding:4px 0;font:inherit;font-size:13px;font-weight:800;cursor:pointer;background:#f0d3a0;border:1px solid #d6b87e;color:#2a210a;white-space:nowrap}.l1tb:hover{background:#e8c486}      /* 앱 단추와 같은 금빛 · 폭 고정 (11/10) */
+.l1tb.l1none{visibility:hidden;cursor:default}
 .l1pv{display:flex;flex-direction:column;align-items:flex-start;gap:3px;cursor:default}.l1err{font-size:12.5px;color:#a85a5a}
 .l1go{border-radius:12px;padding:11px 20px;font-weight:800;font-size:15px;border:0;cursor:pointer;background:#e9cf9e;color:#2a210a;font-family:inherit}.l1go.again{background:#fff;border:1px solid #d64545;color:#c03a3a}
 .asv .st{font-size:13.5px;font-weight:800;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;margin-right:4px}.asv .st::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}      /* 상태 = 점 + 글씨 (단추와 헷갈리지 않게 테두리 없음) */
@@ -3386,7 +3388,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '633';
+const BUILD = '635';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12852,8 +12854,8 @@ const 합침칩 = (key, r) => { const n = key === 'leads' && r && r.extra && Arr
 /* 상담 표 「1차 안내」 칸 = 상태 + 그 자리 단추 (2026-11-09 13:42 대표 「노션 시절 발송 · 체크를 버튼으로 · 데이터베이스 상에서 거기에 버튼이 보이게」) */
 function 일차표칸(c, r){ const ex = r.extra || {}, v = ex.s1 || '대기', 끝 = v === '완료', 실 = v === '실패' || (v === '보류' && !!ex.s1_err);
   const k = 끝 ? 'ok' : 실 ? 'bad' : 'no', 말 = 실 ? '발송 실패' : (일차글[v] || v), 보냄 = 끝 || 실;
-  const 단 = v !== '보류' && r.phone ? '<button class="l1tb" type="button" data-act="tx:lr1" data-id="' + esc(r.id) + '">' + (보냄 ? '다시 보내기' : '보내기') + '</button>' : '';
-  return '<span class="l1tc"><span class="l1dot ' + k + '"' + (실 && ex.s1_err ? ' title="' + esc(ex.s1_err) + '"' : '') + '>' + esc(말) + '</span>' + 단 + '</span>'; }      /* 불(점) + 글 · 단추 하나 — 고르는 칸이 아니다(누르면 목록 안 열림) */
+  const 단 = v !== '보류' && r.phone ? '<button class="l1tb" type="button" data-act="tx:lr1" data-id="' + esc(r.id) + '">' + (보냄 ? '다시 보내기' : '보내기') + '</button>' : '<span class="l1tb l1none"></span>';
+  return '<span class="l1tc">' + 단 + '<span class="l1dot ' + k + '"' + (실 && ex.s1_err ? ' title="' + esc(ex.s1_err) + '"' : '') + '>' + esc(말) + '</span></span>'; }      /* 단추 왼쪽 · 같은 폭 — 「보내기 → 다시 보내기」 로 길어져도 상태가 지그재그 안 됨 (11/10 대표) */      /* 불(점) + 글 · 단추 하나 — 고르는 칸이 아니다(누르면 목록 안 열림) */
 function 표칸값(key, c, r){
   if(key === 'leads' && c.k === 'extra.s1') return 일차표칸(c, r);
   if(c.k === 표정의[key].제목열)
