@@ -107,6 +107,22 @@ img{max-width:100%;display:block}
 .rl-v.e{border-style:dashed;color:#7d776e;font-size:12.5px}
 .bk-kind{font-size:12.5px;font-weight:700;padding:1px 8px;border-radius:6px;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);white-space:nowrap}
 .bk-hold{font-size:13.5px;color:#cfc7b8;background:var(--dark-3);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:10px}.bk-hold b{color:var(--teal)}
+/* 이번 주 예약 옆 판 D안 (2026-11-10 대표 20:33) — 요일 띠 · 회원 줄 요일 칸(칸 색 = 종목 · 진하게) */
+.bk-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0 12px}
+.bk-day{border-radius:10px;padding:8px 4px 6px;text-align:center;border:1px solid var(--line);background:var(--dark-2)}
+.bk-day.now{border-color:var(--gold-2);background:var(--gold-dim)}
+.bk-day .w{font-size:13px;font-weight:700;color:var(--sub)}.bk-day.now .w{color:var(--gold)}
+.bk-day .bar{height:34px;display:flex;align-items:flex-end;justify-content:center;margin:4px 0}
+.bk-day .bar i{display:block;width:14px;border-radius:4px;background:var(--teal)}.bk-day.now .bar i{background:var(--gold)}
+.bk-day b{font-size:15px}.bk-day b small{font-size:13px;font-weight:700;color:var(--sub);margin-left:1px}
+.bk-wkr{display:flex;align-items:center;gap:10px}.bk-wkr > b{min-width:30px;font-variant-numeric:tabular-nums}
+.bk-dch{display:inline-flex;gap:3px}
+.bk-dch span{display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border-radius:6px;font-size:13px;font-weight:700;color:#5d574d;border:1px solid var(--line)}
+.bk-dch span.on,.bk-kd{background:var(--c);border-color:var(--c);color:#fff}
+.bk-dch span.on.dk,.bk-kd.dk{color:#1b1206}
+.bk-kd{display:inline-block;font-size:13px;font-weight:800;padding:2px 9px;border-radius:6px}
+.bk-sum{font-size:15px;line-height:1.6}
+.bk-lg2{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 4px 8px;font-size:13px;color:var(--sub)}
 .bk-hl{flex:none;font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap}.bk-h .bk-hl{margin-left:6px}
 .bk-me[data-act]{cursor:pointer}.bk-me[data-act]:hover{border-color:var(--gold-2)}
 /* 맨 위 띠 — 공지 · 알림 · 내 정보 */
@@ -3388,7 +3404,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '638';
+const BUILD = '639';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -15664,6 +15680,15 @@ function 예약남은(x){ const n = x['남은']; if(!n || typeof n !== 'object')
 const 예약종목색 = { 수업:'#9cc3e6', 서비스:'#d9c08f', 가이드:'#9fd3b0', 기타:'#b8b2a8' };
 const 예약종목딱 = k => '<span class="bk-kind" style="--c:' + (예약종목색[k] || 예약종목색.기타) + '">' + esc(k || '기타') + '</span>';
 const 예약날 = d => { if(!d) return '—'; const x = new Date(String(d).slice(0, 10) + 'T00:00:00'); return isNaN(x) ? esc(String(d)) : (x.getMonth() + 1) + '/' + x.getDate() + ' (' + '일월화수목금토'[x.getDay()] + ')'; };
+/* D안 도우미 — 중앙 booking 예약있음[tr][i].이번주 = [{날, 시각, 종목}](그 주 월~일 · 2026-11-10 중앙) · 데스크는 세기만 */
+const 예약진색 = { 수업:'#2f7cf6', 서비스:'#f28c28', 가이드:'#22a861', 체험:'#e0459b', 기타:'#8a8378' };
+const 예약요일 = ['월', '화', '수', '목', '금', '토', '일'];
+const 예약주날 = 월 => 예약요일.map((_, i) => { const y = new Date(월 + 'T00:00:00'); y.setDate(y.getDate() + i);
+  return y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0'); });
+const 예약색칸 = k => ' style="--c:' + (예약진색[k] || 예약진색.기타) + '"' + (k === '서비스' ? ' data-dk="1"' : '');
+const 예약칸 = (x, 날들) => { const 주 = x['이번주'] || [];
+  return '<div class="bk-wkr"><b>' + 주.length + '회</b><span class="bk-dch">' + 날들.map((d, i) => { const 그날 = 주.filter(b => b['날'] === d), k = 그날.length ? 그날[0]['종목'] : '';
+    return '<span' + (그날.length ? ' class="on' + (k === '서비스' ? ' dk' : '') + '" style="--c:' + (예약진색[k] || 예약진색.기타) + '" title="' + esc(그날.map(b => b['시각'] + ' ' + b['종목']).join(' · ')) + '"' : '') + '>' + 예약요일[i] + '</span>'; }).join('') + '</span></div>'; };
 function 예약없음판(t){
   const d = 예약률.답; if(!d) return; const 없 = ((d['예약없음'] || {})[t]) || [], 있 = ((d['예약있음'] || {})[t]) || [], o = ((d['선생님'] || {})[t] || {})['이번'] || {};
   const 사람 = x => D.m.find(m => (m.name || '').trim() === String(x.name || '').trim() && m.phone4 === x.phone4);
@@ -15671,12 +15696,29 @@ function 예약없음판(t){
   const 있표 = 있.length ? '<table class="ck-tb"><thead><tr><th>회원</th><th>예약 종목</th><th>다음 예약</th><th>남은 수업</th></tr></thead><tbody>'
       + 있.map(x => 줄(x, '<td>' + 예약종목딱(x['종목']) + '</td><td>' + 예약날(x['다음']) + '</td>')).join('') + '</tbody></table>'
     : '<div class="sub3" style="padding:6px 2px 4px">이번 주 예약한 회원이 아직 없어요</div>';
+  /* D안 (2026-11-10 대표 20:10~20:33 「총 몇 번 잡았는지 맨 위 요약 · 믹스 · 색 진하게 · 요일만 + n회」) — 서버가 이번주 를 실어 줄 때만 · 아니면 위 옛 표 */
+  const 새 = Object.values(d['예약있음'] || {}).some(a => (a || []).some(x => Array.isArray(x['이번주'])));
+  const 날들 = 새 && d['주'] && d['주']['이번'] ? 예약주날(String(d['주']['이번']).slice(0, 10)) : null;
+  const 합 = 있.reduce((n, x) => n + ((x['이번주'] || []).length), 0), 평 = o.d ? (합 / o.d).toFixed(1) : '0.0';
+  const 날수 = 날들 ? 날들.map(dd => 있.reduce((n, x) => n + (x['이번주'] || []).filter(b => b['날'] === dd).length, 0)) : [], 큰 = Math.max(1, ...날수);
+  const 띠 = 날들 ? '<div class="bk-days">' + 날들.map((dd, i) => '<div class="bk-day' + (dd === TODAY ? ' now' : '') + '"><div class="w">' + 예약요일[i] + '</div>'
+      + '<div class="bar"><i style="height:' + Math.max(3, Math.round(날수[i] / 큰 * 34)) + 'px"></i></div><b>' + 날수[i] + '<small>회</small></b></div>').join('') + '</div>' : '';
+  const 범례 = '<div class="bk-lg2">칸 색 = 예약 종목 ' + ['수업', '서비스', '가이드', '체험'].map(k => '<span class="bk-kd' + (k === '서비스' ? ' dk' : '') + '" style="--c:' + 예약진색[k] + '">' + k + '</span>').join('') + '</div>';
+  const 새있표 = 있.length ? 범례 + '<table class="ck-tb"><thead><tr><th>회원</th><th>이번 주 예약</th><th>남은 수업</th></tr></thead><tbody>'
+      + 있.map(x => 줄(x, '<td>' + 예약칸(x, 날들 || []) + '</td>')).join('') + '</tbody></table>' : 있표;
   const 없표 = 없.length ? '<table class="ck-tb"><thead><tr><th>회원</th><th>마지막 수업</th><th>남은 수업</th></tr></thead><tbody>'
       + 없.map(x => 줄(x, '<td>' + esc(String(x['마지막수업'] || '—').slice(0, 10)) + '</td>')).join('') + '</tbody></table>'
     : '<div class="empty why"><b>예약 없는 회원이 없습니다</b>이번 주 담당 PT 회원 모두 예약이 있습니다</div>';
   /* 홀딩 — 분모에 들어 있다(2026-10-23 11:49 대표 「홀딩이 있어도 분모에 포함 · 떨어진 이유로 맥락」 · 중앙 시안 홀딩표시_1023) · −k%p = 홀딩을 뺐을 때와의 차이(데스크 계산) */
   const 홀 = ((d['홀딩'] || {})[t]) || [], 홀n = +(o['홀딩'] || 홀.length || 0), 홀차 = o.d && o.d - 홀n > 0 ? Math.round((o.n || 0) * 100 / (o.d - 홀n)) - Math.round((o.n || 0) * 100 / o.d) : 0;
-  판열기(t === '미정' ? '담당 확인 · 이번 주 예약' : esc(t) + ' 선생님 · 이번 주 예약', (홀n ? '<div class="bk-hold"><b>홀딩 ' + 홀n + '명</b> 포함' + (홀.length ? ' — ' + 홀.map(x => esc(x.name || '') + ' ' + esc(x.phone4 || '')).join(' · ') : '') + (홀차 > 0 ? ' · 예약률 −' + 홀차 + '%' : '') + '</div>' : '') + '<div class="ck-act">' + (o.d ? '담당 PT 회원 ' + o.d + '명 중 ' + (o.n || 0) + '명이 예약했어요' : '이번 주 예약 현황이에요') + '<small>예약 없는 회원은 수업을 잡아 주세요 · 줄을 누르면 회원 페이지로 가요</small></div>'
+  const 머리 = t === '미정' ? '담당 확인 · 이번 주 예약' : esc(t) + ' 선생님 · 이번 주 예약';
+  if(날들){      /* D안 — 요약 한 줄(홀딩은 작은 줄) · 요일 띠 · 예약 없음 · 예약 있음(n회 + 요일 칸) */
+    /* 맨 위 두 줄만 (20:38 대표 「자질구레한 말은 빼자 · 담당 n명 중 n명 / 이번 주 수업 예약 n회 / 1인 평균 n회」) — 홀딩은 예약 없음 줄 「홀딩 중」으로 */
+    판열기(머리, '<div class="ck-act bk-sum">담당 ' + (o.d || 0) + '명 중 ' + (o.n || 0) + '명<br>이번 주 수업 예약 ' + 합 + '회 / 1인 평균 ' + 평 + '회</div>' + 띠
+      + '<div class="lbl">예약 없음 ' + 없.length + '명</div>' + 없표
+      + '<div class="lbl">예약 있음 ' + 있.length + '명</div>' + 새있표);
+    return; }
+  판열기(머리, (홀n ? '<div class="bk-hold"><b>홀딩 ' + 홀n + '명</b> 포함' + (홀.length ? ' — ' + 홀.map(x => esc(x.name || '') + ' ' + esc(x.phone4 || '')).join(' · ') : '') + (홀차 > 0 ? ' · 예약률 −' + 홀차 + '%' : '') + '</div>' : '') + '<div class="ck-act">' + (o.d ? '담당 PT 회원 ' + o.d + '명 중 ' + (o.n || 0) + '명이 예약했어요' : '이번 주 예약 현황이에요') + '<small>예약 없는 회원은 수업을 잡아 주세요 · 줄을 누르면 회원 페이지로 가요</small></div>'
     + '<div class="lbl">예약 없음 ' + 없.length + '명</div>' + 없표
     + '<div class="lbl">예약 있음 ' + 있.length + '명</div>' + 있표);      /* 구분머리 한 꼴 (2026-10-23 대표 「선만 있는 네임택은 매출 · 비품처럼 톤을 맞추고」) */
 }
