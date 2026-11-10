@@ -3388,7 +3388,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '636';
+const BUILD = '637';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4872,12 +4872,20 @@ async function 동의요청보내기(){
    ⛔ 이걸로 「안 온 회원」을 재면 **앱을 안 쓰는 분이 전부 잡힌다** — 그래서 그 블록은 뺐다(2026-09-29).
       출입 기준은 브로제이의 「잠수」다. */
 /* 2026-10-15 대표 「회원이 안 본 피드백보다는 첫 피드백 누락 — 첫 피드백이 없는 운동 종목이 있는 것만」 */
+/* 바탕(남긴 피드백 · 회원별 마친 종목)은 한 번만 만든다 — 회원마다 피드백 5천 줄 · 기록 3천 줄을 다시 훑어 회원 화면이 PC 0.5초 · 태블릿 1.9초 걸렸다 (2026-11-10 대표 「PC 데스크 · 태블릿이 느리다」)
+   그릴 때마다(render) 새로 · 자료 줄 수가 바뀌어도 새로 — 결과는 전과 같다 */
+let 첫피드백틀 = null;
+function 첫피드백바탕(){ const 키 = [(D.cv || []).length, (D.c || []).length, (D.w || []).length, (D.wi || []).length].join('|');
+  if(첫피드백틀 && 첫피드백틀.키 === 키) return 첫피드백틀;
+  const 남김 = new Set([...(D.cv || []), ...(D.c || [])].map(c => c.member_id + '|' + c.variant_id)), 운동회원 = new Map(), 회원종목 = new Map();
+  (D.w || []).forEach(w => { if(w.done) 운동회원.set(w.id, w.member_id); });
+  (D.wi || []).forEach(i => { if(!i.variant_id || !운동회원.has(i.workout_id)) return; const mid = 운동회원.get(i.workout_id); if(!회원종목.has(mid)) 회원종목.set(mid, new Set()); 회원종목.get(mid).add(i.variant_id); });
+  return 첫피드백틀 = { 키, 남김, 회원종목 }; }
 function 첫피드백없음(m){
   if(!m || 피드백끔(m)) return [];
-  const 남김 = new Set([...(D.cv || []), ...D.c].map(c => c.member_id + '|' + c.variant_id));
-  const ws = new Set(마친운동(m.id).map(w => w.id)), 본 = new Set();
-  D.wi.forEach(i => { if(ws.has(i.workout_id) && i.variant_id && !isPrepItem(i.variant_id) && !남김.has(m.id + '|' + i.variant_id)) 본.add(i.variant_id); });
-  return [...본];
+  const b = 첫피드백바탕(), 본 = [];
+  (b.회원종목.get(m.id) || []).forEach(v => { if(!isPrepItem(v) && !b.남김.has(m.id + '|' + v)) 본.push(v); });
+  return 본;
 }
 const 마친운동 = mid => D.w.filter(w => w.member_id === mid && w.done)
   .sort((a, b) => a.on_date < b.on_date ? 1 : -1);
@@ -18637,6 +18645,7 @@ function 화면옮김(d){ const j = 화면길.i + d; if(j < 0 || j >= 화면길.
 function 화면길단추(){ const t = document.getElementById('top'); if(!t || t.querySelector('.vnav')) return;
   t.insertAdjacentHTML('afterbegin', '<span class="vnav"><button type="button" data-act="tx:vback" aria-label="뒤로"' + (화면길.i > 0 ? '' : ' disabled') + '>‹</button><button type="button" data-act="tx:vfwd" aria-label="앞으로"' + (화면길.i < 화면길.줄.length - 1 ? '' : ' disabled') + '>›</button></span>'); }
 function render(){
+  첫피드백틀 = null;      /* 그릴 때마다 새 바탕 (2026-11-10) */
   화면길적기();
   const 앞뷰 = S.view, 쌈 = document.getElementById('body'), 판자리 = [...document.querySelectorAll('#body .tx-tw')].map(e => [e.scrollLeft, e.scrollTop]), 몸자리 = 쌈 ? 쌈.scrollTop : 0, 창자리 = scrollY;      /* 가로만 지켜서 다시 그릴 때마다 표가 맨 위로 튀었다 (2026-10-30 대표 「상단으로 이동」) */
   const 났 = render0.apply(null, arguments);
