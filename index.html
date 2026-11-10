@@ -2297,6 +2297,7 @@ body{word-break:keep-all}
 .bp-row2.lk-over{border-color:color-mix(in srgb,#df8f55 55%,transparent);background:color-mix(in srgb,#df8f55 8%,var(--dark-2))}.bp-row2.lk-over .lk-r b{color:#f3b98c}
 .lk-r{margin-left:auto;text-align:right;font-size:13.5px}.lk-r small{display:block;color:var(--sub);font-size:12.5px}
 .as-att-l{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 6px}.as-att-l span{font-size:13px;padding:3px 8px;border-radius:6px;background:var(--dark-2);border:1px solid var(--line);color:#d9d3c9}.as-att-l span.we{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
+.sc-misu-l{margin:6px 0 2px;font-size:13px;color:var(--sub);line-height:1.6}.sc-misu{display:inline-flex;align-items:center;height:22px;padding:0 8px;margin-right:6px;border-radius:6px;font-size:13px;font-weight:800;color:#f6b26b;background:color-mix(in srgb,#f28c28 16%,transparent);border:1px solid color-mix(in srgb,#f28c28 45%,transparent)}
 .sc-saved{margin-left:8px;display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:800;color:var(--teal);background:var(--teal-dim);border:1px solid color-mix(in srgb,var(--teal) 45%,transparent)}
 .sc-card.done{opacity:.72}.sc-ro{display:flex;gap:10px;align-items:baseline;margin-top:8px;font-size:14px;color:#d9d3c9}.sc-ro .k{width:58px;flex:none;font-size:13px;font-weight:700;color:var(--sub)}.sc-ro .by{font-size:13px;color:var(--sub)}
 .ps-locked{position:relative;opacity:.72}.ps-lk{position:absolute;right:12px;bottom:10px;font-size:13px;font-weight:800;color:var(--teal)}
@@ -3404,7 +3405,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '642';
+const BUILD = '644';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10337,7 +10338,7 @@ document.addEventListener('visibilitychange', () => { if(document.visibilityStat
 const 매확결제 = () => ((매확.답 || {})['결제'] || []);
 const 매확TG만 = () => ((매확.답 || {})['TG만'] || []);
 const 매확락커 = () => ((매확.답 || {})['락커'] || []);
-const 매확미확인 = o => !o['고름'];
+const 매확미확인 = o => !o['고름'] && !o['전액미수'];      /* 전액 미수는 고를 것이 없어 확인할 것에 안 셈 (중앙 저장 꼴 정해지면 맞춤) */
 const 매확PT자동 = x => !!(x && x['PT중'] && String(x['PT중']['담당'] || '').trim());      /* PT 진행 중 · 담당 있음 = 중앙 자동 배정 · 관리자 확인만 (2026-10-24 16:46 대표) */
 const 매확TG끝 = x => !!(x['확인'] || x['TG메모'] || 매확PT자동(x));
 /* 락커 두 단계 (2026-10-21 22:32 대표 「결제가 나오면 배정했는지 뜨고 · 시간이 지나도 안 됐으면 배정하라는 알림으로 바뀌게」)
@@ -10378,7 +10379,14 @@ const 매확등록칸 = v => v === '신규' || v === '재등록' ? '<span class=
 function 매확상품줄(o){
   const 등 = o['등록'] || {}, ps = o['상품'] || [], 이름 = 상품묶음(ps) || (o['미수수납'] ? '미수금 수납' : '');
   const 등글 = (o['갈래'] || []).indexOf('PT') >= 0 && 등.PT ? 등.PT : 등.FC && ps.some(p => /회원권/.test(p['이름'] || '')) ? 등.FC : '';
-  return '<div class="sc-r2"><b>' + esc(이름) + '</b>' + 매확등록칸(등글) + ' · ' + 매확때(o['때']) + ' · ' + esc(o['판매자'] || '—') + '</div>'; }
+  return '<div class="sc-r2"><b>' + esc(이름) + '</b>' + 매확등록칸(등글) + ' · ' + 매확때(o['때']) + ' · ' + esc(o['판매자'] || '—') + '</div>' + 매확미수줄(o); }
+/* 미수금 (2026-11-11 대표 「미수금 시안 만든 대로」 · 중앙 칸 미수 · 미수처음 · 전액미수 · 원결제) — 금액은 중앙 계산만(CRM outstanding_price 안 씀) */
+function 매확미수줄(o){ const 원 = o['원결제'], 딱 = t => '<span class="sc-misu">' + t + '</span>';
+  if(o['미수수납'] && 원) return '<div class="sc-misu-l">원래 결제 ' + esc(매확때(원['때'])) + ' · ' + esc(원['상품'] || '') + ' · 판매가 ' + 매확원(원['판매가']) + '원<br>이번 수납 뒤 남은 미수 ' + 딱(매확원(원['남음']) + '원') + '</div>';
+  if(o['전액미수']) return '<div class="sc-misu-l">' + 딱('전액 미수 ' + 매확원(o['미수'] || o['미수처음']) + '원') + ' 받으면 「미수금 수납」으로 다시 떠요</div>';
+  if(+o['미수'] > 0) return '<div class="sc-misu-l">' + 딱('미수 ' + 매확원(o['미수']) + '원 남음') + ' 받은 돈 ' + 매확원(o['합']) + '원'
+    + '만 결제수단을 선택해요<br>남은 돈은 받으면 「미수금 수납」으로 따로 떠요</div>';
+  return ''; }
 /* ── TG메모 양식 ── 열쇠 = 결제 'p'+id · 따로 발급 't'+주문 */
 매확.TGF = {}; 매확.TG열림 = {}; 매확.TG바뀜 = {}; 매확.TG수정 = {};
 function 매확TG폼(열쇠, 저장){
@@ -10488,6 +10496,7 @@ function 매확줄(o){
   }
   if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], false, '');      /* 처음엔 접힘 · 누르면 양식 (2026-11-06 19:51 대표 「처음부터 펼쳐져 있는데 접혀 있게」 — 10/30 「처음부터 펼침」을 바꿈) */
   if(PT있음) h += 매확PT줄(o);
+  if(o['전액미수']) return h + '</div>';      /* 전액 미수 — 받은 돈이 없어 고를 결제수단이 없다 · 받으면 수납 카드로 */
   h += '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="tx:scm" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
     + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '');
   if(ks.length){
@@ -16078,13 +16087,13 @@ function 배정설문줄(x){
   if(x.kind === '체험') return 판(셋('체험 수업 전 설문', x.apply_at, x.apply_sent_at, x.apply_sent_n, 'tx:astrsend', 설문답(x, '체험')));
   const 신청 = x.apply_at ? 응답('무료 PT 신청 설문', x.apply_at, 설문답(x, '신청'), '', 신청요약(x)) : '';
   /* PT 줄 설문 = 새 발송 대상 — 중앙 발송관문(대표 카드 시험 → 대표 승인) 전엔 막음 (2026-11-10 중앙 22:18) · 열리면 PT설문열림 = true */
-  if(x.kind === 'PT' && !PT설문열림) return 판(줄(수전이름(x), 'PT 설문은 준비 중이에요 · 열리면 여기서 보내요', '<button class="as-btn" disabled title="발송 준비 중">보내기</button>', '', 딱('no', '발송 전'), ''));
+  if(x.kind === 'PT' && (!PT설문열림 || 배정미배(x))) return 판(줄(수전이름(x), !PT설문열림 ? 'PT 설문은 준비 중이에요 · 열리면 여기서 보내요' : '담당을 정하면 보낼 수 있어요', '<button class="as-btn" disabled title="' + (!PT설문열림 ? '발송 준비 중' : '담당을 먼저 정해 주세요') + '">보내기</button>', '', 딱('no', '발송 전'), ''));      /* 23:52 중앙 발송관문 승인(대표 23:51 「진행해」) · 창구 tg_pre_send = 담당 있는 열린 줄만 */
   if(배정미배(x)) return 판(신청 || 셋('무료 PT 신청 설문', null, x.apply_sent_at, x.apply_sent_n, 'tx:asresend', '', 설문끔옆(x)));
   const 이미 = x.apply_at && !x.pre_at ? '<div class="sv-warn">무료 PT 신청 설문을 이미 썼어요 · 더 물을 것이 있을 때만 보내요</div>' : '';
   if(!x.pre_at && !x.pre_sent_at && !x.contact_at && 배정첫(x)) return 판(신청 + 줄(수전이름(x), '「연락했어요」 뒤에 보낼 수 있어요', '<button class="as-btn" disabled title="연락했어요를 누르면 열려요">보내기</button>', '', 딱('no', '발송 전'), 이미));      /* 담당 배정 뒤 사전 설문 = 연락 완료 뒤에만 (2026-10-30 18:22 대표) */
   return 판(신청 + 셋(수전이름(x), x.pre_at, x.pre_sent_at, x.pre_sent_n, 'tx:aspresend', 설문답(x, '수업전'), '', 이미, !!x.apply_at)); }
-let PT설문열림 = false;
-async function 수업전설문보내기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return; if(x.kind === 'PT' && !PT설문열림) return toast('PT 설문은 준비 중이에요');
+let PT설문열림 = true;      /* 2026-11-10 23:51 대표 대표 카드 시험 → 「진행해」 · 중앙 발송관문 「PT수업전설문」 승인 */
+async function 수업전설문보내기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return; if(x.kind === 'PT' && (!PT설문열림 || 배정미배(x))) return toast(!PT설문열림 ? 'PT 설문은 준비 중이에요' : '담당을 먼저 정해 주세요');
   if(!await 묻기((x.apply_at && !x.pre_at ? '이미 ' + 배정날짜(x.apply_at) + ' 무료 PT 신청 설문을 쓴 고객이에요' + String.fromCharCode(10) : '') + x.name + ' 님께 ' + 수전이름(x) + '을 ' + (x.pre_sent_at ? '다시 ' : '') + '보낼까요?' + String.fromCharCode(10) + '알림톡으로 나갑니다' + 늦은때())) return;
   try{ const d = await crm('tg_pre_send', { lead_id: x.id }); if(d && d.ok === false) throw new Error(d.why || '보내지 못했어요');
     x.pre_sent_at = new Date().toISOString(); x.pre_sent_n = (+x.pre_sent_n || 0) + 1; 기록남기기({ area:'배정', action:'발송', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'TG 수업 전 설문(알림톡)' }); toast('수업 전 설문을 보냈어요'); 배정판(id); }
