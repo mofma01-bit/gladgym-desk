@@ -3405,7 +3405,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '645';
+const BUILD = '646';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9444,7 +9444,11 @@ function 결제수단줄(g){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pa
   const pm = 고 || (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
   if(!pm && !o && !ys.some(y => String(y.paid_at || '').slice(0, 7) >= 결제수단시작)) return '';
   const 단 = o && 매확단추봄() ? '<button class="btn ed sm" data-act="tx:pspay" data-k="' + esc(o.id) + '">' + (o['고름'] ? '수정' : '선택') + '</button>' : '';      /* 「확인할 매출」 쓰는 사람만 (2026-11-04 대표) */
-  return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span>' + (단 ? '' : '<small>「확인할 매출」에서 선택해 주세요</small>')) + 단 + '</div>'; }
+  return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span>' + (단 ? '' : '<small>「확인할 매출」에서 선택해 주세요</small>')) + 단 + 매출미수딱(o) + '</div>'; }
+/* PT 매출 판 미수 — PT 몫만(중앙 미수상세 갈래 PT 남음 합) · 상세가 없으면 결제 전체라고 밝힘 (2026-11-11 대표 「아직 미수금으로 안 잡히는 것 같은데」 · 중앙 「주문 합을 PT 판에 쓰면 틀림」) */
+function 매출미수딱(o){ if(!o) return ''; const 상 = Array.isArray(o['미수상세']) ? o['미수상세'] : null;
+  if(상){ const n = 상.filter(x => x['갈래'] === 'PT').reduce((a, x) => a + (+x['남음'] || 0), 0); return n > 0 ? '<span class="sc-misu" style="margin-left:8px">미수 ' + 매확원(n) + '원 남음</span>' : ''; }
+  return +o['미수'] > 0 ? '<span class="sc-misu" style="margin-left:8px" title="이 결제의 회원권 몫까지 합친 금액이에요">결제 전체 미수 ' + 매확원(o['미수']) + '원' + ((o['갈래'] || []).indexOf('FC') >= 0 ? ' · 회원권 포함' : '') + '</span>' : ''; }
 /* 가운데 창 — 「확인할 매출」 카드 한 장 그대로(수단 · 나눈 금액 · 결제메모 · TG메모 · 저장하면 잠김 · 「수정」) · 닫으면 PT 매출을 다시 그림 */
 function 결제수정창(){ const id = S.psPay, o = 매확찾(id); if(!o){ S.psPay = null; return; }
   쪽지끝 = null;      /* 다시 그릴 때 앞 창의 닫기(=PT 매출 다시 그림 · psPay 비움)가 돌지 않게 */
