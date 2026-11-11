@@ -3405,7 +3405,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '646';
+const BUILD = '647';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10396,7 +10396,10 @@ document.addEventListener('visibilitychange', () => { if(document.visibilityStat
 const 매확결제 = () => ((매확.답 || {})['결제'] || []);
 const 매확TG만 = () => ((매확.답 || {})['TG만'] || []);
 const 매확락커 = () => ((매확.답 || {})['락커'] || []);
-const 매확미확인 = o => !o['고름'] && !o['전액미수'];      /* 전액 미수는 고를 것이 없어 확인할 것에 안 셈 (중앙 저장 꼴 정해지면 맞춤) */
+/* 미수 결제 — 받은 돈이 없어 고를 결제수단이 없다 → TG메모(TG 있으면) · PT 매출 담당(PT 있으면)까지 하면 끝 · 받으면 CRM 「미수금 수납」 이 새 카드로 다시 뜬다
+   (2026-11-11 11:37 대표 「받은 돈은 없는데 미수금 내역이 있다 · TG메모나 담당자 선택 후 끝나게 · PT 도 마찬가지 · 미수금 회수 내역이 찍히면 다시 뜨게」) */
+const 매확미수끝 = o => +o['미수'] > 0 && (!o.TG || !!o['TG메모']) && ((o['갈래'] || []).indexOf('PT') < 0 || (g => !!g && ['선택됨', '확정'].includes(묶음상태(g)))(매확PT묶음(o)));
+const 매확미확인 = o => !o['고름'] && !o['전액미수'] && !매확미수끝(o);      /* 전액 미수는 고를 것이 없어 확인할 것에 안 셈 (중앙 저장 꼴 정해지면 맞춤) */
 const 매확PT자동 = x => !!(x && x['PT중'] && String(x['PT중']['담당'] || '').trim());      /* PT 진행 중 · 담당 있음 = 중앙 자동 배정 · 관리자 확인만 (2026-10-24 16:46 대표) */
 const 매확TG끝 = x => !!(x['확인'] || x['TG메모'] || 매확PT자동(x));
 /* 락커 두 단계 (2026-10-21 22:32 대표 「결제가 나오면 배정했는지 뜨고 · 시간이 지나도 안 됐으면 배정하라는 알림으로 바뀌게」)
@@ -10442,8 +10445,8 @@ function 매확상품줄(o){
 function 매확미수줄(o){ const 원 = o['원결제'], 딱 = t => '<span class="sc-misu">' + t + '</span>';
   if(o['미수수납'] && 원) return '<div class="sc-misu-l">원래 결제 ' + esc(매확때(원['때'])) + ' · ' + esc(원['상품'] || '') + ' · 판매가 ' + 매확원(원['판매가']) + '원<br>이번 수납 뒤 남은 미수 ' + 딱(매확원(원['남음']) + '원') + '</div>';
   if(o['전액미수']) return '<div class="sc-misu-l">' + 딱('전액 미수 ' + 매확원(o['미수'] || o['미수처음']) + '원') + ' 받으면 「미수금 수납」으로 다시 떠요</div>';
-  if(+o['미수'] > 0) return '<div class="sc-misu-l">' + 딱('미수 ' + 매확원(o['미수']) + '원 남음') + ' 받은 돈 ' + 매확원(o['합']) + '원'
-    + '만 결제수단을 선택해요<br>남은 돈은 받으면 「미수금 수납」으로 따로 떠요</div>';
+  if(+o['미수'] > 0) return '<div class="sc-misu-l">' + 딱('미수 ' + 매확원(o['미수']) + '원 남음') + (매확미수끝(o) ? ' 끝났어요' : ' TG메모 · 담당을 정하면 끝나요')
+    + '<br>받은 돈이 있을 때만 결제수단을 선택해요 · 미수금을 받으면 「미수금 수납」으로 다시 떠요</div>';
   return ''; }
 /* ── TG메모 양식 ── 열쇠 = 결제 'p'+id · 따로 발급 't'+주문 */
 매확.TGF = {}; 매확.TG열림 = {}; 매확.TG바뀜 = {}; 매확.TG수정 = {};
@@ -10530,8 +10533,15 @@ function 매확TG칸(열쇠, tg, 횟수, 저장, 자동열림, 저장단추){   
 /* PT 담당 — 이 결제의 PT 매출 줄(pt_sales · order_key 같음 · 없으면 회원 카드 + 같은 날) */
 const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.pay_id && String(x.pay_id) === String(o.id)) || (x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
   return 줄.length ? { 키: 매출묶음키(줄[0]), 줄, 머리: 줄[0] } : null; };
+/* 수업 담당 — 배정 표(PT · 체험 · TG 줄)의 담당 · 매출 담당과 따로 (2026-11-11 대표 「매출은 센터 매출인데 수업 담당은 다른 선생님 · 담당자 배정이 어디 있는지 모르겠어」) */
+function 매확수업담당줄(o){ if(!배정.줄 || !o) return ''; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
+  const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)));
+  if(!L.length) return '';
+  const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
+  return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
+    + (쓸 ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '') + '</div>'; }
 function 매확PT줄(o){
-  const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '">담당</span>';
+  const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지">매출</span>';
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
     return 머 + '<b class="sc-ptwho">' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? '<span class="sub3"> · ' + esc(앞.category) + '</span>' : '') + '<span class="sc-saved">' + (st === '확정' ? '확정 ✓' : '고름 ✓') + '</span>'
       + '<button class="btn ed sm" data-act="tx:scptg" data-k="' + esc(g.머리.id) + '">수정</button></div>';
@@ -10548,12 +10558,13 @@ function 매확줄(o){
       + ((v['전'] || []).length ? '<div class="sc-mlog">' + v['전'].map(x => '이전: <b>' + esc(x.G || '') + '</b> · ' + esc(매확누가(x['누가'])) + ' ' + esc(매확때(x['때']))).join('<br>') + '</div>' : '')
       + '<div class="sc-ro"><span class="k">결제메모</span>' + (메 ? '<span>' + esc(메) + '</span>' : '<span class="sub3">없음</span>') + '</div>' + (메 ? 매확CRM결과(o) : '')
       + (tg ? '<div class="sc-ro"><span class="k">TG메모</span>' + (티 ? '<span>' + esc(String(티).split(String.fromCharCode(10))[0]) + '</span>' : '<span class="sub3">없음 · ' + esc(매확이전글(tg)) + '</span>') + '</div>' : '')
-      + (PT있음 ? 매확PT줄(o) : '')
+      + (PT있음 ? 매확PT줄(o) : '') + 매확수업담당줄(o)
       + '<div class="sc-sum"><span class="sp"></span><button class="btn ed sm" data-act="tx:scedit" data-v2="' + esc(o.id) + '">수정</button></div>';
     return h + '</div>';
   }
   if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], false, '');      /* 처음엔 접힘 · 누르면 양식 (2026-11-06 19:51 대표 「처음부터 펼쳐져 있는데 접혀 있게」 — 10/30 「처음부터 펼침」을 바꿈) */
   if(PT있음) h += 매확PT줄(o);
+  h += 매확수업담당줄(o);
   if(o['전액미수']) return h + '</div>';      /* 전액 미수 — 받은 돈이 없어 고를 결제수단이 없다 · 받으면 수납 카드로 */
   h += '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="tx:scm" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
     + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '');
