@@ -3405,7 +3405,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '648';
+const BUILD = '650';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9419,7 +9419,7 @@ function 매출줄(g, 손){
       + '<div class="ps-amt">' + 원(합) + '</div></div>'
     + '<div class="ps-sub">' + esc(x.product || x.tag || '') + ' · ' + esc(매출때(x).split(' ')[0]) + ' 결제 · ' + 매출꼬리(st)
       + (앞 ? ' · 담당 <b>' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? ' · ' + esc(앞.category) : '') : '') + '</div>'
-    + 결제수단줄(g) + 매출수업줄(g) + g.줄.map(매출환줄).join('') + 덜
+    + 결제수단줄(g, 고침) + 매출수업줄(g, 고침) + g.줄.map(매출환줄).join('') + 덜
     + (손 === false ? '' : '<div class="ps-act">'
       + (고침 ? 매출고름칸(g) + (st !== '미확인' ? '<button class="btn ghost sm" data-act="tx:psedit" data-k="' + esc(id) + '">취소</button>' : '') : (st !== '삭제됨' ? '<button class="btn ed sm" data-act="tx:psedit" data-k="' + esc(id) + '">수정</button>' : ''))
       + (매출관리자() && st === '선택됨' && !고침 ? '<button class="btn main sm" data-act="tx:pconf" data-k="' + esc(id) + '">확정</button>' : '')
@@ -9441,14 +9441,14 @@ const 매출결제건 = g => { const ys = (g && g.줄) || [], ks = new Set(ys.ma
   return 후.length === 1 ? 후[0] : null; };      /* 그 전엔 회원 · 날로 맞춤 — 같은 날 PT 결제가 둘이면 못 가려서 단추를 안 띄운다(엉뚱한 결제를 고치지 않게 · 2026-11-04 중앙 「pt_sales.order_key 는 결제 id 가 아님」) */
 /* PT 매출 판에도 수업 담당 — 매출 담당(센터 매출 등)과 따로 · 확인할 매출 카드가 끝나 사라진 뒤에도 여기서 정함
    (2026-11-11 12:02 대표 「PT 담당은 어디서 고르는데」) — 같은 결제(매출결제건) → 배정 표 줄 · 없으면 이름 + 전화 뒤 4자리 */
-function 매출수업줄(g){ const o = 매출결제건(g); if(o) return 매확수업담당줄(o);
+function 매출수업줄(g, 고침){ const o = 매출결제건(g); if(o) return 매확수업담당줄(o, !고침);
   const x = (g && g.머리) || ((g && g.줄) || [])[0]; if(!x || !배정.줄) return '';
-  return 매확수업담당줄({ 카드: x.customer_key || '', 전화: '', _이름: x.name, _뒤4: x.phone4 }); }
-function 결제수단줄(g){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pay_method' in y)) return '';
+  return 매확수업담당줄({ 카드: x.customer_key || '', 전화: '', _이름: x.name, _뒤4: x.phone4 }, !고침); }
+function 결제수단줄(g, 고침){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pay_method' in y)) return '';
   const o = 매출결제건(g), 고 = o && o['고름'] ? 매확G(o) : '';      /* 데스크에서 방금 고친 값이 먼저 — 표(pt_sales)는 중앙이 10분 안에 따라온다 */
   const pm = 고 || (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
   if(!pm && !o && !ys.some(y => String(y.paid_at || '').slice(0, 7) >= 결제수단시작)) return '';
-  const 단 = o && 매확단추봄() ? '<button class="btn ed sm" data-act="tx:pspay" data-k="' + esc(o.id) + '">' + (o['고름'] ? '수정' : '선택') + '</button>' : '';      /* 「확인할 매출」 쓰는 사람만 (2026-11-04 대표) */
+  const 단 = o && 매확단추봄() && (!o['고름'] || 고침) ? '<button class="btn ed sm" data-act="tx:pspay" data-k="' + esc(o.id) + '">' + (o['고름'] ? '수정' : '선택') + '</button>' : '';      /* 고른 뒤 「수정」 은 줄 아래 「수정」 을 눌렀을 때만 (2026-11-11 대표 「수정이 왜 이렇게 많아」) */      /* 「확인할 매출」 쓰는 사람만 (2026-11-04 대표) */
   return '<div class="ps-pay">💳 ' + (pm ? '<b>' + esc(pm) + '</b>' : '<span class="no">결제수단 미확인</span>' + (단 ? '' : '<small>「확인할 매출」에서 선택해 주세요</small>')) + 단 + 매출미수딱(o) + '</div>'; }
 /* PT 매출 판 미수 — PT 몫만(중앙 미수상세 갈래 PT 남음 합) · 상세가 없으면 결제 전체라고 밝힘 (2026-11-11 대표 「아직 미수금으로 안 잡히는 것 같은데」 · 중앙 「주문 합을 PT 판에 쓰면 틀림」) */
 function 매출미수딱(o){ if(!o) return ''; const 상 = Array.isArray(o['미수상세']) ? o['미수상세'] : null;
@@ -10539,14 +10539,14 @@ function 매확TG칸(열쇠, tg, 횟수, 저장, 자동열림, 저장단추){   
 const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.pay_id && String(x.pay_id) === String(o.id)) || (x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
   return 줄.length ? { 키: 매출묶음키(줄[0]), 줄, 머리: 줄[0] } : null; };
 /* 수업 담당 — 배정 표(PT · 체험 · TG 줄)의 담당 · 매출 담당과 따로 (2026-11-11 대표 「매출은 센터 매출인데 수업 담당은 다른 선생님 · 담당자 배정이 어디 있는지 모르겠어」) */
-function 매확수업담당줄(o){ if(!배정.줄 || !o) return ''; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
+function 매확수업담당줄(o, 정해지면숨김){ if(!배정.줄 || !o) return ''; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
   const 이름 = String(o._이름 || '').trim(), 뒤4 = String(o._뒤4 || '');
   const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)
     || (이름 && 뒤4.length === 4 && String(r.name || '').trim() === 이름 && String(r.phone || '').replace(/\D/g, '').slice(-4) === 뒤4)));
   if(!L.length) return '';
   const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
   return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
-    + (쓸 ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '') + '</div>'; }
+    + (쓸 && !(담 && 정해지면숨김) ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '') + '</div>'; }
 function 매확PT줄(o){
   const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지">매출</span>';
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
@@ -10894,11 +10894,14 @@ function 예상후보(t){ const d2 = 점검.답[점검.주 || '이번']; if(!d2)
   (((d2['재등록판'] || {})['선생님별'] || {})[t] || []).forEach(r => 다.push({ name: r.name || '', kind: '재등록', key: r.key || '', 덧: 'PT 곧 종료 · 남은 ' + (r['남은'] != null ? r['남은'] : '?') + '/' + (r['총'] != null ? r['총'] : '?') }));
   (((d2['표'] || {})[t] || {})['TG'] || []).filter(x => /진행중/.test(x.label || '')).forEach(x => (x.rows || []).forEach((r, i) => 다.push({ name: String(r[1] || r[0] || '').replace(/\s*\(\d{4}\)\s*$/, ''), kind: 'TG', key: (x.keys || [])[i] || '', 덧: 'TG 진행 중' })));
   return 다; }
+/* 예상 매출 선생님 = 데스크를 쓰는 재직 트레이너만(배정고를선생 — 대표 · 퇴사 · FC · 인턴 · 프리랜서(계정 없음) 뺌)
+   전산 명단(퇴사)을 받기 전에 판이 열리면 정주형 · 박민혁이 칩에 떴다 (2026-11-11 12:49 대표 「퇴사자 왜 자꾸 뜨는 거야」) · 직원 명단이 아직 없으면 옛 거름 */
+const 예상선생 = 목 => { const g = 배정고를선생(), 다 = 선생님만(목 || []); return g.length ? 다.filter(n => g.includes(n)) : 다; };
 function 예상판열기(t){
   const R = 점검.답[점검.주 || '이번'] ? 점검정리(점검.답[점검.주 || '이번']) : { 관: false, 선생: [] }, 나 = (ME && ME.name) || '';
   t = t || (R.관 ? (점검.거름 || (R.선생.includes(나) ? 나 : R.선생[0] || 나)) : 나);
   const 옛 = (점검메모.예상 || []).filter(x => x.trainer === t).slice(-1)[0];
-  예상입력 = { t, 줄: (옛 && 옛.lines ? 옛.lines : []).map(r => Object.assign({}, r, { key: r.key || r.member_key || '' })), 관: R.관, 선생: 선생님만(R.선생 || []) };      /* 퇴사자(정주형 · 박민혁 등) 칩 뺌 (2026-11-05 노션 「퇴사자는 빼 · 퇴사자가 왜 들어가」) */      /* 저장 꼴은 member_key — 다시 열 때 key 로 되살린다(안 하면 후보에 또 뜨고 다시 저장하면 연결이 지워진다 · 2026-10-15) */
+  예상입력 = { t, 줄: (옛 && 옛.lines ? 옛.lines : []).map(r => Object.assign({}, r, { key: r.key || r.member_key || '' })), 관: R.관, 선생: 예상선생(R.선생 || []) };      /* 퇴사자(정주형 · 박민혁 등) 칩 뺌 (2026-11-05 노션 「퇴사자는 빼 · 퇴사자가 왜 들어가」) */      /* 저장 꼴은 member_key — 다시 열 때 key 로 되살린다(안 하면 후보에 또 뜨고 다시 저장하면 연결이 지워진다 · 2026-10-15) */
   예상판그리기();
 }
 function 예상읽기(){ document.querySelectorAll('#popbox .ck-fr').forEach(fr => { const i = +fr.dataset.i, r = 예상입력 && 예상입력.줄[i]; if(!r) return;
@@ -10944,7 +10947,7 @@ const 예상대상 = () => { const 나 = (ME && ME.name) || '', d2 = 점검.답[
 const 예상팝업키 = () => 'gg_fcp_' + ((ME && ME.name) || '') + '_' + 이번주월();
 const 예상팝업본 = () => { try{ return localStorage.getItem(예상팝업키()) === '1'; }catch(e){ return false; } };      /* 팝업은 그 주 한 번만 — 그다음은 현황판 빛남 (2026-11-04 20:08 대표 「팝업은 한번만 그다음엔 현황판에 빛나게」) */
 const 예상미입력 = () => { const d2 = 점검.답['이번'], 주 = 이번주월(); if(!d2 || !점검메모.줄) return []; const 퇴 = new Set([...퇴사명(), ...(W.staff || []).filter(p => p.active === false).map(p => String(p.name || '').trim())]), 대 = new Set((W.staff || []).filter(p => 등급of(p) === '대표자').map(p => String(p.name || '').trim()));
-  return Object.keys(d2['표'] || {}).filter(n => n !== '공통' && !퇴.has(n) && !대.has(n) && !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표의 「공통」 칸 · 퇴사자 · 대표는 사람 셈에서 뺌 — 재직 선생님만 (2026-11-06 23:28 대표 「조민철 · 장승훈 빼고 3명인데 미입력 5」) */      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
+  return 예상선생(Object.keys(d2['표'] || {})).filter(n => n !== '공통' && !퇴.has(n) && !대.has(n) && !(점검메모.예상 || []).some(x => x.trainer === n && x.week === 주)); };      /* 점검 표의 「공통」 칸 · 퇴사자 · 대표는 사람 셈에서 뺌 — 재직 선생님만 (2026-11-06 23:28 대표 「조민철 · 장승훈 빼고 3명인데 미입력 5」) */      /* 점검 표(PT 선생님) 중 이번 주 안 적은 사람 */
 const 예상남은날 = 날 => { const d = new Date((날 || TODAY) + 'T00:00:00').getDay(); return d === 0 ? 0 : 7 - d; };      /* 목 3 · 금 2 · 토 1 · 일 0 — 목요일부터 붉은 띠 (2026-11-05 대표 시안 ⑱) */
 const 예상이번주 = () => { const 나 = (ME && ME.name) || '', 주 = 이번주월(); return (점검메모.예상 || []).some(x => x.trainer === 나 && x.week === 주); };
 function 예상팝업열기(강제){
@@ -14546,9 +14549,17 @@ function 고른줄표시(){
   if(고른줄.length < 2) return;
   고른줄.forEach(pth => { const e = document.querySelector('#txblocks .tx-b[data-i="'+pth+'"]'); if(e) e.classList.add('tx-sel'); });
   const d = document.createElement('div'); d.className = 'tx-selbar'; d.id = 'txselbar';
-  d.innerHTML = '<b>'+고른줄.length+'개</b> 선택 <button data-act="tx:bdelsel">삭제</button>';
+  d.innerHTML = '<b>'+고른줄.length+'개</b> 선택 <button data-act="tx:bcopysel">복사</button><button data-act="tx:bdelsel">삭제</button>';
   document.body.appendChild(d);
 }
+/* 여러 줄 복사 — 끌어서 고른 줄들을 글로 · Ctrl+C 와 「복사」 단추 (2026-11-11 대표 「여러 개의 문장을 드래그해서 복사하기가 안 됨」) */
+function 고른줄글(){ return 고른줄.map(pth => { const e = document.querySelector('#txblocks .tx-b[data-i="' + pth + '"]'), x = e && e.querySelector('.tx-x');
+  return x ? String(x.innerText || '').replace(/\n+$/, '') : ''; }).join(String.fromCharCode(10)); }
+async function 고른줄복사(){ const t = 고른줄글(), n = 고른줄.length; if(!t) return;
+  try{ await navigator.clipboard.writeText(t); }
+  catch(e){ const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e2){} ta.remove(); }
+  toast(n + '줄 복사했어요'); }
+document.addEventListener('keydown', ev => { if(고른줄.length < 2 || !(ev.ctrlKey || ev.metaKey) || String(ev.key).toLowerCase() !== 'c') return; ev.preventDefault(); 고른줄복사(); }, true);
 /* ⛔ 블록마다 편집 영역(contenteditable)이 따로라, 브라우저는 여러 줄에 걸친 선택을 첫 줄에서 자른다.
    그래서 끌어서 고르는 것을 직접 만든다 (2026-09-08 「지우기 하니까 한 블럭씩만」). */
 const 잎줄들 = () => { const box = $('#txblocks'); if(!box) return [];
@@ -18130,6 +18141,7 @@ async function txAct(a, el){
     const el3 = document.querySelector('#txblocks .tx-x[data-bi="'+z2.path+'"]');
     if(el3) el3.innerText = b2.x;
     블록다시(z2.path, false, z2.off + e2.length); 블록자동저장(true); return; }
+  if(a==='bcopysel'){ await 고른줄복사(); return; }
   if(a==='bdelsel'){ await 고른줄지우기(); return; }
   if(a==='opt'){ 시트값읽기(); const f = el.dataset.f; 시트.값[f] = (시트.값[f]===v2 && f!=='vis') ? null : v2; txSheet(시트.key, 시트.id, 시트.값); 자동저장(true); return; }
   if(a==='multi'){ 시트값읽기(); const f = el.dataset.f; const arr = (시트.값[f]||[]).slice();
