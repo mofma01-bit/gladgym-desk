@@ -3430,7 +3430,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '654';
+const BUILD = '655';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4589,11 +4589,17 @@ async function otp(길, 몸){
   return await r.json();
 }
 
+/* 서버가 멈춰 답이 안 오면 끝없이 기다리던 것 — 한도가 지나면 실패로 끝낸다 (2026-11-11 17:44 대표 「무한 로딩」 · 서버 멈춤 실측 30초+ 무응답)
+   예약 점검 · 주간처럼 처음에 오래 걸리는 것은 넉넉히 */
+let crm한도 = 길 => /^(sales_check|supplies|assign|lesson)/.test(길) ? 30000 : 120000;
 async function crm(길, 몸, 재){
   if(!AUTH || !AUTH.access_token) throw new Error('로그인이 필요해요');
-  const r = await fetch(GG_API + '/app/crm/' + 길, { method:'POST',
+  const 끊 = typeof AbortController === 'function' ? new AbortController() : null, 시계 = 끊 ? setTimeout(() => 끊.abort(), crm한도(길)) : 0;
+  let r; try{ r = await fetch(GG_API + '/app/crm/' + 길, { method:'POST', signal: 끊 ? 끊.signal : undefined,
     headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify(Object.assign(증표몸(), 몸||{}, ((진짜ME && ME) || 내화면중()) && !/^supplies/.test(길) && !(길 === 'weekly' && 관리자칩꼴()) ? { 대신: ME.name } : {})) });      /* 비품은 센터 공용 — 대신(본인 범위)을 안 붙인다: 관리자가 본인 화면에서도 구매 입력 (2026-10-20) */      /* 최고관리자 본인 화면도 본인 범위로 (2026-10-20) */      /* 선생님 계정으로 보기 — 그 선생님 범위로(중앙) */
+    body: JSON.stringify(Object.assign(증표몸(), 몸||{}, ((진짜ME && ME) || 내화면중()) && !/^supplies/.test(길) && !(길 === 'weekly' && 관리자칩꼴()) ? { 대신: ME.name } : {})) }); }
+  catch(e){ clearTimeout(시계); throw new Error(e && e.name === 'AbortError' ? '서버 응답이 없어요 (' + Math.round(crm한도(길) / 1000) + '초) · 잠시 뒤 다시 해 주세요' : '서버에 닿지 못했어요'); }
+  clearTimeout(시계);      /* 비품은 센터 공용 — 대신(본인 범위)을 안 붙인다: 관리자가 본인 화면에서도 구매 입력 (2026-10-20) */      /* 최고관리자 본인 화면도 본인 범위로 (2026-10-20) */      /* 선생님 계정으로 보기 — 그 선생님 범위로(중앙) */
   if(!r.ok) throw new Error('서버에 닿지 못했어요 (' + r.status + ')');
   const d = await r.json();
   /* 「권한이 없어요」 = 서버가 이 세션을 못 알아봄(다른 기기에서 로그아웃해 세션이 지워짐 등 · 수파베이스 403). 같은 거절을 1분마다 반복하지 않고
@@ -10424,8 +10430,11 @@ async function 매확받기(){
   매확.중 = false; 매확.때 = Date.now(); 매확홈단추그리기();
   if(!매확.첫팝 && 매확.답){ 매확.첫팝 = true; 매확.본 = new Set(매확할일열쇠()); if(매확남은수() > 0) 매확팝업(); }      /* 데스크를 열 때마다 한 번 (대표 「나중에를 눌러도 남은 건은 다음에 또」) */
   else if(매확.답 && 매확.본){ const 새 = 매확할일열쇠().filter(k => !매확.본.has(k)); 새.forEach(k => 매확.본.add(k)); if(새.length) 매확팝업(); }      /* 켜 둔 채 새 결제 · TG · 락커가 들어오면 그 자리에서 팝업 */
+  if(매확쓰는중()){ 매확.미룸 = true; 매확홈단추그리기(); return; }      /* 쓰는 중에 저절로 받은 것 — 판을 다시 그리지 않고 칸을 벗어나면 그림 · 누른 것 · 금액 채우기는 바로 그림 (2026-11-11 17:49 대표 「글을 쓰고 있는데 멈추고」) */
   매확다시();
 }
+const 매확쓰는중 = () => 매확입력중() && !!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#pop, #txpop'));
+document.addEventListener('focusout', () => setTimeout(() => { if(매확.미룸 && !매확입력중()) 매확다시(); }, 200));      /* 칸을 벗어나면 미뤄 둔 다시 그리기 */
 const 매확다시간격 = 30 * 60 * 1000;      /* 대표 23:02 「30분 혹은 1시간?」 → 30분 (락커는 회원이 센터에 있을 때 · 결제수단은 시트 최신화 전에) */
 const 매확입력중 = () => { const a = document.activeElement; return !!(a && (a.tagName === 'TEXTAREA' || a.tagName === 'SELECT' || (a.tagName === 'INPUT' && !/^(button|checkbox|radio)$/.test(a.type || '')) || a.isContentEditable)); };
 const 매확잠김 = () => { const l = $('#txlogin'); return !!((l && l.classList.contains('on')) || document.getElementById('idlewall') || (typeof 쉼멈춤 !== 'undefined' && 쉼멈춤)); };
@@ -10434,10 +10443,11 @@ function 매확다시띄움(){      /* 남은 건이 있으면 다시 — 입력
   if(매확입력중()){ clearTimeout(window.__매확미룸); window.__매확미룸 = setTimeout(매확다시띄움, 60 * 1000); return; }
   매확팝업();
 }
-async function 매확돌기한번(){ if(document.visibilityState !== 'visible') return; await 매확받기();
+const 매확최근 = () => Date.now() - (매확.때 || 0) < 60 * 1000;      /* 1분 안에 받았으면 저절로 다시 받지 않는다 — 서버 메모리 (2026-11-11 중앙 「sales_check 오늘 620번 · 메모리 최고」) */
+async function 매확돌기한번(){ if(document.visibilityState !== 'visible' || 매확최근()) return; await 매확받기();
   if(!$('#pop').classList.contains('on') && Date.now() - (매확.마지막 || 0) >= 매확다시간격) 매확다시띄움(); }      /* 2분마다 — 30분 지난 남은 건은 다시 */
-function 매확시작(){ 매확받기(); if(!window.__매확돌기) window.__매확돌기 = setInterval(매확돌기한번, 2 * 60 * 1000); }
-document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && 매확.답) setTimeout(async () => { await 매확받기(); 매확다시띄움(); }, 800); });      /* 다시 보이면(잠금 풀기 · 다시 들어옴) 남은 건 바로 — 2026-10-21 */      /* 서버 목록은 09~22시 10분마다 · 데스크는 2분마다 받는다(우리 서버 파일 · CRM 호출 아님) · 다시 보이면 남은 건 바로 */      /* 서버 목록은 09~22시 10분마다 · 데스크는 2분마다 받는다(우리 서버 파일 · CRM 호출 아님) */
+function 매확시작(){ 매확받기(); if(!window.__매확돌기) window.__매확돌기 = setInterval(매확돌기한번, 5 * 60 * 1000); }      /* 2분 → 5분 (11/11 서버 멈춤 · 중앙 요청) */
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && 매확.답) setTimeout(async () => { if(!매확최근()) await 매확받기(); 매확다시띄움(); }, 800); });      /* 1분 안에 받았으면 받지 않고 남은 건만 다시 띄움 */      /* 다시 보이면(잠금 풀기 · 다시 들어옴) 남은 건 바로 — 2026-10-21 */      /* 서버 목록은 09~22시 10분마다 · 데스크는 2분마다 받는다(우리 서버 파일 · CRM 호출 아님) · 다시 보이면 남은 건 바로 */      /* 서버 목록은 09~22시 10분마다 · 데스크는 2분마다 받는다(우리 서버 파일 · CRM 호출 아님) */
 const 매확결제 = () => ((매확.답 || {})['결제'] || []);
 const 매확TG만 = () => ((매확.답 || {})['TG만'] || []);
 const 매확락커 = () => ((매확.답 || {})['락커'] || []);
@@ -10495,8 +10505,21 @@ function 매확미수줄(o){ const 원 = o['원결제'], 딱 = t => '<span class
   return ''; }
 /* ── TG메모 양식 ── 열쇠 = 결제 'p'+id · 따로 발급 't'+주문 */
 매확.TGF = {}; 매확.TG열림 = {}; 매확.TG바뀜 = {}; 매확.TG수정 = {};
+const 매확임시열쇠 = 'gg_scdraft';
+function 매확임시읽기(){ try{ const d = JSON.parse(localStorage.getItem(매확임시열쇠) || '{}'), 끝 = Date.now() - 7 * 864e5; d.tg = d.tg || {}; d.m = d.m || {};
+  ['tg', 'm'].forEach(g => Object.keys(d[g]).forEach(k => { if(!d[g][k] || (d[g][k].t || 0) < 끝) delete d[g][k]; })); return d; }catch(e){ return { tg:{}, m:{} }; } }
+function 매확임시쓰기(d){ try{ localStorage.setItem(매확임시열쇠, JSON.stringify(d)); }catch(e){} }
+function 매확임시적기(){      /* 지금 쓰는 중인 TG메모 · 결제메모를 기기에 적어 둔다 */
+  const d = 매확임시읽기(), 지금 = Date.now();
+  Object.keys(매확.TG바뀜 || {}).forEach(k => { const f = 매확.TGF[k]; if(!f) return; const o = {}; Object.keys(f).forEach(x => o[x] = f[x] instanceof Set ? [...f[x]] : f[x]); d.tg[k] = { f:o, t:지금 }; });
+  Object.keys(매확.펼침 || {}).forEach(k => { const v = String(매확.펼침[k] || ''); if(v.trim()) d.m[k] = { v, t:지금 }; });
+  매확임시쓰기(d); }
+function 매확임시지움(tg, m){ const d = 매확임시읽기(); (tg || []).forEach(k => delete d.tg[k]); (m || []).forEach(k => delete d.m[k]); 매확임시쓰기(d); }
+(() => { const d = 매확임시읽기(); Object.keys(d.m).forEach(k => { if(매확.펼침[k] == null) 매확.펼침[k] = d.m[k].v; }); })();      /* 다시 열어도 결제메모가 남게 */
 function 매확TG폼(열쇠, 저장){
   if(매확.TGF[열쇠]) return 매확.TGF[열쇠];
+  const 임 = (매확임시읽기().tg || {})[열쇠];
+  if(임 && 임.f){ const f = {}; Object.keys(임.f).forEach(x => f[x] = Array.isArray(임.f[x]) ? new Set(임.f[x]) : 임.f[x]); 매확.TG바뀜[열쇠] = true; 매확.TG열림[열쇠] = '열림'; return (매확.TGF[열쇠] = f); }      /* 저장 못 한 글 되살림 */
   const 양 = 저장 && typeof 저장 === 'object' ? (저장['양식'] || null) : null, f = { 요일:new Set(), 평일:new Set(), 주말:new Set(), 교대글:'', 직접:false, 직접글:'', 목적:new Set(), 주의:'', 메모:'' };
   if(양){ ['요일', '평일', '주말', '목적'].forEach(k => (양[k] || []).forEach(v => f[k].add(v))); ['교대글', '직접글', '주의', '메모'].forEach(k => f[k] = 양[k] || ''); f.직접 = !!f.직접글; }
   else if(저장){ f.메모 = typeof 저장 === 'object' ? (저장['글'] || '') : String(저장); }      /* 옛 글 메모 → 메모 칸 */
@@ -10788,6 +10811,7 @@ function 매확락커판(){
       : '<div class="empty why"><b>최근 락커 판매가 없습니다</b>락커를 팔면 여기에 나와요</div>'));
 }
 function 매확다시(){
+  매확임시적기(); 매확.미룸 = false;
   if(S.psPay && document.getElementById('pspaywin')){ 결제수정창(); 매확홈단추그리기(); return; }      /* PT 매출 카드에서 연 결제수단 수정 창 (2026-11-04) */
   if(배정TG창.k && document.getElementById('txpop') && 매확.TGF[배정TG창.k]){ 배정TG창그리기(); return; }      /* 고객 정보 화면 TG 메모 창 */
   const pop = $('#pop');
@@ -10821,7 +10845,7 @@ async function 매확저장(id){
   const 금액 = {}; ks.forEach(k => 금액[k] = ks.length === 1 ? 0 : +임['금액'][k]);
   const 몸 = Object.assign({ id: o.id, 금액 }, ks.includes('기타') ? { 기타: 기타.slice(0, 30) } : {}, 새메모.indexOf('메모') >= 0 ? { 메모: 매확.펼침['메모' + id].trim() } : {}, 새메모.indexOf('TG메모') >= 0 ? { TG메모: 매확TG양식값(tf) } : {});
   try{ const r = await crm('sales_check_save', 몸); if(!r || r.ok === false) return toast((r && r.why) || '저장하지 못했어요');
-    delete 매확.고침[id]; 새메모.forEach(t => delete 매확.펼침[t + id]); await 매확배정적용(열쇠, o); if(새메모.indexOf('TG메모') >= 0) 매확메모보임(열쇠, o, o.TG); if(새메모.indexOf('TG메모') >= 0){ delete 매확.TG바뀜[열쇠]; 매확.TG열림[열쇠] = '접힘'; } 매확.방금.add(String(o.id)); toast('저장했어요');
+    delete 매확.고침[id]; 새메모.forEach(t => delete 매확.펼침[t + id]); 매확임시지움(새메모.indexOf('TG메모') >= 0 ? [열쇠] : [], 새메모.map(t => t + id)); await 매확배정적용(열쇠, o); if(새메모.indexOf('TG메모') >= 0) 매확메모보임(열쇠, o, o.TG); if(새메모.indexOf('TG메모') >= 0){ delete 매확.TG바뀜[열쇠]; 매확.TG열림[열쇠] = '접힘'; } 매확.방금.add(String(o.id)); toast('저장했어요');
     if(r['결제']) Object.assign(o, r['결제']); else { o['고름'] = { 금액: ks.length === 1 ? { [ks[0]]: +o['합'] } : 금액, G: ks.length === 1 ? ks[0] : null, 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16), 전: o['고름'] ? [{ G: 매확G(o), 누가: o['고름']['누가'], 때: o['고름']['때'] }].concat(o['고름']['전'] || []) : [] }; }
     매확다시(); setTimeout(매확받기, 1500); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); }
@@ -10832,7 +10856,7 @@ async function 매확메모저장(종류, id){
   const 결o = 종류 === '메모' ? 매확찾(id) : null;
   if(!await 묻기((종류 === 'TG메모' ? 'TG메모' : '결제메모') + '를 저장할까요?' + String.fromCharCode(10) + (종류 === 'TG메모' ? '배정 표 FC 메모에 덧붙어요' : '이 결제에만 남아요') + (결o ? String.fromCharCode(10) + 매확CRM누구(결o) : ''))) return;
   try{ const r = await crm('sales_check_memo', { id, 종류, 글 }); if(!r || r.ok === false) return toast((r && r.why) || '저장하지 못했어요');
-    delete 매확.펼침[종류 + id]; const 새 = { 글, 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16) };
+    delete 매확.펼침[종류 + id]; 매확임시지움([], [종류 + id]); const 새 = { 글, 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16) };
     const o = 매확찾(id); if(o){ if(r['결제']) Object.assign(o, r['결제']); else o[종류] = 새; }
     else { const t = 매확TG만().find(x => String(x['주문']) === String(id)); if(t){ if(r['TG만']) Object.assign(t, r['TG만']); else t['TG메모'] = 새; 매확.방금.add('t' + id); } }
     toast('저장했어요'); 매확다시(); setTimeout(매확받기, 1500); }
@@ -10847,7 +10871,7 @@ async function 매확TG저장(열쇠, id){      /* 이미 고른 결제 · 따�
   try{ const r = await crm('sales_check_memo', { id, 종류:'TG메모', 양식 }); if(!r || r.ok === false) return toast((r && r.why) || '저장하지 못했어요');
     const 새 = { 양식, 글: 매확TG글(f, tg), 누가: ME.name, 때: new Date().toISOString().replace('T', ' ').slice(0, 16) };
     if(o){ if(r['결제']) Object.assign(o, r['결제']); else o['TG메모'] = 새; } else { if(r['TG만']) Object.assign(t, r['TG만']); else t['TG메모'] = 새; 매확.방금.add('t' + id); }
-    await 매확배정적용(열쇠, 줄); 매확메모보임(열쇠, 줄, tg); delete 매확.TG바뀜[열쇠]; delete 매확.TG수정[열쇠]; 매확.TG열림[열쇠] = '접힘'; toast('저장했어요'); 매확다시(); setTimeout(매확받기, 1500); }
+    매확임시지움([열쇠]); await 매확배정적용(열쇠, 줄); 매확메모보임(열쇠, 줄, tg); delete 매확.TG바뀜[열쇠]; delete 매확.TG수정[열쇠]; 매확.TG열림[열쇠] = '접힘'; toast('저장했어요'); 매확다시(); setTimeout(매확받기, 1500); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); }
 }
 async function 매확TG확인(주문){
@@ -10861,12 +10885,12 @@ async function 매확TG확인(주문){
 /* 금액 칸 · 메모 칸 — 적는 대로 기억(다시 그려도 남게) · 둘이면 나머지 저절로 */
 document.addEventListener('input', e => { const t = e.target; if(!t || t.id !== 'manq') return; 강의.q = t.value; const 끝 = t.selectionEnd; render(); const n = document.getElementById('manq'); if(n){ n.focus(); try{ n.setSelectionRange(끝, 끝); }catch(x){} } });      /* 매뉴얼 찾기 */
 document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.scetc) return; const 임 = 매확.고침[t.dataset.scetc]; if(임) 임.기타 = t.value; });      /* 결제수단 「기타」 내용 */
-document.addEventListener('change', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.sctas) return; const f = 매확.TGF[t.dataset.sctas]; if(f){ f.배정담당 = t.value; 매확.TG바뀜[t.dataset.sctas] = true; } });
+document.addEventListener('change', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.sctas) return; const f = 매확.TGF[t.dataset.sctas]; if(f){ f.배정담당 = t.value; 매확.TG바뀜[t.dataset.sctas] = true; 매확임시적기(); } });
 document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset) return;
-  if(t.dataset.stk){ const k = t.dataset.stk, f = 매확.TGF[k]; if(!f) return; f[t.dataset.stf] = t.value; 매확.TG바뀜[k] = true;
+  if(t.dataset.stk){ const k = t.dataset.stk, f = 매확.TGF[k]; if(!f) return; f[t.dataset.stf] = t.value; 매확.TG바뀜[k] = true; 매확임시적기();
     const 줄 = k[0] === 'p' ? (매확찾(k.slice(1)) || {}).TG : 매확TG만().find(x => 't' + x['주문'] === k), pv = document.getElementById('sctp_' + k);
     if(pv) pv.innerHTML = esc(매확미리글(f, 줄)).split(String.fromCharCode(10)).join('<br>'); return; }
-  if(t.dataset.scm){ 매확.펼침[t.dataset.scm + t.dataset.k] = t.value; return; }
+  if(t.dataset.scm){ 매확.펼침[t.dataset.scm + t.dataset.k] = t.value; 매확임시적기(); return; }
   if(t.dataset.sca){ const id = t.dataset.k, m = t.dataset.sca, o = 매확찾(id), 임 = 매확.고침[id]; if(!o || !임) return;
     const n = +String(t.value).replace(/[^0-9]/g, '') || 0; 임['금액'][m] = n;
     const ks = 매확수단.filter(k => 임['금액'][k] !== undefined); if(ks.length === 2){ const 딴 = ks.find(k => k !== m); 임['금액'][딴] = Math.max(0, (+o['합'] || 0) - n); }
@@ -17584,9 +17608,9 @@ async function txAct(a, el){
   if(a==='trfold'){ try{ localStorage.setItem('gg_trfold', 선생접힘() ? '0' : '1'); }catch(e){} render(); return; }
   if(a==='lkmemo'){ await 락커메모남기기(k); return; }      /* 락커 메모 → CRM (2026-11-05) */
   if(a==='scedit'){ const o = 매확찾(v2); if(o && o['고름']){ 매확.고침[v2] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[v2]['금액']); if(ks.length === 1) 매확.고침[v2]['금액'][ks[0]] = +o['합'] || 0; if(o.TG) 매확.TG열림['p' + v2] = '열림'; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); } 매확다시(); return; }      /* 수정 = 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22) · CRM 에 들어간 메모는 안내 (대표 17:39) */
-  if(a==='sccancel'){ delete 매확.고침[v2]; delete 매확.펼침['메모' + v2]; delete 매확.TGF['p' + v2]; delete 매확.TG바뀜['p' + v2]; delete 매확.TG열림['p' + v2]; 매확다시(); return; }
+  if(a==='sccancel'){ 매확임시지움(['p' + v2], ['메모' + v2]); delete 매확.고침[v2]; delete 매확.펼침['메모' + v2]; delete 매확.TGF['p' + v2]; delete 매확.TG바뀜['p' + v2]; delete 매확.TG열림['p' + v2]; 매확다시(); return; }
   if(a==='sctedit'){ 매확.TG수정[k] = true; 매확.TG열림[k] = '열림'; 매확다시(); return; }
-  if(a==='sctcancel'){ delete 매확.TG수정[k]; delete 매확.TGF[k]; delete 매확.TG바뀜[k]; delete 매확.TG열림[k]; 매확다시(); return; }
+  if(a==='sctcancel'){ 매확임시지움([k]); delete 매확.TG수정[k]; delete 매확.TGF[k]; delete 매확.TG바뀜[k]; delete 매확.TG열림[k]; 매확다시(); return; }
   if(a==='scmemo'){ await 매확메모저장(k, v2); return; }
   if(a==='sctgok'){ await 매확TG확인(v2); return; }
   if(a==='scpt'){ popClose(); 매출.탭 = '미확인'; 판열기('PT 매출', '<div class="empty">불러오는 중이에요…</div>');      /* PT 매출은 처음 한 번만 받아 그 뒤 결제가 목록에 없었다 — 다시 받고 그 건으로 바로 (2026-11-10 대표 「담당 선택 누르면 선택창이 안 떠」) */
