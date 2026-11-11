@@ -3405,7 +3405,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '647';
+const BUILD = '648';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9419,7 +9419,7 @@ function 매출줄(g, 손){
       + '<div class="ps-amt">' + 원(합) + '</div></div>'
     + '<div class="ps-sub">' + esc(x.product || x.tag || '') + ' · ' + esc(매출때(x).split(' ')[0]) + ' 결제 · ' + 매출꼬리(st)
       + (앞 ? ' · 담당 <b>' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? ' · ' + esc(앞.category) : '') : '') + '</div>'
-    + 결제수단줄(g) + g.줄.map(매출환줄).join('') + 덜
+    + 결제수단줄(g) + 매출수업줄(g) + g.줄.map(매출환줄).join('') + 덜
     + (손 === false ? '' : '<div class="ps-act">'
       + (고침 ? 매출고름칸(g) + (st !== '미확인' ? '<button class="btn ghost sm" data-act="tx:psedit" data-k="' + esc(id) + '">취소</button>' : '') : (st !== '삭제됨' ? '<button class="btn ed sm" data-act="tx:psedit" data-k="' + esc(id) + '">수정</button>' : ''))
       + (매출관리자() && st === '선택됨' && !고침 ? '<button class="btn main sm" data-act="tx:pconf" data-k="' + esc(id) + '">확정</button>' : '')
@@ -9439,6 +9439,11 @@ const 매출결제건 = g => { const ys = (g && g.줄) || [], ks = new Set(ys.ma
   const pid = (ys.find(y => y.pay_id) || {}).pay_id; if(pid) return 매확찾(pid) || null;      /* 중앙이 pt_sales.pay_id(= 확인할 매출 결제 id)를 실으면 그걸로 */
   const 후 = 매확결제().filter(o => (o['갈래'] || []).indexOf('PT') >= 0 && (gg => !!gg && gg.줄.some(y => ks.has(String(y.sale_key))))(매확PT묶음(o)));
   return 후.length === 1 ? 후[0] : null; };      /* 그 전엔 회원 · 날로 맞춤 — 같은 날 PT 결제가 둘이면 못 가려서 단추를 안 띄운다(엉뚱한 결제를 고치지 않게 · 2026-11-04 중앙 「pt_sales.order_key 는 결제 id 가 아님」) */
+/* PT 매출 판에도 수업 담당 — 매출 담당(센터 매출 등)과 따로 · 확인할 매출 카드가 끝나 사라진 뒤에도 여기서 정함
+   (2026-11-11 12:02 대표 「PT 담당은 어디서 고르는데」) — 같은 결제(매출결제건) → 배정 표 줄 · 없으면 이름 + 전화 뒤 4자리 */
+function 매출수업줄(g){ const o = 매출결제건(g); if(o) return 매확수업담당줄(o);
+  const x = (g && g.머리) || ((g && g.줄) || [])[0]; if(!x || !배정.줄) return '';
+  return 매확수업담당줄({ 카드: x.customer_key || '', 전화: '', _이름: x.name, _뒤4: x.phone4 }); }
 function 결제수단줄(g){ const ys = (g && g.줄) || []; if(!ys.some(y => 'pay_method' in y)) return '';
   const o = 매출결제건(g), 고 = o && o['고름'] ? 매확G(o) : '';      /* 데스크에서 방금 고친 값이 먼저 — 표(pt_sales)는 중앙이 10분 안에 따라온다 */
   const pm = 고 || (ys.find(y => String(y.pay_method || '').trim()) || {}).pay_method || '';
@@ -10535,7 +10540,9 @@ const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), �
   return 줄.length ? { 키: 매출묶음키(줄[0]), 줄, 머리: 줄[0] } : null; };
 /* 수업 담당 — 배정 표(PT · 체험 · TG 줄)의 담당 · 매출 담당과 따로 (2026-11-11 대표 「매출은 센터 매출인데 수업 담당은 다른 선생님 · 담당자 배정이 어디 있는지 모르겠어」) */
 function 매확수업담당줄(o){ if(!배정.줄 || !o) return ''; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
-  const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)));
+  const 이름 = String(o._이름 || '').trim(), 뒤4 = String(o._뒤4 || '');
+  const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)
+    || (이름 && 뒤4.length === 4 && String(r.name || '').trim() === 이름 && String(r.phone || '').replace(/\D/g, '').slice(-4) === 뒤4)));
   if(!L.length) return '';
   const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
   return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
