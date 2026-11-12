@@ -354,8 +354,8 @@ img{max-width:100%;display:block}
 .btn{border-radius:10px;padding:10px 15px;font-weight:700;font-size:13px;text-align:center}
 .btn.main{background:var(--teal);color:#0d2027}
 .btn.gold{background:var(--gold);color:#2a1c14}
-.btn.sub{background:var(--dark-3);color:var(--teal);border:1px solid var(--line)}
-.btn.ghost{background:var(--dark-3);color:var(--sub);border:1px solid var(--line)}
+.btn.sub{background:var(--dark-3);color:var(--teal);border:1px solid #5d8791}      /* 테두리 또렷 (2026-11-12 대표 · 옛 --line) */
+.btn.ghost{background:#2e2d29;color:#e6dfd3;border:1px solid #77715f}.btn.ghost:hover{border-color:var(--gold-2,#d6b87e);color:var(--cream)}      /* 꺼진 단추도 단추로 — 테두리 · 글자 또렷 (2026-11-12 대표 「회색빛으로 하지 마 · 인지는 되게」 · 옛 = 테두리 --line · 글자 --sub 라 바탕에 묻힘) */
 .btn.sm{padding:7px 12px;font-size:13px}
 .btn:disabled{opacity:.4;cursor:default}
 
@@ -1726,6 +1726,9 @@ body.resizing{cursor:col-resize;user-select:none}
 #ggdz .hint{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#e6dfd3;font-size:13px;white-space:nowrap;border-radius:999px;padding:4px 12px;pointer-events:none}
 .cm-chip img{width:28px;height:28px;border-radius:50%;object-fit:cover;margin-left:-6px}.cm-chip .dz{color:var(--gold);font-weight:800;border-left:1px solid var(--line);padding:0 6px;font-size:13px}.cm-chip.mk{border-color:var(--gold-2)}
 .cl-own{margin-left:6px}.cl-own b{font-size:13px}.cl-offz{font-style:normal;font-size:13px;font-weight:800;color:#c6bdb2;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px}.bp-row2.cl-zoff .cl-zh .nmtag,.bp-row2.cl-zoff .cl-zh [class*="tag"]{opacity:.5}
+.sx{display:flex;flex-direction:column;margin-top:8px}.sx-r{display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #34332d}.sx-r:first-child{border-top:0}
+.sx-v{font-size:14px;color:#e6dfd3;min-width:0;line-height:1.5}.sx-v small{display:block;font-size:13px;color:#b9b1a3}.sx-v .sub3{font-size:13px}
+.btn.sx-ed{border:1.5px solid var(--gold-2);color:var(--gold);background:var(--gold-dim);font-weight:800}.btn.sx-ed:hover{background:#3d3220}
 .rj-lb{font-size:13px;font-weight:800;color:#b9b1a3;margin:10px 0 6px}
 .rj-st{display:flex;gap:6px;margin-bottom:12px}.rj-st span{flex:1;text-align:center;font-size:13px;font-weight:900;padding:7px 0;border-radius:9px;background:var(--dark-3);color:var(--sub)}.rj-st .on{background:var(--gold);color:#1a1a18}.rj-st .ok{background:var(--gold-dim);color:var(--gold);cursor:pointer}
 .rj-sh{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--dark-3);padding:8px;margin-bottom:6px;cursor:pointer;color:var(--cream);font:inherit}.rj-sh .rsc{width:44px;aspect-ratio:3/4;flex:none;padding:3px}.rj-sh .tx{flex:1;min-width:0}.rj-sh b{display:block;font-size:14.5px}.rj-sh small{font-size:12.5px;color:#b9b1a3}.rj-sh i{font-style:normal;color:var(--sub)}.rj-sh:hover,.rj-sh.on{border-color:var(--gold)}
@@ -2350,7 +2353,7 @@ body{word-break:keep-all}
 .as-att-l{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 6px}.as-att-l span{font-size:13px;padding:3px 8px;border-radius:6px;background:var(--dark-2);border:1px solid var(--line);color:#d9d3c9}.as-att-l span.we{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
 .sc-misu-l{margin:6px 0 2px;font-size:13px;color:var(--sub);line-height:1.6}.sc-misu{display:inline-flex;align-items:center;height:22px;padding:0 8px;margin-right:6px;border-radius:6px;font-size:13px;font-weight:800;color:#f6b26b;background:color-mix(in srgb,#f28c28 16%,transparent);border:1px solid color-mix(in srgb,#f28c28 45%,transparent)}
 .sc-saved{margin-left:8px;display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;font-size:13px;font-weight:800;color:var(--teal);background:var(--teal-dim);border:1px solid color-mix(in srgb,var(--teal) 45%,transparent)}
-.sc-card.done{opacity:.72}.sc-ro{display:flex;gap:10px;align-items:baseline;margin-top:8px;font-size:14px;color:#d9d3c9}.sc-ro .k{width:58px;flex:none;font-size:13px;font-weight:700;color:var(--sub)}.sc-ro .by{font-size:13px;color:var(--sub)}
+.sc-card.done{opacity:1}      /* 저장한 카드도 흐리지 않게 — 「저장함 ✓」 딱지로 구분 (2026-11-12 대표 「너무 무채색」 · 옛 .72) */.sc-ro{display:flex;gap:10px;align-items:baseline;margin-top:8px;font-size:14px;color:#d9d3c9}.sc-ro .k{width:58px;flex:none;font-size:13px;font-weight:700;color:var(--sub)}.sc-ro .by{font-size:13px;color:var(--sub)}
 .ps-locked{position:relative;opacity:.72}.ps-lk{position:absolute;right:12px;bottom:10px;font-size:13px;font-weight:800;color:var(--teal)}
 .sc-pay{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px;margin-top:5px;max-width:520px}
 .sc-etc{display:flex;align-items:center;gap:8px;margin-top:8px;max-width:520px}.sc-etc span{color:var(--teal);font-weight:800;font-size:13px;flex:none}.sc-etc input{flex:1;min-width:0;height:32px;border-radius:9px;border:1px solid var(--teal);background:var(--dark);color:var(--cream);padding:0 10px;font:inherit;font-size:14px}.sc-pay button{height:32px;min-width:0;padding:0 6px;border-radius:999px;border:1px solid var(--line);background:var(--dark-3);font:inherit;font-size:13px;font-weight:600;color:#d9d3c9;cursor:pointer}
@@ -3480,7 +3483,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '665';
+const BUILD = '667';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10690,13 +10693,16 @@ function 매확TG글(f, tg){      /* 중앙 TG메모글() 과 같은 꼴 — 배
   const 머 = 시.length || f.목적.size ? ['희망시간: ' + (시.join(' · ') || '—'), '운동목적: ' + (매확목적.filter(k => f.목적.has(k)).join(', ') || '—')] : [];
   if(f.주의.trim()) 머.push('주의: ' + f.주의.trim());
   return (머.length ? [머.join(' / ')] : []).concat(['참고: ' + 매확이전글(tg)], f.메모.trim() ? [f.메모.trim()] : []).join(String.fromCharCode(10)); }
-const 매확미리글 = (f, tg) => { const d = new Date(); return '[TG ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ((ME && ME.name) || '') + '] ' + 매확TG글(f, tg); };
+const 메모갈래 = 열쇠 => ((매확.TG갈래 || {})[열쇠]) || 'TG';      /* 고객 화면 · 팝업 메모 창 = 배정 줄 갈래(체험 · PT) · 결제 팝업 TG 칸 = TG (2026-11-12 대표 「체험인데 왠 TG」) */
+const 메모글 = (f, tg, 갈) => 갈 && 갈 !== 'TG' ? 매확TG글(f, tg).split(String.fromCharCode(10)).filter(l => !/^참고\s*:/.test(l)).join(String.fromCharCode(10)) : 매확TG글(f, tg);      /* 체험 · PT = TG 이력(참고) 줄 없음 */
+const 매확미리글 = (f, tg, 갈) => { const d = new Date(); return '[' + (갈 || 'TG') + ' ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ((ME && ME.name) || '') + '] ' + 메모글(f, tg, 갈); };
 function 매확TG양식(열쇠, tg, 횟수, 저장단추){
   const f = 매확TG폼(열쇠), 칩 = (종, 목록) => 목록.map(v => '<button class="sc-tchip' + (f[종].has(v) ? ' on' : '') + '" data-act="tx:sctf" data-k="' + esc(열쇠) + '" data-v2="' + esc(종 + '|' + v) + '">' + v + '</button>').join('');
   const 막대 = 요일 => '<div class="sc-tbar-r"><span class="sc-tbar-d">' + 요일 + '</span><div class="sc-tbar">' + 매확칸들.map(k => '<button class="sc-seg' + (f[요일].has(k[0]) ? ' on' : '') + '" data-act="tx:sctf" data-k="' + esc(열쇠) + '" data-v2="' + esc(요일 + '|' + k[0]) + '">' + k[0] + '</button>').join('') + '</div></div>';
   const 칸 = (필드, 자리, 덧) => '<input class="sc-tgi" data-stk="' + esc(열쇠) + '" data-stf="' + 필드 + '" value="' + esc(f[필드]) + '" placeholder="' + esc(자리) + '"' + (덧 || '') + '>';
-  return '<div class="sc-tgf"><div class="sc-tgf-h">TG ' + (+횟수 || 0) + '회 · 트레이너에게 넘길 메모' + '<button class="sc-fold" data-act="tx:sctfold" data-k="' + esc(열쇠) + '">접기 ⌃</button></div>'
-    + '<div class="sc-prev' + (tg && tg['이전TG'] ? '' : ' none') + '">' + esc(매확이전글(tg)) + '</div>'
+  const 갈 = 메모갈래(열쇠);
+  return '<div class="sc-tgf"><div class="sc-tgf-h">' + 갈 + ' ' + (+횟수 || 0) + '회 · 트레이너에게 넘길 메모' + '<button class="sc-fold" data-act="tx:sctfold" data-k="' + esc(열쇠) + '">접기 ⌃</button></div>'
+    + (갈 === 'TG' ? '<div class="sc-prev' + (tg && tg['이전TG'] ? '' : ' none') + '">' + esc(매확이전글(tg)) + '</div>' : '')
     + '<div class="sc-tgf-r"><span class="sc-tgf-l">희망시간</span><div class="sc-tgf-c">' + 칩('요일', ['평일', '주말', '교대근무']) + '<button class="sc-tlink" data-act="tx:sctd" data-k="' + esc(열쇠) + '">' + (f.직접 ? '− 직접 입력 접기' : '+ 직접 입력') + '</button></div></div>'
     + (f.요일.has('평일') ? 막대('평일') : '') + (f.요일.has('주말') ? 막대('주말') : '')
     + (f.요일.has('교대근무') ? '<div class="sc-tgf-in">' + 칸('교대글', '교대근무 — 가능한 요일 · 시간 (예: 쉬는 날 오전)') + '</div>' : '')
@@ -10705,7 +10711,7 @@ function 매확TG양식(열쇠, tg, 횟수, 저장단추){
     + '<div class="sc-tgf-r"><span class="sc-tgf-l">주의사항</span>' + 칸('주의', '예) 허리 디스크 · 없으면 비움', ' style="flex:1"') + '</div>'
     + '<div class="sc-tgf-r" style="align-items:flex-start"><span class="sc-tgf-l" style="padding-top:8px">메모</span><textarea class="sc-tgi" data-stk="' + esc(열쇠) + '" data-stf="메모" style="flex:1;min-height:64px" placeholder="길게 남길 내용 — 상담하며 들은 것 등">' + esc(f.메모) + '</textarea></div>'
     + (열쇠[0] === 'a' ? '' : 매확배정줄(열쇠))
-    + '<div class="sc-tgf-p">배정 표에 이렇게 들어갑니다 — <b id="sctp_' + esc(열쇠) + '">' + esc(매확미리글(f, tg)).split(String.fromCharCode(10)).join('<br>') + '</b></div>'
+    + '<div class="sc-tgf-p">배정 표에 이렇게 들어갑니다 — <b id="sctp_' + esc(열쇠) + '">' + esc(매확미리글(f, tg, 갈)).split(String.fromCharCode(10)).join('<br>') + '</b></div>'
     + (저장단추 ? '<div class="sc-sum"><span class="sp"></span>' + 저장단추 + '</div>' : '<div class="sc-tgf-p">아래 「저장」을 누르면 결제수단과 같이 저장돼요</div>') + '</div>'; }
 /* TG 배정 — 메모를 남기며 바로 정한다 (2026-10-27 대표 「나중에 받겠다고 한 사람을 여기서 바로 · 배정은 관리자만 · 나중에는 누구나 · 누가 정했는지 남는 건 당연」
    · 「배정 표에서 정함」 말고 아무것도 안 고르고 넘기는 것 → 앱 「건너뛰기」 와 같은 말) — 저장 때 배정 표(assign_leads) 그 회원 줄에 바로 · 기록은 작업기록 */
@@ -10754,6 +10760,23 @@ function 매확TG칸(열쇠, tg, 횟수, 저장, 자동열림, 저장단추){   
 const 매확PT묶음 = o => { const 일 = String(o['때'] || '').slice(0, 10), 줄 = (매출.줄 || []).filter(x => x.status !== '삭제됨' && ((x.pay_id && String(x.pay_id) === String(o.id)) || (x.order_key && String(x.order_key) === String(o.id)) || (o['카드'] && String(x.customer_key || '') === String(o['카드']) && String(x.paid_at || '').slice(0, 10) === 일)));
   return 줄.length ? { 키: 매출묶음키(줄[0]), 줄, 머리: 줄[0] } : null; };
 /* 수업 담당 — 배정 표(PT · 체험 · TG 줄)의 담당 · 매출 담당과 따로 (2026-11-11 대표 「매출은 센터 매출인데 수업 담당은 다른 선생님 · 담당자 배정이 어디 있는지 모르겠어」) */
+function 매확수업줄(o){ if(!배정.줄 || !o) return null; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
+  const 이름 = String(o._이름 || '').trim(), 뒤4 = String(o._뒤4 || '');
+  const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)
+    || (이름 && 뒤4.length === 4 && String(r.name || '').trim() === 이름 && String(r.phone || '').replace(/\D/g, '').slice(-4) === 뒤4)));
+  return L.length ? (L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0]) : null; }
+/* 저장한 카드 1안 — 줄마다 「색 딱지 | 값 | ✏ 수정」 · 단추는 대상 바로 옆 (2026-11-12 대표 「수정/수정/수정 정리 · 추천으로 · 너무 무채색」) */
+const 매확딱 = (k, 글) => '<span class="sc-gtag" style="--c:' + 매확색(k) + '">' + 글 + '</span>';
+const 매확고침단추 = (act, 속, 글) => '<button class="btn sm sx-ed" data-act="' + act + '" ' + 속 + '>✏ ' + (글 || '수정') + '</button>';
+function 매확칸줄(딱, 값, 단추){ return '<div class="sx-r"><span>' + 딱 + '</span><span class="sx-v">' + 값 + '</span>' + (단추 || '<span></span>') + '</div>'; }
+function 매확PT칸(o){ const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g);
+  if(앞 && (st === '선택됨' || st === '확정')) return 매확칸줄(매확딱('PT', '매출 담당'), '<b>' + esc(앞.trainer || '센터 매출(워크인)') + '</b>' + (앞.category ? ' <span class="sub3">· ' + esc(앞.category) + '</span>' : '') + ' <span class="sc-saved">' + (st === '확정' ? '확정 ✓' : '고름 ✓') + '</span>', 매확고침단추('tx:scptg', 'data-k="' + esc(g.머리.id) + '"'));
+  return 매확칸줄(매확딱('PT', '매출 담당'), '<span class="sub3">확정은 「PT 매출」에서 해요</span>', 매확고침단추('tx:scpt', 'data-k="' + esc(o.id) + '"', '매출 담당 선택')); }
+function 매확수업칸(o){ const r = 매확수업줄(o); if(!r) return ''; const 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
+  let h = 매확칸줄(매확딱('TG', '수업 담당'), 담 ? '<b>' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>', 쓸 ? 매확고침단추('tx:agpick', 'data-k="' + esc(r.id) + '"', 담 ? '수정' : '담당 정하기') : '');
+  if(r.kind !== '가이드'){ const 끝 = FC나눔(r.fc_memo).tg.slice(-1)[0], 글 = 끝 ? 끝.칸.map(([a, b]) => b).concat(끝.말 ? [끝.말] : []).join(' · ') : '';
+    h += 매확칸줄(매확딱('TG', '수업 메모'), 글 ? esc(글.slice(0, 120)) : '<span class="sub3">아직 없음</span>', 쓸 ? 매확고침단추('tx:sctgm', 'data-k="' + esc(r.id) + '"', 글 ? '수정' : '남기기') : ''); }
+  return h; }
 function 매확수업담당줄(o, 정해지면숨김){ if(!배정.줄 || !o) return ''; const 키 = String(o['카드'] || ''), 번 = String(o['전화'] || '').replace(/\D/g, '').slice(-8);
   const 이름 = String(o._이름 || '').trim(), 뒤4 = String(o._뒤4 || '');
   const L = 배정.줄.filter(r => ['PT', '체험', '가이드'].includes(r.kind) && 배정열림(r) && ((키 && String(r.crm_key || '') === 키) || (번.length === 8 && String(r.phone || '').replace(/\D/g, '').slice(-8) === 번)
@@ -10762,7 +10785,7 @@ function 매확수업담당줄(o, 정해지면숨김){ if(!배정.줄 || !o) ret
   const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
   return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업 담당</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
     + (쓸 && !(담 && 정해지면숨김) ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '')
-    + (쓸 && r.kind !== '가이드' ? '<button class="btn ghost sm" data-act="tx:sctgm" data-k="' + esc(r.id) + '">' + (FC나눔(r.fc_memo).tg.length ? '메모 수정' : '메모 남기기') + '</button>' : '') + '</div>'; }      /* PT · 체험 메모 — 고객 화면 TG & PT 메모 칸과 같은 곳 (2026-11-12 대표) */
+    + (쓸 && r.kind !== '가이드' ? '<button class="btn ed sm" data-act="tx:sctgm" data-k="' + esc(r.id) + '">' + (FC나눔(r.fc_memo).tg.length ? '메모 수정' : '메모 남기기') + '</button>' : '') + '</div>'; }      /* PT · 체험 메모 — 고객 화면 TG & PT 메모 칸과 같은 곳 (2026-11-12 대표) */
 function 매확PT줄(o){
   const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지 · 수업 담당과 다를 수 있어요">매출 담당</span>';
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
@@ -10777,12 +10800,13 @@ function 매확줄(o){
   if(고른){      /* 저장함 — 카드 전체 잠김 · 읽기만 · 「수정」 하나로 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22 대표 「저장하면 잠기고 완료 표시 · 부분 수정 말고」) */
     const 메 = o['메모'] && o['메모']['글'], 티 = o['TG메모'] && (typeof o['TG메모'] === 'object' ? o['TG메모']['글'] : o['TG메모']);
     h = h.replace('<span class="sc-amt2">', '<span class="sc-saved">저장함 ✓</span><span class="sc-amt2">');
-    h += '<div class="sc-ro"><span class="k">결제수단</span><b>' + esc(매확G(o)) + '</b><span class="by">' + esc(매확누가(v['누가'])) + ' · ' + esc(매확때(v['때'])) + '</span></div>'
-      + ((v['전'] || []).length ? '<div class="sc-mlog">' + v['전'].map(x => '이전: <b>' + esc(x.G || '') + '</b> · ' + esc(매확누가(x['누가'])) + ' ' + esc(매확때(x['때']))).join('<br>') + '</div>' : '')
-      + '<div class="sc-ro"><span class="k">결제메모</span>' + (메 ? '<span>' + esc(메) + '</span>' : '<span class="sub3">없음</span>') + '</div>' + (메 ? 매확CRM결과(o) : '')
-      + (tg ? '<div class="sc-ro"><span class="k">TG메모</span>' + (티 ? '<span>' + esc(String(티).split(String.fromCharCode(10))[0]) + '</span>' : '<span class="sub3">없음 · ' + esc(매확이전글(tg)) + '</span>') + '</div>' : '')
-      + (PT있음 ? 매확PT줄(o) : '') + 매확수업담당줄(o)
-      + '<div class="sc-sum"><span class="sp"></span><button class="btn ed sm" data-act="tx:scedit" data-v2="' + esc(o.id) + '">수정</button></div>';
+    h += '<div class="sx">'
+      + 매확칸줄(매확딱('FC', '결제'), '<b>' + esc(매확G(o)) + '</b> <span class="sub3">' + esc(매확누가(v['누가'])) + ' · ' + esc(매확때(v['때'])) + '</span>'
+          + ((v['전'] || []).length ? '<small>' + v['전'].map(x => '이전: ' + esc(x.G || '') + ' · ' + esc(매확누가(x['누가'])) + ' ' + esc(매확때(x['때']))).join('<br>') + '</small>' : '')
+          + '<small>' + (메 ? '메모 · ' + esc(메) : '메모 없음') + '</small>' + (메 ? 매확CRM결과(o) : ''),
+        매확고침단추('tx:scedit', 'data-v2="' + esc(o.id) + '"'))      /* 결제수단 · 결제메모 · TG메모 한꺼번에 — 맨 아래에서 이 줄로 (대상 바로 옆) */
+      + (tg ? 매확칸줄(매확딱('TG', 'TG메모'), 티 ? esc(String(티).split(String.fromCharCode(10))[0]) : '<span class="sub3">없음 · ' + esc(매확이전글(tg)) + '</span>', '') : '')
+      + (PT있음 ? 매확PT칸(o) : '') + 매확수업칸(o) + '</div>';
     return h + '</div>';
   }
   if(tg) h += 매확TG칸(열쇠, tg, tg['횟수'], o['TG메모'], false, '');      /* 처음엔 접힘 · 누르면 양식 (2026-11-06 19:51 대표 「처음부터 펼쳐져 있는데 접혀 있게」 — 10/30 「처음부터 펼침」을 바꿈) */
@@ -11042,7 +11066,7 @@ document.addEventListener('change', e => { const t = e.target; if(!t || !t.datas
 document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset) return;
   if(t.dataset.stk){ const k = t.dataset.stk, f = 매확.TGF[k]; if(!f) return; f[t.dataset.stf] = t.value; 매확.TG바뀜[k] = true; 매확임시적기();
     const 줄 = k[0] === 'p' ? (매확찾(k.slice(1)) || {}).TG : 매확TG만().find(x => 't' + x['주문'] === k), pv = document.getElementById('sctp_' + k);
-    if(pv) pv.innerHTML = esc(매확미리글(f, 줄)).split(String.fromCharCode(10)).join('<br>'); return; }
+    if(pv) pv.innerHTML = esc(매확미리글(f, 줄, 메모갈래(k))).split(String.fromCharCode(10)).join('<br>'); return; }
   if(t.dataset.scm){ 매확.펼침[t.dataset.scm + t.dataset.k] = t.value; 매확임시적기(); return; }
   if(t.dataset.sca){ const id = t.dataset.k, m = t.dataset.sca, o = 매확찾(id), 임 = 매확.고침[id]; if(!o || !임) return;
     const n = +String(t.value).replace(/[^0-9]/g, '') || 0; 임['금액'][m] = n;
@@ -16787,7 +16811,7 @@ function FC나눔(t){ const s = String(t || ''), 조 = s.split(/\[([^\]]+)\]/), 
   if(조[0].trim()) 결.기타.push(조[0].trim());
   for(let k = 1; k < 조.length; k += 2){ const h = 조[k].trim(), b = (조[k + 1] || '').trim(), 날 = (h.match(/\d{1,2}\/\d{1,2}/) || [''])[0];
     if(/^전산결제/.test(h)){ 결.결제.push({ 날, 글: 이전뽑기(b) }); continue; }
-    if(/^TG\b/.test(h)){ const 누 = h.replace(/^TG\s*/, '').replace(날, '').trim(), 참위치 = b.search(/참고\s*:/), 앞 = 참위치 >= 0 ? b.slice(0, 참위치) : b, 뒤 = 참위치 >= 0 ? b.slice(참위치) : '';
+    if(/^TG\b/.test(h) || /^(체험|PT)\s+\d{1,2}\/\d{1,2}/.test(h)){ const 누 = h.replace(/^(TG|체험|PT)\s*/, '').replace(날, '').trim(),      /* 체험 · PT 메모 머리 (2026-11-12) */ 참위치 = b.search(/참고\s*:/), 앞 = 참위치 >= 0 ? b.slice(0, 참위치) : b, 뒤 = 참위치 >= 0 ? b.slice(참위치) : '';
       const 칸 = [], 자유 = [];      /* 「키:」 없는 조각(추가 메모)도 버리지 않는다 — 옛 꼴은 화면에서 사라지고 「수정」하면 지워졌다 (2026-11-12 대표 「TG 메모가 FC 원문으로만」) · 줄바꿈으로 온 메모 줄도 따로 */
       앞.split(/\n+/).forEach(줄 => 줄.split(/\s\/\s/).forEach(p => { const m = p.match(/^\s*([^:：]{1,12})\s*[:：]\s*([\s\S]*)$/);
         if(!m){ const v = p.trim(); if(v && !/^[—-]+$/.test(v)) 자유.push(v); return; }
@@ -16940,7 +16964,7 @@ function 메모블(x, 원, 숨, 수, 블){ const 열 = 배정.메모열림 === S
   return 블('TG & PT 메모', 속, 덧); }
 const 배정TG단추 = (x, 있음) => 배정쓰기(x) ? '<button class="as-btn sm" data-act="tx:astgm" data-k="' + esc(x.id) + '">' + (있음 ? '수정' : x.kind === '가이드' ? 'TG 메모 남기기' : '메모 남기기') + '</button>' : '';
 function 배정TG창열기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
-  const k = 'a' + x.id, 메 = FC나눔(x.fc_memo), 끝 = 메.tg[메.tg.length - 1]; delete 매확.TGF[k]; delete 매확.TG바뀜[k];
+  const k = 'a' + x.id, 메 = FC나눔(x.fc_memo), 끝 = 메.tg[메.tg.length - 1]; delete 매확.TGF[k]; delete 매확.TG바뀜[k]; (매확.TG갈래 = 매확.TG갈래 || {})[k] = x.kind === '가이드' ? 'TG' : (x.kind || 'TG');
   const f = 매확TG폼(k, null); if(끝) f.메모 = 끝.칸.map(([a, b]) => a + ': ' + b).concat(끝.말 ? [끝.말] : []).join(' / ');
   Object.assign(배정TG창, { k, id:String(x.id), 고침:!!끝 }); 배정TG창그리기(); }
 function 배정TG창그리기(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id); if(!x) return;
@@ -16948,10 +16972,10 @@ function 배정TG창그리기(){ const x = (배정.줄 || []).find(r => String(r
     + 매확TG양식(배정TG창.k, null, x.lessons || 0, '<button class="btn main sm" data-act="tx:astgmsave">저장</button>') + '</div>', 560); }
 async function 배정TG저장(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id), f = 매확.TGF[배정TG창.k]; if(!x || !f) return;
   if(!매확TG있음(f)) return toast('희망시간 · 목적 · 메모 중 하나는 입력해 주세요');
-  const d = new Date(), 글 = 매확TG글(f, null).split(String.fromCharCode(10)).filter(l => !/^참고\s*:/.test(l)).join(String.fromCharCode(10)), 덩 = '[TG ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ((ME && ME.name) || '') + '] ' + 글;
-  const 옛 = String(x.fc_memo || ''), 끝 = 옛.lastIndexOf('[TG '), 뒤 = 끝 >= 0 ? ((옛.slice(끝 + 1).match(/\n\[[^\]]+\][\s\S]*$/) || [''])[0]) : '';
+  const 갈 = 메모갈래(배정TG창.k), d = new Date(), 글 = 매확TG글(f, null).split(String.fromCharCode(10)).filter(l => !/^참고\s*:/.test(l)).join(String.fromCharCode(10)), 덩 = '[' + 갈 + ' ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + ((ME && ME.name) || '') + '] ' + 글;
+  const 옛 = String(x.fc_memo || ''), 끝 = Math.max(옛.lastIndexOf('[TG '), 옛.lastIndexOf('[체험 '), 옛.lastIndexOf('[PT ')),      /* 수정 = 마지막 메모 덩어리(TG · 체험 · PT) */ 뒤 = 끝 >= 0 ? ((옛.slice(끝 + 1).match(/\n\[[^\]]+\][\s\S]*$/) || [''])[0]) : '';
   const 새 = 배정TG창.고침 && 끝 >= 0 ? 옛.slice(0, 끝).replace(/\s+$/, '') + (끝 ? String.fromCharCode(10) : '') + 덩 + 뒤 : (옛 ? 옛 + String.fromCharCode(10) : '') + 덩;
-  if(!await 묻기(x.name + ' — TG 메모를 ' + (배정TG창.고침 ? '수정' : '저장') + '할까요?' + String.fromCharCode(10) + 글.split(String.fromCharCode(10))[0])) return;
+  if(!await 묻기(x.name + ' — ' + (갈 === 'TG' ? 'TG 메모' : '메모') + '를 ' + (배정TG창.고침 ? '수정' : '저장') + '할까요?' + String.fromCharCode(10) + 글.split(String.fromCharCode(10))[0])) return;
   try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(x.id), 'PATCH', { fc_memo:새, updated_by:(ME && ME.name) || '' }, 'return=minimal'); x.fc_memo = 새;
     기록남기기({ area:'배정', action:'수정', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'TG 메모 ' + (배정TG창.고침 ? '수정' : '남김') + ' — ' + 글.split(String.fromCharCode(10))[0].slice(0, 80) });
     delete 매확.TGF[배정TG창.k]; 배정TG창.k = '';
