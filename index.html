@@ -3480,7 +3480,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '662';
+const BUILD = '663';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9581,7 +9581,7 @@ const 매출때 = x => { const d = x.paid_at ? new Date(x.paid_at) : null; retur
 function 매출고름칸(g){
   const id = g.머리.id, 선 = 매출선생들(), 앞 = 묶음고른값(g), 지금 = 앞 ? (앞.trainer || '') : null, 갈 = 앞 ? 앞.category : '';
   if(지금 && !선.includes(지금)) 선.unshift(지금);      /* 이미 고른 담당은 목록에 늘 있다 — 명단을 아직 못 받았어도 그대로 보이게 */
-  return '<span class="ps-pick"><select class="srch" id="pst_' + esc(id) + '" data-pst="' + esc(id) + '"><option value="">담당 선택</option>' + 선.map(t => '<option' + (지금 === t ? ' selected' : '') + '>' + esc(t) + '</option>').join('') + '<option value="__센터"' + (지금 === '' ? ' selected' : '') + '>센터 매출(담당 없음)</option></select>'
+  return '<span class="ps-pick"><select class="srch" id="pst_' + esc(id) + '" data-pst="' + esc(id) + '"><option value="">매출 담당 선택</option><option value="__센터"' + (지금 === '' ? ' selected' : '') + '>센터 매출(워크인)</option>' + 선.map(t => '<option' + (지금 === t ? ' selected' : '') + '>' + esc(t) + '</option>').join('') + '</select>'      /* 센터 매출(워크인) 맨 위 · 「매출 담당」 (2026-11-12 대표 「PT 에서는 매출 담당과 수업 담당이 같지 않다」) */
     + '<select class="srch" id="psc_' + esc(id) + '"><option value="">카테고리</option>' + 매출갈래.concat(['센터']).map(c => '<option' + (c === 갈 ? ' selected' : '') + '>' + esc(c) + '</option>').join('') + '</select>'
     + '<button class="btn gold sm" data-act="tx:psave" data-k="' + esc(id) + '">저장</button></span>';
 }
@@ -9599,7 +9599,7 @@ function 매출줄(g, 손){
     + '<div class="ps-top"><div class="ps-who"><b>' + esc(x.name || '') + '</b> <span class="sub3">···' + esc(x.phone4 || '') + '</span>' + (g.줄.some(매출시험줄) ? ' <span class="tag warn">시험</span>' : '') + (x.reg ? ' <span class="tag">' + esc(x.reg) + '</span>' : '') + '</div>'
       + '<div class="ps-amt">' + 원(합) + '</div></div>'
     + '<div class="ps-sub">' + esc(x.product || x.tag || '') + ' · ' + esc(매출때(x).split(' ')[0]) + ' 결제 · ' + 매출꼬리(st)
-      + (앞 ? ' · 담당 <b>' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? ' · ' + esc(앞.category) : '') : '') + '</div>'
+      + (앞 ? ' · 매출 담당 <b>' + esc(앞.trainer || '센터 매출(워크인)') + '</b>' + (앞.category ? ' · ' + esc(앞.category) : '') : '') + '</div>'
     + 결제수단줄(g, 고침) + 매출수업줄(g, 고침) + g.줄.map(매출환줄).join('') + 덜
     + (손 === false ? '' : '<div class="ps-act">'
       + (고침 ? 매출고름칸(g) + (st !== '미확인' ? '<button class="btn ghost sm" data-act="tx:psedit" data-k="' + esc(id) + '">취소</button>' : '') : (st !== '삭제됨' ? '<button class="btn ed sm" data-act="tx:psedit" data-k="' + esc(id) + '">수정</button>' : ''))
@@ -9761,7 +9761,7 @@ async function 매출고르기(id){
   const 줄들 = g.줄.filter(x => x.status !== '삭제됨' && (x.status === '미확인' || (x.trainer || '') !== t || x.category !== c));
   if(!줄들.length){ toast('이미 같은 값입니다'); 매출.고침 = ''; 매출다시(); return; }
   const 다시 = 줄들.some(x => x.status !== '미확인'), 합 = g.줄.filter(x => x.status !== '삭제됨').reduce((a, x) => a + (+x.amount || 0), 0);
-  if(!await 묻기(g.머리.name + ' · ' + 원(합) + (g.줄.length > 1 ? ' (' + g.줄.length + '줄 한 결제)' : '') + String.fromCharCode(10) + '담당 ' + (t || '센터 매출') + ' · ' + c + String.fromCharCode(10) + (다시 ? '이대로 수정할까요? 관리자가 다시 확인해요' : '이대로 저장할까요? 관리자가 확인하면 확정돼요'))) return;
+  if(!await 묻기(g.머리.name + ' · ' + 원(합) + (g.줄.length > 1 ? ' (' + g.줄.length + '줄 한 결제)' : '') + String.fromCharCode(10) + '매출 담당 ' + (t || '센터 매출(워크인)') + ' · ' + c + String.fromCharCode(10) + (다시 ? '이대로 수정할까요? 관리자가 다시 확인해요' : '이대로 저장할까요? 관리자가 확인하면 확정돼요'))) return;
   const 나 = (ME && ME.name) || '', 앞 = 묶음고른값(g), 말 = 다시 && 앞 ? '담당 ' + (앞.trainer || '센터') + ' → ' + (t || '센터') + ' · ' + (앞.category || '—') + ' → ' + c : '담당 ' + (t || '센터 매출') + ' · ' + c;
   const 몸 = Object.assign({ trainer:t, category:c, status:'선택됨', chosen_by:나 }, 다시 ? { change_kind:'사람수정', change_by:나, change_note:말 } : {});
   const 팝 = !!$('#popbox .ps-pop') && !$('#pop').classList.contains('tx-side') && !$('#popbox .sc-pop');
@@ -9776,7 +9776,7 @@ async function 매출바꿈(id, 무엇){
   if(!줄들.length){ toast(무엇 === '확정' ? '확인할 매출이 없어요. 담당을 먼저 선택해 주세요' : '바꿀 줄이 없습니다'); return; }
   const 앞 = 묶음고른값(g) || g.머리, 합 = 줄들.reduce((a, x) => a + (+x.amount || 0), 0);
   const 말 = { 확정:'이 매출을 확정할까요?', 삭제:'이 매출을 삭제할까요? 나중에 복원할 수 있어요', 되돌림:'삭제한 매출을 복원할까요?' }[무엇];
-  if(!await 묻기(g.머리.name + ' · ' + 원(합) + (줄들.length > 1 ? ' (' + 줄들.length + '줄 한 결제)' : '') + ' · 담당 ' + (앞.trainer || '센터 매출') + String.fromCharCode(10) + 말)) return;
+  if(!await 묻기(g.머리.name + ' · ' + 원(합) + (줄들.length > 1 ? ' (' + 줄들.length + '줄 한 결제)' : '') + ' · 매출 담당 ' + (앞.trainer || '센터 매출(워크인)') + String.fromCharCode(10) + 말)) return;
   const 나 = (ME && ME.name) || '';
   let ok = true;
   if(무엇 === '되돌림'){ for(const x of 줄들) ok = await 매출줄들고침([x], { status:(x.category ? '선택됨' : '미확인'), change_kind:'사람수정', change_by:나, change_note:'삭제 되돌림' }, '되돌림', '삭제 되돌림') && ok; }
@@ -10760,14 +10760,14 @@ function 매확수업담당줄(o, 정해지면숨김){ if(!배정.줄 || !o) ret
     || (이름 && 뒤4.length === 4 && String(r.name || '').trim() === 이름 && String(r.phone || '').replace(/\D/g, '').slice(-4) === 뒤4)));
   if(!L.length) return '';
   const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
-  return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
+  return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업 담당</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
     + (쓸 && !(담 && 정해지면숨김) ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '') + '</div>'; }
 function 매확PT줄(o){
-  const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지">매출</span>';
+  const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지 · 수업 담당과 다를 수 있어요">매출 담당</span>';
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
-    return 머 + '<b class="sc-ptwho">' + esc(앞.trainer || '센터 매출') + '</b>' + (앞.category ? '<span class="sub3"> · ' + esc(앞.category) + '</span>' : '') + '<span class="sc-saved">' + (st === '확정' ? '확정 ✓' : '고름 ✓') + '</span>'
+    return 머 + '<b class="sc-ptwho">' + esc(앞.trainer || '센터 매출(워크인)') + '</b>' + (앞.category ? '<span class="sub3"> · ' + esc(앞.category) + '</span>' : '') + '<span class="sc-saved">' + (st === '확정' ? '확정 ✓' : '고름 ✓') + '</span>'
       + '<button class="btn ed sm" data-act="tx:scptg" data-k="' + esc(g.머리.id) + '">수정</button></div>';
-  return 머 + '확정은 「PT 매출」에서 해요' + '<button class="btn ghost sm" data-act="tx:scpt" data-k="' + esc(o.id) + '">담당 선택</button></div>';
+  return 머 + '확정은 「PT 매출」에서 해요' + '<button class="btn ghost sm" data-act="tx:scpt" data-k="' + esc(o.id) + '">매출 담당 선택</button></div>';
 }
 function 매확줄(o){
   const v = o['고름'], 고 = 매확.고침[o.id], tg = o.TG, 열쇠 = 'p' + o.id, PT있음 = (o['갈래'] || []).indexOf('PT') >= 0;
