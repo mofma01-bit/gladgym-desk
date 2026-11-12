@@ -3480,7 +3480,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '663';
+const BUILD = '665';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3719,7 +3719,7 @@ const 홈블록허용 = { booking: 회원보임, today: () => 할수('today') &&
 /* 수업 기록은 11/2 부터 — 그 전엔 수업 · 피드백 · 리포트 알림을 현황판에 안 띄운다 (2026-10-26 대표 「수업과 관련된 모든 것 · 피드백 · 수업기록 알림은 11월 2일 수업 기록부터」) */
 let 수업알림시작 = '2026-11-02'; const 수업알림 = () => TODAY >= 수업알림시작;
 const 현황허용 = { 부름: () => 할수('tasks'), 실패: () => 수업알림() && 할수('reports'), 밀림: () => 수업알림() && 할수('cmall') && 회원보임(), 업무: () => 할수('tasks'), 요청: () => 수업알림() && 할수('cmall') && 회원보임(),
-  누락: () => 수업알림() && 회원보임(), 오늘없음: () => 수업알림() && 회원보임(), 운동: () => 수업알림() && 할수('today') && 회원보임(), 상담: () => 할수('leads'), 담당: 회원보임, 빈담당: 회원보임 };
+  누락: () => 수업알림() && 회원보임(), 오늘없음: () => 수업알림() && 회원보임(), 운동: () => 수업알림() && 할수('today') && 회원보임(), 상담: () => 할수('leads'), 상담내일: () => 할수('leads'), 담당: 회원보임, 빈담당: 회원보임 };
 const 수업판칸 = [['today', '✍ 수업 기록하기', '회원 검색해서 바로 기록'], ['cmall', '💬 피드백', '남겨 주세요 · 요청'], ['rtmake', '📋 루틴표 · 스트레칭', '루틴표 만들기 · 회원에게 주기'], ['reports', '📄 리포트 내역', '보낸 수업 리포트']];      /* 2026-10-23 대표 「수업 기록 한곳에」 */
 function 메뉴가림(){ { const b = document.querySelector('.nav[data-v="lesson"]'); if(b) b.style.display = 수업판칸.some(([v]) => 할수(v)) ? '' : 'none'; }
   document.querySelectorAll('.nav[data-v]').forEach(b => { const v = b.dataset.v; if(!권한메뉴.has(v)) return;
@@ -10761,7 +10761,8 @@ function 매확수업담당줄(o, 정해지면숨김){ if(!배정.줄 || !o) ret
   if(!L.length) return '';
   const r = L.find(x => x.kind === 'PT') || L.find(x => x.kind === '체험') || L[0], 담 = 배정담당(r), 쓸 = 할수('assignset') && 배정쓰기(r);
   return '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('TG') + '" title="누가 연락하고 수업할지">수업 담당</span>' + (담 ? '<b class="sc-ptwho">' + esc(담) + '</b>' : '<span class="sub3">수업 담당 아직 없음</span>')
-    + (쓸 && !(담 && 정해지면숨김) ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '') + '</div>'; }
+    + (쓸 && !(담 && 정해지면숨김) ? '<button class="btn ' + (담 ? 'ed' : 'ghost') + ' sm" data-act="tx:agpick" data-k="' + esc(r.id) + '">' + (담 ? '수정' : '담당 정하기') + '</button>' : '')
+    + (쓸 && r.kind !== '가이드' ? '<button class="btn ghost sm" data-act="tx:sctgm" data-k="' + esc(r.id) + '">' + (FC나눔(r.fc_memo).tg.length ? '메모 수정' : '메모 남기기') + '</button>' : '') + '</div>'; }      /* PT · 체험 메모 — 고객 화면 TG & PT 메모 칸과 같은 곳 (2026-11-12 대표) */
 function 매확PT줄(o){
   const g = 매확PT묶음(o), 앞 = g && 묶음고른값(g), st = g && 묶음상태(g), 머 = '<div class="sc-ptline"><span class="sc-gtag" style="--c:' + 매확색('PT') + '" title="누구 매출로 잡을지 · 수업 담당과 다를 수 있어요">매출 담당</span>';
   if(앞 && (st === '선택됨' || st === '확정'))      /* 이미 골랐으면 그 이름으로 잠김 (2026-10-22 22:55 대표) */
@@ -11804,7 +11805,8 @@ const 시각한글 = d => { if(!d) return ''; const x = new Date(d); if(isNaN(x)
   const h = x.getHours(), m = x.getMinutes();
   if(!h && !m) return (x.getMonth()+1)+'/'+x.getDate()+'('+WDN[x.getDay()]+')';      /* 0시 = 날짜만 넣은 것 — 날짜만 (2026-10-25 중앙 · 노션 예약날짜를 옮긴 줄) */
   return (x.getMonth()+1)+'/'+x.getDate()+'('+WDN[x.getDay()]+') '+(h<12?'오전 ':'오후 ')+((h%12)||12)+':'+String(m).padStart(2,'0'); };
-const 오늘인가 = d => d && 서울날(d)===TODAY;      /* 표 보기 날짜 조건도 서울 날짜로 — 달 첫날 새벽 0~9시 상담이 지난달로 빠졌다 (2026-11-01) */
+const 오늘인가 = d => d && 서울날(d)===TODAY;
+const 내일상담 = () => (W.leads || []).filter(r => r.at && 서울날(r.at) === 날더함(TODAY, 1) && !r.done).sort((a, b) => (a.at || '') > (b.at || '') ? 1 : -1);      /* 현황판 「내일 상담」 (2026-11-12 대표) */      /* 표 보기 날짜 조건도 서울 날짜로 — 달 첫날 새벽 0~9시 상담이 지난달로 빠졌다 (2026-11-01) */
 const 이달인가 = d => d && 서울날(d).slice(0,7)===TODAY.slice(0,7);
 const 로컬ISO = (d) => { const x = new Date(d), p=n=>String(n).padStart(2,'0');
   return x.getFullYear()+'-'+p(x.getMonth()+1)+'-'+p(x.getDate())+'T'+p(x.getHours())+':'+p(x.getMinutes()); };
@@ -15623,6 +15625,7 @@ const 현황칸 = [
   { k:'운동', 이름:'수업 기록 완료',    색:'gold' },      /* 2026-10-19 대표 「수업 기록 완료 · 수업은 완료되었는데 기록이 없는 건도 볼 수 있게」 */
   { k:'오늘없음', 이름:'기록 안 한 수업', 색:'warn', 셈: () => 내기록알림().length, 직접: () => 내누락판(), 보임: () => 누락켬 && !누락.없음 && !대표인가() },      /* 내 수업 · 시작 1시간 뒤 · 닫은 것 뺌 · 대표 현황판엔 안 뜸 (2026-11-11 · 11/10 20:20 대표) */
   { k:'상담', 이름:'오늘 상담',        색:'gold' },
+  { k:'상담내일', 이름:'내일 상담',    색:'gold', 보임: () => 내일상담().length > 0 },      /* 내일 상담 예약이 있을 때만 (2026-11-12 대표) */
   { k:'예상미입력', 이름:'예상 매출 미입력', 색:'gold', 셈: () => 예상미입력().length, 직접: () => 예상판열기(예상미입력()[0] || ''), 보임: () => 대표인가() && 할수('check') && !점검메모.없음 },      /* 대표 화면 — 이번 주 안 적은 선생님 수 (2026-11-04 18:34 대표 「나한테는 예상매출 미입력으로」) */
   { k:'예상', get 이름(){ const n = 예상남은날(); return n <= 3 ? '예상 매출 · ' + (n ? n + '일 남음' : '오늘까지') : '이번 주 예상 매출'; }      /* 남은 날이 붙으면 짧게 — 좁은 칸에서 「n일 남음」이 잘리지 않게 (2026-11-06) */, 색:'gold', 셈: () => (점검메모.줄 && 예상대상() && !예상이번주()) ? 1 : 0, 직접: () => 예상판열기((ME && ME.name) || ''), 보임: () => 할수('check') && !점검메모.없음 },      /* 상담 다음 · 빛남 · 입력 또는 「예상 매출 없음」 해야 빠짐 (2026-11-04 대표) */
   /* 청소 누락 — 어제 체크가 빠진 것 · 기록 권한자 = 전부 · 그 밖 = 내 것만 (2026-10-21 대표 「어떤 체크박스가 체크 안 됐는지 볼 수 있게만」) */
@@ -15669,6 +15672,7 @@ const 현황목록 = {
   운동: () => D.w.filter(w=>w.on_date===TODAY && 내담당(w.member_id) && !빈운동(w)),      /* 빈 기록(종목 0)은 기록 완료가 아니다 (2026-10-20) */
   상담: () => W.leads.filter(r=>오늘인가(r.at) && !r.done)
               .sort((a,b)=>(a.at||'') > (b.at||'') ? 1 : -1),
+  상담내일: () => 내일상담(),
 };
 const 현황셈하기 = k => {
   const c = 현황칸.find(x => x.k === k);
@@ -15680,12 +15684,12 @@ const 현황셈하기 = k => {
 /* 현황판 줄 세우기 (2026-11-02 대표) — ① 상담이 맨 앞 · 빛남 「상담이 가장 중요 · 가장 1번 · 가장 눈에 띄게」 ② 업무끼리 ③ 수업끼리 (뒤죽박죽 말고) — 관리자는 상담이 「내가 할 일」 첫 칸 */
 const 현황수업칸 = new Set(['재연락', '운동', '오늘없음', '누락', '밀림', '요청', '실패', '첫연락', '첫TG', '담당', '빈담당', '배정없음', 'TG정리']);
 const 선생접힘 = () => { try{ return localStorage.getItem('gg_trfold') === '1'; }catch(e){ return false; } };      /* 이 기기에 기억 */
-const 현황묶음 = k => k === '상담' ? 0 : 현황수업칸.has(k) ? 2 : 1;
+const 현황묶음 = k => k === '상담' || k === '상담내일' ? 0 : 현황수업칸.has(k) ? 2 : 1;
 /* ⭐ 현황판 차례 (2026-11-04 대표 「빨간불을 가장 좌측 · 행동요건에 따라」 — 11/03 23:11 말씀 · 시안 현황판배치_시안_1103)
    ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
    ④ 보기만 하는 「수업 기록 완료」 맨 끝 · 묶음 구분선 없음(차례가 곧 묶음) · 새 칸은 여기 적지 않으면 맨 뒤로 간다 */
 const 현황차례 = ['배정없음', '재연락', '첫연락', '오늘없음', '요청', '실패', '못감', '상담', '예상', '설문2차', '락커만료', '락커TM', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
-const 현황자리 = x => x.c.k === '상담' ? -2 : (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
+const 현황자리 = x => x.c.k === '상담' ? -2 : x.c.k === '상담내일' ? -1.5 : (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
 const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '재연락']);      /* 「다음 주 연차」는 대표도 확인할 일 → 「내가 할 일」 (2026-11-09 대표 「연차는 나도 확인을 해야 하니까 내가 할 일에」) */      /* 「2차 설문톡 연락」은 대표 · 관리자 일 → 「내가 할 일」 (2026-11-03 23:11 대표) */
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
@@ -15741,6 +15745,7 @@ const 현황길 = {
   요청: () => { S.cmOnly = 'ask';    S.cmSort = 'ask';    가기('cmall'); },
   운동: () => 가기('today'),
   상담: () => { 표상태.leads.보기 = 'nmon'; 보기얹기('leads'); 가기('leads'); },
+  상담내일: () => { 표상태.leads.보기 = 날더함(TODAY, 1).slice(0, 7) === TODAY.slice(0, 7) ? 'nres' : 'nall'; 보기얹기('leads'); 가기('leads'); },      /* 월 예약자 · 달이 넘어가면 전체 */
 };
 function 가기(v){
   S.view = v;
@@ -15769,7 +15774,7 @@ function 현황판그리기(){
                  연월차:'승인할 신청이 없어요 👍',
                  밀림:'밀린 피드백이 없어요 👍', 업무:'남은 업무가 없어요 👍',
                  요청:'답할 요청이 없어요 👍',
-                 운동:'오늘 기록한 수업이 없어요', 상담:'오늘 잡힌 상담이 없어요' }[k] || '지금은 없어요';
+                 운동:'오늘 기록한 수업이 없어요', 상담:'오늘 잡힌 상담이 없어요', 상담내일:'내일 잡힌 상담이 없어요' }[k] || '지금은 없어요';
 
   const 회원줄 = (mid, 제목, 밑, 오른, 단추) =>
     '<div class="card rowc nmrow"><div style="flex:1;min-width:0">'
@@ -16933,13 +16938,13 @@ function 메모블(x, 원, 숨, 수, 블){ const 열 = 배정.메모열림 === S
   const 덧 = (관 ? 배정TG단추(x, 수) : '<span class="as-tag">트레이너 읽기 전용</span>') + (열 && 숨 ? '<button class="btn ghost sm" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 가리기</button>' : '');
   const 속 = (원 || (숨 ? '' : '<div class="sub3">—</div>')) + (숨 ? (열 ? 숨 : '<button class="asp-open" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 추가 정보 열어보기</button>') : '');
   return 블('TG & PT 메모', 속, 덧); }
-const 배정TG단추 = (x, 있음) => 배정쓰기(x) && x.kind !== '체험' ? '<button class="as-btn sm" data-act="tx:astgm" data-k="' + esc(x.id) + '">' + (있음 ? '수정' : x.kind === 'PT' ? '메모 남기기' : 'TG 메모 남기기') + '</button>' : '';
+const 배정TG단추 = (x, 있음) => 배정쓰기(x) ? '<button class="as-btn sm" data-act="tx:astgm" data-k="' + esc(x.id) + '">' + (있음 ? '수정' : x.kind === '가이드' ? 'TG 메모 남기기' : '메모 남기기') + '</button>' : '';
 function 배정TG창열기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
   const k = 'a' + x.id, 메 = FC나눔(x.fc_memo), 끝 = 메.tg[메.tg.length - 1]; delete 매확.TGF[k]; delete 매확.TG바뀜[k];
   const f = 매확TG폼(k, null); if(끝) f.메모 = 끝.칸.map(([a, b]) => a + ': ' + b).concat(끝.말 ? [끝.말] : []).join(' / ');
   Object.assign(배정TG창, { k, id:String(x.id), 고침:!!끝 }); 배정TG창그리기(); }
 function 배정TG창그리기(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id); if(!x) return;
-  가운데창('<div class="tx-ph"><b>' + esc(x.name || '') + ' · TG 메모 ' + (배정TG창.고침 ? '수정' : '남기기') + '</b><button data-act="popclose">✕</button></div><div class="cl-ed">'
+  가운데창('<div class="tx-ph"><b>' + esc(x.name || '') + ' · ' + (x.kind === '가이드' ? 'TG 메모 ' : '메모 ') + (배정TG창.고침 ? '수정' : '남기기') + '</b><button data-act="' + (배정TG창.돌아감 === '매확' ? 'tx:astgmx' : 'popclose') + '">✕</button></div><div class="cl-ed">'
     + 매확TG양식(배정TG창.k, null, x.lessons || 0, '<button class="btn main sm" data-act="tx:astgmsave">저장</button>') + '</div>', 560); }
 async function 배정TG저장(){ const x = (배정.줄 || []).find(r => String(r.id) === 배정TG창.id), f = 매확.TGF[배정TG창.k]; if(!x || !f) return;
   if(!매확TG있음(f)) return toast('희망시간 · 목적 · 메모 중 하나는 입력해 주세요');
@@ -16949,7 +16954,9 @@ async function 배정TG저장(){ const x = (배정.줄 || []).find(r => String(r
   if(!await 묻기(x.name + ' — TG 메모를 ' + (배정TG창.고침 ? '수정' : '저장') + '할까요?' + String.fromCharCode(10) + 글.split(String.fromCharCode(10))[0])) return;
   try{ await ssend('assign_leads?id=eq.' + encodeURIComponent(x.id), 'PATCH', { fc_memo:새, updated_by:(ME && ME.name) || '' }, 'return=minimal'); x.fc_memo = 새;
     기록남기기({ area:'배정', action:'수정', tbl:'assign_leads', row_id:String(x.id), customer:x.name || '', phone:x.phone, detail:'TG 메모 ' + (배정TG창.고침 ? '수정' : '남김') + ' — ' + 글.split(String.fromCharCode(10))[0].slice(0, 80) });
-    delete 매확.TGF[배정TG창.k]; 배정TG창.k = ''; popClose(); toast('저장했어요'); 배정판(x.id); }
+    delete 매확.TGF[배정TG창.k]; 배정TG창.k = '';
+    if(배정TG창.돌아감 === '매확'){ 배정TG창.돌아감 = ''; 쪽지닫기(); toast('저장했어요'); 매확다시(); return; }      /* 확인할 매출 팝업에서 연 메모 = 팝업 그대로 (11/12) */
+    popClose(); toast('저장했어요'); 배정판(x.id); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 /* 회원 출입 사진 — 이름을 누를 때만 브로제이 컨텐츠 서버에서 바로 엶 (2026-11-06 대표 「1번」 = TG · 체험 고객만 · 누를 때 불러오기)
    중앙 POST /app/crm/member_photo {전화} → {ok, src} · 안 줄 때 why 를 그대로 보여 준다. 서버도 데스크도 사진을 받지도 쌓지도 않는다 · 목록에 미리 안 띄움 */
@@ -18006,7 +18013,9 @@ async function txAct(a, el){
   if(a==='asdhand'){ 직접.손 = k === '1'; 직접.고름 = null; 직접다시(); if(직접.손){ const n = $('#asd_name'); if(n) n.focus(); } return; }
   if(a==='asassign'){ const [id, t] = String(k).split('|'), x0 = (배정.줄 || []).find(r => String(r.id) === String(id)), 정 = x0 && !(배정PT중(x0) && x0.pt_trainer === t) ? 정지판정(t, 배정희망(x0)) : null; if(정 && 정.막음) return toast(t + ' 선생님은 이 시간대 배정 정지 중이에요'); if(await 배정고침(id, Object.assign({ trainers:[t], assigned:'배정완료', assigned_on:TODAY, assign_note:담당기록줄(x0, t), swap_by:null, swap_why:null, swap_at:null }, x0 && !배정PT중(x0) && !(x0.trainers || []).includes(t) ? { progress:'진행중', recall_on:null, contact_at:null } : {}, x0 && 배정PT중(x0) && 'pt_ok' in x0 && 배정관리자() ? { pt_ok: ((ME && ME.name) || '') + ' ' + new Date().toISOString().slice(0, 16).replace('T', ' ') + ' 담당 바꿈' } : {}), '담당 ' + t + ' · 배정완료')){ if(판길.length) 배정판(id); else popClose(); } return; }      /* 상세에서 왔으면 상세로(새 담당) — 뒤로 길도 거기까지 걷힘 */
   if(a==='asnewdo'){ const [id, 일] = String(k).split('|'); await 새담당바로(id, 일); return; }
-  if(a==='astgm'){ 배정TG창열기(k); return; }
+  if(a==='astgm'){ 배정TG창.돌아감 = ''; 배정TG창열기(k); return; }
+  if(a==='sctgm'){ 배정TG창.돌아감 = '매확'; 배정TG창열기(k); return; }      /* 확인할 매출 팝업 PT · 체험 줄 「메모 남기기」 (2026-11-12) */
+  if(a==='astgmx'){ delete 매확.TGF[배정TG창.k]; 배정TG창.k = ''; 배정TG창.돌아감 = ''; 쪽지닫기(); return; }
   if(a==='asmemo'){ 배정.메모열림 = 배정.메모열림 === String(k) ? '' : String(k); 배정판(k); return; }      /* TG & PT 메모 열기 · 가리기 — 다른 고객 판을 열면 다시 가려진다 */
   if(a==='astgmsave'){ await 배정TG저장(); return; }
   if(a==='mypart'){ S.myPart = k; S.myQ = ''; render(); return; }
