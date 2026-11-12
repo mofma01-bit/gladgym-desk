@@ -1725,6 +1725,7 @@ body.resizing{cursor:col-resize;user-select:none}
 #ggdz .ask button.y{background:#f0d3a0;color:#2a2214;border:0}
 #ggdz .hint{position:absolute;left:50%;top:8px;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#e6dfd3;font-size:13px;white-space:nowrap;border-radius:999px;padding:4px 12px;pointer-events:none}
 .cm-chip img{width:28px;height:28px;border-radius:50%;object-fit:cover;margin-left:-6px}.cm-chip .dz{color:var(--gold);font-weight:800;border-left:1px solid var(--line);padding:0 6px;font-size:13px}.cm-chip.mk{border-color:var(--gold-2)}
+.cl-own{margin-left:6px}.cl-own b{font-size:13px}.cl-offz{font-style:normal;font-size:13px;font-weight:800;color:#c6bdb2;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px}.bp-row2.cl-zoff .cl-zh .nmtag,.bp-row2.cl-zoff .cl-zh [class*="tag"]{opacity:.5}
 .rj-lb{font-size:13px;font-weight:800;color:#b9b1a3;margin:10px 0 6px}
 .rj-st{display:flex;gap:6px;margin-bottom:12px}.rj-st span{flex:1;text-align:center;font-size:13px;font-weight:900;padding:7px 0;border-radius:9px;background:var(--dark-3);color:var(--sub)}.rj-st .on{background:var(--gold);color:#1a1a18}.rj-st .ok{background:var(--gold-dim);color:var(--gold);cursor:pointer}
 .rj-sh{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--dark-3);padding:8px;margin-bottom:6px;cursor:pointer;color:var(--cream);font:inherit}.rj-sh .rsc{width:44px;aspect-ratio:3/4;flex:none;padding:3px}.rj-sh .tx{flex:1;min-width:0}.rj-sh b{display:block;font-size:14.5px}.rj-sh small{font-size:12.5px;color:#b9b1a3}.rj-sh i{font-style:normal;color:var(--sub)}.rj-sh:hover,.rj-sh.on{border-color:var(--gold)}
@@ -3479,7 +3480,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '660';
+const BUILD = '662';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10037,9 +10038,9 @@ const 청소짧은날 = d => (+d.slice(5, 7)) + '/' + (+d.slice(8)) + '(' + 요�
 async function 청소받기(){
   if(!ME || 청소.중) return; 청소.중 = true;
   try{
-    const 부터 = 할수('cleanlog') ? 날더함(TODAY, -13) : 날더함(TODAY, -7);      /* 이월(지난 정한 요일 뒤 체크) 보려면 한 주 (2026-10-30) */
+    const 부터 = 날더함(TODAY, -13);      /* 주 1회 누락 = 지난주(월 ~ 일) 체크를 봐야 해서 모두 2주 (2026-11-12) · 옛 = 관리자 13일 · 선생님 7일 */      /* 이월(지난 정한 요일 뒤 체크) 보려면 한 주 (2026-10-30) */
     const g = await Promise.all([uget('tr_clean?select=*&order=sort,created_at'), uget('tr_clean_zone?select=*&order=sort,created_at'), uget('tr_clean_turn?select=*'),
-      uget('tr_clean_big?select=*'), uget('tr_clean_log?select=*&day=gte.' + 부터 + '&order=day.desc'), uget('tr_clean_ack?select=*&day=gte.' + 날더함(TODAY, -3)).catch(() => []),
+      uget('tr_clean_big?select=*'), uget('tr_clean_log?select=*&day=gte.' + 부터 + '&order=day.desc'), uget('tr_clean_ack?select=*&day=gte.' + 날더함(TODAY, -13)).catch(() => []),
       uget('tr_clean_hand?select=*&day=gte.' + TODAY.slice(0, 8) + '01').catch(() => [])]);      /* 넘김 기록 — 이번 달(받은 수 셈) · 101단계 전이면 빈 것 */
     청소.목 = g[0] || []; 청소.구역 = g[1] || []; 청소.배정 = g[2] || []; 청소.대 = g[3] || []; 청소.기록 = g[4] || []; 청소.확인 = g[5] || []; 청소.넘김 = g[6] || []; 청소.없음 = false;
   }catch(e){ 청소.없음 = true; 청소.목 = []; 청소.구역 = []; 청소.배정 = []; 청소.대 = []; 청소.기록 = []; console.warn('청소 못 받음 —', e && e.message); }      /* 49 · 53단계 SQL 전이면 블록 · 칸을 그리지 않는다 */
@@ -10082,8 +10083,13 @@ const 구역들 = () => (청소.구역 || []).filter(z => z.active !== false).sl
 const 할일of = id => (청소.목 || []).find(x => x.id === id);
 const 성별청소 = (x, z) => !!(z && z.sex) && /탈의실|샤워|여자|남자/.test(String((x && x.title) || ''));      /* 성별이 필요한 청소만 같은 성별에게 — 나머지는 출근자 모두 (2026-10-30 대표) */
 /* 이월 — 요일을 정한 청소에 「안 하면 다음 날로 이월」을 켜 두면 그 요일에 체크가 없을 때 다음 날 · 그다음 날 … 체크할 때까지 다시 뜬다(다음 정한 요일 전까지) · 돌려주는 값 = 원래 날 (2026-10-30 대표) */
-const 청소이월날 = (x, d) => { if(!x || !x.carry || !(x.days || []).length || 청소날(x, d)) return '';
-  for(let k = 1; k <= 6; k++){ const p = 날더함(d, -k); if(청소날(x, p)){ for(let j = k; j >= 1; j--) if(청소체크of(x.id, 날더함(d, -j))) return ''; return p; } } return ''; };
+/* ⭐ 주 1회(요일 하나) = 그 주(월 ~ 일) 안에 하면 됨 — 정한 요일에 못 하면 그 주 남은 날 다시 뜨고 · 그 주에 한 번도 체크가 없으면 다음 주에 누락 (2026-11-12 17:19 대표 「주 1회만 하는 청소는 그 주에 하면 되는 거니까 누락보다는 그 주에도 안 했으면 다음 주에 누락」) */
+const 청소주1 = x => !!x && (x.days || []).length === 1;
+const 청소주월 = d => 날더함(d, -((new Date(d + 'T12:00:00').getDay() + 6) % 7));      /* 그 주 월요일 */
+const 청소주체크 = (x, 월) => [0, 1, 2, 3, 4, 5, 6].some(i => 청소체크of(x.id, 날더함(월, i)));
+const 청소이월날 = (x, d) => { if(!x || !(x.days || []).length || 청소날(x, d)) return ''; const 주 = 청소주1(x); if(!x.carry && !주) return '';
+  const 끝 = 주 ? 청소주월(d) : 날더함(d, -6);      /* 주 1회 = 그 주 월요일까지만 거슬러 봄(다음 주로 넘어가지 않음) */
+  for(let k = 1; 날더함(d, -k) >= 끝; k++){ const p = 날더함(d, -k); if(청소날(x, p)){ for(let j = k; j >= 1; j--) if(청소체크of(x.id, 날더함(d, -j))) return ''; return p; } } return ''; };
 /* 분기 배정 — 구역 id → 사람 id */
 function 분기배정(q){
   const 줄 = 청소.배정 || [], 저장 = [...new Set(줄.map(r => r.quarter))].filter(x => 분기번(x) <= 분기번(q)).sort((a, b) => 분기번(a) - 분기번(b)), 기준 = 저장[저장.length - 1], 결과 = {};
@@ -10111,7 +10117,7 @@ function 청소배정(d, 월){
     return { 목, 결과, 당직: true, 대신들: [] }; }
   const 배 = 분기배정(분기of(d)), 출근 = 사람.filter(p => !청소쉼(p, d)), 대신들 = [];
   const 쓸2 = 쓸, 뺄 = new Set();      /* 담당이 쉬는 날 「건너뜀」 청소는 그날 뺀다 — 홈 · 누락 · 기록에도 안 나온다 (23:36 대표 「구역 전체가 아니라 청소 항목마다」) */
-  쓸2.forEach(z => { const 원 = 찾(배[z.id]); if(원 && !청소쉼(원, d)){ 줌(z, 원, { 대신: false }); 더(원, 구목[z.id].length); } });
+  쓸2.forEach(z => { const 원 = 찾(배[z.id]); if(원 && !z.owner_off && !청소쉼(원, d)){ 줌(z, 원, { 대신: false }); 더(원, 구목[z.id].length); } });      /* 담당 쉼(owner_off · 136단계) = 쉬는 날과 같게 나눔 (2026-11-12 대표 「F.C 가 없어서 담당 on/off」) */
   /* 담당이 쉬는 날 — 구역째 한 사람이 아니라 청소 하나씩 골고루 (2026-10-23 23:18 대표 「한 사람에게 넘어가는 게 아니라 골고루 · 1개씩 분배 ·
      항목이 적어서 한 사람이 안 받으면 다음 차례 때 우선 · 연속으로 2~3일 쉬면 순차적으로 돌게」 · 22:21 세트 규칙을 바꿈)
      받는 차례 = 오늘 넘겨받은 수가 적은 사람 → 이번 달 넘겨받은 수가 적은 사람(못 받았으면 다음에 먼저 · 며칠 쉬면 돌아가며) → 오늘 맡은 청소가 적은 사람 → 날마다 다른 사람
@@ -10123,7 +10129,7 @@ function 청소배정(d, 월){
     /* 23:24 대표 「먼저 받는 사람 양인수 → off 면 조민철 → off 면 또 누군가가 받는다」 · 23:36 「청소 항목마다」 — 그 청소의 먼저 받을 사람 중 차례대로 첫 출근자 · 다 쉬면 다른 선생님(FC 빼고) */
     구목[z.id].forEach(x => { if(x.off_mode === '건너뜀'){ 뺄.add(x.id); return; }
       const 뺌 = new Set(x.cover_no || []), cv = (x.cover || []).filter(id => !뺌.has(id)), 먼저 = cv.map(찾).filter(s => s && !청소쉼(s, d)), 성별 = 성별청소(x, z),
-        후보 = (먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC' && (!성별 || s.sex === z.sex)) : 출근.filter(s => !성별 || s.sex === z.sex)).filter(s => !뺌.has(s.id));      /* 인계 제외 · 성별은 성별 청소만 (2026-10-30 대표 「한 사람한테 몰아주기가 아니야 · 여자 구역은 여자에게 · 우선순위가 있으면 우선순위대로」) */
+        후보 = (먼저.length ? [먼저[0]] : cv.length ? 출근.filter(s => 등급of(s) !== 'FC' && (!성별 || s.sex === z.sex)) : 출근.filter(s => !성별 || s.sex === z.sex)).filter(s => !뺌.has(s.id) && !(z.owner_off && 원 && s.id === 원.id));      /* 인계 제외 · 담당 쉼인 담당은 받지 않음(11/12) · 성별은 성별 청소만 (2026-10-30 대표 「한 사람한테 몰아주기가 아니야 · 여자 구역은 여자에게 · 우선순위가 있으면 우선순위대로」) */
       const 넘 = (청소.넘김 || []).find(h => h.day === d && h.clean_id === x.id), 넘p = 넘 && 찾(넘.staff_id);
       const p = 넘p && !청소쉼(넘p, d) ? 넘p : 차례(후보);
       결과[x.id] = { p, 구역: z, 대신: !!p, 원, 넘김: !!(넘p && p === 넘p), 왜: p ? '' : 성별 ? z.sex + '자 선생님 중 출근자 없음' : '출근자 없음' };
@@ -10143,8 +10149,12 @@ function 청소누락(){
   if(!청소.목 || 청소.없음) return [];
   const d = 날더함(TODAY, -1), { 목, 결과 } = 청소배정(d), 다봄 = 할수('cleanlog');
   if(d < 청소누락시작) return [];      /* 지난 미체크는 셈하지 않는다 — 10/26 부터 (2026-10-26 대표 「어제는 휴무 · 지난 미체크는 다 무시 · 오늘 이후로 누락된 걸」) */
-  return 목.filter(x => !청소체크of(x.id, d) && (다봄 || (결과[x.id].p && ME && 결과[x.id].p.id === ME.id))).map(x => ({ x, 배: 결과[x.id], d, grp: 청소묶음키(결과[x.id]) }))
-    .filter(o => !청소확인함(d, o.grp, 청소나()));      /* 구역(당직)째 「확인」한 것은 뺀다 (2026-10-25 대표 b3) · 확인은 사람마다 — 대표가 눌러도 선생님 화면엔 남는다 (2026-10-27 대표 「각각 본인이 확인해야」) */
+  const 내것 = 배 => 다봄 || (배 && 배.p && ME && 배.p.id === ME.id);
+  const 어제것 = 목.filter(x => !청소주1(x) && !청소체크of(x.id, d) && 내것(결과[x.id])).map(x => ({ x, 배: 결과[x.id], d, grp: 청소묶음키(결과[x.id]) }));
+  const 지난월 = 날더함(청소주월(TODAY), -7), 주것 = [];      /* 주 1회 — 지난주(월 ~ 일)에 한 번도 체크가 없으면 이번 주 내내(확인 전까지) 누락 */
+  for(let i = 0; i < 7; i++){ const p = 날더함(지난월, i); if(p < 청소누락시작 || !(청소.목 || []).some(x => 청소주1(x) && 청소날(x, p))) continue;
+    const 배p = 청소배정(p); 배p.목.filter(x => 청소주1(x) && 청소날(x, p) && !청소주체크(x, 지난월) && 내것(배p.결과[x.id])).forEach(x => 주것.push({ x, 배: 배p.결과[x.id], d: p, grp: 청소묶음키(배p.결과[x.id]), 주: true })); }
+  return 어제것.concat(주것).filter(o => !청소확인함(o.d, o.grp, 청소나()));      /* 구역(당직)째 「확인」한 것은 뺀다 (2026-10-25 대표 b3) · 확인은 사람마다 — 대표가 눌러도 선생님 화면엔 남는다 (2026-10-27 대표 「각각 본인이 확인해야」) */
 }
 /* ── 대청소 — 3 · 6 · 9 · 12월 셋째 금요일 14시 · 메모 하나(다 같이 하니 체크 없음) ── */
 /* ══ 당직 ══ 2026-10-27 대표 4차 · 결정함 1gb9LgBX — 설정 = tr_duty_conf 한 줄(ord 순서 · off 센터 휴무일 · hol 더한 공휴일) · 85단계
@@ -10293,7 +10303,7 @@ function 청소누락판(){
   판열기('청소 누락', '<div class="sub3" style="margin-bottom:10px">' + 청소짧은날(d) + ' 체크가 안 된 것 · 구역(당직)째 확인하면 내 화면에서 사라집니다' + (할수('cleanlog') ? ' · 담당 선생님도 각자 확인해야 그 화면에서 사라집니다' : ' · 내 것만') + '</div>'
     + (묶.length ? 묶.map(g => '<div class="lbl">' + esc((g.배.구역 && g.배.구역.name) || '구역 없음') + (g.배.당직 ? ' · 당직' : '') + ' ' + g.L.length + '개<span class="r cl-gw">' + (g.배.p ? 이름딱지(g.배.p.id) : '<span class="sub3">' + esc(g.배.왜 || '담당 없음') + '</span>') + (g.배.p && g.배.p.name !== 청소나() && 청소확인함(d, g.k, g.배.p.name) ? '<span class="cl-ok">✓ 본인 확인</span>' : '') + '</span>'
         + '<button class="as-btn g" data-act="tx:clack" data-k="' + esc(g.k) + '">확인</button></div>'
-        + g.L.map(({ x, 배 }) => '<div class="cl-miss"><b>' + 청소글(x) + '</b>' + (배.대신 && 배.원 ? '<small>' + esc(보임이름(배.원.name)) + ' 선생님이 쉬어서 대신</small>' : '') + '</div>').join('')).join('')
+        + g.L.map(({ x, 배, 주, d: 날 }) => '<div class="cl-miss"><b>' + 청소글(x) + '</b>' + (주 ? '<small>주 1회 · 지난주(' + 청소짧은날(날) + ' 주)에 한 번도 체크 안 됨</small>' : '') + (배.대신 && 배.원 ? '<small>' + esc(보임이름(배.원.name)) + ' 선생님이 쉬어서 대신</small>' : '') + '</div>').join('')).join('')
       : '<div class="empty why"><b>어제 빠진 체크가 없습니다</b>모두 체크했거나 확인했어요</div>'));
 }
 /* 인계 넘기기 — 그날 그 청소를 다른 출근자에게(관리자 · 받은 사람) · tr_clean_hand 한 줄(날 · 청소마다 하나 · 다시 넘기면 바꿈) (2026-10-30 대표) */
@@ -10308,9 +10318,10 @@ async function 인계넘기기(id, sid){ const x = 할일of(id), p = (W.staff ||
     기록남기기({ area:'청소', action:'수정', tbl:'tr_clean_hand', row_id:id, detail:'인계 넘김 — ' + (x.title || '') + ' → ' + p.name });
     popClose(); toast(보임이름(p.name) + ' 선생님에게 넘겼어요'); 청소관리판(); render(); }
   catch(e){ toast(/tr_clean_hand|404|42P01/.test(String(e.message)) ? '아직 넘길 수 없어요 · 서버 준비(101단계)가 아직이에요' : '저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
-async function 청소확인(grp){ const d = 날더함(TODAY, -1), n = 청소누락().filter(o => o.grp === grp).length; if(!n) return;
+async function 청소확인(grp){ const L = 청소누락().filter(o => o.grp === grp), n = L.length; if(!n) return;
   if(!await 묻기('누락 ' + n + '개를 확인했나요?' + String.fromCharCode(10) + '확인하면 내 청소 누락에서 사라집니다')) return;
-  try{ await usend('tr_clean_ack', 'POST', { day:d, grp, by:(ME && ME.name) || '' }); (청소.확인 = 청소.확인 || []).push({ day:d, grp, by:(ME && ME.name) || '' }); toast('확인했어요'); 청소누락판(); render(); }
+  try{ for(const d of [...new Set(L.map(o => o.d))]){ await usend('tr_clean_ack', 'POST', { day:d, grp, by:(ME && ME.name) || '' }); (청소.확인 = 청소.확인 || []).push({ day:d, grp, by:(ME && ME.name) || '' }); }      /* 어제 것 · 지난주 주 1회 — 날마다 한 줄 (11/12) */
+    toast('확인했어요'); 청소누락판(); render(); }
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 /* 기록 — 누가 언제 눌렀나 (청소 기록 보기 권한) · 최근 7일 */
 function 청소기록판(){
@@ -10329,6 +10340,12 @@ function 청소기록판(){
 }
 /* ── 관리 — 구역 · 분기 배정 · 할 일 · 대청소 메모 · 선생님 성별 (청소 담당 관리 권한) ── */
 const 구역종류글 = { 고정:'고정', 순환:'순환', 당직:'주말당직' };
+async function 청소담당쉼(zid){ const z = (청소.구역 || []).find(y => y.id === zid); if(!z) return; const 끔 = !z.owner_off, 누 = (W.staff || []).find(s => s.id === 분기배정(분기of(TODAY))[zid]);
+  if(!await 묻기((끔 ? '「' + (z.name || '') + '」 담당' + (누 ? '(' + 보임이름(누.name) + ')' : '') + '을 잠시 끌까요?' + String.fromCharCode(10) + '켤 때까지 이 구역 청소를 출근한 선생님에게 나눠요' : '「' + (z.name || '') + '」 담당을 다시 켤까요?' + String.fromCharCode(10) + '원래 담당이 다시 맡아요'))) return;
+  try{ await usend('tr_clean_zone?id=eq.' + encodeURIComponent(zid), 'PATCH', { owner_off: 끔, updated_at: new Date().toISOString() }); z.owner_off = 끔;
+    기록남기기({ area:'청소', action:'수정', tbl:'tr_clean_zone', row_id:zid, detail:'담당 ' + (끔 ? '쉼' : '다시 켬') + ' — ' + (z.name || '') });
+    toast(끔 ? '담당을 잠시 껐어요' : '담당을 다시 켰어요'); 청소관리판(); render(); }
+  catch(e){ toast(/owner_off|PGRST204|42703/.test(String(e.message)) ? '아직 끌 수 없어요\n서버 준비(136단계)가 아직이에요' : '저장하지 못했어요\n다시 시도해 주세요'); } }
 function 청소관리판(){
   const 고칠0 = 할수('clean');      /* 보기는 모두 · 수정 단추는 청소 관리 권한만 (2026-10-22 22:22 대표 「수정은 대표랑 지점장만」) */
   /* 2026-10-23 밤 대표 「직원별로 한눈에 · 다음 분기 순환 미리 보는 칩」 + 22:24 「순환이 먼저 · 양인혁 → 000 표기」 → 합친 안(시안 버전 3) */
@@ -10344,7 +10361,8 @@ function 청소관리판(){
     + (고칠 ? '<span class="bp-act"><button class="btn ghost sm" data-act="tx:clmove" data-v2="' + esc(x.id) + '">담당 옮기기</button><button class="btn ed sm" data-act="tx:cledit" data-v2="' + esc(x.id) + '">수정</button><button class="btn ghost sm" data-act="tx:cloff" data-v2="' + esc(x.id) + '">삭제</button></span>' : '') + '</div>';
   const 딱 = id => id ? 이름딱지(id) : '<span class="sub3">담당 없음</span>';
   const 구줄 = z => { const 옮김 = 미리 && z.kind === '순환' && (지금배[z.id] || null) !== (배[z.id] || null);
-    return '<div class="bp-row2"><div class="a cl-zh">' + (z.kind !== '당직' ? 딱(배[z.id]) : '') + (z.slot ? 청소시각(z.slot) : '') + '<b>' + 시간칠(z.name) + '</b>' + (z.sex ? '<em class="bp-st">' + esc(z.sex) + '</em>' : '') + (z.kind !== '당직' ? '<em class="cl-kd">' + 구역종류글[z.kind] + '</em>' : '')
+    const 쉼칸 = z.kind !== '당직' && 'owner_off' in z && 배[z.id] ? (고칠 ? '<button class="sw cl-own' + (z.owner_off ? '' : ' on') + '" data-act="tx:clzown" data-v2="' + esc(z.id) + '" role="switch" aria-checked="' + (z.owner_off ? 'false' : 'true') + '" title="담당이 잠시 없으면 끄기 — 출근한 선생님에게 나눠요"><i></i><b>' + (z.owner_off ? '담당 쉼' : '담당 켜짐') + '</b></button>' : z.owner_off ? '<em class="cl-offz">담당 쉼</em>' : '') : '';      /* 2026-11-12 대표 「F.C 가 없어서 담당 on/off 로 잠시 꺼 둘 수」 */
+    return '<div class="bp-row2' + (z.owner_off ? ' cl-zoff' : '') + '"><div class="a cl-zh">' + (z.kind !== '당직' ? 딱(배[z.id]) + 쉼칸 : '') + (z.slot ? 청소시각(z.slot) : '') + '<b>' + 시간칠(z.name) + '</b>' + (z.sex ? '<em class="bp-st">' + esc(z.sex) + '</em>' : '') + (z.kind !== '당직' ? '<em class="cl-kd">' + 구역종류글[z.kind] + '</em>' : '')
 
     + (옮김 ? '<span class="cl-mv">' + 딱(지금배[z.id]) + '<i>→</i>' + 딱(배[z.id]) + '</span>' : 미리 && z.kind !== '당직' ? '<span class="cl-same">그대로</span>' : '') + '</div>'
     + (z.memo ? '<div class="cl-zd">' + esc(z.memo) + '</div>' : '')
@@ -10390,7 +10408,7 @@ function 청소수정창(el, id, 구역){
     + '<label>청소<input class="inp" id="clt" value="' + esc(x.title || '') + '" placeholder="여자 탈의실 정리"></label>'
     + '<label>시각<input class="inp" id="cls" value="' + esc(x.slot || '') + '" placeholder="14시 · 마감"></label>'
     + '<div class="cl-lb">요일 <small>비우면 매일</small><span class="cl-days">' + ['월', '화', '수', '목', '금', '토', '일'].map(d => '<button data-act="tx:clday" data-v2="' + d + '" class="' + (청소편.days.indexOf(d) >= 0 ? 'on' : '') + '">' + d + '</button>').join('') + '</span></div>'
-    + (이월칸 ? '<div class="cl-lb">안 하면 다음 날로 이월 <small>요일을 정한 청소만 · 체크할 때까지 다음 날 다시 떠요</small><span><button class="sw' + (청소편.carry ? ' on' : '') + '" data-act="tx:clcarry" role="switch" aria-checked="' + (청소편.carry ? 'true' : 'false') + '"><i></i><b>' + (청소편.carry ? '켜짐' : '꺼짐') + '</b></button></span></div>' : '')
+    + (이월칸 ? '<div class="cl-lb">안 하면 다음 날로 이월 <small>주 2회 이상 정한 청소 · 체크할 때까지 다음 날 다시 떠요 · 주 1회는 늘 그 주 안에 다시 떠요</small><span><button class="sw' + (청소편.carry ? ' on' : '') + '" data-act="tx:clcarry" role="switch" aria-checked="' + (청소편.carry ? 'true' : 'false') + '"><i></i><b>' + (청소편.carry ? '켜짐' : '꺼짐') + '</b></button></span></div>' : '')
     + '<label>설명<input class="inp" id="clh" value="' + esc(x.how || '') + '" placeholder="포대 정리 · 비품 보충"></label>'
     + (쉬는칸 ? 청소쉬는칸() : '')
     + '<button class="btn gold sm" data-act="tx:clsave" data-v2="' + esc(id || '') + '">저장</button></div>', 440);
@@ -16765,8 +16783,11 @@ function FC나눔(t){ const s = String(t || ''), 조 = s.split(/\[([^\]]+)\]/), 
   for(let k = 1; k < 조.length; k += 2){ const h = 조[k].trim(), b = (조[k + 1] || '').trim(), 날 = (h.match(/\d{1,2}\/\d{1,2}/) || [''])[0];
     if(/^전산결제/.test(h)){ 결.결제.push({ 날, 글: 이전뽑기(b) }); continue; }
     if(/^TG\b/.test(h)){ const 누 = h.replace(/^TG\s*/, '').replace(날, '').trim(), 참위치 = b.search(/참고\s*:/), 앞 = 참위치 >= 0 ? b.slice(0, 참위치) : b, 뒤 = 참위치 >= 0 ? b.slice(참위치) : '';
-      const 칸 = []; 앞.split(/\s\/\s/).forEach(p => { const m = p.match(/^\s*([^:：]{1,12})\s*[:：]\s*([\s\S]*)$/); if(!m) return; const 키 = m[1].trim(), 값 = m[2].trim(); if(!값 || /^[—-]+$/.test(값)) return; 칸.push([키 === 'TG' ? '팝업 선택' : 키, 키 === 'TG' ? '배정 ' + 값 : 값]); });
-      결.tg.push({ 날, 누, 칸, 말: 이전뽑기(뒤) }); continue; }
+      const 칸 = [], 자유 = [];      /* 「키:」 없는 조각(추가 메모)도 버리지 않는다 — 옛 꼴은 화면에서 사라지고 「수정」하면 지워졌다 (2026-11-12 대표 「TG 메모가 FC 원문으로만」) · 줄바꿈으로 온 메모 줄도 따로 */
+      앞.split(/\n+/).forEach(줄 => 줄.split(/\s\/\s/).forEach(p => { const m = p.match(/^\s*([^:：]{1,12})\s*[:：]\s*([\s\S]*)$/);
+        if(!m){ const v = p.trim(); if(v && !/^[—-]+$/.test(v)) 자유.push(v); return; }
+        const 키 = m[1].trim(), 값 = m[2].trim(); if(!값 || /^[—-]+$/.test(값)) return; 칸.push([키 === 'TG' ? '팝업 선택' : 키, 키 === 'TG' ? '배정 ' + 값 : 값]); }));
+      결.tg.push({ 날, 누, 칸, 말: [자유.join(' / '), 이전뽑기(뒤)].filter(Boolean).join(' ') }); continue; }
     결.기타.push((h + ' ' + b).trim()); }
   return 결; }
 /* 💬 카톡 인사 — 첫 연락 카톡에 붙일 사진 1 · 사진 2 · 멘트를 눌러서 복사(몇 번이고) · 갈래 = 가이드 → 무료PT · 체험 → 체험 · PT → 정규PT(PT+TG 같이 결제도)
@@ -16908,9 +16929,9 @@ function 배정판정칸(x){
 const 배정TG창 = { k:'', id:'', 고침:false };
 /* TG & PT 메모 — 고객 앞에서 화면을 띄울 때 보이지 않게 늘 가린 채로 열고 「필요한 정보 열어보기」 · 트레이너는 읽기 전용(수정은 관리자)
    (2026-11-11 13:33 대표 「고객이 원하는 것 → TG & PT 메모 · 필요한 정보 열어보기 / 트레이너 읽기 전용」 · 트레이너 의견 「고객과 얘기하며 화면 띄우다 공개될 우려」) */
-function 메모블(x, 원, 수, 블){ const 열 = 배정.메모열림 === String(x.id), 관 = 할수('assignset');
-  const 덧 = (관 ? 배정TG단추(x, 수) : '<span class="as-tag">트레이너 읽기 전용</span>') + (열 ? '<button class="btn ghost sm" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 가리기</button>' : '');
-  const 속 = 열 ? (원 || '<div class="sub3">—</div>') : '<button class="asp-open" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 필요한 정보 열어보기</button>';
+function 메모블(x, 원, 숨, 수, 블){ const 열 = 배정.메모열림 === String(x.id), 관 = 할수('assignset');      /* 2026-11-12 대표 : 희망시간 · 운동목적은 늘 · 추가 메모만 「추가 정보 열어보기」 */
+  const 덧 = (관 ? 배정TG단추(x, 수) : '<span class="as-tag">트레이너 읽기 전용</span>') + (열 && 숨 ? '<button class="btn ghost sm" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 가리기</button>' : '');
+  const 속 = (원 || (숨 ? '' : '<div class="sub3">—</div>')) + (숨 ? (열 ? 숨 : '<button class="asp-open" data-act="tx:asmemo" data-k="' + esc(x.id) + '">🔒 추가 정보 열어보기</button>') : '');
   return 블('TG & PT 메모', 속, 덧); }
 const 배정TG단추 = (x, 있음) => 배정쓰기(x) && x.kind !== '체험' ? '<button class="as-btn sm" data-act="tx:astgm" data-k="' + esc(x.id) + '">' + (있음 ? '수정' : x.kind === 'PT' ? '메모 남기기' : 'TG 메모 남기기') + '</button>' : '';
 function 배정TG창열기(id){ const x = (배정.줄 || []).find(r => String(r.id) === String(id)); if(!x) return;
@@ -16971,7 +16992,9 @@ function 배정판(id){
   const 참고 = [].concat(메.이전.map(z => ['전에 담당', '<b>' + esc(z.누) + '</b> · 이전 TG ' + esc(z.총) + '회 중 ' + esc(z.한) + '회 · 마지막 ' + esc(z.날)]),
     메.tg.filter(t => t.누).map(t => ['팝업 메모', '<b>' + esc(t.누) + '</b> · ' + esc(t.날) + ' 결제 때']), 원함 ? [['원하는 선생님', '<b>' + esc(원함) + '</b>']] : [],
     x.pt_state ? [['PT', (배정PT중(x) ? 'PT 진행 중' : 'PT 끝남') + (x.pt_note ? ' · ' + esc(x.pt_note) : '')]] : []);
-  const 원 = 메.tg.map(t => kv(t.칸.map(([k, v]) => [k, esc(v)])) + (t.말 ? 메모줄(t.말) || '<div class="asp-say">' + esc(t.말) + '</div>' : '')).join('') + 메.기타.map(t => 메모줄(t) || '<div class="asp-say">' + esc(t) + '</div>').join('');
+  const 정칸 = k => ['희망시간', '운동목적', '팝업 선택'].includes(k);      /* 늘 보임 = 양식으로 고른 답 · 나머지(주의 · 추가 메모)는 열어보기 (2026-11-12 대표 「희망시간 · 운동목적 같은 정형화된 답은 띄워놓고 추가 메모만 열어보기」) */
+  const 원 = 메.tg.map(t => kv(t.칸.filter(([k]) => 정칸(k)).map(([k, v]) => [k, esc(v)]))).join('');
+  const 숨 = 메.tg.map(t => kv(t.칸.filter(([k]) => !정칸(k)).map(([k, v]) => [k, esc(v)])) + (t.말 ? 메모줄(t.말) || '<div class="asp-say">' + esc(t.말) + '</div>' : '')).join('') + 메.기타.map(t => 메모줄(t) || '<div class="asp-say">' + esc(t) + '</div>').join('');
   const 진행 = kv([].concat(
     x.kind === 'PT' ? [] : [['회차', 회차크게(x)]],      /* PT 줄엔 TG 회차(n/3) 없음 */
     x.survey_sent ? [['설문', 결과딱지(x.survey_sent) + (x.survey_resp ? ' <span class="sub3">' + esc(x.survey_resp) + '</span>' : '') + (x.survey_sent === '못 감' ? ' <span class="sub3">카톡 · 문자 실패 — 다시 보내거나 전화</span>' : '')]] : []))
@@ -16987,7 +17010,7 @@ function 배정판(id){
     + 상태줄
     + 배정할일(x) + 배정확인칸(x)
     + '<div class="asv-wrap">' + 배정설문줄(x) + '</div>'
-    + '<div class="asp-two">' + 메모블(x, 원, 메.tg.length, 블)
+    + '<div class="asp-two">' + 메모블(x, 원, 숨, 메.tg.length, 블)
     + 블('수업 · 등록', 진행 + 등록 + kv(참고), '') + '</div>'      /* 배정 참고(전에 담당 · 팝업 메모)를 여기로 (2026-10-29 시안 ④) */
     + '<div class="asp-fold">' + 재연락기록(x)      /* 자주 안 보는 것 = 접힘(요약 한 줄) — 최근 출석 · 지난 기록 · FC 메모 원문 (2026-11-06 21:00) */
     + '<details class="asp-raw asp-att"' + (배정출석.열림.has(String(x.id)) ? ' open' : '') + '><summary>최근 출석' + (출석글 ? ' <span class="pv">' + esc(출석글.split(/\s*,\s*/).filter(Boolean).slice(0, 3).join(' · ')) + '</span>' : '') + '</summary><div>' + 배정출석칸(x) + '</div></details>'
@@ -17926,7 +17949,8 @@ async function txAct(a, el){
   if(a==='clset'){ 청소관리판(); return; }
   if(a==='cledit'){ if(!할수('clean')) return; 청소수정창(el, v2, k); return; }
   if(a==='clq'){ 청소.보기 = k || ''; 청소.순서 = null; 청소관리판(); return; }      /* 이번 분기 / 다음 분기 미리보기 (2026-10-23 밤) */
-  if(a==='clwho'){ if(!할수('clean')) return; 담당창(el, v2); return; }      /* 청소 v2 — 구역 · 분기 담당 · 대청소 (2026-10-21) */
+  if(a==='clwho'){ if(!할수('clean')) return; 담당창(el, v2); return; }
+  if(a==='clzown'){ if(!할수('clean')) return; await 청소담당쉼(v2); return; }      /* 구역 담당 쉼 켜고 끄기 (2026-11-12) */      /* 청소 v2 — 구역 · 분기 담당 · 대청소 (2026-10-21) */
   if(a==='clwhook'){ if(!할수('clean')) return; await 담당저장(k, v2); return; }
   if(a==='clzone'){ if(!할수('clean')) return; if(!v2 && k){ 청소편.items = []; 구역창(el, '', { name:'', kind:k, sex:null, items:[] }); } else 구역창(el, v2); return; }
   if(a==='cladd'){ if(!할수('clean')) return; 청소수정창(el, '', v2); return; }      /* 구역 안 「＋ 청소 추가」 (2026-10-22) */
