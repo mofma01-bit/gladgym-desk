@@ -1729,6 +1729,10 @@ body.resizing{cursor:col-resize;user-select:none}
 .sx{display:flex;flex-direction:column;margin-top:8px}.sx-r{display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #34332d}.sx-r:first-child{border-top:0}
 .sx-v{font-size:14px;color:#e6dfd3;min-width:0;line-height:1.5}.sx-v small{display:block;font-size:13px;color:#b9b1a3}.sx-v .sub3{font-size:13px}
 .btn.sx-ed{border:1.5px solid var(--gold-2);color:var(--gold);background:var(--gold-dim);font-weight:800}.btn.sx-ed:hover{background:#3d3220}
+.rj-3{display:inline-flex;gap:6px;flex-wrap:wrap}.btn.rj-lsn{background:#232f1f;border:1px solid #7fa86a;color:#cfe8bf}.btn.rj-lsn:hover{border-color:#b0e299}
+.zj-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0 4px}.zj-seg button{height:38px;border-radius:10px;border:1px solid #77715f;background:#2e2d29;color:#e6dfd3;font:inherit;font-weight:800;font-size:14px;cursor:pointer}.zj-seg button.on{background:var(--cream);color:#2a2214;border-color:var(--cream)}
+.zj-sh{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}.zj-sh button{flex:none;width:96px;position:relative;border:0;background:none;color:var(--sub);font:inherit;text-align:center;padding:0;cursor:pointer}.zj-sh button > :first-child{width:96px !important;height:72px !important;border-radius:10px;margin-bottom:4px;font-size:13px !important;line-height:1.2 !important;padding-top:14px}.zj-sh button.on > :first-child{outline:2.5px solid var(--cream);outline-offset:2px}.zj-sh small{display:block;font-size:13px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.zj-sh button.on small{color:var(--cream);font-weight:800}.zj-sh .st{position:absolute;left:5px;top:4px;font-size:12px;font-weight:800;background:#2a2214;color:var(--gold);border-radius:6px;padding:0 5px}
+.zj-rec{display:flex;flex-direction:column;gap:6px}.zj-rec button{display:flex;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--dark-2);border-radius:12px;padding:8px 12px;color:var(--cream);font:inherit;cursor:pointer}.zj-rec button:hover{border-color:var(--gold-2)}.zj-rec .d{flex:none;width:82px;font-weight:800;font-size:13.5px}.zj-rec .t{flex:1;min-width:0}.zj-rec b{font-size:14px}
 .rj-lb{font-size:13px;font-weight:800;color:#b9b1a3;margin:10px 0 6px}
 .rj-st{display:flex;gap:6px;margin-bottom:12px}.rj-st span{flex:1;text-align:center;font-size:13px;font-weight:900;padding:7px 0;border-radius:9px;background:var(--dark-3);color:var(--sub)}.rj-st .on{background:var(--gold);color:#1a1a18}.rj-st .ok{background:var(--gold-dim);color:var(--gold);cursor:pointer}
 .rj-sh{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;background:var(--dark-3);padding:8px;margin-bottom:6px;cursor:pointer;color:var(--cream);font:inherit}.rj-sh .rsc{width:44px;aspect-ratio:3/4;flex:none;padding:3px}.rj-sh .tx{flex:1;min-width:0}.rj-sh b{display:block;font-size:14.5px}.rj-sh small{font-size:12.5px;color:#b9b1a3}.rj-sh i{font-style:normal;color:var(--sub)}.rj-sh:hover,.rj-sh.on{border-color:var(--gold)}
@@ -3483,7 +3487,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '667';
+const BUILD = '668';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4868,8 +4872,9 @@ const 담당빈 = m => !m.trainer && ['PT회원', '체험수업'].includes(갈�
 /* 현황판 겹침 없음 (2026-10-29 대표 「33 안에 배O자 · 옆 3 에도 배O자 · 겹치는 알림 없게」) — 한 사람은 한 카드에만
    차례 = 담당 확인(전 담당 퇴사 · 신청 · 승인) → TG · 체험 담당 없음(배정 표 담당 정하기) → 체험 · PT 담당 없음(그 밖) · 빠진 사람 없음(앞 카드에 있음) */
 const 담당빈회원 = () => { const 확 = new Set(담당확인회원().map(m => m.id)), 열쇠 = (n, p4) => String(n || '').trim() + '|' + String(p4 || ''),
-    배 = new Set((배정.줄 || []).filter(배정담당없음줄).map(x => 열쇠(x.name, x.phone4 || String(x.phone || '').replace(/\D/g, '').slice(-4))));
-  return D.m.filter(x => (x.role || 'member') === 'member' && 담당빈(x) && !확.has(x.id) && !배.has(열쇠(x.name, x.phone4))); };
+    배 = new Set((배정.줄 || []).filter(배정담당없음줄).map(x => 열쇠(x.name, x.phone4 || String(x.phone || '').replace(/\D/g, '').slice(-4)))),
+    배담 = new Set((배정.줄 || []).filter(x => 배정열림(x) && (x.trainers || []).length).map(x => 열쇠(x.name, x.phone4 || String(x.phone || '').replace(/\D/g, '').slice(-4))));      /* 배정 표에 담당이 정해진 분 = 담당 있음 — 첫 수업 전이라 전산 담당(마지막 수업 선생님)이 비어도 (2026-11-13 대표 「김O희 담당 장승훈인데 담당 없음에 뜸」) */
+  return D.m.filter(x => (x.role || 'member') === 'member' && 담당빈(x) && !확.has(x.id) && !배.has(열쇠(x.name, x.phone4)) && !배담.has(열쇠(x.name, x.phone4))); };
 const 상태빛 = { 진행중:'teal', 잠수:'warn', 종료:'gray' };
 const 상태설명 = { 진행중:'PT가 남아 있고 최근에 오신 회원',
                   잠수:'홀딩 중이거나 30일 넘게 안 오셨어요. 연락해 보세요',
@@ -5810,7 +5815,7 @@ function 고를회원줄(){
     const 상태 = 표 ? (남 ? '담당 ' + (m.trainer || '없음') : '내 회원') : 그날 ? '오늘 ' + esc(그날.kind || '개인운동') + (r0 ? ' · 루틴 ' + r0.no + ' ' + esc(r0.name || '') : '') : '아직 지정 안 함';
     return '<button class="card click rowc pkm' + (!표 && 그날 ? ' gold' : '') + '" data-pickm="' + esc(m.id) + '"><div style="flex:1;min-width:0">'
       + '<div class="t1">' + esc(m.name) + (m.phone4 ? ' <small class="sub3" style="font-weight:600">···' + esc(m.phone4) + '</small>' : '') + '</div><div class="t2">' + 상태 + (!표 && 남 ? ' · 담당 ' + esc(m.trainer || '없음') : '') + '</div></div>'      /* 동명이인 — 전화 뒷 4자리 (19:06 대표) */
-      + '<span class="rt">루틴 주기 ›</span></button>'; }).join('');
+      + '<span class="rt">' + ({ 지정:'개인운동 지정', 수업지정:'다음 수업 루틴', 루틴표:'루틴표 주기' }[회원고르기.목적] || '선택') + ' ›</span></button>'; }).join('');      /* 단추 이름대로 (11/13) */
 }
 function 회원고르기칩(){ const 칩 = 회원고르기.칩 || 'mine', 내 = D.m.filter(m => (m.role||'member') === 'member' && 내담당(m.id)).length, 별 = D.m.filter(m => (m.role||'member') === 'member' && 내즐겨찾기(m.id)).length;
   return '<button class="chip' + (칩 === 'mine' && !회원고르기.q ? ' on' : '') + '" data-act="tx:pkchip" data-k="mine">내 회원 <b>' + 내 + '</b></button>'
@@ -6578,17 +6583,55 @@ const 운동그림 = (rid, n) => (D.ri || []).filter(i => i.routine_id === rid).
 const 메인표 = mid => { const 웨 = (D.gives || []).filter(g => { if(g.member_id !== mid) return false; const s0 = (D.rs || []).find(x => x.id === g.sheet_id); return s0 && 표종류(s0) !== '스트레칭'; }).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))); return 웨[0] || null; };
 let 루틴주기 = null;      /* { mid, 단계, sid, rid, 날, 종류, q, 고침 } */
 function 루틴주기열기(mid, 미리){ 루틴주기 = Object.assign({ mid, 단계:1, sid:'', rid:'', 날:TODAY, 종류:'개인운동', q:'', 고침:'' }, 미리 || {}); 루틴주기판(); }
+/* ══ 개인운동 지정 · 다음 수업 루틴 미리 지정하기 ══ 앱과 같은 판 (2026-11-13 대표 「1:1 로 단순하게 · [루틴표][지난 기록] · 루틴표 고르면 아래 운동」)
+   날짜 → [📋 루틴표 | 🗓 지난 기록] → 받은 루틴표 썸네일(★ 메인 먼저 · 옆으로) → 운동 누르면 지정 / 지난 기록 = 그 기록의 루틴 · 없으면 그 기록을 이 회원 루틴으로 저장해 지정 */
+const 받은표 = mid => (D.gives || []).filter(g => g.member_id === mid).sort((a, b) => String(b.at || '').localeCompare(String(a.at || ''))).map(g => (D.rs || []).find(x => x.id === g.sheet_id)).filter(x => x && 표종류(x) !== '스트레칭' && 표루틴들(x).length);
+function 루틴지정판열기(mid, 갈){ const 표 = 받은표(mid); 루틴주기 = { mid, 판:갈, 종류:갈, 날: 갈 === '수업' ? 며칠뒤(TODAY, 1) : TODAY, 보기:'표', sid:(표[0] || {}).id || '', rid:'', q:'', 고침:'', 단계:0 }; 루틴주기판(); }
+function 지정판속(o){ const 수 = o.판 === '수업', 날들 = [[TODAY, '오늘'], [며칠뒤(TODAY, 1), '내일'], [며칠뒤(TODAY, 2), '모레']];
+  let h = '<div class="rj-lb">날짜</div><div class="rj-when">' + 날들.map(([d, t]) => '<button class="' + (o.날 === d ? 'on' : '') + '" data-act="tx:rjday" data-k="' + d + '">' + t + ' ' + 지정날글(d) + '</button>').join('')
+    + '<label class="' + (날들.some(x => x[0] === o.날) ? '' : 'on') + '">📅 <input type="date" id="rjdate" min="' + TODAY + '" value="' + esc(o.날 || '') + '"></label></div>'
+    + '<div class="zj-seg"><button class="' + (o.보기 !== '기록' ? 'on' : '') + '" data-act="tx:zjv" data-k="표">📋 루틴표</button><button class="' + (o.보기 === '기록' ? 'on' : '') + '" data-act="tx:zjv" data-k="기록">🗓 지난 기록</button></div>';
+  if(o.보기 === '기록'){ const ws = (D.w || []).filter(w => w.member_id === o.mid && w.done).sort((a, b) => String(b.on_date || '').localeCompare(String(a.on_date || ''))).slice(0, 12);
+    return h + (ws.length ? '<div class="rj-lb" style="margin-top:10px">지난 기록 — 누르면 그 기록 그대로 ' + (수 ? '수업' : '개인운동') + '으로 지정</div><div class="zj-rec">' + ws.map(w => { const r = (D.r || []).find(x => String(x.id) === String(w.routine_id));
+        return '<button data-act="tx:zjrec" data-k="' + esc(w.id) + '"><span class="d">' + 지정날글(w.on_date) + '</span><span class="t"><b>' + esc(r ? 운동이름(r) : (w.title || (w.kind || '수업') + ' 기록')) + '</b></span>' + 지정딱(w.kind || '수업') + '</button>'; }).join('') + '</div>'
+      : '<div class="empty why"><b>아직 마친 기록이 없습니다</b>「📋 루틴표」에서 운동을 지정해 주세요</div>'); }
+  const 표 = 받은표(o.mid);
+  if(!표.length) return h + '<div class="empty why"><b>받은 루틴표가 없습니다</b>「📋 루틴표 주기」로 루틴표를 먼저 주세요</div>';
+  if(!표.some(x => x.id === o.sid)) o.sid = 표[0].id;
+  const s0 = 표.find(x => x.id === o.sid), 지 = 보일지정(o.mid);
+  return h + '<div class="rj-lb" style="margin-top:10px">루틴표 — ★ 메인이 먼저 · 다른 루틴표는 눌러서 바꿔 보기</div><div class="zj-sh">' + 표.map((x, i) => '<button class="' + (x.id === o.sid ? 'on' : '') + '" data-act="tx:zjsid" data-k="' + esc(x.id) + '">' + 루틴표표지(x) + (i === 0 ? '<span class="st">★ 메인</span>' : '') + '<small>' + esc(x.title || '루틴표') + '</small></button>').join('') + '</div>'
+    + '<div class="rj-lb" style="margin-top:6px">운동 — 누르면 바로 ' + (수 ? '수업' : '개인운동') + '으로 지정</div>'
+    + 표루틴들(s0).map(r => { const a = 지.find(x => String(x.routine_id) === String(r.id)), st = a && 지정상태(a);
+      return '<button class="rj-ex' + (a ? (a.kind === '수업' ? ' cl' : ' pe') : '') + '" data-act="tx:zjpick" data-k="' + esc(r.id) + '">' + (a ? '<span class="bar ' + (a.kind === '수업' ? 'cl' : 'pe') + (st === '못함' ? ' ms' : '') + '">📅 ' + 지정날글(a.on_date) + ' ' + esc(a.kind || '') + (st === '못함' ? ' · 못함' : '으로 지정') + '</span>' : '<span class="bar no">지정 안 함</span>')
+        + '<span class="bd"><b><em>운동 ' + (r.no || '') + '</em>' + esc(r.name || '') + '</b><span class="g">' + 운동그림(r.id, 4) + '</span></span></button>'; }).join(''); }
+async function 기록지정(wid){ const o = 루틴주기, w = (D.w || []).find(x => String(x.id) === String(wid)); if(!o || !w) return;
+  if(!o.날 || String(o.날) < TODAY) return toast('오늘이나 앞날만 지정할 수 있어요');
+  const m = memOf(o.mid) || {}, 있 = (D.r || []).find(x => String(x.id) === String(w.routine_id));
+  if(!await 묻기((m.name || '') + ' 회원 ' + 지정날글(o.날) + ' ' + (o.종류 === '수업' ? '수업 루틴' : '개인운동') + '으로' + String.fromCharCode(10) + 지정날글(w.on_date) + ' 기록 「' + (있 ? 운동이름(있) : (w.title || (w.kind || '수업') + ' 기록')) + '」 그대로 지정할까요?')) return;
+  try{ let rid = 있 && 있.id;
+    if(!rid){ let its = [], sets = []; its = await sget('workout_items?select=*&workout_id=eq.' + encodeURIComponent(w.id)) || []; if(its.length) sets = await sget('workout_sets?select=*&item_id=in.(' + its.map(i => i.id).join(',') + ')') || [];
+      its = its.filter(i => sets.some(z => z.item_id === i.id)).sort((a, b) => (a.sort || 0) - (b.sort || 0)); if(!its.length) return toast('이 기록에는 세트가 없어 지정할 수 없어요');
+      const used = (D.r || []).filter(x => x.member_id === o.mid).map(x => x.no); let no = 1; while(used.includes(no)) no++;
+      rid = 'r' + Date.now(); const 덧 = (!D.r.length || 'hidden' in D.r[0]) ? { by: 나이름(), made_at: new Date().toISOString() } : {}, 줄 = Object.assign({ id:rid, member_id:o.mid, no, name:(지정날글(w.on_date) + ' 기록').slice(0, 24), purpose:'', grp:'' }, 덧);      /* 루틴 없이 한 기록 = 이 회원 루틴으로 저장해 지정 */
+      await ssend('routines', 'POST', [줄]); D.r.push(줄);
+      const ri = its.map((it, k) => { const 끝 = sets.filter(z => z.item_id === it.id).sort((a, b) => (b.sort || 0) - (a.sort || 0))[0] || {}; return { routine_id:rid, sort:k, variant_id:it.variant_id, kg: 끝.kg || null, reps: 끝.reps || null, sets: sets.filter(z => z.item_id === it.id).length || 3, rest:60 }; });
+      const made = await ssend('routine_items', 'POST', ri, 'return=representation'); (made || []).forEach(z => D.ri.push(z)); }
+    if(o.고침 && o.고침 !== o.날) await 지정풀기(o.mid, o.고침, true);
+    await 루틴지정(o.mid, rid, o.종류, o.날); 루틴주기 = null; popClose(); render(); }
+  catch(e){ toast('지정하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 function 루틴주기판(){ const o = 루틴주기; if(!o) return; const m = memOf(o.mid) || {}, 받 = new Set((D.gives || []).filter(g => g.member_id === o.mid).map(g => g.sheet_id)), 메 = 메인표(o.mid);
-  const 걸음 = '<div class="rj-st">' + [['① 루틴표', 1], ['② 운동', 2], ['③ 언제', 3]].map(([t, n]) => '<span class="' + (o.단계 === n ? 'on' : o.단계 > n ? 'ok' : '') + '"' + (o.단계 > n ? ' data-act="tx:rjback" data-k="' + n + '"' : '') + '>' + t + (o.단계 > n ? ' ✓' : '') + '</span>').join('') + '</div>';
+  if(o.판){ 판열기(esc(m.name || '') + ' · ' + (o.판 === '수업' ? '다음 수업 루틴 <small>미리 지정하기</small>' : '개인운동 지정 <small>혼자 할 운동</small>'), 지정판속(o));
+    setTimeout(() => { const el = document.getElementById('rjdate'); if(el) el.onchange = () => { if(el.value){ o.날 = el.value; 루틴주기판(); } }; }, 20); return; }
+  const 걸음 = o.준다 ? '' : '<div class="rj-st">' + [['① 루틴표', 1], ['② 운동', 2], ['③ 언제', 3]].map(([t, n]) => '<span class="' + (o.단계 === n ? 'on' : o.단계 > n ? 'ok' : '') + '"' + (o.단계 > n ? ' data-act="tx:rjback" data-k="' + n + '"' : '') + '>' + t + (o.단계 > n ? ' ✓' : '') + '</span>').join('') + '</div>';
   let 속 = '';
   if(o.단계 === 1){ const q = String(o.q || '').trim(), 표 = 루틴표들().filter(x => 표종류(x) !== '스트레칭');
     const 줄 = x => '<button class="rj-sh' + (o.sid === x.id ? ' on' : '') + '" data-act="tx:rj1" data-k="' + esc(x.id) + '">' + 루틴표표지(x) + '<span class="tx"><b>' + esc(x.title || '루틴표') + '</b><small>운동 ' + 표루틴들(x).length + '개' + (메 && 메.sheet_id === x.id ? ' · ★ 메인 루틴표' : 받.has(x.id) ? ' · 받은 루틴표' : x.owner ? ' · ' + esc(보임이름(x.owner)) : '') + '</small></span><i>›</i></button>';
     const 받목 = 표.filter(x => 받.has(x.id)).sort((a, b) => (메 && b.id === 메.sheet_id) - (메 && a.id === 메.sheet_id)), 센 = 표.filter(x => !받.has(x.id) && (!q || String(x.title || '').includes(q)));
-    속 = '<div class="sub3">루틴표를 누르세요 · 처음 주는 루틴표는 회원 앱 「내 루틴표」에도 들어가요</div>'
+    속 = '<div class="sub3">' + (o.준다 ? '누르면 그 루틴표를 줘요 · 메인 루틴표가 돼요' : '루틴표를 누르세요 · 처음 주는 루틴표는 회원 앱 「내 루틴표」에도 들어가요') + '</div>'
       + (받목.length ? '<div class="rj-lb" style="margin-top:10px">받은 루틴표</div>' + 받목.map(줄).join('') : '')
       + '<div class="rj-lb" style="margin-top:12px">센터 루틴표</div><input class="inp" id="rjq" placeholder="루틴표 이름으로 검색" value="' + esc(o.q || '') + '">'
       + '<div id="rjsl" style="margin-top:8px">' + (센.length ? 센.map(줄).join('') : '<div class="empty why"><b>보일 루틴표가 없습니다</b>「루틴표 · 스트레칭」에서 만들어 주세요</div>') + '</div>'
-      + '<div style="margin-top:12px"><button class="btn sub sm" data-act="tx:pgct" data-k="' + esc(o.mid) + '">🏃 루틴 대신 유산소만 지정</button></div>'; }
+      + (o.준다 ? '' : '<div style="margin-top:12px"><button class="btn sub sm" data-act="tx:pgct" data-k="' + esc(o.mid) + '">🏃 루틴 대신 유산소만 지정</button></div>'); }
   else if(o.단계 === 2){ const s0 = (D.rs || []).find(x => x.id === o.sid); if(!s0){ o.단계 = 1; return 루틴주기판(); }
     const 지 = 보일지정(o.mid);
     속 = '<div class="rj-hd">' + 루틴표표지(s0) + '<span><b>' + esc(s0.title || '') + '</b><small>운동을 누르면 언제 할지 정해요' + (받.has(s0.id) ? '' : ' · 아직 안 준 루틴표 — 지정하면 같이 줘요') + '</small></span></div>'
@@ -6604,7 +6647,7 @@ function 루틴주기판(){ const o = 루틴주기; if(!o) return; const m = mem
       + '<div class="rj-lb" style="margin-top:10px">무엇으로</div><div class="rj-kind">' + ['수업', '개인운동'].map(k => '<button class="' + (o.종류 === k ? 'on ' + (k === '수업' ? 'cl' : 'pe') : '') + '" data-act="tx:rjkind" data-k="' + k + '">' + k + '</button>').join('') + '</div>'
       + '<button class="btn gold" style="width:100%;margin-top:14px" data-act="tx:rjsave">지정 — ' + 지정날글(o.날) + ' ' + esc(o.종류) + ' · ' + esc(운동이름(r)) + '</button>'
       + (o.고침 ? '<button class="btn ghost sm" style="margin-top:8px" data-act="tx:rjoff">' + 지정날글(o.고침) + ' 지정 풀기</button>' : ''); }
-  판열기(esc(m.name || '') + ' · 루틴 주기', 걸음 + 속);
+  판열기(esc(m.name || '') + (o.준다 ? ' · 루틴표 주기' : ' · 루틴 주기'), 걸음 + 속);
   if(o.단계 === 1) setTimeout(() => { const el = document.getElementById('rjq'); if(el) el.oninput = () => { o.q = el.value; const 지금 = el.selectionEnd; 루틴주기판(); const n = document.getElementById('rjq'); if(n){ n.focus(); try{ n.setSelectionRange(지금, 지금); }catch(e){} } }; }, 20);
   if(o.단계 === 3) setTimeout(() => { const el = document.getElementById('rjdate'); if(el) el.onchange = () => { if(el.value){ o.날 = el.value; 루틴주기판(); } }; }, 20); }
 async function 루틴표바로주기(sid, mid){ const 메0 = 메인표(mid), 때 = 메0 && 메0.at ? new Date(new Date(메0.at).getTime() - 1000).toISOString() : new Date().toISOString();      /* 지정하며 준 루틴표는 메인을 안 바꿈(메인보다 1초 앞 시각) */
@@ -6624,18 +6667,18 @@ function 루틴탭위(mid){      /* 회원 옆 페이지 루틴 탭 맨 위 — 
   const 지 = 보일지정(mid), 메 = 메인표(mid), 받 = (D.gives || []).filter(g => g.member_id === mid);
   const 줄 = a => { const r = (D.r || []).find(x => x.id === a.routine_id), st = 지정상태(a);
     return '<button class="rj-ln' + (st === '못함' ? ' ms' : '') + '" data-act="tx:rjedit" data-k="' + esc(mid + '|' + a.on_date) + '"><span class="dt">' + 지정날글(a.on_date) + '<small>' + (a.on_date === TODAY ? '오늘' : a.on_date === 며칠뒤(TODAY, 1) ? '내일' : st === '못함' ? '지난 날' : '') + '</small></span>' + 지정딱(a.kind, st === '못함') + '<b>' + esc(운동이름(r)) + '</b><span class="g">' + (r ? 운동그림(r.id, 3) : '') + '</span><i>›</i></button>'; };
-  const 위 = '<div class="rj-asg"><div class="h"><b>루틴 지정</b><small>정한 날 회원 앱 맨 위에 떠요 · 지난 날 안 했으면 「못함」</small><span class="sp"></span><button class="btn gold sm" data-act="tx:rjopen" data-k="' + esc(mid) + '">＋ 루틴 주기</button></div>'
-    + (지.length ? 지.map(줄).join('') : '<div class="sub3" style="padding:4px 0">아직 지정한 날이 없어요 · 「＋ 루틴 주기」에서 루틴표 → 운동 → 날짜를 정해요</div>') + '</div>';
+  const 위 = '<div class="rj-asg"><div class="h"><b>루틴 지정</b><small>정한 날 회원 앱 맨 위에 떠요 · 지난 날 안 했으면 「못함」</small><span class="sp"></span>' + '<span class="rj-3"><button class="btn sub sm" data-act="tx:rjgv" data-k="' + esc(mid) + '">📋 루틴표 주기</button><button class="btn gold sm" data-act="tx:zjopen" data-k="' + esc(mid) + '" data-v2="개인운동">🏋 개인운동 지정</button><button class="btn sm rj-lsn" data-act="tx:zjopen" data-k="' + esc(mid) + '" data-v2="수업">🗓 다음 수업 루틴</button></span>' + '</div>'      /* 하나 = 일 하나 (2026-11-13 대표) */
+    + (지.length ? 지.map(줄).join('') : '<div class="sub3" style="padding:4px 0">아직 지정한 날이 없어요 · 「🏋 개인운동 지정」 · 「🗓 다음 수업 루틴」에서 날짜와 운동을 정해요</div>') + '</div>';
   const s메 = 메 && (D.rs || []).find(x => x.id === 메.sheet_id);
   const 메카드 = s메 ? '<div class="rj-main"><div class="mh">' + 루틴표표지(s메) + '<div><span class="rib">★ 메인 루틴표</span><b><button class="lk" data-act="tx:rsopenm" data-k="' + esc(s메.id) + '" title="루틴표 열기">' + esc(s메.title || '') + '</button></b><small>' + 표종류(s메) + ' · 운동 ' + 표루틴들(s메).length + '개 · ' + esc(String(메.at || '').slice(5, 10).replace('-', '/')) + ' ' + esc(메.by || '') + '</small></div></div>'
-    + '<div class="inner"><div class="il">이 루틴표 안의 운동 — 누르면 언제 · 수업/개인운동 지정</div><div class="ex">' + 표루틴들(s메).map(r => { const a = 지.find(x => String(x.routine_id) === String(r.id)), st = a && 지정상태(a);
-        return '<button class="rj-exk' + (a ? (a.kind === '수업' ? ' cl' : ' pe') : '') + '" data-act="tx:rjpick" data-k="' + esc(mid + '|' + s메.id + '|' + r.id) + '">' + (a ? '<span class="bar ' + (a.kind === '수업' ? 'cl' : 'pe') + (st === '못함' ? ' ms' : '') + '">📅 ' + 지정날글(a.on_date) + ' ' + esc(a.kind || '') + (st === '못함' ? ' · 못함' : '으로 지정') + '</span>' : '<span class="bar no">지정 안 함</span>')
-          + '<span class="bd"><b><em>운동 ' + (r.no || '') + '</em>' + esc(r.name || '') + '</b><span class="g">' + 운동그림(r.id, 4) + '</span><small>' + (D.ri || []).filter(i => i.routine_id === r.id).length + '종목 · <u>' + (a ? '수정' : '지정하기') + ' ›</u></small></span></button>'; }).join('') + '</div></div></div>' : '';
+    + '<div class="inner"><div class="il">이 루틴표 안의 운동 · 지정은 위 「개인운동 지정」 · 「다음 수업 루틴」에서</div><div class="ex">' + 표루틴들(s메).map(r => { const a = 지.find(x => String(x.routine_id) === String(r.id)), st = a && 지정상태(a);
+        return '<div class="rj-exk' + (a ? (a.kind === '수업' ? ' cl' : ' pe') : '') + '">' + (a ? '<span class="bar ' + (a.kind === '수업' ? 'cl' : 'pe') + (st === '못함' ? ' ms' : '') + '">📅 ' + 지정날글(a.on_date) + ' ' + esc(a.kind || '') + (st === '못함' ? ' · 못함' : '으로 지정') + '</span>' : '<span class="bar no">지정 안 함</span>')
+          + '<span class="bd"><b><em>운동 ' + (r.no || '') + '</em>' + esc(r.name || '') + '</b><span class="g">' + 운동그림(r.id, 4) + '</span><small>' + (D.ri || []).filter(i => i.routine_id === r.id).length + '종목</small></span></div>'; }).join('') + '</div></div></div>' : '';
   const 다른 = 받.filter(g => !메 || g !== 메).map(g => { const s0 = (D.rs || []).find(x => x.id === g.sheet_id); if(!s0) return '';
     return '<div class="rj-or">' + 루틴표표지(s0) + '<span class="tx"><b><span class="kd' + (표종류(s0) === '스트레칭' ? ' st' : '') + '">' + 표종류(s0) + '</span><button class="lk" data-act="tx:rsopenm" data-k="' + esc(s0.id) + '" title="루틴표 열기">' + esc(s0.title || '') + '</button></b><small>운동 ' + 표루틴들(s0).length + '개 · ' + esc(String(g.at || '').slice(5, 10).replace('-', '/')) + ' ' + esc(g.by || '') + '</small></span>'
       + (표종류(s0) !== '스트레칭' ? '<button class="btn ghost sm" data-act="tx:sgcur" data-k="' + esc(mid + '|' + s0.id) + '">메인 루틴표로 지정</button>' : '')
       + '<button class="btn ghost sm rj-more" data-act="tx:sgdel" data-k="' + esc(mid + '|' + s0.id) + '" title="주기 취소">⋯</button></div>'; }).join('');
-  return 위 + 메카드 + (다른 ? '<div class="rj-others"><div class="rj-lb">받은 루틴표 ' + 받.length + '</div>' + 다른 + '</div>' : (받.length ? '' : '<div class="pl-card none"><span class="sub3">아직 준 루틴표가 없어요 · 「＋ 루틴 주기」에서 루틴표를 선택해 주세요</span></div>')); }
+  return 위 + 메카드 + (다른 ? '<div class="rj-others"><div class="rj-lb">받은 루틴표 ' + 받.length + '</div>' + 다른 + '</div>' : (받.length ? '' : '<div class="pl-card none"><span class="sub3">아직 준 루틴표가 없어요 · 「📋 루틴표 주기」에서 루틴표를 선택해 주세요</span></div>')); }
 /* 옛 「루틴표칸」(루틴표마다 진행 중으로 · 오늘 루틴 정하기 · 주기 취소) → 루틴탭위 로 바꿈 (2026-11-11) · 옛 판 .상담루틴피드백전_1111 */
 function 주기고르기판(mid){ const 나 = 나이름(), 이미 = new Set((D.gives || []).filter(g => g.member_id === mid).map(g => g.sheet_id));      /* 앱 「웨이트 루틴표 보내기」 꼴 (2026-11-04 대표 시안 ④) */
   const 다 = 루틴표들(), q = String(S.sgQ || '').trim(), 보 = 다.filter(x => !q || (String(x.title || '') + ' ' + String(x.owner || '')).includes(q));
@@ -17804,15 +17847,20 @@ async function txAct(a, el){
   if(a==='pkchip'){ if(!회원고르기) return; 회원고르기.칩 = k; 회원고르기.q = ''; 회원고르기그리기(); return; }      /* 회원 고르기 칩 */
   if(a==='agrtmake'){ popClose(); const n = document.querySelector('.nav[data-v="rtmake"]'); if(n) n.click(); else { S.view = 'rtmake'; render(); } return; }      /* 루틴표 만들기로 */
   if(a==='aggive'){ 주기고르기판(k); return; }      /* 이 회원에게 루틴표 주기 */
-  if(a==='rjopen'){ 루틴주기열기(k); return; }      /* 루틴 주기 창 (11/11) */
-  if(a==='rj1'){ if(!루틴주기) return; 루틴주기.sid = k; 루틴주기.단계 = 2; 루틴주기판(); return; }
+  /* rjopen(「＋ 루틴 주기」) · rjpick(메인 카드 운동 지정하기) 손잡이는 11/13 단추 셋(rjgv · zjopen)으로 바꾸며 없앰 — 옛 판 .지정판전_1113 */
+  if(a==='rj1'){ if(!루틴주기) return; if(루틴주기.준다){ const o = 루틴주기; await 주기저장(k, o.mid); if(!(D.gives || []).some(g => g.member_id === o.mid && g.sheet_id === k)) return; 루틴주기 = null; popClose(); render(); return; } 루틴주기.sid = k; 루틴주기.단계 = 2; 루틴주기판(); return; }      /* 루틴표 주기 = 누르면 바로 주기 (11/13) */
+  if(a==='rjgv'){ 루틴주기열기(k, { 준다:true }); return; }      /* 📋 루틴표 주기 (11/13) */
+  if(a==='zjopen'){ 루틴지정판열기(k, v2 === '수업' ? '수업' : '개인운동'); return; }      /* 🏋 개인운동 지정 · 🗓 다음 수업 루틴 (11/13) */
+  if(a==='zjv'){ if(루틴주기){ 루틴주기.보기 = k === '기록' ? '기록' : '표'; 루틴주기판(); } return; }
+  if(a==='zjsid'){ if(루틴주기){ 루틴주기.sid = k; 루틴주기판(); } return; }
+  if(a==='zjpick'){ if(!루틴주기) return; const r0 = (D.r || []).find(x => String(x.id) === String(k)); 루틴주기.rid = k; 루틴주기.sid = (r0 && r0.sheet_id) || 루틴주기.sid; await 루틴주기저장(); return; }
+  if(a==='zjrec'){ await 기록지정(k); return; }
   if(a==='rj2'){ if(!루틴주기) return; 루틴주기.rid = k; 루틴주기.단계 = 3; 루틴주기판(); return; }
   if(a==='rjback'){ if(!루틴주기) return; 루틴주기.단계 = +k; 루틴주기판(); return; }
   if(a==='rjday'){ if(!루틴주기) return; 루틴주기.날 = k; 루틴주기판(); return; }
   if(a==='rjkind'){ if(!루틴주기) return; 루틴주기.종류 = k; 루틴주기판(); return; }
   if(a==='rjsave'){ await 루틴주기저장(); return; }
   if(a==='rjgive'){ if(!루틴주기) return; const o = 루틴주기; 루틴주기 = null; await 주기저장(o.sid, o.mid); popClose(); render(); return; }
-  if(a==='rjpick'){ const [m0, s0, r0] = String(k).split('|'), a0 = 보일지정(m0).find(x => String(x.routine_id) === String(r0)); 루틴주기열기(m0, { sid:s0, rid:r0, 단계:3, 날: a0 ? (a0.on_date < TODAY ? TODAY : a0.on_date) : TODAY, 종류: a0 ? a0.kind || '개인운동' : '개인운동', 고침: a0 ? a0.on_date : '' }); return; }
   if(a==='rjedit'){ const [m0, d0] = String(k).split('|'), a0 = 지정들(m0).find(x => x.on_date === d0); if(!a0) return; const r0 = (D.r || []).find(x => x.id === a0.routine_id) || {};
     루틴주기열기(m0, { sid: r0.sheet_id || '', rid: a0.routine_id, 단계:3, 날: d0 < TODAY ? TODAY : d0, 종류: a0.kind || '개인운동', 고침: d0 }); return; }
   if(a==='rjoff'){ const o = 루틴주기; if(!o || !o.고침) return; if(!await 묻기(지정날글(o.고침) + ' 지정을 풀까요?' + String.fromCharCode(10) + '이미 한 기록은 남아요')) return;
@@ -19042,7 +19090,7 @@ function vToday(수업판){      /* 수업판 = 「수업 기록」 화면 — �
        `w.done` 만 세서 **오늘 운동 중인 사람이 「기록 없음」** 으로 떴고,
        앱을 한 번도 안 쓴 회원까지 전부 들어왔다. 안 온 사람이 아니라 앱을 안 쓰는 사람이었다.
        진짜 안 오신 분은 **브로제이 출입 기준 「잠수 회원」** 이 맞다 — 매주 업무로 올라온다. */
-  const 둘 = '<span class="gv2"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">📋 루틴 주기</button></span>';      /* 주기 · 지정 하나로 (11/11 대표 · 옛 2026-11-04 둘로 나눔) */
+  const 둘 = '<span class="gv2"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">🏋 개인운동 지정</button><button class="btn sm rj-lsn" data-act="tx:gvpick" data-k="수업지정">🗓 다음 수업 루틴</button><button class="btn sub sm" data-act="tx:gvpick" data-k="루틴표">📋 루틴표 주기</button></span>';      /* 하나 = 일 하나 (11/13 · 옛 11/11 「루틴 주기」 하나) */      /* 주기 · 지정 하나로 (11/11 대표 · 옛 2026-11-04 둘로 나눔) */
   const 지정칸 = '<div class="sec"><div class="lbl gvl">' + (수업판 ? '오늘 개인운동 지정한 회원 ' : '개인운동 지정 ') + 지정.length + '명' + 둘 + '</div>'
     + 몇줄('지정', '오늘 루틴', 지정.map(o => '<button class="card click rowc gold" data-m="' + esc(o[0].id) + '">' + 회원얼굴(o[0].id, 30) + ' <div style="flex:1;min-width:0"><div class="t1">' + esc(o[0].name || '') + '</div><div class="t2">' + esc(o[1].글) + '</div></div><span class="rt">›</span></button>'),
       '<div class="empty">오늘 개인운동을 지정한 회원이 없습니다<div class="gv2 c">' + 둘 + '</div><div class="t2 gvhelp">루틴 주기 = 루틴표 → 운동 → 날짜(수업 · 개인운동)</div></div>') + '</div>';
@@ -19058,7 +19106,7 @@ function vToday(수업판){      /* 수업판 = 「수업 기록」 화면 — �
          「루틴이 없어요 하고 끝이 아니라 위에 루틴 지정하기 + 넣고」).
        이 앱에 이미 있던 좋은 예 — 「아직 루틴이 없어요 — 「＋ 새 루틴 만들기」로 바로 만드세요」 */
     + '<div class="sec"><div class="lbl">개인운동 지정 ' + 지정.length + '명'
-    + '<span class="r"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">📋 루틴 주기</button></span></div>'      /* 주기 · 지정 하나로 (11/11 대표) */
+    + '<span class="r"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">🏋 개인운동 지정</button> <button class="btn sm rj-lsn" data-act="tx:gvpick" data-k="수업지정">🗓 다음 수업 루틴</button></span></div>'      /* 주기 · 지정 하나로 (11/11 대표) */
     + 몇줄('지정', '오늘 루틴', 지정.map(function(o){
         return '<button class="card click rowc gold" data-m="' + esc(o[0].id) + '">'
         + '<div><div class="t1">' + esc(o[0].name || '') + '</div>'
@@ -19780,7 +19828,8 @@ document.addEventListener('click', async function(ev){
   const 골랐 = t.closest('[data-pickm]');
   if(골랐){ const kind = (회원고르기 && 회원고르기.kind) || '개인운동';
     const 목 = (회원고르기 && 회원고르기.목적) || '지정'; 회원고르기 = null;
-    if(목 === '루틴표' || 목 === '지정'){ 루틴주기열기(골랐.dataset.pickm); return; }      /* 루틴 주기 창 하나 (2026-11-11 대표 「주기 · 지정 통일」) */
+    if(목 === '지정' || 목 === '수업지정'){ 루틴지정판열기(골랐.dataset.pickm, 목 === '수업지정' ? '수업' : '개인운동'); return; }      /* 11/13 하나 = 일 하나 */
+    if(목 === '루틴표'){ 루틴주기열기(골랐.dataset.pickm, { 준다:true }); return; }      /* 루틴 주기 창 하나 (2026-11-11 대표 「주기 · 지정 통일」) */
     await 지정판열기(골랐.dataset.pickm, kind); return; }
 
   /* ── 회원 줄 「개인운동 · 수업」 → 루틴 지정 사이드 페이지 ── */
