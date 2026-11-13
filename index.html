@@ -2657,7 +2657,7 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .dp-sel button{margin-left:auto;border:1px solid #4a463f;background:#26241f;color:#fffcf8;border-radius:9px;padding:6px 11px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
 .kt-room.k1 .mfw .mf.nm1{background:#fff;color:#8a5a12;border-color:#d8c9a8}
 .kt-head ~ .kt-room.k1{min-height:240px;max-height:calc(100vh - 480px)}      /* 피드백 대화 — 아래 입력창이 오른쪽 아래 챗봇 단추에 안 가리게 */
-.gvl{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.gv2{margin-left:auto;display:flex;gap:8px}.gv2.c{justify-content:center;margin:12px 0 0}.gv2.c .gv2{margin:0}.gvhelp{margin-top:10px;line-height:1.6}
+.gv2{margin-left:auto;display:flex;gap:8px}.gv2.c{justify-content:center;margin:12px 0 0}.gv3{display:grid;grid-template-columns:repeat(auto-fit,minmax(max(150px,40%),1fr));gap:8px;margin:2px 0 12px}.gv3 .w{grid-column:1/-1}.gv3 .btn{justify-content:center;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .ag2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.agn{margin:0 0 10px}
 .agc{display:block;width:100%;text-align:left;padding:12px 14px;margin:0 0 10px;border-radius:14px;border:1px solid #3a352c;background:#1d1c19;color:var(--cream);font:inherit;cursor:pointer}.agc.on{border-color:var(--gold-2);background:#2a2316}
 .agc .h{display:flex;align-items:center;gap:8px;margin-bottom:8px}.agc .h b{color:var(--gold);font-size:15px}.agc .h .nm{font-size:15px;font-weight:800}.agc .h .sp{flex:1}.agc .h small{font-size:13px;color:var(--sub)}
@@ -3487,7 +3487,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '668';
+const BUILD = '669';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -19090,10 +19090,10 @@ function vToday(수업판){      /* 수업판 = 「수업 기록」 화면 — �
        `w.done` 만 세서 **오늘 운동 중인 사람이 「기록 없음」** 으로 떴고,
        앱을 한 번도 안 쓴 회원까지 전부 들어왔다. 안 온 사람이 아니라 앱을 안 쓰는 사람이었다.
        진짜 안 오신 분은 **브로제이 출입 기준 「잠수 회원」** 이 맞다 — 매주 업무로 올라온다. */
-  const 둘 = '<span class="gv2"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">🏋 개인운동 지정</button><button class="btn sm rj-lsn" data-act="tx:gvpick" data-k="수업지정">🗓 다음 수업 루틴</button><button class="btn sub sm" data-act="tx:gvpick" data-k="루틴표">📋 루틴표 주기</button></span>';      /* 하나 = 일 하나 (11/13 · 옛 11/11 「루틴 주기」 하나) */      /* 주기 · 지정 하나로 (11/11 대표 · 옛 2026-11-04 둘로 나눔) */
-  const 지정칸 = '<div class="sec"><div class="lbl gvl">' + (수업판 ? '오늘 개인운동 지정한 회원 ' : '개인운동 지정 ') + 지정.length + '명' + 둘 + '</div>'
+  const 셋 = '<div class="gv3"><button class="btn sub w" data-act="tx:gvpick" data-k="루틴표">📋 루틴표 주기</button><button class="btn gold" data-act="tx:gvpick" data-k="지정">🏋 개인운동 지정</button><button class="btn rj-lsn" data-act="tx:gvpick" data-k="수업지정">🗓 다음 수업 루틴</button></div>';      /* 제목 한 줄 · 루틴표 주기 한 줄 · 지정 두 칸 (11/13 대표 「루틴표 주기도 넣어서 · 1x2 · 큰 창에서도 글 배열 깨짐」 시안 지정칸단추_1113) */
+  const 지정칸 = '<div class="sec"><div class="lbl">' + (수업판 ? '오늘 개인운동 지정한 회원 ' : '개인운동 지정 ') + 지정.length + '명</div>' + 셋
     + 몇줄('지정', '오늘 루틴', 지정.map(o => '<button class="card click rowc gold" data-m="' + esc(o[0].id) + '">' + 회원얼굴(o[0].id, 30) + ' <div style="flex:1;min-width:0"><div class="t1">' + esc(o[0].name || '') + '</div><div class="t2">' + esc(o[1].글) + '</div></div><span class="rt">›</span></button>'),
-      '<div class="empty">오늘 개인운동을 지정한 회원이 없습니다<div class="gv2 c">' + 둘 + '</div><div class="t2 gvhelp">루틴 주기 = 루틴표 → 운동 → 날짜(수업 · 개인운동)</div></div>') + '</div>';
+      '<div class="empty why"><b>오늘 개인운동을 지정한 회원이 없습니다</b>위 단추로 루틴표를 주거나 날짜를 정해 주세요</div>') + '</div>';
   if(수업판) return '<div class="cols">' + (예약칸 || '<div class="sec"><div class="lbl">오늘 수업 예약</div><div class="empty">예약을 불러오는 중이에요</div></div>') + 지정칸 + '</div>';      /* 앱 오늘 화면과 같은 두 칸 */
   return '<div class="cols3">' + 예약칸
     + '<div class="sec"><div class="lbl">오늘 수업 · 개인운동 기록 ' + 오늘운동.length + '건</div>'      /* 이름 = 시안 홈이름_시안_1105 A + 「기록」 (2026-11-05 13:59 대표) */
@@ -19105,13 +19105,12 @@ function vToday(수업판){      /* 수업판 = 「수업 기록」 화면 — �
     /* ⭐ 빈 칸은 **막다른 길이 아니라 시작점**이다 (2026-09-29 대표
          「루틴이 없어요 하고 끝이 아니라 위에 루틴 지정하기 + 넣고」).
        이 앱에 이미 있던 좋은 예 — 「아직 루틴이 없어요 — 「＋ 새 루틴 만들기」로 바로 만드세요」 */
-    + '<div class="sec"><div class="lbl">개인운동 지정 ' + 지정.length + '명'
-    + '<span class="r"><button class="btn gold sm" data-act="tx:gvpick" data-k="지정">🏋 개인운동 지정</button> <button class="btn sm rj-lsn" data-act="tx:gvpick" data-k="수업지정">🗓 다음 수업 루틴</button></span></div>'      /* 주기 · 지정 하나로 (11/11 대표) */
+    + '<div class="sec"><div class="lbl">개인운동 지정 ' + 지정.length + '명</div>' + 셋      /* 단추는 제목 아래 셋 (11/13) */
     + 몇줄('지정', '오늘 루틴', 지정.map(function(o){
         return '<button class="card click rowc gold" data-m="' + esc(o[0].id) + '">'
         + '<div><div class="t1">' + esc(o[0].name || '') + '</div>'
         + '<div class="t2">' + esc(o[1].글) + '</div></div><span class="rt">›</span></button>'; }),
-      '<div class="empty why"><b>오늘 루틴이 정해진 회원이 없습니다</b>위 「개인운동 지정」에서 정해 주세요</div>')      /* 단추는 위 머리줄 둘만 (11/11 대표 「같은 게 4개」) */
+      '<div class="empty why"><b>오늘 루틴이 정해진 회원이 없습니다</b>위 단추로 루틴표를 주거나 날짜를 정해 주세요</div>')      /* 단추는 위 셋만 (11/11 대표 「같은 게 4개」) */
     + '</div></div>';
 }
 
