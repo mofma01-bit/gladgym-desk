@@ -2729,11 +2729,11 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .mvbig button:first-child{background:#3a3123;border-color:#8a7a5c}
 .mvsmall{display:flex;gap:6px;margin:0 0 10px}.mvsmall button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
 .mvdone{display:flex;align-items:center;gap:10px;background:#2a2318;border:1px solid #8a7a5c;border-radius:12px;padding:10px 14px;margin:0 0 10px;font-weight:800}.mvdone .btn{margin-left:auto}.mvdone .x{background:none;border:0;color:var(--sub);font-size:16px;cursor:pointer}
-#apprec{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}
-#apprec .ar-box{width:min(1180px,96vw);height:94vh;background:#0f0f0e;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-#apprec .ar-h{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
-#apprec .ar-h small{color:var(--sub);font-size:13px}#apprec .ar-h button{margin-left:auto}
-#apprec iframe{flex:1;border:0;width:100%;background:#0f0f0e}
+#apprec{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}#apprecp{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}#apprecp.hid{visibility:hidden;pointer-events:none;z-index:-1}
+#apprec .ar-box{width:min(1180px,96vw);height:94vh;background:#0f0f0e;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}#apprecp .ar-box{width:min(1180px,96vw);height:94vh;background:#0f0f0e;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+#apprec .ar-h{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}#apprecp .ar-h{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
+#apprec .ar-h small{color:var(--sub);font-size:13px}#apprec .ar-h button{margin-left:auto}#apprecp .ar-h small{color:var(--sub);font-size:13px}#apprecp .ar-h button{margin-left:auto}
+#apprec iframe{flex:1;border:0;width:100%;background:#0f0f0e}#apprecp iframe{flex:1;border:0;width:100%;background:#0f0f0e}
 #apprec.smp .ar-box{width:min(430px,96vw)}
 #apprec.tut .ar-box{width:98vw;height:96vh}.mn-card.tutc .tutth{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#2a2419,#1b1813);border:1px solid var(--gold-2)}.tutth i{font-style:normal;font-size:26px;font-weight:900;color:var(--cream);letter-spacing:.04em}.tutth em{font-style:normal;font-weight:900;color:var(--gold);font-size:15px;border:1px solid var(--gold-2);border-radius:999px;padding:1px 10px}
 .ck-act.ck-act2{display:flex;align-items:center;gap:12px}.ck-act2>div{flex:1;min-width:0}.ck-act2 .ck-none{flex:none;border:1px solid var(--gold-2);color:var(--gold);font-weight:800}
@@ -3495,7 +3495,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '673';
+const BUILD = '674';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10989,17 +10989,24 @@ function 매확팝업(강제){
 /* ══ 수업 기록 = 앱 기록 화면 그대로 ══ 2026-10-23 확정 C-2 「데스크도 앱 기록 화면 그대로」 — 데스크용을 따로 만들지 않고 가운데 큰 창에 앱을 띄운다(고칠 때 한 번만)
    앱은 이 탭의 데스크 계정(sessionStorage)으로 메모리 로그인 · 마치면 앱이 알려 주고(postMessage gg:'deskrec') 데스크는 그 회원을 다시 받는다 */
 const 앱기록길 = () => /github\.io$/.test(location.hostname) ? '/gladgym-app/index.html' : location.port === '8792' ? 'http://localhost:8791/' : '../웹앱/index.html';      /* 데스크가 새 주소(gladgym-desk)로 옮겨도 회원 앱 창은 /gladgym-app/ (2026-10-29) */
+/* 미리 띄우기 (2026-11-16 대표 「앱 화면 띄울 때 너무 오래 걸려」) — 데스크가 켜지면 뒤에서 앱을 한 번 불러 둔다(시스템이 알아서 · 켜 둘 것 없음)
+   누르면 그 창을 꺼내고 「deskopen」(회원 · 리포트 · 지난 기록) 으로 화면만 옮김 · 닫으면 숨기고 뒤에서 새로 받아 둠 · 숨긴 채 10분이면 새로 받음 · 계정이 바뀌면 새 창 */
+const 앱창 = { 대기:null, 때:0 };
+const 앱창계정 = () => { try{ return sessionStorage.getItem('gg_desk_on') || ''; }catch(e){ return ''; } };
+function 앱창준비(){ let el = document.getElementById('apprecp'); const 계 = 앱창계정();
+  if(el && el.dataset.acc === 계) return el; if(el) el.remove();
+  el = document.createElement('div'); el.id = 'apprecp'; el.className = 'hid'; el.dataset.acc = 계; el.dataset.ready = '';
+  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b></b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div><iframe title="수업 기록" src="' + 앱기록길() + '?desk=1"></iframe></div>';
+  document.body.appendChild(el); 앱창.때 = Date.now(); return el; }
+function 앱창보내기(el, msg){ el.dataset.msg = JSON.stringify(msg); if(el.dataset.ready === '1'){ try{ el.querySelector('iframe').contentWindow.postMessage(msg, '*'); }catch(e){} 앱창.대기 = null; } else 앱창.대기 = msg; }
+function 앱창꺼내기(제목, msg){ document.querySelectorAll('#apprec').forEach(x => x.remove()); const el = 앱창준비(); el.querySelector('.ar-h b').textContent = 제목; el.classList.remove('hid'); 앱창보내기(el, msg); }
+function 앱창새로(){ const el = document.getElementById('apprecp'); if(!el || !el.classList.contains('hid')) return; el.dataset.ready = ''; 앱창.때 = Date.now(); const f = el.querySelector('iframe'); if(f) f.src = 앱기록길() + '?desk=1'; }
+setInterval(() => { const el = document.getElementById('apprecp'); if(el && el.classList.contains('hid') && document.visibilityState === 'visible' && Date.now() - 앱창.때 > 600000) 앱창새로(); }, 60000);
 function 앱기록창(mid, 리포트, 고침){
-  const m = (D.m || []).find(x => x.id === mid) || {}; 앱기록닫기();
-  const el = document.createElement('div'); el.id = 'apprec';
-  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + esc(m.name || '') + (리포트 ? ' · 리포트' : 고침 ? ' · 지난 기록 수정' : ' · 수업 기록') + '</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
-    + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1&m=' + encodeURIComponent(mid) + (리포트 ? '&r=' + encodeURIComponent(리포트) : '') + (고침 ? '&fix=' + encodeURIComponent(고침) : '') + '"></iframe></div>';
-  document.body.appendChild(el); }
+  const m = (D.m || []).find(x => x.id === mid) || {};
+  앱창꺼내기((m.name || '') + (리포트 ? ' · 리포트' : 고침 ? ' · 지난 기록 수정' : ' · 수업 기록'), { gg:'deskopen', mid, r:리포트 || '', fix:고침 || '' }); }
 /* 수업 기록 큰 카드 = 앱 그대로 열기 — 회원 없이 · 앱 「오늘」 탭부터 (2026-11-05 20:22 대표) */
-function 앱오늘창(){ 앱기록닫기(); const el = document.createElement('div'); el.id = 'apprec';
-  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>수업 기록</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
-    + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1"></iframe></div>';
-  document.body.appendChild(el); }
+function 앱오늘창(){ 앱창꺼내기('수업 기록', { gg:'deskopen' }); }
 /* 트레이너 연습 — 앱 폴더의 연습.html (같은 출처라 데스크 로그인 이름으로 진도가 남는다) */
 function 연습강의칸(){ return [['1', '앱', '수업 기록 — 트레이너 앱', 15], ['2', 'PC', '데스크 업무', 7]]      /* 매뉴얼은 이모지 없음 (2026-10-27 결정함 MDJAWSF5) */.map(([k, ic, 이, n]) => { const 다 = 연습내진도(k);
     return '<button class="mn-card tutc" data-act="tx:tutopen" data-k="' + k + '"><span class="mth tutth"><i>' + ic + '</i><em>연습</em></span>' + 매진도(다, n) + '<b>' + 이 + '</b><small>직접 눌러 보며 · ' + n + '장 · ' + (다 >= n ? '완료' : 다 + ' / ' + n) + '</small></button>'; }).join(''); }
@@ -11042,9 +11049,10 @@ function 기록회원창(){
   setTimeout(() => { const el = $('#lspq'); if(!el) return; el.focus();
     el.oninput = () => { 기록회원.q = el.value; const l = $('#lspl'); if(l) l.innerHTML = 기록회원줄(); }; }, 30);
 }
-function 앱기록닫기(){ const el = document.getElementById('apprec'); if(el) el.remove(); }
-window.addEventListener('message', e => { const d = e.data || {}; if(d.gg !== 'deskrec') return;
+function 앱기록닫기(){ document.querySelectorAll('#apprec').forEach(x => x.remove()); const el = document.getElementById('apprecp'); if(!el || el.classList.contains('hid')) return; el.classList.add('hid'); 앱창새로(); }      /* 닫기 = 숨기고 뒤에서 새로 받아 둠(다음에 바로 · 새 자료) */
+window.addEventListener('message', e => { const d = e.data || {}; if(d.gg !== 'deskrec' && d.gg !== 'deskready') return;
   if(e.origin !== location.origin && !/^http:\/\/localhost:\d+$/.test(e.origin)) return;
+  if(d.gg === 'deskready'){ const el = document.getElementById('apprecp'); if(el){ el.dataset.ready = '1'; if(앱창.대기) 앱창보내기(el, 앱창.대기); } return; }
   if(d.mid){ 기록끝 = { mid: d.mid, wid: d.wid || '' }; loadMember(d.mid); } toast('기록했어요'); });
 const 상품묶음 = ps => { const 셈 = new Map(); (ps || []).forEach(p => { const n = String((p && p['이름']) || '').trim(); if(n) 셈.set(n, (셈.get(n) || 0) + 1); });
   return [...셈].map(([n, c]) => c > 1 ? n + ' × ' + c : n).join(' + '); };
@@ -19750,6 +19758,7 @@ async function load(){
     const 미리 = 회원미리; 회원미리 = null;
     const [g, x] = await (미리 ? 미리.catch(() => 회원자료받기()) : 회원자료받기());
     D.m=g[0]; D.w=g[1]; D.wi=g[2]; D.r=g[3]; D.ri=g[4]; D.c=g[5];
+    if(!document.getElementById('apprecp') && !navigator.webdriver) setTimeout(() => { try{ 앱창준비(); }catch(e){} }, 3000);      /* 데스크가 켜지면 앱 창을 뒤에서 미리 (2026-11-16) */
     D.aAll=g[6]; D.a=g[6].filter(x=>x.on_date===TODAY);
     D.ex=g[7]; D.va=g[8]; D.asks=g[9]||[]; D.cv=g[10];
     D.ps = x[0].v; D.rs = x[1].v; D.exfavs = x[2].v;      /* 종목 즐겨찾기 (107단계) */
