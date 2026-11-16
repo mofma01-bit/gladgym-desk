@@ -2729,6 +2729,24 @@ button.as-more{display:block;width:100%;background:none;border:0;color:var(--sub
 .mvbig button:first-child{background:#3a3123;border-color:#8a7a5c}
 .mvsmall{display:flex;gap:6px;margin:0 0 10px}.mvsmall button{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
 .mvdone{display:flex;align-items:center;gap:10px;background:#2a2318;border:1px solid #8a7a5c;border-radius:12px;padding:10px 14px;margin:0 0 10px;font-weight:800}.mvdone .btn{margin-left:auto}.mvdone .x{background:none;border:0;color:var(--sub);font-size:16px;cursor:pointer}
+/* ══ 선생님 팝업 (2026-11-16) ══ 받는 창 = 데스크 가운데 · ✕ 없음 · 「확인했어요」로만 닫힘 · 읽기 좋게(제목 · 본문 · 선 · 첨부 · 답) */
+#tppwrap{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.66);display:flex;align-items:center;justify-content:center;padding:20px}
+#tppwrap .pq{width:min(480px,94vw);max-height:92vh;overflow:auto;background:#1c1b19;border:1px solid #3a3731;border-radius:18px;padding:28px 30px 22px;color:#ece6da;box-sizing:border-box}
+.pq .pq-m{display:flex;align-items:center;gap:7px;font-size:13px;color:#a9a29a;font-weight:600;margin:0 0 10px}.pq .pq-m i{width:7px;height:7px;border-radius:50%;background:#e2c184}
+.pq h3{font-size:20px;font-weight:800;line-height:1.4;margin:0 0 10px;color:#f6f1e7;letter-spacing:-.2px;word-break:keep-all}
+.pq .bd{font-size:15.5px;line-height:1.8;color:#d9d2c5;margin:0;white-space:pre-wrap;word-break:keep-all}
+.pq hr{border:0;border-top:1px solid #34322d;margin:18px 0}
+.pq .att{display:flex;flex-direction:column;gap:8px}.pq .ph{position:relative;display:block;width:100%;height:210px;border-radius:12px;overflow:hidden;border:1px solid #34322d;background:#121211;cursor:zoom-in;padding:0}.pq .ph img{width:100%;height:100%;object-fit:contain}.pq .ph em{position:absolute;right:8px;bottom:8px;font-style:normal;font-size:12.5px;font-weight:700;background:rgba(0,0,0,.62);color:#ece6da;padding:3px 9px;border-radius:999px}
+.pq .fl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:9px;border:1px solid #3a3731;background:#232220;color:#d9d2c5;font-size:13.5px;font-weight:600;text-decoration:none}
+.pq .lab{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:#f6f1e7;margin:0 0 8px}.pq .lab em{font-style:normal;font-size:12px;font-weight:800;color:#e2c184;border:1px solid #8a7550;border-radius:999px;padding:0 8px;line-height:20px}.pq .lab small{font-size:13px;font-weight:600;color:#8f8a83}
+.pq textarea{width:100%;box-sizing:border-box;min-height:72px;border-radius:12px;border:1px solid #3a3731;background:#141312;color:#f6f1e7;font:inherit;font-size:15px;line-height:1.6;padding:11px 13px;margin:0;resize:vertical}.pq textarea::placeholder{color:#77726b}.pq textarea.req{border-color:#8a7550}
+.pq .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 18px}.pq .clip{height:32px;padding:0 11px;border-radius:9px;border:1px solid #3a3731;background:transparent;color:#bdb6aa;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.pq .row small{font-size:13px;color:#8f8a83}
+.pq .th{position:relative;width:44px;height:44px;border-radius:8px;overflow:hidden;border:1px solid #3a3731;background:#121211;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#bdb6aa}.pq .th img{width:100%;height:100%;object-fit:cover}.pq .th b{position:absolute;top:0;right:0;width:18px;height:18px;border-radius:0 0 0 7px;background:rgba(0,0,0,.7);color:#fff;font-size:12px;line-height:18px;text-align:center;cursor:pointer}
+.pq .go{width:100%;height:48px;border-radius:12px;border:0;background:#e2c184;color:#1f170f;font:inherit;font-size:15.5px;font-weight:800;cursor:pointer}.pq .go[disabled]{background:#3a3428;color:#8f8a83;cursor:not-allowed}.pq .ft{font-size:12.5px;color:#8f8a83;margin-top:9px;text-align:center}
+#tppzoom{position:fixed;inset:0;z-index:9600;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}#tppzoom img{max-width:88vw;max-height:76vh;object-fit:contain;border-radius:10px}#tppzoom .zb{display:flex;gap:12px}#tppzoom .zb a,#tppzoom .zb button{height:50px;padding:0 26px;border-radius:12px;font:inherit;font-size:16px;font-weight:800;display:inline-flex;align-items:center;cursor:pointer;text-decoration:none}#tppzoom .zb a{background:#f2ead9;color:#141311;border:0}#tppzoom .zb button{background:transparent;color:#f2ead9;border:1.5px solid #f2ead9}
+.pps .ppa{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:1.5px solid #4a4239;background:#1f1e1b;margin-bottom:14px;cursor:pointer;user-select:none}.pps .ppa.on{border-color:#e2c184;background:rgba(226,193,132,.10)}.pps .ppa input{width:22px;height:22px;margin:0;accent-color:#e2c184;flex:none}.pps .ppa b{font-size:16px;color:#f6f1e7}.pps .ppa span{margin-left:auto;font-size:13.5px;font-weight:700;color:#8f8a83}.pps .ppa.on span{color:#e2c184}
+.pps .ppto{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.pps .pptl{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:10px;border:1px solid #3a3731;border-radius:12px}.pps .pptl label{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:9px;border:1px solid #4a4239;background:#1f1e1b;color:#ece6da;font-size:13.5px;font-weight:700;cursor:pointer}.pps .pptl label.on{border-color:#e2c184;color:#e2c184}
+.ppv-tb td{vertical-align:top}.ppv-tb .ok{color:#8fd19e;font-weight:700}.ppv-tb .no{color:#f0b46a;font-weight:700}.ppv-tb small{color:var(--sub)}.ppv-tb .ppimgs{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}.ppv-tb .ppimgs button{width:40px;height:40px;padding:0;border-radius:7px;overflow:hidden;border:1px solid #3a3731;background:#121211;cursor:zoom-in}.ppv-tb .ppimgs img{width:100%;height:100%;object-fit:cover}
 #apprec{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}#apprecp{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}#apprecp.hid{visibility:hidden;pointer-events:none;z-index:-1}
 #apprec .ar-box{width:min(1180px,96vw);height:94vh;background:#0f0f0e;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}#apprecp .ar-box{width:min(1180px,96vw);height:94vh;background:#0f0f0e;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 #apprec .ar-h{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}#apprecp .ar-h{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
@@ -3495,7 +3513,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '676';
+const BUILD = '677';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4454,7 +4472,7 @@ function 팝업판그리기(){
     + (x ? '<div class="fld"><span class="fn">제목</span>'
            + '<input class="inp" id="pptitle" value="' + esc(x['제목']||'') + '" placeholder="예 · 이번 주 공지"></div>'
            + '<div class="fld"><span class="fn">내용</span>'
-           + '<textarea class="inp" id="ppbody" style="min-height:120px">' + esc(x['내용']||'') + '</textarea></div>'
+           + '<textarea class="inp" id="tppbody" style="min-height:120px">' + esc(x['내용']||'') + '</textarea></div>'
            + '<div class="g2">'
            + '<div class="fld"><span class="fn">받는 사람</span><select class="inp" id="pptarget">'
            + 받을사람.map(t => '<option value="' + esc(t) + '"'
@@ -4476,7 +4494,7 @@ function 팝업판그리기(){
 }
 
 async function 팝업저장하기(id){
-  const 제 = $('#pptitle'), 내 = $('#ppbody'), 받 = $('#pptarget'), 켜 = $('#ppon');
+  const 제 = $('#pptitle'), 내 = $('#tppbody'), 받 = $('#pptarget'), 켜 = $('#ppon');
   const 몸 = { id: id || '', '제목': 제 ? 제.value.trim() : '', '내용': 내 ? 내.value.trim() : '',
                '받는이': 받 ? 받.value : '전체', '켬': 켜 ? 켜.value === '1' : true };
   if(!몸['제목'] && !몸['내용']){ toast('제목이나 내용을 입력해 주세요'); return; }
@@ -10991,6 +11009,99 @@ function 매확팝업(강제){
 /* ══ 수업 기록 = 앱 기록 화면 그대로 ══ 2026-10-23 확정 C-2 「데스크도 앱 기록 화면 그대로」 — 데스크용을 따로 만들지 않고 가운데 큰 창에 앱을 띄운다(고칠 때 한 번만)
    앱은 이 탭의 데스크 계정(sessionStorage)으로 메모리 로그인 · 마치면 앱이 알려 주고(postMessage gg:'deskrec') 데스크는 그 회원을 다시 받는다 */
 const 앱기록길 = () => /github\.io$/.test(location.hostname) ? '/gladgym-app/index.html' : location.port === '8792' ? 'http://localhost:8791/' : '../웹앱/index.html';      /* 데스크가 새 주소(gladgym-desk)로 옮겨도 회원 앱 창은 /gladgym-app/ (2026-10-29) */
+/* ══ 선생님 팝업 (2026-11-16 19:20 대표 「넣어」 · 시안 선생님팝업_1116) ══
+   보내기 = 「공지 쓰기」 권한 · 받는 사람(여럿) · 내용(첫 줄 = 제목) · 답 받기(켜면 답 필수) · 📎 사진 · 파일 · Ctrl+V
+   받기 = 받는 선생님 데스크에만 · 가운데 창 · ✕ 없음 · 「확인했어요」로만 닫힘 · 사진은 크게 · 누르면 화면 가득 + 내려받기
+   답 = 보낸 쪽에 팝업으로 안 감 · 현황판 「팝업 답장」 숫자 + 업무 「팝업」 보기(표 tr_pops · 한 줄 = 받는 사람 한 명) */
+const 팝 = { 줄:null, 없음:false, 때:0, 받는:null, 답첨부:[], 보낼:null, 거:'', 지문:'' };
+const 팝나 = () => String((ME && ME.name) || '').trim();
+const 팝선생들 = () => [...new Set((W.staff || []).filter(p => p.active !== false && !(typeof 퇴사명 === 'function' && 퇴사명().has(String(p.name || '').trim()))).map(p => String(p.name || '').trim()))].filter(n => n && n !== 팝나());
+const 팝답장 = () => (팝.줄 || []).filter(r => r.done_at && !r.seen_at && r.to_name !== 팝나() && (r.by_name === 팝나() || 할수('popup')));      /* 내가 받은 팝업에 내가 한 답은 빼고 */
+const 팝제목 = r => String(r.body || '').split(/\n/)[0].slice(0, 80) || '(내용 없음)';
+const 팝본문 = r => String(r.body || '').split(/\n/).slice(1).join('\n').trim();
+const 팝때 = t => { const d = new Date(t); if(isNaN(d)) return ''; const 오늘 = d.toDateString() === new Date().toDateString(); return (오늘 ? '오늘 ' : (d.getMonth() + 1) + '/' + d.getDate() + ' ') + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+async function 팝받기(){ if(팝.없음 || !ME) return;
+  try{ 팝.줄 = await uget('tr_pops?select=*&order=created_at.desc&limit=500') || []; 팝.때 = Date.now(); }
+  catch(e){ if(/→ 404|42P01/.test(String(e.message || ''))) 팝.없음 = true; return; }
+  팝띄우기(); const 지문 = (팝.줄 || []).map(r => r.id + (r.done_at ? 1 : 0) + (r.seen_at ? 1 : 0)).join(); if(지문 !== 팝.지문){ 팝.지문 = 지문; if(S.view === 'pops' || (S.view === 'home' && 할수('popup'))) render(); } }      /* 바뀌었을 때만 다시 그림 — 20초마다 홈을 덮지 않게 */
+function 팝띄우기(){ if(document.getElementById('tppwrap')) return; const 나 = 팝나();
+  const r = (팝.줄 || []).filter(x => x.to_name === 나 && !x.done_at && !x.off).sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)))[0]; if(!r) return;
+  팝.받는 = r; 팝.답첨부 = []; 팝받기그리기(); }
+function 팝첨부칸(files, 큰){ const 사 = (files || []).filter(f => /^image\//.test(f.type || '')), 파 = (files || []).filter(f => !/^image\//.test(f.type || ''));
+  return (사.length || 파.length) ? '<div class="att">' + 사.map(f => '<button class="ph" data-act="tx:tppzoom" data-k="' + esc(f.path) + '" data-nm="' + esc(f.name || '') + '"><img data-pppath="' + esc(f.path) + '" alt=""><em>⤢ 누르면 크게</em></button>').join('')
+    + 파.map(f => '<a class="fl" data-ppfile="' + esc(f.path) + '" data-nm="' + esc(f.name || '') + '" href="#" target="_blank" rel="noopener">📄 ' + esc(f.name || '파일') + ' · 내려받기</a>').join('') + '</div>' : ''; }
+async function 팝주소채우기(el){ const 이 = [...el.querySelectorAll('img[data-pppath]')], 파 = [...el.querySelectorAll('a[data-ppfile]')]; if(!이.length && !파.length) return;
+  try{ const u = await 서명주소들(이.map(i => i.dataset.pppath).concat(파.map(a => a.dataset.ppfile))); 이.forEach((i, k) => { if(u[k]) i.src = u[k]; }); 파.forEach((a, k) => { const v = u[이.length + k]; if(v){ a.href = v + (/token=/.test(v) ? '&download=' + encodeURIComponent(a.dataset.nm || '') : ''); a.setAttribute('download', a.dataset.nm || ''); } }); }catch(e){} }
+function 팝받기그리기(){ const r = 팝.받는; if(!r) return; let w = document.getElementById('tppwrap'); if(!w){ w = document.createElement('div'); w.id = 'tppwrap'; document.body.appendChild(w); }
+  const 필 = !!r.need_answer, 글 = (document.getElementById('tppans') || {}).value || 팝.글 || '', 본 = 팝본문(r);
+  w.innerHTML = '<div class="pq" role="dialog" aria-modal="true"><div class="pq-m"><i></i>' + esc(r.by_name || '') + ' · ' + esc(팝때(r.created_at)) + '</div><h3>' + esc(팝제목(r)) + '</h3>' + (본 ? '<p class="bd">' + esc(본) + '</p>' : '')
+    + ((r.files || []).length ? '<hr>' + 팝첨부칸(r.files) : '') + '<hr>'
+    + (필 ? '<div class="lab">답 <em>필수</em></div><textarea id="tppans" class="req" placeholder="답을 입력해 주세요">' + esc(글) + '</textarea>' : '<div class="lab">메모 <small>선택</small></div><textarea id="tppans" placeholder="(선택 입력)">' + esc(글) + '</textarea>')
+    + '<div class="row"><button class="clip" data-act="tx:tppclip" data-k="ans">📎 사진 · 파일</button>' + 팝.답첨부.map((f, i) => '<span class="th">' + (/^image\//.test(f.type) ? '<img src="' + esc(f.미리 || '') + '" alt="">' : '📄') + '<b data-act="tx:tppdrop" data-k="ans|' + i + '">✕</b></span>').join('') + '<small>Ctrl+V 로 붙여도 돼요</small></div>'
+    + '<button class="go" data-act="tx:tppok"' + (필 && !글.trim() ? ' disabled' : '') + '>확인했어요</button><div class="ft">' + (필 ? '답을 입력하면 「확인했어요」를 누를 수 있어요' : '「확인했어요」를 눌러야 닫혀요') + '</div></div>';
+  const t = document.getElementById('tppans'); if(t) t.oninput = () => { 팝.글 = t.value; const g = w.querySelector('.go'); if(g && 필) g.disabled = !t.value.trim(); };
+  팝주소채우기(w); }
+async function 팝올리기(files){ const 길 = [];      /* 사진 = 줄여서 jpg · 파일 = 그대로 · 길 chat/<직원 id>/… (135단계 저장소 길 그대로) */
+  for(const f of files){ const 사 = /^image\//.test(f.type || ''); let blob = f, type = f.type || 'application/octet-stream', name = f.name || (사 ? '사진.jpg' : '파일');
+    if(사){ try{ blob = await 줄이기(f); type = 'image/jpeg'; name = name.replace(/\.[^.]+$/, '') + '.jpg'; }catch(e){} }
+    const 끝 = 사 ? '.jpg' : ((name.match(/\.[A-Za-z0-9]{1,6}$/) || [''])[0]);
+    const path = 'chat/' + 챗나() + '/pop_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6) + 끝;
+    const t = await 토큰(); const res = await fetch(SB_URL + '/storage/v1/object/tr/' + path, { method:'POST', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t, 'Content-Type':type }, body: blob });
+    if(!res.ok) throw new Error('첨부를 못 올렸어요 (' + res.status + ')'); 길.push({ path, name, type }); }
+  return 길; }
+function 팝첨부더(곳, files){ const 새 = [...(files || [])].filter(Boolean).slice(0, 10); if(!새.length) return 0;
+  새.forEach(f => { try{ if(/^image\//.test(f.type || '')) f.미리 = URL.createObjectURL(f); }catch(e){} });
+  if(곳 === 'ans'){ 팝.답첨부 = 팝.답첨부.concat(새).slice(0, 10); 팝받기그리기(); } else if(팝.보낼){ 팝.보낼.첨부 = 팝.보낼.첨부.concat(새).slice(0, 10); 팝보내기그리기(); }
+  return 새.length; }
+function 팝파일고르기(곳){ const i = document.createElement('input'); i.type = 'file'; i.multiple = true; i.onchange = () => 팝첨부더(곳, i.files); i.click(); }
+document.addEventListener('paste', ev => { const 곳 = document.getElementById('tppwrap') ? 'ans' : document.getElementById('tppsend') ? 'send' : ''; if(!곳) return;
+  const fs = [...((ev.clipboardData && ev.clipboardData.files) || [])]; if(!fs.length) return; if(팝첨부더(곳, fs)){ ev.preventDefault(); toast('붙였어요'); } });
+async function 팝확인(){ const r = 팝.받는; if(!r) return; const 글 = String((document.getElementById('tppans') || {}).value || '').trim();
+  if(r.need_answer && !글) return toast('답을 입력해 주세요');
+  const g = document.querySelector('#tppwrap .go'); if(g){ g.disabled = true; g.textContent = '보내는 중…'; }
+  try{ const 첨 = 팝.답첨부.length ? await 팝올리기(팝.답첨부) : [];
+    const 몸 = { done_at:new Date().toISOString(), answer:글 || null, answer_files:첨 };
+    await usend('tr_pops?id=eq.' + encodeURIComponent(r.id), 'PATCH', 몸, 'return=minimal'); Object.assign(r, 몸);
+    팝.받는 = null; 팝.답첨부 = []; 팝.글 = ''; const w = document.getElementById('tppwrap'); if(w) w.remove(); 팝띄우기(); }
+  catch(e){ toast('보내지 못했어요 — ' + String(e.message || '').slice(0, 60)); if(g){ g.disabled = false; g.textContent = '확인했어요'; } } }
+function 팝크게(path, nm){ let z = document.getElementById('tppzoom'); if(z) z.remove(); z = document.createElement('div'); z.id = 'tppzoom';
+  z.innerHTML = '<img alt=""><div class="zb"><a href="#" target="_blank" rel="noopener">⬇ 내려받기</a><button data-act="tx:tppzx">✕ 닫기</button></div>'; document.body.appendChild(z);
+  z.addEventListener('click', e => { if(e.target === z) z.remove(); });
+  서명주소들([path]).then(u => { const v = (u || [])[0]; if(!v) return; z.querySelector('img').src = v; const a = z.querySelector('a'); a.href = v + (/token=/.test(v) ? '&download=' + encodeURIComponent(nm || '사진.jpg') : ''); a.setAttribute('download', nm || '사진.jpg'); }).catch(() => {}); }
+function 팝보내기열기(){ if(!할수('popup')) return toast('보내기는 「공지 쓰기」 권한만 할 수 있어요'); 팝.보낼 = { 받는:[], 글:'', 답:true, 첨부:[], 목록:false }; 팝보내기그리기(); }
+function 팝보내기그리기(){ const o = 팝.보낼; if(!o) return; const 글 = document.getElementById('tppbody'); if(글) o.글 = 글.value;
+  popOpen('<div id="tppsend" class="pps" style="padding:24px 26px;width:min(480px,92vw)"><div style="font-size:19px;font-weight:800;margin-bottom:16px">선생님께 팝업</div>'
+    + '<div class="lbl" style="margin-bottom:6px">받는 사람</div><button class="inp ppto" data-act="tx:tpptolist"><span>' + (o.받는.length ? esc(o.받는.join(' · ')) : '<span style="color:var(--sub)">선생님을 선택해 주세요</span>') + '</span><span style="color:var(--sub)">' + (o.목록 ? '▴' : '▾') + '</span></button>'
+    + (o.목록 ? '<div class="pptl">' + 팝선생들().map(n => '<label class="' + (o.받는.includes(n) ? 'on' : '') + '" data-act="tx:tppto" data-k="' + esc(n) + '">' + (o.받는.includes(n) ? '✓ ' : '') + esc(n) + '</label>').join('') + '</div>' : '<div style="height:8px"></div>')
+    + '<div class="lbl" style="margin-bottom:6px">내용 <small class="sub3" style="margin:0">첫 줄이 제목이 돼요</small></div><textarea id="tppbody" class="inp" style="width:100%;min-height:96px;margin-bottom:10px" placeholder="예) 김OO 회원 재등록 상담 확인해 주세요">' + esc(o.글) + '</textarea>'
+    + '<div class="ppa' + (o.답 ? ' on' : '') + '" data-act="tx:tppans"><input type="checkbox"' + (o.답 ? ' checked' : '') + ' tabindex="-1"><b>답 받기</b><span>' + (o.답 ? '켬' : '끔') + '</span></div>'
+    + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px"><button class="btn ghost sm" data-act="tx:tppclip" data-k="send">📎 사진 · 파일</button>' + o.첨부.map((f, i) => '<span class="sub3" style="margin:0;border:1px solid #45413a;border-radius:8px;padding:5px 9px;display:inline-flex;align-items:center;gap:6px">' + (/^image\//.test(f.type) ? '<img src="' + esc(f.미리 || '') + '" style="width:26px;height:26px;object-fit:cover;border-radius:5px" alt="">' : '📄 ' + esc(f.name || '파일')) + '<b data-act="tx:tppdrop" data-k="send|' + i + '" style="cursor:pointer">✕</b></span>').join('') + '<small class="sub3" style="margin:0">Ctrl+V 로 붙여도 돼요</small></div>'
+    + '<div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" data-act="popclose">취소</button><button class="btn gold" data-act="tx:tppsend">' + (o.받는.length > 1 ? o.받는.length + '명에게 ' : '') + '보내기</button></div></div>');
+  const t = document.getElementById('tppbody'); if(t){ t.oninput = () => { o.글 = t.value; }; } }
+async function 팝보내기(){ const o = 팝.보낼; if(!o) return; o.글 = String((document.getElementById('tppbody') || {}).value || o.글 || '').trim();
+  if(!o.받는.length) return toast('받는 선생님을 선택해 주세요'); if(!o.글) return toast('내용을 입력해 주세요');
+  const b = document.querySelector('#tppsend [data-act="tx:tppsend"]'); if(b){ b.disabled = true; b.textContent = '보내는 중…'; }
+  try{ const 첨 = o.첨부.length ? await 팝올리기(o.첨부) : [];
+    await usend('tr_pops', 'POST', o.받는.map(n => ({ to_name:n, body:o.글, need_answer:!!o.답, files:첨, by_name:팝나() })), 'return=minimal');
+    팝.보낼 = null; popClose(); toast(o.받는.length + '명에게 보냈어요'); 팝받기(); }
+  catch(e){ toast('보내지 못했어요 — ' + String(e.message || '').slice(0, 60)); if(b){ b.disabled = false; b.textContent = '보내기'; } } }
+async function 팝답장봄(){ const 새 = 팝답장(); if(!새.length) return; const 때 = new Date().toISOString(); 새.forEach(r => r.seen_at = 때);
+  try{ await usend('tr_pops?id=in.(' + 새.map(r => '"' + r.id + '"').join(',') + ')', 'PATCH', { seen_at:때 }, 'return=minimal'); }catch(e){} }
+function v팝업(){ if(팝.없음) return '<div class="empty why"><b>팝업을 불러오지 못했습니다</b>잠시 뒤 다시 열어 주세요</div>';
+  if(!팝.줄) return '<div class="ck-load"><b>불러오는 중이에요</b></div>';
+  const 다 = (팝.줄 || []).filter(r => 할수('popup') || r.by_name === 팝나() || r.to_name === 팝나()), 기 = 다.filter(r => !r.done_at && !r.off), 함 = 다.filter(r => r.done_at), 거 = 팝.거 || '';
+  const 목 = 거 === '기다' ? 기 : 거 === '함' ? 함 : 다;
+  const 칩 = [['', '전체 ' + 다.length], ['기다', '답 기다림 ' + 기.length], ['함', '답함 ' + 함.length]].map(([v, l]) => '<button class="chip' + (거 === v ? ' on' : '') + '" data-act="tx:tppf" data-k="' + v + '">' + l + '</button>').join('');
+  const 사진 = fs => (fs || []).filter(f => /^image\//.test(f.type || '')).map(f => '<button data-act="tx:tppzoom" data-k="' + esc(f.path) + '" data-nm="' + esc(f.name || '') + '"><img data-pppath="' + esc(f.path) + '" alt=""></button>').join('');
+  const 파일 = fs => (fs || []).filter(f => !/^image\//.test(f.type || '')).map(f => '<a class="sub3" data-ppfile="' + esc(f.path) + '" data-nm="' + esc(f.name || '') + '" href="#" target="_blank" rel="noopener">📄 ' + esc(f.name || '파일') + '</a>').join(' ');
+  setTimeout(() => { const b = document.getElementById('body'); if(b) 팝주소채우기(b); }, 0);
+  return '<div class="as-flt" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="as-chips" style="margin:0">' + 칩 + '</span><span style="flex:1"></span>' + (할수('popup') ? '<button class="btn gold sm" data-act="tx:tppnew">＋ 선생님께 팝업</button>' : '') + '</div>'
+    + (목.length ? '<div class="as-tbl" style="margin-top:12px"><table class="ck-tb ppv-tb"><thead><tr><th style="width:120px">보낸 때</th><th style="width:96px">받는 사람</th><th>내용</th><th>답</th><th style="width:110px">답한 때</th></tr></thead><tbody>'
+      + 목.map(r => '<tr><td class="sub3">' + esc(팝때(r.created_at)) + '<br><small>' + esc(r.by_name || '') + '</small></td><td><b>' + esc(r.to_name || '') + '</b></td><td>' + esc(팝제목(r)) + ((r.files || []).length ? '<div class="ppimgs">' + 사진(r.files) + 파일(r.files) + '</div>' : '') + '</td>'
+        + '<td>' + (r.done_at ? '<span class="ok">' + esc(r.answer || (r.need_answer ? '' : '확인했어요')) + '</span>' + ((r.answer_files || []).length ? '<div class="ppimgs">' + 사진(r.answer_files) + 파일(r.answer_files) + '</div>' : '') : r.off ? '<small>내림</small>' : '<span class="no">● 아직 안 봤어요</span>') + '</td>'
+        + '<td class="sub3">' + (r.done_at ? esc(팝때(r.done_at)) : '') + '</td></tr>').join('') + '</tbody></table></div>'
+      : '<div class="empty why"><b>' + (다.length ? '조건에 맞는 팝업이 없습니다' : '보낸 팝업이 없습니다') + '</b>' + (할수('popup') ? '「＋ 선생님께 팝업」으로 보내요' : '') + '</div>'); }
+setInterval(() => { if(!document.hidden && ME && !팝.없음) 팝받기(); }, 20000);      /* 켜 둔 데스크 = 20초 안에 뜸 */
 /* 미리 띄우기 (2026-11-16 대표 「앱 화면 띄울 때 너무 오래 걸려」) — 데스크가 켜지면 뒤에서 앱을 한 번 불러 둔다(시스템이 알아서 · 켜 둘 것 없음)
    누르면 그 창을 꺼내고 「deskopen」(회원 · 리포트 · 지난 기록) 으로 화면만 옮김 · 닫으면 숨기고 뒤에서 새로 받아 둠 · 숨긴 채 10분이면 새로 받음 · 계정이 바뀌면 새 창 */
 const 앱창 = { 대기:null, 때:0 };
@@ -12647,6 +12758,7 @@ function txList0(key){
         + (바꿀수있나(key) ? ' data-vtab="'+i+'" title="끌어서 순서를 변경할 수 있어요"' : '')+'>'
         + esc(x.이름) + '<b>' + 겉거름(볼줄(key).filter(r => 보기맞나(x, r, key))).length + '</b></button>').join('')
     + (할수('table') && !잠겼나(key) ? '<button class="tx-vplus" data-act="tx:views" data-k="'+key+'" title="새 보기 추가">＋</button>' : '')
+    + (key === 'tasks' && !팝.없음 ? '<button data-act="tx:popsgo" title="선생님께 보낸 팝업 · 답">팝업<b>' + (팝.줄 || []).filter(r => 할수('popup') || r.by_name === 팝나() || r.to_name === 팝나()).length + '</b></button>' : '')      /* 선생님 팝업 보기 (2026-11-16) */
     + '</div><div class="sp2">'
     + (key === 'tasks' ? 업무범위줄()
        : '<span class="tx-pchips">' + (() => { const 고 = st.사람 ? 사람(st.사람) : null;      /* 담당자 = 펼침 메뉴 하나 (2026-10-29 대표 「나열하지 말고」) */
@@ -15775,6 +15887,7 @@ const 현황칸 = [
   { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
   { k:'락커TM', 이름:'락커 TM', 색:'warn', 셈: () => 락커줄('TM').length, 직접: () => 락커판('TM'), 보임: () => !!락커.r },
   { k:'연월차', 이름:'연월차 승인 대기', 색:'', 보임: () => 할수('leaveok') },
+  { k:'팝업답장', 이름:'팝업 답장', 색:'teal', 셈: () => 팝답장().length, 직접: () => 가기('pops'), 보임: () => !팝.없음 && 할수('popup') },      /* 선생님이 답한 팝업 — 팝업으로 안 띄우고 여기 (2026-11-16 대표) */
   { k:'가입',   이름:'가입 승인 대기',   색:'gold', 보임: () => 할수('perm'),      /* 2026-10-19 — 새 로그인 가입 승인(pwpending) · 옛 이메일 가입 수(가입대기수)가 아니다 */
     셈: () => (권한.대기 || []).length, 직접: () => 권한손잡이('permopen', { dataset:{} }) },
 ];
@@ -17929,6 +18042,18 @@ async function txAct(a, el){
   if(a==='zjrec'){ await 기록지정(k); return; }
   if(a==='rj2'){ if(!루틴주기) return; 루틴주기.rid = k; 루틴주기.단계 = 3; 루틴주기판(); return; }
   if(a==='rjback'){ if(!루틴주기) return; 루틴주기.단계 = +k; 루틴주기판(); return; }
+  if(a==='tppnew'){ 팝보내기열기(); return; }
+  if(a==='tpptolist'){ if(팝.보낼){ 팝.보낼.목록 = !팝.보낼.목록; 팝보내기그리기(); } return; }
+  if(a==='tppto'){ const o = 팝.보낼; if(!o) return; o.받는 = o.받는.includes(k) ? o.받는.filter(x => x !== k) : o.받는.concat([k]); 팝보내기그리기(); return; }
+  if(a==='tppans'){ if(팝.보낼){ 팝.보낼.답 = !팝.보낼.답; 팝보내기그리기(); } return; }
+  if(a==='tppclip'){ 팝파일고르기(k); return; }
+  if(a==='tppdrop'){ const [곳, i] = String(k).split('|'); if(곳 === 'ans'){ 팝.답첨부.splice(+i, 1); 팝받기그리기(); } else if(팝.보낼){ 팝.보낼.첨부.splice(+i, 1); 팝보내기그리기(); } return; }
+  if(a==='tppsend'){ 팝보내기(); return; }
+  if(a==='tppok'){ 팝확인(); return; }
+  if(a==='tppzoom'){ 팝크게(k, el.dataset.nm); return; }
+  if(a==='tppzx'){ const z = document.getElementById('tppzoom'); if(z) z.remove(); return; }
+  if(a==='tppf'){ 팝.거 = 팝.거 === k ? '' : k; render(); return; }
+  if(a==='popsgo'){ 가기('pops'); return; }
   if(a==='rjtag'){ if(!루틴주기) return; 루틴주기.tag = 루틴주기.tag === k ? '' : k; 루틴주기판(); return; }      /* 대상 칩 — 다시 누르면 전체 (2026-11-16) */
   if(a==='rjday'){ if(!루틴주기) return; 루틴주기.날 = k; 루틴주기판(); return; }
   if(a==='rjkind'){ if(!루틴주기) return; 루틴주기.종류 = k; 루틴주기판(); return; }
@@ -19513,6 +19638,8 @@ function render0(){
     if(!$('#kcalfr')){ b.innerHTML = '<iframe id="kcalfr" title="칼로리 계산기"></iframe>';
       $('#kcalfr').srcdoc = KCAL_SRC.replace('__SBURL__', SB_URL).replace('__SBKEY__', SB_KEY); }
     계산기높이();
+  } else if(S.view==='pops'){
+    top.innerHTML = '<h1>팝업</h1>'; b.innerHTML = v팝업(); if(!팝.줄 && !팝.없음) 팝받기(); 팝답장봄();
   } else if(S.view==='trash'){
     top.innerHTML = '<h1>휴지통</h1>';
     b.innerHTML = vTrash();
@@ -19759,6 +19886,7 @@ async function load(){
     const 미리 = 회원미리; 회원미리 = null;
     const [g, x] = await (미리 ? 미리.catch(() => 회원자료받기()) : 회원자료받기());
     D.m=g[0]; D.w=g[1]; D.wi=g[2]; D.r=g[3]; D.ri=g[4]; D.c=g[5];
+    setTimeout(() => { try{ 팝받기(); }catch(e){} }, 1500);      /* 선생님 팝업 — 켜자마자 */
     if(!document.getElementById('apprecp') && !navigator.webdriver) setTimeout(() => { try{ 앱창준비(); }catch(e){} }, 3000);      /* 데스크가 켜지면 앱 창을 뒤에서 미리 (2026-11-16) */
     D.aAll=g[6]; D.a=g[6].filter(x=>x.on_date===TODAY);
     D.ex=g[7]; D.va=g[8]; D.asks=g[9]||[]; D.cv=g[10];
