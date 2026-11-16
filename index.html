@@ -2356,6 +2356,15 @@ body{word-break:keep-all}
 /* 락커 만료자 — 15일 기준 두 묶음 (2026-10-29 대표 「15일 이상 경과자는 연락하거나 물품 회수」) */
 
 .bp-row2.lk-over{border-color:color-mix(in srgb,#df8f55 55%,transparent);background:color-mix(in srgb,#df8f55 8%,var(--dark-2))}.bp-row2.lk-over .lk-r b{color:#f3b98c}
+.lk2{display:flex;flex-direction:column}.lk2-i{padding:13px 4px;border-top:1px solid #2e2b26}.lk2-i:first-child{border-top:0;padding-top:4px}
+.lk2-h{display:flex;align-items:center;gap:12px}.lk2-t{flex:1;min-width:0}
+.lk2-n{font-size:15.5px;font-weight:800;color:#f2ead9;line-height:1.35}.lk2-n i{font-style:normal;color:#9d9586;font-weight:700;margin-right:8px}
+.lk2-s{font-size:13.5px;color:#a39b8d;margin-top:3px;line-height:1.45}.lk2-s a{color:inherit;text-decoration:none}.lk2-s em{font-style:normal;color:#ead2a6;font-weight:700}.lk2-s q{color:#ddd5c6;quotes:'「' '」'}
+.lk2-b{flex:none;height:36px;padding:0 13px;border-radius:9px;border:1px solid #4a4439;background:#1f1d1a;color:#d9d1c2;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.lk2-b.chk::before{content:'';width:15px;height:15px;border:1.5px solid #8d8474;border-radius:4px;box-sizing:border-box}
+.lk2-b.chk.on{border-color:#c9a86c;background:#29231a;color:#f0d3a0}
+.lk2-b.chk.on::before{content:'✓';border-color:#d9b87a;background:#d9b87a;color:#1a1510;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.lk2 .lk-memo{margin-top:10px}
 .lk-r{margin-left:auto;text-align:right;font-size:13.5px}.lk-r small{display:block;color:var(--sub);font-size:12.5px}
 .as-att-l{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 6px}.as-att-l span{font-size:13px;padding:3px 8px;border-radius:6px;background:var(--dark-2);border:1px solid var(--line);color:#d9d3c9}.as-att-l span.we{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
 .sc-misu-l{margin:6px 0 2px;font-size:13px;color:var(--sub);line-height:1.6}.sc-misu{display:inline-flex;align-items:center;height:22px;padding:0 8px;margin-right:6px;border-radius:6px;font-size:13px;font-weight:800;color:#f6b26b;background:color-mix(in srgb,#f28c28 16%,transparent);border:1px solid color-mix(in srgb,#f28c28 45%,transparent)}
@@ -3513,7 +3522,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '678';
+const BUILD = '681';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -5327,20 +5336,7 @@ const 주이름 = () => {
 };
 
 /* 넓힐 때는 이 표에 한 줄만 더한다 */
-const 주간거리 = [
-  { k:'잠수', 제목:'잠수 회원', 뽑기: function(){
-      if(!PTST_때) return null;                            /* 브로제이를 아직 못 받았다 */
-      const 목 = 잠수목록();
-      const 줄 = 목.map(o => '· ' + o.m.name
-        + ' — ' + (o.x['담당'] || '담당 없음')
-        + ' · ' + (o.x['안온날'] != null ? o.x['안온날'] + '일째' : '안 온 날 모름')
-        + (o.x['잔여'] ? ' · ' + o.x['잔여'] : ''));
-      return { 수: 목.length,
-        본문: 목.length
-          ? '이번 주에 연락해 볼 분입니다. 사유는 회원 화면에서 남겨 주세요.\n\n' + 줄.join('\n')
-          : '이번 주 잠수 회원은 없습니다.' };
-    } },
-];
+const 주간거리 = [];      /* 잠수 회원 주간 업무 카드 뺌 — 점검 탭에서 봄 (2026-11-16 21:44 대표 「잠수회원 n명 이것도 이제 점검 탭이 있으니까 업무에 안 넣어도 돼」 · 중앙 전달) */
 
 let 주간올림 = false;
 async function 주간올리기(){
@@ -11458,6 +11454,7 @@ document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'as
 document.addEventListener('change', ev => { const f = ev.target && ev.target.dataset && ev.target.dataset.asg; if(!f) return; 배정.g[f] = ev.target.value; render(); });
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'logq') return; 기록판.q = ev.target.value; const p = ev.target.selectionStart; render(); const n = document.getElementById('logq'); if(n){ n.focus(); n.setSelectionRange(p, p); } });      /* 작업기록 찾기 */
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'cmq') return; S.cmQ = ev.target.value; const p = ev.target.selectionStart; render(); const n = document.getElementById('cmq'); if(n){ n.focus(); n.setSelectionRange(p, p); } });      /* 피드백 메뉴 회원 찾기 (2026-10-27) */
+document.addEventListener('input', ev => { const t = ev.target; if(!t || t.id !== 'txq') return; const st = 표상태[t.dataset.k || S.view]; if(!st) return; st.q = t.value; const p = t.selectionStart; render(); const n = document.getElementById('txq'); if(n){ n.focus(); try{ n.setSelectionRange(p, p); }catch(e){} } });      /* 표 · 업무 검색 — 친 글을 받는 곳이 없어 아무것도 안 걸렀다 (2026-11-16 대표 「잠수 … 검색도 안되고」) */
 document.addEventListener('input', ev => { if(!ev.target || ev.target.id !== 'asq') return; 배정.거.q = ev.target.value; 배정.페 = 0; const p = ev.target.selectionStart; render(); const n = document.getElementById('asq'); if(n){ n.focus(); n.setSelectionRange(p, p); } });
 document.addEventListener('input', ev => { const f = ev.target && ev.target.closest && ev.target.closest('#popbox .ck-fr'); if(!f || !예상입력) return; 예상읽기(); const t = document.getElementById('ckftot'); if(t) t.textContent = 예상만원(예상합(예상입력.줄));
   const m = f.querySelector('.man'), a = f.querySelector('[data-f="amount"]'); if(m && a) m.textContent = 만표(a.value); const g = document.getElementById('fcsum'); if(g) g.innerHTML = 예상갈래합(예상입력.줄); });
@@ -12157,29 +12154,45 @@ const 락커경과 = o => { const e = String((o && o['끝']) || '').slice(0, 10)
 const 락커지남 = () => 락커줄('만료').filter(o => (락커경과(o) || 0) >= 15);      /* 보관 15일 지남 — 연락 · 물품 회수 */
 /* 락커 메모 → 브로제이 CRM 메모 목록 「[락커] 글」 (2026-11-05 대표 시안 ⑯ A · 중앙 창구 locker_memo · 출처 만료 | 판매 · 이름 · 전화는 그 줄 그대로) */
 const 락커메모대상 = {};
-function 락커메모칸(출처, 이름, 전화){ const key = 출처 + '|' + (이름 || '') + '|' + (전화 || ''); 락커메모대상[key] = { 출처, 이름: 이름 || '', 전화: 전화 || '' };
-  return '<div class="lk-memo"><input class="inp" data-lkm="' + esc(key) + '" maxlength="300" placeholder="락커 메모 · CRM 메모에 남아요"><button class="btn sub sm" data-act="tx:lkmemo" data-k="' + esc(key) + '">메모 남기기</button></div>'; }
+function 락커메모칸(출처, 이름, 전화, 짧게){ const key = 출처 + '|' + (이름 || '') + '|' + (전화 || ''); 락커메모대상[key] = { 출처, 이름: 이름 || '', 전화: 전화 || '' };
+  return '<div class="lk-memo"><input class="inp" data-lkm="' + esc(key) + '" maxlength="300" placeholder="락커 메모 · CRM 메모에 남아요"><button class="' + (짧게 ? 'lk2-b' : 'btn sub sm') + '" data-act="tx:lkmemo" data-k="' + esc(key) + '">' + (짧게 ? '남기기' : '메모 남기기') + '</button></div>'; }
 async function 락커메모남기기(key){ const t = 락커메모대상[key], el = [...document.querySelectorAll('[data-lkm]')].find(x => x.dataset.lkm === key), 글 = String((el && el.value) || '').trim();
   if(!t) return; if(!글) return toast('메모를 입력해 주세요');
-  if(!await 묻기(t.이름 + '(' + (t.전화 ? 마스크번호(t.전화) : '전화 없음') + ') 님 CRM 메모에 넣습니다' + String.fromCharCode(10) + '[락커] ' + 글)) return;
+  if(!await 묻기(락커누구(t.이름, t.전화) + ' 님 CRM 메모에 넣습니다' + String.fromCharCode(10) + '[락커] ' + 글)) return;
   try{ const r = await crm('locker_memo', { 출처: t.출처, 이름: t.이름, 전화: t.전화, 글 });
     if(r && r.ok !== false && r.된){ if(el) el.value = ''; toast(r.why ? String(r.why) : 'CRM 메모에 남겼어요'); }
     else toast(String((r && (r.why || r.왜)) || '남기지 못했어요')); }
   catch(e){ toast('남기지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
-function 락커만료묶음(L){
-  const 짧 = d => d ? String(d).slice(5, 10).replace('-', '/') : '-', 줄 = o => { const n = 락커경과(o), 넘 = n != null && n >= 15;
-    return '<div class="bp-row2' + (넘 ? ' lk-over' : '') + '"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b>'
-      + (o['전화'] ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '')
-      + '<span class="lk-r"><b>만료일 ' + 짧(o['끝']) + (n != null ? ' · ' + n + '일 경과' : '') + '</b>' + (n == null ? '' : '<small>' + (넘 ? (n > 15 ? '보관 기간 ' + (n - 15) + '일 넘음' : '오늘로 보관 15일') : (15 - n) + '일 뒤 회수') + '</small>') + '</span></div>' + 락커메모칸('만료', o['이름'], o['전화']) + '</div>'; };
-  const 정 = L.slice().sort((a, b) => (락커경과(b) || 0) - (락커경과(a) || 0)), 넘 = 정.filter(o => (락커경과(o) || 0) >= 15), 안 = 정.filter(o => (락커경과(o) || 0) < 15);
-  return '<i data-nochip hidden></i>' + (넘.length ? '<div class="lbl">15일 지남 · 연락하거나 물품 회수 ' + 넘.length + '개</div>' + 넘.map(줄).join('') : '')
-    + (안.length ? '<div class="lbl">보관 중 · 15일 안 ' + 안.length + '개</div>' + 안.map(줄).join('') : ''); }
+/* 락커 만료 명단 — 한 사람 = 두 줄(이름 / 설명) · 단추는 오른쪽 끝(메모 · TM 은 연락함)만 · 줄마다 상자 대신 가는 선 (2026-11-16 22:18 대표 「버튼이 여기저기 정신없다 · 눈과 뇌가 피로하지 않게」 · 시안 락커연락_1116 2) */
 const 락커키 = o => String(o['번호'] == null ? '' : o['번호']) + '|' + String(o['이름'] || '');
-function 락커TM묶음(){ const tm = 락커줄('TM'); if(!tm.length) return ''; const 짧 = d => d ? String(d).slice(5, 10).replace('-', '/') : '-';      /* TM = 폐기 안내 뒤 15일 지나도 회수 안 됨 — 맨 위 · 딱지 (2026-11-16) */
-  return '<div class="lbl">TM · 전화로 회수 안내 ' + tm.length + '개</div>' + tm.map(o => { const n = 락커경과(o);
-    return '<div class="bp-row2 lk-over lk-tm"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b><span class="lk-tmt">TM</span>'
-      + (o['전화'] ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '')
-      + '<span class="lk-r"><b>만료일 ' + 짧(o['끝']) + (n != null ? ' · ' + n + '일 경과' : '') + '</b><small>' + (o['안내일'] ? '폐기 안내 ' + 짧(o['안내일']) : '') + (o['지난날'] != null && o['지난날'] !== '' ? ' · 안내 뒤 ' + esc(String(o['지난날'])) + '일' : '') + '</small></span></div>' + 락커메모칸('만료', o['이름'], o['전화']) + '</div>'; }).join(''); }
+const 락커펼 = { k:'' };      /* 메모를 연 줄 하나 */
+const 락커누구 = (이름, 전화) => (이름 || '') + (전화 ? ' (뒤 ' + String(전화).replace(/[^0-9]/g, '').slice(-4) + ')' : ' (전화 없음)');
+const 락커때 = s => { const d = new Date(s); return isNaN(d) ? '' : (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+function 락커한줄(o, tm){ const k = 락커키(o), n = 락커경과(o), c = tm ? o['연락'] : null, 펼 = 락커펼.k === k, 짧 = d => d ? String(d).slice(5, 10).replace('-', '/') : '-';
+  const 설명 = c ? '연락 ' + 락커때(c.at) + (c.by ? ' · ' + esc(c.by) : '') + (c['메모'] ? ' · <q>' + esc(c['메모']) + '</q>' : '')
+    : [o['전화'] ? '<a href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '', '만료 ' + 짧(o['끝']), n == null ? '' : n >= 15 ? '<em>' + n + '일 지남</em>' : n + '일째 · ' + (15 - n) + '일 뒤 회수',
+       tm && o['지난날'] != null && o['지난날'] !== '' ? '폐기 안내 뒤 ' + esc(String(o['지난날'])) + '일' : ''].filter(Boolean).join(' · ');
+  return '<div class="lk2-i"><div class="lk2-h"><div class="lk2-t"><div class="lk2-n"><i>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번' : '번호 없음') + '</i>' + esc(o['이름'] || '') + '</div><div class="lk2-s">' + 설명 + '</div></div>'
+    + '<button class="lk2-b" data-act="tx:lkmfold" data-k="' + esc(k) + '">' + (펼 ? '메모 접기' : '메모') + '</button>'
+    + (tm ? '<button class="lk2-b chk' + (c ? ' on' : '') + '" data-act="tx:lktm" data-k="' + esc(k) + '">연락함</button>' : '') + '</div>'
+    + (펼 ? 락커메모칸('만료', o['이름'], o['전화'], true) : '') + '</div>'; }
+const 락커묶 = (제, L, tm) => L.length ? '<div class="lbl">' + 제 + ' ' + L.length + '개</div><div class="lk2">' + L.map(o => 락커한줄(o, tm)).join('') + '</div>' : '';
+function 락커만료묶음(L){
+  const 정 = L.slice().sort((a, b) => (락커경과(b) || 0) - (락커경과(a) || 0));
+  return '<i data-nochip hidden></i>' + 락커묶('15일 지남 · 연락하거나 물품 회수', 정.filter(o => (락커경과(o) || 0) >= 15), false) + 락커묶('보관 중 · 15일 안', 정.filter(o => (락커경과(o) || 0) < 15), false); }
+/* TM = 폐기 안내 뒤 15일 지나도 회수 안 됨(중앙 락커TM.py) — 위 · 연락함 체크한 사람은 아래 「회수 기다림」 (2026-11-16 대표 「업무 페이지 말고 사이드 페이지에서 연락 유무를 바로 체크」) */
+function 락커TM묶음(){ const tm = 락커줄('TM'); if(!tm.length) return '';
+  return '<i data-nochip hidden></i>' + 락커묶('TM · 전화로 회수 안내', tm.filter(o => !o['연락']), true) + 락커묶('TM · 연락함 · 회수 기다림', tm.filter(o => o['연락']), true); }
+/* 연락함 체크 · 풀기 → 중앙 locker_tm_contact {번호, 전화, 연락, 메모?} · 답 {ok, 연락} */
+async function 락커연락(k){ const o = 락커줄('TM').find(x => 락커키(x) === k); if(!o) return;
+  const 누구 = 락커누구(o['이름'], o['전화']); let 몸;
+  if(o['연락']){ if(!await 묻기(누구 + ' 님 연락함 표시를 풉니다')) return; 몸 = { 번호: o['번호'], 전화: o['전화'] || '', 연락: false }; }
+  else { const m = await 입력받기(누구 + ' 님 연락함으로 표시합니다' + String.fromCharCode(10) + '메모 (선택입력)', ''); if(m == null) return;
+    몸 = { 번호: o['번호'], 전화: o['전화'] || '', 연락: true }; const 글 = String(m).trim(); if(글) 몸['메모'] = 글.slice(0, 200); }
+  try{ const r = await crm('locker_tm_contact', 몸); if(!r || r.ok === false) throw new Error((r && (r.why || r.error)) || '');
+    o['연락'] = r['연락'] || null; toast(o['연락'] ? '연락함으로 표시했어요' : '연락함 표시를 풀었어요'); }
+  catch(e){ toast('저장하지 못했어요' + (e && e.message ? ' — ' + String(e.message).slice(0, 60) : '')); return; }
+  if(document.getElementById('popbox')) 락커판('만료'); if(S.view === 'home') render(); }
 function 락커판(k){
   const L = 락커줄(k), 짧 = d => d ? String(d).slice(5).replace('-', '/') : '-';
   if(k === '만료'){ const tk = new Set(락커줄('TM').map(락커키)), 나머지 = L.filter(o => !tk.has(락커키(o)));      /* 명단 하나 — 한 사람은 한 묶음에만 */
@@ -12740,7 +12753,7 @@ function txTools(key){
         : 잠 ? '<span class="tx-ib tx-lockb on" title="잠긴 표 — 대표가 저장한 그대로 보여요">🔒</span>' : '')
     + '<button class="tx-ib'+((st.규칙||[]).length?' on':'')+(고?' fix':'')+'" data-act="tx:fnew" data-k="'+key+'" title="'+(고?'필터 고정됨':'필터')+'"><svg viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg></button>'
     + '<button class="tx-ib'+(순?' on':'')+(고?' fix':'')+'" data-act="tx:sortmenu" data-k="'+key+'" title="정렬"><svg viewBox="0 0 24 24"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg></button>'
-    + (검 ? '<input class="srch" id="txq" type="text" placeholder="'+(key === 'tasks' ? '업무 검색 — 제목 · 내용 · 담당 · 구분' : T.제목+' 검색')+'" value="'+esc(st.q)+'">' + (key === 'tasks' && !st.q ? '' : '<button class="tx-ib" data-act="tx:qclose" data-k="'+key+'" title="검색 닫기">✕</button>')
+    + (검 ? '<input class="srch" id="txq" data-k="'+key+'" type="text" placeholder="'+(key === 'tasks' ? '업무 검색 — 제목 · 내용 · 담당 · 구분' : T.제목+' 검색')+'" value="'+esc(st.q)+'">' + (key === 'tasks' && !st.q ? '' : '<button class="tx-ib" data-act="tx:qclose" data-k="'+key+'" title="검색 닫기">✕</button>')
          : '<button class="tx-ib" data-act="tx:qopen" data-k="'+key+'" title="검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>')
     + '<button class="tx-ib" data-act="tx:vset" data-k="'+key+'" title="보기 설정"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>'
     + '<button class="btn gold sm" data-act="tx:new" data-k="'+key+'">＋ 새로 만들기 ▾</button></div>';
@@ -12782,6 +12795,8 @@ function txList0(key){
   const 가린것 = [st.사람 ? '담당 ' + esc(사람(st.사람).name || '') : '', (st.규칙 || []).length ? '필터 ' + st.규칙.length + '개' : '', q ? '검색 「' + esc(st.q.trim()) + '」' : ''].filter(Boolean);
   const 나란히 = 속 => key === 'leave' ? '<div class="lv2"><div class="lv2-l">' + 속 + '</div><div class="lv2-r">' + 달력 + '</div></div>' : 달력 + 속;      /* 연월차 = 왼쪽 목록 · 오른쪽 달력 (결정 lay left) */
   if(!rows.length) return 보기줄 + 거름줄 + 나란히('<div class="empty">결과 없음'
+    + (key === 'tasks' && q ? (() => { const n = (할수('taskall') ? (W.tasks || []) : 볼줄('tasks')).filter(r => JSON.stringify(r).toLowerCase().indexOf(q) >= 0).length;      /* 검색이 비어도 다른 보기 · 담당에 있는 것은 보이게 (2026-11-16 담당 없는 잠수 업무 · 완료 탭) */
+         return n ? '<div class="tx-hid">다른 보기 · 담당에 ' + n + '건 있어요 <button class="btn ghost sm" data-act="tx:tqall">전체에서 보기</button></div>' : ''; })() : '')
     + (보기줄들.length && 가린것.length ? '<div class="tx-hid">이 보기 ' + 보기줄들.length + '건이 ' + 가린것.join(' · ') + '(으)로 가려졌어요 <button class="btn ghost sm" data-act="tx:fclear" data-k="' + key + '">모두 풀기</button></div>' : '') + '</div>'
     + '<button class="tx-newrow one" data-act="tx:rownew" data-k="'+key+'">＋ 새 '+표정의[key].제목+'</button>');
   const 표다 = 모양(key) === 'table', 카드다 = 모양(key) === 'card';
@@ -15893,7 +15908,7 @@ const 현황칸 = [
   { k:'설문2차', 이름:'2차 설문톡 연락', 색:'gold', 셈: () => 이차연락줄().length, 직접: () => { 표상태.leads.보기 = 'ns2'; 보기얹기('leads'); 가기('leads'); }, 보임: () => 할수('table') },      /* 2차 받은 분 중 아직 연락 체크 안 한 분 (2026-10-30 대표 「명단이 있을 때마다 현황판에」) */
   { k:'설문중지', 이름:'자동 설문 중지 요청', 색:'warn', 셈: () => 중지요청줄().length, 직접: () => 중지요청판(), 보임: () => 할수('assignset') },      /* 트레이너 요청 → 관리자 승인 (2026-10-30 노션) */
   { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
-  { k:'락커만료', get 이름(){ const n = 락커줄('TM').length; return n ? '락커 만료 · TM ' + n : '락커 만료'; },      /* 한 칸 — TM 은 만료자의 일부라 두 칸이면 같은 사람이 겹쳤다 (2026-11-16 대표 「명단이 두 곳에서 쪼개져 헷갈려」) */ 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
+  { k:'락커만료', get 이름(){ const n = 락커줄('TM').filter(o => !o['연락']).length; return n ? '락커 만료 · TM ' + n : '락커 만료'; },      /* 한 칸 — TM 은 만료자의 일부라 두 칸이면 같은 사람이 겹쳤다 (2026-11-16 대표 「명단이 두 곳에서 쪼개져 헷갈려」) */ 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
   { k:'연월차', 이름:'연월차 승인 대기', 색:'', 보임: () => 할수('leaveok') },
   { k:'팝업답장', 이름:'팝업 답장', 색:'teal', 셈: () => 팝답장().length, 직접: () => 가기('pops'), 보임: () => !팝.없음 && 할수('popup') },      /* 선생님이 답한 팝업 — 팝업으로 안 띄우고 여기 (2026-11-16 대표) */
   { k:'가입',   이름:'가입 승인 대기',   색:'gold', 보임: () => 할수('perm'),      /* 2026-10-19 — 새 로그인 가입 승인(pwpending) · 옛 이메일 가입 수(가입대기수)가 아니다 */
@@ -18156,7 +18171,9 @@ async function txAct(a, el){
   if(a==='jbpart'){ if(종목만들기){ 종목만들기.part = 종목만들기.part === k ? '' : k; 종목만들기창(); } return; }
   if(a==='jbgo'){ 종목만들기실행(); return; }
   if(a==='trfold'){ try{ localStorage.setItem('gg_trfold', 선생접힘() ? '0' : '1'); }catch(e){} render(); return; }
-  if(a==='lkmemo'){ await 락커메모남기기(k); return; }      /* 락커 메모 → CRM (2026-11-05) */
+  if(a==='lkmemo'){ await 락커메모남기기(k); return; }
+  if(a==='lkmfold'){ 락커펼.k = 락커펼.k === k ? '' : k; 락커판('만료'); if(락커펼.k){ const i = [...document.querySelectorAll('.lk2 [data-lkm]')][0]; if(i) i.focus(); } return; }      /* 락커 줄 메모 펼침 · 접기 (2026-11-16) */
+  if(a==='lktm'){ await 락커연락(k); return; }      /* 락커 TM 연락함 체크 (2026-11-16) */      /* 락커 메모 → CRM (2026-11-05) */
   if(a==='scedit'){ const o = 매확찾(v2); if(o && o['고름']){ 매확.고침[v2] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[v2]['금액']); if(ks.length === 1) 매확.고침[v2]['금액'][ks[0]] = +o['합'] || 0; if(o.TG) 매확.TG열림['p' + v2] = '열림'; if(매확메모잠김(o)) toast('결제메모는 전산(CRM)에서 직접 수정해주세요'); } 매확다시(); return; }      /* 수정 = 수단 · 결제메모 · TG메모 한꺼번에 (2026-10-22) · CRM 에 들어간 메모는 안내 (대표 17:39) */
   if(a==='sccancel'){ 매확임시지움(['p' + v2], ['메모' + v2]); delete 매확.고침[v2]; delete 매확.펼침['메모' + v2]; delete 매확.TGF['p' + v2]; delete 매확.TG바뀜['p' + v2]; delete 매확.TG열림['p' + v2]; 매확다시(); return; }
   if(a==='sctedit'){ 매확.TG수정[k] = true; 매확.TG열림[k] = '열림'; 매확다시(); return; }
@@ -18422,6 +18439,7 @@ async function txAct(a, el){
     catch(e){ toast('수정하지 못했어요 — '+String(e.message||'').slice(0,60)); }
     return; }
   if(a==='dsel'){ 담당메뉴(el, k); return; }      /* 담당 고르기 단추 → 펼침 메뉴 (2026-10-29) */
+  if(a==='tqall'){ const st = 표상태.tasks; if(할수('taskall')) st.범위 = '전체'; st.사람 = null; st.규칙 = []; st.보기 = 'all'; 고른행 = { key:null, ids:[] }; render(); return; }      /* 업무 검색 — 담당 · 보기 풀고 전체에서 (2026-11-16) */
   if(a==='tscope'){ const st = 표상태.tasks; st.범위 = k; st.사람 = null; 고른행 = { key:null, ids:[] }; render();      /* 업무 내 담당 · 선생님별 · 전체 */
     if(k === '선생') setTimeout(() => { const b = document.querySelector('#body .tk-seg .dsel'); if(b) 담당메뉴(b, 'tb_tasks'); }, 30); return; }
   if(a==='who'){ 표상태[k].사람 = v2 || null; 고른행 = { key:null, ids:[] }; render(); return; }
