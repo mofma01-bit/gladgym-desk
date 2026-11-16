@@ -3495,7 +3495,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '671';
+const BUILD = '672';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -7395,10 +7395,9 @@ function 지난기록탭(){
   const 카드 = w => { const b = 기록몸(w, M, true), r = (D.r || []).find(x => String(x.id) === String(w.routine_id)), 클 = w.kind === '수업' ? 'cl' : 'pe';
     return '<div class="rcday ' + 클 + (고른 && 고른.id === w.id ? ' pick' : '') + '" data-rc="' + esc(w.id) + '"><div class="rch">'
       + '<span class="dt">' + dateFull(w.on_date) + '<small>(' + 요(w.on_date) + ')</small></span><span class="k ' + 클 + '">' + esc(w.kind || '수업') + '</span><span class="nm">' + [r && !w.title ? esc(운동이름(r)) : '', b.덧].filter(Boolean).join(' · ') + '</span>'
-      + '<span class="r">' + (S.recEdit && S.day === w.id ? '<button class="btn main sm" data-act="tx:recback">수정 완료</button>'
-          : '<button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button><button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button>')
+      + '<span class="r">' + '<button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button><button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button>'
         + (기록지움권(w) ? '<button class="btn ghost sm rcdel" data-act="tx:recdel" data-k="' + esc(w.id) + '">삭제</button>' : '') + '</span></div>'
-      + (S.recEdit && S.day === w.id ? '<div class="rcedit">' + tabRecord(true) + '</div>' : b.몸) + '</div>'; };
+      + b.몸 + '</div>'; };      /* 카드 안 무게 · 횟수 표 편집 걷음 — 「수정」 = 앱 창 같은 길 (2026-11-16) */
   setTimeout(() => { 해부칠하기(); 칠그리기(); if(S.recGo && 고른){ S.recGo = false; const e = [...document.querySelectorAll('.rcday[data-rc]')].filter(x => x.dataset.rc === 고른.id).pop(); if(e) e.scrollIntoView({ block:'start', behavior:'smooth' }); } }, 0);
   const 몸 = '<div class="rcl5">' + 보일.map(카드).join('') + '</div>' + (ws.length > n ? '<button class="more5" data-act="tx:recmore">5개 더 보기 <small>남은 ' + (ws.length - n) + '회</small> ⌄</button>' : '');
   return '<div class="rcwrap">' + 몸 + 발 + '</div>'; }
@@ -7420,7 +7419,7 @@ function 기록몸(w, src, 만들){
     const 만들줄 = (붙 => 붙.length ? '<div class="rcjb">' + 붙.map(it => '<button class="jbgo" data-act="tx:jbopen" data-k="' + esc(it.id) + '">' + esc(붙일이름(it.variant_id)) + ' · 종목 만들기 ›</button>').join('') + '</div>' : '')(its.filter(it => 붙일vid(it.variant_id)));
     return { 덧: [esc(w.title || ''), its.length + '종목', 총 ? '든 무게 ' + Math.round(총).toLocaleString() + 'kg' : ''].filter(Boolean).join(' · ') + (w.done ? '' : ' · <b style="color:var(--gold)">하는 중</b>'),
       몸: '<div class="rcb">' + 그림 + '<div class="rcl">' + (줄 || '<div class="sub3">종목이 없는 기록이에요</div>') + (만들 ? 만들줄 : '') + '</div></div>' }; } }
-function tabRecord(편집만){
+function tabRecord(){
   const ws = D.w.filter(w=>w.member_id===S.mid)
                 .sort((a,b)=> a.on_date < b.on_date ? 1 : -1);
   const sel0 = S.day || (ws[0] ? ws[0].id : null);
@@ -7473,7 +7472,6 @@ function tabRecord(편집만){
     return a + M.ws.filter(s=>s.item_id===it.id && s.done)
       .reduce((b,s)=>b+(s.kg||0)*(s.reps||0),0); }, 0);
 
-  if(편집만) return 상세;      /* 지난 기록 카드 안에서 바로 고침 (2026-11-05) */
   return '<div class="cols"><div class="sec">'
     + '<div class="lbl">' + dateFull(w.on_date) + ' · ' + esc(w.kind||'') + ' · ' + its.length + '종목'
     + (총볼륨 ? ' · 든 무게 ' + 총볼륨.toLocaleString() + 'kg' : '')
@@ -10980,11 +10978,11 @@ function 매확팝업(강제){
 /* ══ 수업 기록 = 앱 기록 화면 그대로 ══ 2026-10-23 확정 C-2 「데스크도 앱 기록 화면 그대로」 — 데스크용을 따로 만들지 않고 가운데 큰 창에 앱을 띄운다(고칠 때 한 번만)
    앱은 이 탭의 데스크 계정(sessionStorage)으로 메모리 로그인 · 마치면 앱이 알려 주고(postMessage gg:'deskrec') 데스크는 그 회원을 다시 받는다 */
 const 앱기록길 = () => /github\.io$/.test(location.hostname) ? '/gladgym-app/index.html' : location.port === '8792' ? 'http://localhost:8791/' : '../웹앱/index.html';      /* 데스크가 새 주소(gladgym-desk)로 옮겨도 회원 앱 창은 /gladgym-app/ (2026-10-29) */
-function 앱기록창(mid, 리포트){
+function 앱기록창(mid, 리포트, 고침){
   const m = (D.m || []).find(x => x.id === mid) || {}; 앱기록닫기();
   const el = document.createElement('div'); el.id = 'apprec';
-  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + esc(m.name || '') + (리포트 ? ' · 리포트' : ' · 수업 기록') + '</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
-    + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1&m=' + encodeURIComponent(mid) + (리포트 ? '&r=' + encodeURIComponent(리포트) : '') + '"></iframe></div>';
+  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + esc(m.name || '') + (리포트 ? ' · 리포트' : 고침 ? ' · 지난 기록 수정' : ' · 수업 기록') + '</b><small>앱과 같은 화면이에요</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
+    + '<iframe title="수업 기록" src="' + 앱기록길() + '?desk=1&m=' + encodeURIComponent(mid) + (리포트 ? '&r=' + encodeURIComponent(리포트) : '') + (고침 ? '&fix=' + encodeURIComponent(고침) : '') + '"></iframe></div>';
   document.body.appendChild(el); }
 /* 수업 기록 큰 카드 = 앱 그대로 열기 — 회원 없이 · 앱 「오늘」 탭부터 (2026-11-05 20:22 대표) */
 function 앱오늘창(){ 앱기록닫기(); const el = document.createElement('div'); el.id = 'apprec';
@@ -18305,9 +18303,8 @@ async function txAct(a, el){
   if(a==='fbex'){ S.fbEx = k; render(); return; }
   if(a==='fbrow'){ S.fbOpen = S.fbOpen === k ? '' : k; render(); return; }
   if(a==='mvopen'){ S.mvOpen = !S.mvOpen; if(회원판 && el.closest('#popbox')) 회원판그리기(); else render(); return; }      /* 회원 위 요약 펼치기 · 접기 (2026-11-03) */
-  if(a==='recedit'){ S.day = k; S.recEdit = true; S.edit = S.edit || {}; S.edit.record = true; render(); return; }      /* 그 카드 자리에서 바로 고침 (2026-11-05) */
-  if(a==='recdel'){ await 진행기록지우기(k); if(S.day === k){ S.recEdit = false; S.day = null; } render(); return; }      /* 묻고 · 휴지통으로 (2026-11-05) */      /* 지난 기록 날짜 카드 「수정」 → 옛 편집 화면 */
-  if(a==='recback'){ S.recEdit = false; S.day = null; if(S.edit) S.edit.record = false; render(); return; }
+  if(a==='recedit'){ const w = (D.w || []).find(x => x.id === k); if(w) 앱기록창(w.member_id, null, w.id); return; }      /* 지난 기록 「수정」 = 수업 기록과 같은 앱 창 → 시작 창(「지난 기록 수정 중」) → 기록 화면 (2026-11-16 대표 「매번 다른 화면이 뜨지 않게」 · 확정 C-2) */
+  if(a==='recdel'){ await 진행기록지우기(k); if(S.day === k) S.day = null; render(); return; }      /* 묻고 · 휴지통으로 (2026-11-05) */      /* 지난 기록 날짜 카드 「수정」 → 옛 편집 화면 */
   if(a==='recmore'){ S.recN = { mid:S.mid, n:(S.recShown || 5) + 5 }; render(); return; }      /* 5개 더 보기 (2026-11-13) */
   if(a==='fbnav'){ const ws = D.w.filter(w => w.member_id === S.mid).sort((a, b) => a.on_date < b.on_date ? 1 : -1), w = ws[+k]; if(!w) return; S.cmw = w.id; S.cday = w.on_date; S.cmopen = null; S.cmprev = null; render(); if($('#pop').classList.contains('on') && 회원판) 회원판그리기(); return; }
   if(a==='rec8'){ S.rec8 = !S.rec8; render(); return; }
