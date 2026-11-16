@@ -3495,7 +3495,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '672';
+const BUILD = '673';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3786,6 +3786,7 @@ async function 휴지통담기(tbl, row, 이름){
   await usend('tr_trash', 'POST', [{
     tbl: tbl, row_id: String(row.id), label: (이름 || '').slice(0, 120),
     data: row, deleted_name: (ME && ME.name) || '' }]);
+  휴지통읽음 = false;      /* 휴지통을 열면 바로 다시 읽는다 — 1분 주기만 기다려 「삭제해도 바로 안 뜬다」 (2026-11-16) */
 }
 /* 한 줄 지우기 — 담고 나서 지운다. 담기에 실패하면 지우지 않는다 */
 /* 진행 중(안 끝난) 수업 기록 삭제 — 기기를 옮기며 여러 개 생긴 기록 정리 (2026-11-04 대표 「삭제 기능 · 선택해서 지우게 · 휴지통은 선생님별 / 대표 전체는 차후」)
@@ -3798,7 +3799,8 @@ async function 진행기록지우기(id){
   let its = [], sets = [];
   try{ its = await sget('workout_items?select=*&workout_id=eq.' + encodeURIComponent(w.id)) || []; if(its.length) sets = await sget('workout_sets?select=*&item_id=in.(' + its.map(i => i.id).join(',') + ')') || []; }catch(e){}
   if(!await 묻기('정말 삭제할까요? — ' + 이름 + ' 님 ' + (w.on_date ? dateFull(w.on_date) + ' ' : '') + (때 && !w.done ? 때 + ' 시작 ' : '') + (w.kind || '수업') + ' 기록' + String.fromCharCode(10) + '종목 ' + its.length + '개 · 세트 ' + sets.length + '개 · 휴지통에서 복구할 수 있어요')) return;
-  try{ await 휴지통으로('workouts', Object.assign({}, w, { _items: its, _sets: sets }), 이름 + ' 수업 기록' + (때 ? ' ' + 때 : ''), ssend);
+  let 온 = w; try{ 온 = ((await sget('workouts?select=*&id=eq.' + encodeURIComponent(w.id))) || [])[0] || w; }catch(e){}
+  try{ await 휴지통으로('workouts', Object.assign({}, 온, { _items: its, _sets: sets }), 이름 + ' 수업 기록' + (때 ? ' ' + 때 : ''), ssend);
     D.w = (D.w || []).filter(x => String(x.id) !== String(id)); toast('삭제했어요 · 휴지통에 있어요'); render(); }
   catch(e){ toast('삭제하지 못했어요 — ' + String(e.message || '').slice(0, 60)); }
 }
@@ -3818,6 +3820,7 @@ async function 휴지통으로여럿(tbl, rows, 이름뽑기, 지우개){
     await usend('tr_trash', 'POST', rows.map(r => ({
       tbl: tbl, row_id: String(r.id), label: String(이름뽑기 ? 이름뽑기(r) : '').slice(0, 120),
       data: r, deleted_name: (ME && ME.name) || '' })));
+    휴지통읽음 = false;
   }catch(e){
     휴지통없음 = true;
     throw new Error('휴지통에 담지 못해 삭제하지 않았습니다 — ' + e.message);
@@ -3851,6 +3854,14 @@ async function 되살리기(t){
     const x = (배정.줄 || []).find(r => String(r.id) === String(d.lead_id)); if(x) Object.assign(x, 칸); await usend('tr_trash?id=eq.' + t.id, 'DELETE'); return; }
   const 줄 = Object.assign({}, t.data || {});
   const 보내기 = String(t.tbl).indexOf('tr_') === 0 ? usend : ssend;
+  if(t.tbl === 'workouts'){ const its = 줄._items || [], sets = 줄._sets || []; delete 줄._items; delete 줄._sets;      /* 수업 기록 복원 (2026-11-16 대표 「복구 눌러도 복구가 안 된다」) */
+    await ssend('workouts', 'POST', [줄], 'resolution=merge-duplicates');
+    if(its.length) await ssend('workout_items', 'POST', its, 'resolution=merge-duplicates');
+    if(sets.length) await ssend('workout_sets', 'POST', sets, 'resolution=merge-duplicates');
+    if(!(D.w || []).some(x => String(x.id) === String(줄.id))){ D.w = (D.w || []).concat([{ id:줄.id, member_id:줄.member_id, on_date:줄.on_date, done:줄.done, title:줄.title, kind:줄.kind, routine_id:줄.routine_id }]); D.w.sort((a, b) => String(b.on_date || '').localeCompare(String(a.on_date || ''))); }
+    if(Array.isArray(D.wi)) its.forEach(i => { if(!D.wi.some(x => String(x.id) === String(i.id))) D.wi.push(i); });
+    if(S.mid === 줄.member_id && typeof loadMember === 'function') loadMember(줄.member_id).then(() => render()).catch(() => {});
+    await usend('tr_trash?id=eq.' + t.id, 'DELETE'); return; }
   await 보내기(t.tbl, 'POST', [줄], 'resolution=merge-duplicates');
   await usend('tr_trash?id=eq.' + t.id, 'DELETE');
 }
@@ -19496,6 +19507,7 @@ function render0(){
   } else if(S.view==='trash'){
     top.innerHTML = '<h1>휴지통</h1>';
     b.innerHTML = vTrash();
+    if(!휴지통읽음){ 휴지통읽음 = true; 휴지통청소().then(휴지통읽기).then(() => { if(S.view === 'trash') render(); }).catch(() => {}); }      /* 들어오면 바로 읽음 (2026-11-16) */
   }
 
   /* 자료 화면 밖으로 나가면 깃발을 내린다 — 다시 들어올 때 새로 읽는다 (휴지통과 같은 꼴) */
@@ -19908,7 +19920,7 @@ document.addEventListener('click', async function(ev){
     if(!휴지통전체권() && !휴지통내것(it)) return toast('내가 삭제한 것이나 내 담당 회원 것만 복원할 수 있어요');      /* 화면에서 나눔 (2026-11-04) */
     (async ()=>{ if(!await 묻기('「' + (it.label || '이 항목') + '」을 복원할까요?')) return; try{ await 되살리기(it);
         휴지통 = 휴지통.filter(x=>x.id!==it.id);
-        toast('복원했어요. 새로고침하면 보여요');
+        toast(it.tbl === 'workouts' ? '복원했어요 · 회원 지난 기록에 다시 보여요' : '복원했어요. 새로고침하면 보여요');
         await 휴지통읽기(); render(); }
       catch(e){ toast('복원하지 못했어요 — ' + e.message); } })();
     return; }
