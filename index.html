@@ -2891,7 +2891,7 @@ details.asv-d > summary .as-btn{cursor:pointer}.asp-kv dt{color:var(--sub);font-
 .an-in textarea{width:100%;min-height:54px}.an-prev{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.an-prev:empty{display:none}
 .an-pv{position:relative;font-size:13px}.an-pv img{width:72px;height:72px;object-fit:cover;border-radius:8px;display:block}.an-pv button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:11px;cursor:pointer}.an-act{display:flex;gap:6px;align-items:center;margin-top:6px}.an-act .sp{flex:1}.an-up{cursor:pointer}
 .as-st button.on{color:#1a1712;border-color:transparent;font-weight:800}.as-st button.on.p{background:#4f8be0;color:#fff}.as-st button.on.r{background:var(--warn)}.as-st button.on.e{background:#8e2b2b;color:#fde8e4}
-.as-pr{font-size:12.5px;font-weight:800;border-radius:6px;padding:1px 8px;white-space:nowrap;background:var(--dark-4);color:var(--sub)}.as-pr.p{background:#4f8be0;color:#fff}.as-pr.pt{background:rgba(139,92,246,.16);color:#c9b6ff;border:1.5px solid #8b5cf6}.as-prn{margin-left:6px;white-space:nowrap}.as-pr.st{background:#2a2824;color:var(--cream);border:1.5px solid #8d867c}.as-dasi{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-4px 0 10px}.as-mem{font-size:13px;color:var(--teal);white-space:nowrap}.as-mem.x{color:#a9a29a}
+.as-pr{font-size:12.5px;font-weight:800;border-radius:6px;padding:1px 8px;white-space:nowrap;background:var(--dark-4);color:var(--sub)}.as-pr.p{background:#4f8be0;color:#fff}.lk-tm{border-color:#e2c184 !important}.lk-tmt{margin-left:8px;font-size:12.5px;font-weight:800;color:#1f170f;background:#e2c184;border-radius:999px;padding:1px 9px}.as-pr.pt{background:rgba(139,92,246,.16);color:#c9b6ff;border:1.5px solid #8b5cf6}.as-prn{margin-left:6px;white-space:nowrap}.as-pr.st{background:#2a2824;color:var(--cream);border:1.5px solid #8d867c}.as-dasi{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-4px 0 10px}.as-mem{font-size:13px;color:var(--teal);white-space:nowrap}.as-mem.x{color:#a9a29a}
 .th-s{display:inline-flex;align-items:center;gap:5px;border:1.5px solid #6a6052;background:#2a2824;color:var(--cream);border-radius:7px;padding:2px 8px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.th-s .ar{display:inline-flex;flex-direction:column;font-size:9px;line-height:9px;color:#8d867c}.th-s .ar .on{color:var(--gold)}.as-pr.l{background:#f2c94c;color:#2a210a}.as-pr.e{background:#8e2b2b;color:#fde8e4}.as-pr.r{background:var(--warn);color:#1a1712}
 .as-tag.wait.l{background:#f2c94c;color:#2a210a}
 .as-kd{font-size:12.5px;font-weight:800;border-radius:6px;padding:1px 8px;white-space:nowrap;color:#fff}.as-kd.g{background:#f39a2e}.as-kd.t{background:#4f86d9}.as-kd.p{background:#8b5cf6}      /* CRM 카테고리 색 — 운동가이드 주황 · 체험수업 파랑 (2026-10-26 대표 「CRM 과 통일」) */
@@ -3513,7 +3513,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '677';
+const BUILD = '678';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12174,8 +12174,17 @@ function 락커만료묶음(L){
   const 정 = L.slice().sort((a, b) => (락커경과(b) || 0) - (락커경과(a) || 0)), 넘 = 정.filter(o => (락커경과(o) || 0) >= 15), 안 = 정.filter(o => (락커경과(o) || 0) < 15);
   return '<i data-nochip hidden></i>' + (넘.length ? '<div class="lbl">15일 지남 · 연락하거나 물품 회수 ' + 넘.length + '개</div>' + 넘.map(줄).join('') : '')
     + (안.length ? '<div class="lbl">보관 중 · 15일 안 ' + 안.length + '개</div>' + 안.map(줄).join('') : ''); }
+const 락커키 = o => String(o['번호'] == null ? '' : o['번호']) + '|' + String(o['이름'] || '');
+function 락커TM묶음(){ const tm = 락커줄('TM'); if(!tm.length) return ''; const 짧 = d => d ? String(d).slice(5, 10).replace('-', '/') : '-';      /* TM = 폐기 안내 뒤 15일 지나도 회수 안 됨 — 맨 위 · 딱지 (2026-11-16) */
+  return '<div class="lbl">TM · 전화로 회수 안내 ' + tm.length + '개</div>' + tm.map(o => { const n = 락커경과(o);
+    return '<div class="bp-row2 lk-over lk-tm"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b><span class="lk-tmt">TM</span>'
+      + (o['전화'] ? '<a class="sub3" style="margin-left:8px;color:var(--gold)" href="tel:' + esc(o['전화']) + '">' + esc(o['전화']) + '</a>' : '')
+      + '<span class="lk-r"><b>만료일 ' + 짧(o['끝']) + (n != null ? ' · ' + n + '일 경과' : '') + '</b><small>' + (o['안내일'] ? '폐기 안내 ' + 짧(o['안내일']) : '') + (o['지난날'] != null && o['지난날'] !== '' ? ' · 안내 뒤 ' + esc(String(o['지난날'])) + '일' : '') + '</small></span></div>' + 락커메모칸('만료', o['이름'], o['전화']) + '</div>'; }).join(''); }
 function 락커판(k){
   const L = 락커줄(k), 짧 = d => d ? String(d).slice(5).replace('-', '/') : '-';
+  if(k === '만료'){ const tk = new Set(락커줄('TM').map(락커키)), 나머지 = L.filter(o => !tk.has(락커키(o)));      /* 명단 하나 — 한 사람은 한 묶음에만 */
+    판열기('락커 만료', '<div class="ck-act">만료된 락커 ' + L.length + '개<small>급한 차례 · TM = 폐기 안내 뒤 15일 지나도 미회수 · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small></div>'
+      + (L.length ? 락커TM묶음() + (나머지.length ? 락커만료묶음(나머지) : '') : '<div class="empty why"><b>만료된 락커가 없습니다</b>기간이 끝나고 회수 안 된 락커가 여기에 뜹니다</div>')); return; }
   판열기(k === 'TM' ? '락커 TM' : '락커 만료자', '<div class="ck-act">' + (k === 'TM' ? '폐기 안내 뒤 15일이 지나도 회수 안 된 락커예요<small>전화해 회수 · 연장을 안내해 주세요 · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>' : '만료된 락커 ' + L.length + '개<small>보관은 만료일부터 최대 15일이에요 · 15일이 지나면 연락하거나 물품을 회수해요(그 뒤 폐기) · 전산 ' + esc((락커.r || {})['자료'] || '') + ' 기준</small>') + '</div>'
     + (k === '만료' && L.length ? 락커만료묶음(L)
       : L.length ? L.map(o => '<div class="bp-row2"><div class="a"><b>' + (o['번호'] != null && o['번호'] !== '' ? esc(String(o['번호'])) + '번 · ' : '') + esc(o['이름'] || '') + '</b>'
@@ -15884,8 +15893,7 @@ const 현황칸 = [
   { k:'설문2차', 이름:'2차 설문톡 연락', 색:'gold', 셈: () => 이차연락줄().length, 직접: () => { 표상태.leads.보기 = 'ns2'; 보기얹기('leads'); 가기('leads'); }, 보임: () => 할수('table') },      /* 2차 받은 분 중 아직 연락 체크 안 한 분 (2026-10-30 대표 「명단이 있을 때마다 현황판에」) */
   { k:'설문중지', 이름:'자동 설문 중지 요청', 색:'warn', 셈: () => 중지요청줄().length, 직접: () => 중지요청판(), 보임: () => 할수('assignset') },      /* 트레이너 요청 → 관리자 승인 (2026-10-30 노션) */
   { k:'TG정리', 이름:'TG 회수 · 추가', 색:'warn', 셈: () => TG정리할().length, 직접: () => TG정리판(), 보임: () => !!TG정리.r && TG정리권() },      /* 관리자만 (2026-10-29 18:58 대표) */
-  { k:'락커만료', get 이름(){ const n = 락커지남().length; return n ? '락커 만료자 · 15일 지남 ' + n : '락커 만료자'; }, 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
-  { k:'락커TM', 이름:'락커 TM', 색:'warn', 셈: () => 락커줄('TM').length, 직접: () => 락커판('TM'), 보임: () => !!락커.r },
+  { k:'락커만료', get 이름(){ const n = 락커줄('TM').length; return n ? '락커 만료 · TM ' + n : '락커 만료'; },      /* 한 칸 — TM 은 만료자의 일부라 두 칸이면 같은 사람이 겹쳤다 (2026-11-16 대표 「명단이 두 곳에서 쪼개져 헷갈려」) */ 색:'warn', 셈: () => 락커줄('만료').length, 직접: () => 락커판('만료'), 보임: () => !!락커.r && 등급of(ME) !== '트레이너' },
   { k:'연월차', 이름:'연월차 승인 대기', 색:'', 보임: () => 할수('leaveok') },
   { k:'팝업답장', 이름:'팝업 답장', 색:'teal', 셈: () => 팝답장().length, 직접: () => 가기('pops'), 보임: () => !팝.없음 && 할수('popup') },      /* 선생님이 답한 팝업 — 팝업으로 안 띄우고 여기 (2026-11-16 대표) */
   { k:'가입',   이름:'가입 승인 대기',   색:'gold', 보임: () => 할수('perm'),      /* 2026-10-19 — 새 로그인 가입 승인(pwpending) · 옛 이메일 가입 수(가입대기수)가 아니다 */
@@ -15921,7 +15929,7 @@ const 현황묶음 = k => k === '상담' || k === '상담내일' ? 0 : 현황수
 /* ⭐ 현황판 차례 (2026-11-04 대표 「빨간불을 가장 좌측 · 행동요건에 따라」 — 11/03 23:11 말씀 · 시안 현황판배치_시안_1103)
    ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
    ④ 보기만 하는 「수업 기록 완료」 맨 끝 · 묶음 구분선 없음(차례가 곧 묶음) · 새 칸은 여기 적지 않으면 맨 뒤로 간다 */
-const 현황차례 = ['배정없음', '재연락', '첫연락', '오늘없음', '요청', '실패', '못감', '상담', '예상', '설문2차', '락커만료', '락커TM', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
+const 현황차례 = ['배정없음', '재연락', '첫연락', '오늘없음', '요청', '실패', '못감', '상담', '예상', '설문2차', '락커만료', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
 const 현황자리 = x => x.c.k === '상담' ? -2 : x.c.k === '상담내일' ? -1.5 : (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
 const 선생님칸 = new Set(['밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '재연락']);      /* 「다음 주 연차」는 대표도 확인할 일 → 「내가 할 일」 (2026-11-09 대표 「연차는 나도 확인을 해야 하니까 내가 할 일에」) */      /* 「2차 설문톡 연락」은 대표 · 관리자 일 → 「내가 할 일」 (2026-11-03 23:11 대표) */
 function 숫자줄(){
