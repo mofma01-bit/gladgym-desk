@@ -3495,7 +3495,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '675';
+const BUILD = '676';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11002,8 +11002,6 @@ function 앱창준비(){ let el = document.getElementById('apprecp'); const 계 
   document.body.appendChild(el); 앱창.때 = Date.now(); return el; }
 function 앱창보내기(el, msg){ el.dataset.msg = JSON.stringify(msg); if(el.dataset.ready === '1'){ try{ el.querySelector('iframe').contentWindow.postMessage(msg, '*'); }catch(e){} 앱창.대기 = null; } else 앱창.대기 = msg; }
 function 앱창꺼내기(제목, msg){ document.querySelectorAll('#apprec').forEach(x => x.remove()); const el = 앱창준비(); el.querySelector('.ar-h b').textContent = 제목; el.classList.remove('hid'); 앱창보내기(el, msg); }
-function 앱창새로(){ const el = document.getElementById('apprecp'); if(!el || !el.classList.contains('hid')) return; el.dataset.ready = ''; 앱창.때 = Date.now(); const f = el.querySelector('iframe'); if(f) f.src = 앱기록길() + '?desk=1'; }
-setInterval(() => { const el = document.getElementById('apprecp'); if(el && el.classList.contains('hid') && document.visibilityState === 'visible' && Date.now() - 앱창.때 > 600000) 앱창새로(); }, 60000);
 function 앱기록창(mid, 리포트, 고침){
   const m = (D.m || []).find(x => x.id === mid) || {};
   앱창꺼내기((m.name || '') + (리포트 ? ' · 리포트' : 고침 ? ' · 지난 기록 수정' : ' · 수업 기록'), { gg:'deskopen', mid, r:리포트 || '', fix:고침 || '' }); }
@@ -11051,7 +11049,7 @@ function 기록회원창(){
   setTimeout(() => { const el = $('#lspq'); if(!el) return; el.focus();
     el.oninput = () => { 기록회원.q = el.value; const l = $('#lspl'); if(l) l.innerHTML = 기록회원줄(); }; }, 30);
 }
-function 앱기록닫기(){ document.querySelectorAll('#apprec').forEach(x => x.remove()); const el = document.getElementById('apprecp'); if(!el || el.classList.contains('hid')) return; el.classList.add('hid'); 앱창새로(); }      /* 닫기 = 숨기고 뒤에서 새로 받아 둠(다음에 바로 · 새 자료) */
+function 앱기록닫기(){ document.querySelectorAll('#apprec').forEach(x => x.remove()); const el = document.getElementById('apprecp'); if(el) el.classList.add('hid'); }      /* 닫기 = 숨기기만 — 다시 불러오지 않는다(앱이 4초마다 바뀐 것만 받아 자료는 늘 새것) · 전엔 닫을 때 · 10분마다 다시 불러와 그 사이에 누르면 「불러오는 중」이 떴다 (2026-11-16 18:11 대표 「로딩은 여전히 있는데」) */      /* 닫기 = 숨기고 뒤에서 새로 받아 둠(다음에 바로 · 새 자료) */
 window.addEventListener('message', e => { const d = e.data || {}; if(d.gg !== 'deskrec' && d.gg !== 'deskready') return;
   if(e.origin !== location.origin && !/^http:\/\/localhost:\d+$/.test(e.origin)) return;
   if(d.gg === 'deskready'){ const el = document.getElementById('apprecp'); if(el){ el.dataset.ready = '1'; if(앱창.대기) 앱창보내기(el, 앱창.대기); } return; }
