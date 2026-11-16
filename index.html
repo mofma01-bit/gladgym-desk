@@ -1757,7 +1757,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .pl-today{margin:8px 0 6px;font-size:14.5px}.pl-today b{color:var(--gold);margin-left:6px}.pl-list{display:flex;gap:6px;flex-wrap:wrap}.pl-list span{background:#24221e;border-radius:8px;padding:3px 10px;font-size:13px}.pl-list span b{color:var(--sub);margin-right:6px}
 .pl-rows{display:flex;flex-direction:column;gap:6px;margin:8px 0}.pl-rows label{display:flex;align-items:center;gap:10px}.pl-rows label b{width:52px;flex:none}.pl-rows .pl-sel{flex:1;min-width:0}.pl-rows .x{background:none;border:0;color:var(--sub);cursor:pointer}
 .rs-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 16px}.mn-chips.sm button{padding:5px 11px;font-size:13px}.rs-new{margin-left:auto}
-.rs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
+.rs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}.rj-grid{margin-top:12px}.rj-grid .empty{grid-column:1/-1}.rj-tags{margin:8px 0 10px}.rj-grid .rs-card.on .rsc{outline:3px solid var(--gold);outline-offset:2px}
 .sgchips{display:flex;flex-wrap:wrap;gap:8px}.sgc{border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}.sgc small{font-size:11.5px;color:var(--sub);font-weight:600}.sgc.on{background:var(--gold);color:#2a1c14;border-color:var(--gold)}.sgc.on small{color:#5a4a30}.sgc.done{opacity:.5;cursor:default}
 .sggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.sgg{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1px solid var(--line);background:var(--dark-3);color:var(--cream);border-radius:12px;padding:9px 12px;font:inherit;text-align:left;cursor:pointer}.sgg b{font-size:14.5px}.sgg small{font-size:12px;color:var(--gold-2);font-weight:700}.sgg.done{opacity:.42;cursor:default}.sgg.done small{color:var(--sub)}.sgg.on{border-color:var(--gold);background:rgba(232,196,128,.16)}.sgg.on small{color:var(--gold)}.sgsec{margin:0 0 14px}.sgh{font-weight:900;font-size:14.5px;margin:0 0 6px}.sgh small{color:var(--sub);font-weight:600;margin-left:4px}.sgnote{color:var(--sub);font-size:13px;margin:-4px 0 10px}
 .rsv-st{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 2px;padding:8px 10px;border:1px solid #3f7281;border-radius:12px;background:linear-gradient(180deg,#1d3036,#162327)}.rsv-stl{font-weight:900;color:#bfe6ec;font-size:13.5px}.rsv-sti .pkim{width:38px;height:38px;border-radius:8px;overflow:hidden;display:inline-flex}.rsv-sti .pkim img{width:100%;height:100%;object-fit:contain;background:#fff}.rsv-stn{display:flex;flex-direction:column;margin-right:auto}.rsv-stn b{font-size:14px}.rsv-stn small{color:var(--sub);font-size:12px}
@@ -3495,7 +3495,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '674';
+const BUILD = '675';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -6354,7 +6354,7 @@ const 루틴표고침 = s => !!s && (s.owner === 나이름() || 할수('table'))
 const 표지그림 = [['beginner', '남성 초보자'], ['middle', '남성 중급자'], ['advanced', '남성 상급자'], ['wbeginner', '여성 초보자'], ['wmiddle', '여성 중급자'], ['wadvanced', '여성 상급자'], ['women', '여성루틴']];      /* 앱 img/cover · 표지뽑기.py (2026-10-30 대표 「썸네일 색깔 말고 초보자 · 중급자 · 상급자 · 여성전용」) */
 const 표지주소 = c => c.img ? 앱터 + 'img/cover/' + encodeURIComponent(c.img) + '.jpg' : c.path ? media(c.path) : '';
 function 루틴표표지(s, 큰){ const c = s.cover || {}, u = 표지주소(c);
-  return '<span class="rsc' + (큰 ? ' big' : '') + '"' + (u ? '' : ' style="background:' + esc(c.color || 표지색들[0]) + '"') + '>' + (u ? '<img src="' + esc(u) + '" alt="" loading="lazy">' : '<b' + (c.color === '#2b2a27' ? ' class="lt"' : '') + '>' + esc(s.title || '루틴표') + '</b>')
+  return '<span class="rsc' + (큰 ? ' big' : '') + '" style="background:' + esc(c.color || 표지색들[0]) + '"><b' + (c.color === '#2b2a27' ? ' class="lt"' : '') + '>' + esc(s.title || '루틴표') + '</b>' + (u ? '<img src="' + esc(u) + '" alt="" loading="lazy" onerror="this.remove()">' : '')      /* 올린 표지를 못 불러오면 깨진 그림 대신 색 표지 + 이름 (2026-11-16 대표 사진 「테스트 · 파워빌딩 초급」 깨짐) */
     + ((s.tags || [])[0] ? '<i>' + esc(s.tags[0]) + '</i>' : '') + '</span>'; }
 /* 종목 그림 — ① 회원 앱과 같은 그림(img/ex/<종목 id>.png · 2026-10-27 대표 「그림 다 맞췄어」 129장) ② 종목에 올린 사진 ③ 해부 그림 */
 let 종목그림있음 = new Set();
@@ -6668,12 +6668,14 @@ function 루틴주기판(){ const o = 루틴주기; if(!o) return; const m = mem
   const 걸음 = o.준다 ? '' : '<div class="rj-st">' + [['① 루틴표', 1], ['② 운동', 2], ['③ 언제', 3]].map(([t, n]) => '<span class="' + (o.단계 === n ? 'on' : o.단계 > n ? 'ok' : '') + '"' + (o.단계 > n ? ' data-act="tx:rjback" data-k="' + n + '"' : '') + '>' + t + (o.단계 > n ? ' ✓' : '') + '</span>').join('') + '</div>';
   let 속 = '';
   if(o.단계 === 1){ const q = String(o.q || '').trim(), 표 = 루틴표들().filter(x => 표종류(x) !== '스트레칭');
-    const 줄 = x => '<button class="rj-sh' + (o.sid === x.id ? ' on' : '') + '" data-act="tx:rj1" data-k="' + esc(x.id) + '">' + 루틴표표지(x) + '<span class="tx"><b>' + esc(x.title || '루틴표') + '</b><small>운동 ' + 표루틴들(x).length + '개' + (메 && 메.sheet_id === x.id ? ' · ★ 메인 루틴표' : 받.has(x.id) ? ' · 받은 루틴표' : x.owner ? ' · ' + esc(보임이름(x.owner)) : '') + '</small></span><i>›</i></button>';
-    const 받목 = 표.filter(x => 받.has(x.id)).sort((a, b) => (메 && b.id === 메.sheet_id) - (메 && a.id === 메.sheet_id)), 센 = 표.filter(x => !받.has(x.id) && (!q || String(x.title || '').includes(q)));
+    /* 바둑판 = 「루틴표 · 스트레칭」 화면 카드 그대로(큰 표지 · 이름 · 만든 사람 · 루틴 수 · 대상) · 대상 칩으로 거름 (2026-11-16 대표 「초보자 루틴 분류 탭 · 바둑판 · 루틴 만들기 창에서 보듯」) */
+    const 줄 = x => '<div class="rs-cw"><button class="rs-card' + (o.sid === x.id ? ' on' : '') + '" data-act="tx:rj1" data-k="' + esc(x.id) + '">' + 루틴표표지(x) + '<b>' + esc(x.title || '루틴표') + '</b><small>' + esc(보임이름(x.owner || '')) + ' · 루틴 ' + 표루틴들(x).length + ((x.tags || []).length ? ' · ' + esc(x.tags.join(' · ')) : '') + (메 && 메.sheet_id === x.id ? ' · ★ 메인' : 받.has(x.id) ? ' · 받은 루틴표' : '') + '</small></button></div>';
+    const 대 = o.tag || '', 받목 = 표.filter(x => 받.has(x.id)).sort((a, b) => (메 && b.id === 메.sheet_id) - (메 && a.id === 메.sheet_id)), 센0 = 표.filter(x => !받.has(x.id)), 센 = 센0.filter(x => (!q || String(x.title || '').includes(q)) && (!대 || (x.tags || []).includes(대)));
+    const 칩 = '<div class="mn-chips sm rj-tags"><button class="' + (!대 ? 'on' : '') + '" data-act="tx:rjtag" data-k="">전체 ' + 센0.length + '</button>' + 루틴표대상.map(t => '<button class="' + (대 === t ? 'on' : '') + '" data-act="tx:rjtag" data-k="' + esc(t) + '">' + esc(t) + ' ' + 센0.filter(x => (x.tags || []).includes(t)).length + '</button>').join('') + '</div>';
     속 = '<div class="sub3">' + (o.준다 ? '누르면 그 루틴표를 줘요 · 메인 루틴표가 돼요' : '루틴표를 누르세요 · 처음 주는 루틴표는 회원 앱 「내 루틴표」에도 들어가요') + '</div>'
-      + (받목.length ? '<div class="rj-lb" style="margin-top:10px">받은 루틴표</div>' + 받목.map(줄).join('') : '')
-      + '<div class="rj-lb" style="margin-top:12px">센터 루틴표</div><input class="inp" id="rjq" placeholder="루틴표 이름으로 검색" value="' + esc(o.q || '') + '">'
-      + '<div id="rjsl" style="margin-top:8px">' + (센.length ? 센.map(줄).join('') : '<div class="empty why"><b>보일 루틴표가 없습니다</b>「루틴표 · 스트레칭」에서 만들어 주세요</div>') + '</div>'
+      + (받목.length ? '<div class="rj-lb" style="margin-top:10px">받은 루틴표</div><div class="rs-grid rj-grid">' + 받목.map(줄).join('') + '</div>' : '')
+      + '<div class="rj-lb" style="margin-top:14px">센터 루틴표</div>' + 칩 + '<input class="inp" id="rjq" placeholder="루틴표 이름으로 검색" value="' + esc(o.q || '') + '">'
+      + '<div id="rjsl" class="rs-grid rj-grid">' + (센.length ? 센.map(줄).join('') : '<div class="empty why"><b>' + (대 || q ? '조건에 맞는 루틴표가 없습니다' : '보일 루틴표가 없습니다') + '</b>' + (대 || q ? '대상 칩 · 검색을 풀어 보세요' : '「루틴표 · 스트레칭」에서 만들어 주세요') + '</div>') + '</div>'
       + (o.준다 ? '' : '<div style="margin-top:12px"><button class="btn sub sm" data-act="tx:pgct" data-k="' + esc(o.mid) + '">🏃 루틴 대신 유산소만 지정</button></div>'); }
   else if(o.단계 === 2){ const s0 = (D.rs || []).find(x => x.id === o.sid); if(!s0){ o.단계 = 1; return 루틴주기판(); }
     const 지 = 보일지정(o.mid);
@@ -17929,6 +17931,7 @@ async function txAct(a, el){
   if(a==='zjrec'){ await 기록지정(k); return; }
   if(a==='rj2'){ if(!루틴주기) return; 루틴주기.rid = k; 루틴주기.단계 = 3; 루틴주기판(); return; }
   if(a==='rjback'){ if(!루틴주기) return; 루틴주기.단계 = +k; 루틴주기판(); return; }
+  if(a==='rjtag'){ if(!루틴주기) return; 루틴주기.tag = 루틴주기.tag === k ? '' : k; 루틴주기판(); return; }      /* 대상 칩 — 다시 누르면 전체 (2026-11-16) */
   if(a==='rjday'){ if(!루틴주기) return; 루틴주기.날 = k; 루틴주기판(); return; }
   if(a==='rjkind'){ if(!루틴주기) return; 루틴주기.종류 = k; 루틴주기판(); return; }
   if(a==='rjsave'){ await 루틴주기저장(); return; }
