@@ -3586,7 +3586,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '693';
+const BUILD = '694';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11332,14 +11332,14 @@ function 앱기록창(mid, 리포트, 고침){
 /* 수업 기록 큰 카드 = 앱 그대로 열기 — 회원 없이 · 앱 「오늘」 탭부터 (2026-11-05 20:22 대표) */
 function 앱오늘창(){ 앱창꺼내기('수업 기록', { gg:'deskopen' }); }
 /* 트레이너 연습 — 앱 폴더의 연습.html (같은 출처라 데스크 로그인 이름으로 진도가 남는다) */
-function 연습강의칸(){ return [['1', '앱', '수업 기록 — 트레이너 앱', 15], ['2', 'PC', '데스크 업무', 7]]      /* 매뉴얼은 이모지 없음 (2026-10-27 결정함 MDJAWSF5) */.map(([k, ic, 이, n]) => { const 다 = 연습내진도(k);
-    return '<button class="mn-card tutc" data-act="tx:tutopen" data-k="' + k + '"><span class="mth tutth"><i>' + ic + '</i><em>연습</em></span>' + 매진도(다, n) + '<b>' + 이 + '</b><small>직접 눌러 보며 · ' + n + '장 · ' + (다 >= n ? '완료' : 다 + ' / ' + n) + '</small></button>'; }).join(''); }
+function 연습강의칸(){ return [['1', '앱', '수업 기록 — 트레이너 앱', 15], ['2', 'PC', '데스크 업무', 7], ['3', 'PC', 'CRM 회원권 등록', 22]]      /* 매뉴얼은 이모지 없음 (2026-10-27 결정함 MDJAWSF5) */.map(([k, ic, 이, n]) => { const 다 = k === '3' ? 0 : 연습내진도(k);      /* 3 = CRM 연습 (2026-11-17) — 영상 화면을 눌러 보는 것이라 진도는 안 남음 */
+    return '<button class="mn-card tutc" data-act="tx:tutopen" data-k="' + k + '"><span class="mth tutth"><i>' + ic + '</i><em>연습</em></span>' + (k === '3' ? '' : 매진도(다, n)) + '<b>' + 이 + '</b><small>' + (k === '3' ? 'CRM 화면을 눌러 보며 · ' + n + '장' : '직접 눌러 보며 · ' + n + '장 · ' + (다 >= n ? '완료' : 다 + ' / ' + n)) + '</small></button>'; }).join(''); }
 let 연습진 = null;      /* 내 연습 진도 [chapter, part] — 매뉴얼 탭 강의 카드에 n / 15 */
 function 연습내진도(부){ if(연습진 === null){ 연습진 = []; const 이름 = (ME && ME.name) || ''; if(이름) sget('tut_progress?select=chapter,part&trainer=eq.' + encodeURIComponent(이름)).then(L => { 연습진 = L || []; if(S.view === 'manual') render(); }).catch(() => {}); }
   return 연습진.filter(r => (r.part === '2부') === (부 === '2')).length; }
-const 연습길 = 부 => 앱기록길().replace(/index\.html$/, '').replace(/\/$/, '') + '/연습.html' + (부 ? '?part=' + 부 : '');
+const 연습길 = 부 => 앱기록길().replace(/index\.html$/, '').replace(/\/$/, '') + (부 === '3' ? '/CRM연습.html#practice' : '/연습.html' + (부 ? '?part=' + 부 : ''));
 function 연습창(부){ 앱기록닫기(); 연습진 = null; const el = document.createElement('div'); el.id = 'apprec'; el.className = 'tut';
-  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + (부 === '2' ? '데스크 업무 연습' : '수업 기록 연습') + '</b><small>진짜 앱 · 가짜 회원 · 눌러도 저장 안 됨</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
+  el.innerHTML = '<div class="ar-box"><div class="ar-h"><b>' + (부 === '3' ? 'CRM 회원권 등록 연습' : 부 === '2' ? '데스크 업무 연습' : '수업 기록 연습') + '</b><small>' + (부 === '3' ? '녹화 화면 · 시연 고객 · CRM 에 저장 안 됨' : '진짜 앱 · 가짜 회원 · 눌러도 저장 안 됨') + '</small><button class="btn ghost sm" data-act="tx:arclose">✕ 닫기</button></div>'
     + '<iframe title="트레이너 연습" src="' + 연습길(부) + '"></iframe></div>';
   document.body.appendChild(el); }
 async function 연습진도판(){ 판열기('연습 진도', '<div class="empty">불러오는 중이에요…</div>');
@@ -13265,7 +13265,7 @@ function v매뉴얼(){
   let 머 = '<div class="mn-top"><div class="mn-chips">' + 칩들.map(c => '<button class="' + (강의.칩 === c ? 'on' : '') + '" data-act="tx:mchip" data-k="' + esc(c) + '">' + esc(c) + '</button>').join('') + '</div>'
     + '<input class="srch mn-q" id="manq" placeholder="매뉴얼 검색 — 환불 · 신발 · 전자서명" value="' + esc(강의.q) + '" autocomplete="off">'
     + (관 ? '<span class="mn-adm"><button class="btn ghost sm" data-act="tx:mtab" data-k="현황">수강 현황</button><button class="btn ed sm" data-act="tx:medit">표로 수정</button><button class="btn sm" data-act="tx:mnew" data-k="교육">＋ 교육 강의</button><button class="btn sm" data-act="tx:mnew" data-k="매뉴얼">＋ 매뉴얼 문서</button></span>' : '') + '</div>';
-  if(!목.length) return 머 + '<div class="mn-h"><b>교육</b><small>2개</small>' + (대표인가() || 할수('table') ? '<button class="btn ghost sm" data-act="tx:tutprog" style="margin-left:auto">연습 진도</button>' : '') + '</div><div class="mn-grid">' + 연습강의칸() + '</div><div class="empty why"><b>아직 매뉴얼이 없습니다</b>' + (관 ? '오른쪽 위 「＋ 교육 강의」 · 「＋ 매뉴얼 문서」로 올려 주세요' : '관리자가 올리면 여기에 보입니다') + '</div>';
+  if(!목.length) return 머 + '<div class="mn-h"><b>교육</b><small>3개</small>' + (대표인가() || 할수('table') ? '<button class="btn ghost sm" data-act="tx:tutprog" style="margin-left:auto">연습 진도</button>' : '') + '</div><div class="mn-grid">' + 연습강의칸() + '</div><div class="empty why"><b>아직 매뉴얼이 없습니다</b>' + (관 ? '오른쪽 위 「＋ 교육 강의」 · 「＋ 매뉴얼 문서」로 올려 주세요' : '관리자가 올리면 여기에 보입니다') + '</div>';
   /* 필수 — 큰 숫자 1 · 2 · 3 (안 끝난 것 먼저) */
   const 필 = 과.filter(c => c.필수).map(c => ({ c })).concat(문.filter(r => 매필수(r) && r.part !== '공지').map(r => ({ r })))      /* 공지는 위 고정 카드에 이미 — 겹치지 않게 (2026-10-29) */
     .map(o => Object.assign(o, { 끝: o.c ? o.c.다 >= o.c.L.length : 강의읽음(o.r.id) })).sort((a, b) => a.끝 - b.끝);
@@ -13275,7 +13275,7 @@ function v매뉴얼(){
       + (o.c ? 매진도(o.c.다, o.c.L.length) : '') + '</span></button>').join('') + '</div>' : '';
   /* 연습 강의 둘 — 수업 기록(앱 15장) · 데스크 업무(7장) · 진짜 앱을 눌러 보며 (2026-11-06 13:42 대표 「새 강의로 · 수업 기록 / 데스크 업무 두 가지로 나눠 각 테스트하고 익힐 수 있게」) */
   const 연습칸 = 연습강의칸();
-  const 과칸 = 강의.칩 === '전체' || 강의.칩 === '교육' ? '<div class="mn-h"><b>교육</b><small>' + (과.length + 2) + '개</small>' + (대표인가() || 할수('table') ? '<button class="btn ghost sm" data-act="tx:tutprog" style="margin-left:auto">연습 진도</button>' : '') + '</div>' + '<div class="mn-grid">' + 연습칸
+  const 과칸 = 강의.칩 === '전체' || 강의.칩 === '교육' ? '<div class="mn-h"><b>교육</b><small>' + (과.length + 3) + '개</small>' + (대표인가() || 할수('table') ? '<button class="btn ghost sm" data-act="tx:tutprog" style="margin-left:auto">연습 진도</button>' : '') + '</div>' + '<div class="mn-grid">' + 연습칸
     + 과.map(c => '<button class="mn-card" data-act="tx:mcourse" data-k="' + esc(c.키) + '">' + 매썸(c.L[0], c.이름).replace('<span class="mth', '<span class="mth' + (c.필수 ? ' req' : '')) + 매진도(c.다, c.L.length)
       + '<b>' + esc(c.이름) + '</b><small>' + (c.단 ? 매종류(c.L[0]) + ' · ' + (c.다 ? '완료' : '안 들음') : '과정 · 강의 ' + c.L.length + ' · ' + (c.다 >= c.L.length ? '완료' : c.다 + ' / ' + c.L.length)) + '</small></button>').join('') + '</div>' : '';
   const 점칸 = r => 관 ? '<span class="mn-dots" data-act="tx:mdots" data-k="' + esc(r.id) + '" title="메뉴" tabindex="0">⋯</span>' : '';      /* 카드 「⋯」 — 노션 표처럼 열기 · 보관 · 삭제 (2026-10-29 대표) */
@@ -18223,7 +18223,7 @@ async function txAct(a, el){
   if(a==='rbsrc'){ 규칙판.펼.has(k) ? 규칙판.펼.delete(k) : 규칙판.펼.add(k); render(); return; }
   if(a==='lsgorec'){ if(AUTH && AUTH.token){ 앱기록창(k); 쪽지닫기(); } else { 쪽지닫기(); 회원판열기(k); } return; }      /* 회원 검색 · 오늘 예약 → 바로 기록 */
   if(a==='arclose'){ 앱기록닫기(); if(S.mid) loadMember(S.mid); return; }
-  if(a==='tutopen'){ 연습창(k === '2' ? '2' : '1'); return; }
+  if(a==='tutopen'){ 연습창(k === '2' || k === '3' ? k : '1'); return; }
   if(a==='tutprog'){ 연습진도판(); return; }
   if(a==='smpopen'){ 회원샘플열기(); return; }
   if(a==='stmedia'){ if(!(D.ex || []).some(z => z.id === k)) return toast('이 동작을 종목 사전에서 못 찾았어요');      /* 스트레칭 동작 썸네일 — 누르면 바로 올리기 · 폰 = 촬영하기 · 갤러리 / PC = 폴더 (2026-11-05 22:19 대표) */
