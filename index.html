@@ -2356,6 +2356,9 @@ body{word-break:keep-all}
 /* 락커 만료자 — 15일 기준 두 묶음 (2026-10-29 대표 「15일 이상 경과자는 연락하거나 물품 회수」) */
 
 .bp-row2.lk-over{border-color:color-mix(in srgb,#df8f55 55%,transparent);background:color-mix(in srgb,#df8f55 8%,var(--dark-2))}.bp-row2.lk-over .lk-r b{color:#f3b98c}
+#txpop .rpbox{padding:4px}.rp{width:100%;font-size:14px;color:#efe7d6}.rp-top{padding:2px 2px 10px;border-bottom:1px solid #34312b;margin-bottom:10px}.rp-top b{font-size:16.5px;font-weight:800;color:#f6e7c6}.rp-top em{font-style:normal;color:#a39b8d;font-weight:700}.rp-qs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}.rp button{font:inherit;cursor:pointer;border-radius:9px;border:1px solid #4a4439;background:#1f1d1a;color:#ddd5c6}.rp-q{height:46px;font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}.rp-q small{font-size:12.5px;color:#a39b8d;font-weight:600}.rp .on{border-color:#d9b87a;background:#e2c184;color:#1f170f}.rp .on small{color:#3a2c18}.rp-mh{display:flex;align-items:center;justify-content:space-between;margin:2px 0 6px}.rp-mh b{font-size:15px}.rp-nav{width:34px;height:30px;font-size:18px;line-height:1}.rp-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.rp-cal i{font-style:normal;text-align:center;font-size:12.5px;color:#a39b8d;padding:2px 0}.rp-cal .su{color:#e59a8a}.rp-cal .sa{color:#8fb4e8}.rp-d{height:32px;font-size:14px;font-weight:700;border-color:transparent!important;background:transparent!important}.rp-d.td{border-color:#8d8474!important}.rp-d.past{color:#6f6a63}.rp-d.on{background:#e2c184!important;color:#1f170f!important}.rp-t{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #34312b}.rp-t>span{font-size:14px;font-weight:800;color:#d9d1c2;flex:none}.rp-seg{flex:1;display:flex;align-items:center;gap:6px}.rp-seg .rp-ap,.rp-seg input{height:46px;border-radius:10px;border:1.5px solid #6b6252;background:#161513;color:#f6e7c6;font:inherit;font-size:18px;font-weight:800;text-align:center}.rp-seg .rp-ap{width:76px;flex:none;font-size:16px}.rp-seg input{width:0;flex:1;min-width:0}.rp-seg b{font-size:20px;color:#a39b8d}.rp-seg .rp-ap:focus,.rp-seg input:focus{outline:none;border-color:#d9b87a;background:#2a2418}.rp-seg input.bad{border-color:#d98b6a}.rp-seg input::placeholder{color:#6f6a63;font-size:15px;font-weight:600}.rp-ft{display:flex;gap:8px;margin-top:12px}.rp-clr{flex:0 0 30%;height:42px;font-weight:700}.rp-ok{flex:1;height:42px;font-weight:800;font-size:15px;background:#e2c184!important;color:#1f170f!important;border-color:#d9b87a!important}.rp-ok[disabled]{opacity:.4;cursor:default}
+.rp-open{text-align:left;cursor:pointer;width:100%}.rp-open .mut{color:var(--sub)}
+.rcwho{font-size:13px;color:var(--sub);font-weight:700;padding:0 6px;align-self:center}
 .lk2{display:flex;flex-direction:column}.lk2-i{padding:13px 4px;border-top:1px solid #2e2b26}.lk2-i:first-child{border-top:0;padding-top:4px}
 .lk2-h{display:flex;align-items:center;gap:12px}.lk2-t{flex:1;min-width:0}
 .lk2-n{font-size:15.5px;font-weight:800;color:#f2ead9;line-height:1.35}.lk2-n i{font-style:normal;color:#9d9586;font-weight:700;margin-right:8px}
@@ -3522,7 +3525,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '681';
+const BUILD = '683';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -7422,7 +7425,7 @@ function 지난기록탭(){
   const 카드 = w => { const b = 기록몸(w, M, true), r = (D.r || []).find(x => String(x.id) === String(w.routine_id)), 클 = w.kind === '수업' ? 'cl' : 'pe';
     return '<div class="rcday ' + 클 + (고른 && 고른.id === w.id ? ' pick' : '') + '" data-rc="' + esc(w.id) + '"><div class="rch">'
       + '<span class="dt">' + dateFull(w.on_date) + '<small>(' + 요(w.on_date) + ')</small></span><span class="k ' + 클 + '">' + esc(w.kind || '수업') + '</span><span class="nm">' + [r && !w.title ? esc(운동이름(r)) : '', b.덧].filter(Boolean).join(' · ') + '</span>'
-      + '<span class="r">' + '<button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button><button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button>'
+      + '<span class="r">' + '<button class="btn ghost sm" data-act="tx:mrpt" data-k="' + esc(w.id) + '">리포트</button>' + (w.kind === '개인운동' ? '<span class="rcwho">회원 기록</span>' : '<button class="btn ed sm" data-act="tx:recedit" data-k="' + esc(w.id) + '">수정</button>')
         + (기록지움권(w) ? '<button class="btn ghost sm rcdel" data-act="tx:recdel" data-k="' + esc(w.id) + '">삭제</button>' : '') + '</span></div>'
       + b.몸 + '</div>'; };      /* 카드 안 무게 · 횟수 표 편집 걷음 — 「수정」 = 앱 창 같은 길 (2026-11-16) */
   setTimeout(() => { 해부칠하기(); 칠그리기(); if(S.recGo && 고른){ S.recGo = false; const e = [...document.querySelectorAll('.rcday[data-rc]')].filter(x => x.dataset.rc === 고른.id).pop(); if(e) e.scrollIntoView({ block:'start', behavior:'smooth' }); } }, 0);
@@ -14546,6 +14549,79 @@ function 가운데창(html, w){
   document.body.appendChild(d); d.자리 = () => {};
   return d;
 }
+/* ══ 날짜+시간 고르기 창 ══ 2026-11-17 대표 「연도 누르고 월로 안 넘어가 방향키로 하나씩 · 단순하고 빠르게」 → 시안 예약일시_1117 3 (「넣어」 11:53)
+   날짜 = 오늘/내일/모레 · 달력 · 시간 = [오전/오후](← →) [시](14 = 오후 02) : [분] · Tab · Enter = 다음 · 분에서 Enter = 저장 · 표 칸 · 상세 페이지 같은 창 */
+function 날시고르기(box, 처음, 오늘){
+  const W = '일월화수목금토', 둘 = n => String(n).padStart(2, '0');
+  const 키 = d => d.getFullYear() + '-' + 둘(d.getMonth() + 1) + '-' + 둘(d.getDate());
+  const 날짜 = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d, 12); };
+  const T = 오늘 || 키(new Date());
+  const st = { 날: '', 오후: true, 시: '', 분: '', 달: null };
+  if(처음){ st.날 = 처음.slice(0, 10); const h = +처음.slice(11, 13), mi = 처음.slice(14, 16); if(h || +mi){ st.오후 = h >= 12; st.시 = 둘(h % 12 || 12); st.분 = mi; } }      /* 0시 = 날짜만 넣은 것 — 시간 칸은 비워 둔다 */
+  st.달 = 날짜(st.날 || T); st.달.setDate(1);
+  const 시24 = () => { const h = +st.시; if(!st.시 || h < 1 || h > 12) return null; const m = st.분 === '' ? 0 : +st.분; if(m > 59) return null; return [(h % 12) + (st.오후 ? 12 : 0), m]; };
+  const 글 = () => { if(!st.날) return '날짜를 선택하세요'; const d = 날짜(st.날), t = 시24(); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일(' + W[d.getDay()] + ') ' + (t ? (st.오후 ? '오후 ' : '오전 ') + (+st.시) + ':' + 둘(t[1]) : '<em>시간을 입력하세요</em>'); };
+  const 된다 = () => !!(st.날 && 시24());
+  const 칸 = c => box.querySelector(c);
+  function 위만(){ 칸('.rp-top b').innerHTML = 글(); 칸('.rp-ok').disabled = !된다(); 칸('.rp-ap').textContent = st.오후 ? '오후' : '오전';
+    칸('.rp-hh').classList.toggle('bad', !!st.시 && !(+st.시 >= 1 && +st.시 <= 12)); 칸('.rp-mm').classList.toggle('bad', st.분 !== '' && +st.분 > 59); }
+  function 그림(){
+    const 빠른 = [0, 1, 2].map(n => { const d = 날짜(T); d.setDate(d.getDate() + n); const k = 키(d); return '<button class="rp-q' + (st.날 === k ? ' on' : '') + '" data-d="' + k + '">' + ['오늘', '내일', '모레'][n] + '<small>' + (d.getMonth() + 1) + '/' + d.getDate() + '(' + W[d.getDay()] + ')</small></button>'; }).join('');
+    const y = st.달.getFullYear(), m = st.달.getMonth(), 첫 = new Date(y, m, 1).getDay(), 끝 = new Date(y, m + 1, 0).getDate();
+    let 달칸 = W.split('').map((w, i) => '<i class="' + (i === 0 ? 'su' : i === 6 ? 'sa' : '') + '">' + w + '</i>').join('');
+    for(let i = 0; i < 첫; i++) 달칸 += '<span></span>';
+    for(let d = 1; d <= 끝; d++){ const k = y + '-' + 둘(m + 1) + '-' + 둘(d), 요 = (첫 + d - 1) % 7;
+      달칸 += '<button class="rp-d' + (k === st.날 ? ' on' : '') + (k === T ? ' td' : '') + (k < T ? ' past' : '') + (요 === 0 ? ' su' : 요 === 6 ? ' sa' : '') + '" data-d="' + k + '" tabindex="-1">' + d + '</button>'; }
+    box.innerHTML = '<div class="rp">'
+      + '<div class="rp-top"><b></b></div>'
+      + '<div class="rp-qs">' + 빠른 + '</div>'
+      + '<div class="rp-mh"><button class="rp-nav" data-n="-1" tabindex="-1">‹</button><b>' + (m + 1) + '월</b><button class="rp-nav" data-n="1" tabindex="-1">›</button></div>'
+      + '<div class="rp-cal">' + 달칸 + '</div>'
+      + '<div class="rp-t"><span>시간</span><div class="rp-seg">'
+        + '<button class="rp-ap" data-x="ap" title="← → 로 오전 · 오후"></button>'
+        + '<input class="rp-hh" inputmode="numeric" maxlength="2" placeholder="시" autocomplete="off" value="' + st.시 + '">'
+        + '<b>:</b><input class="rp-mm" inputmode="numeric" maxlength="2" placeholder="분" autocomplete="off" value="' + st.분 + '"></div></div>'
+      + '<div class="rp-ft"><button class="rp-clr" data-x="clr" tabindex="-1">비우기</button><button class="rp-ok" data-x="ok">저장</button></div></div>';
+    위만();
+  }
+  const 저장 = () => { if(!된다()) return; const t = 시24(); box.dispatchEvent(new CustomEvent('rpsave', { detail: st.날 + 'T' + 둘(t[0]) + ':' + 둘(t[1]) })); };
+  const 가 = c => { const e = 칸(c); if(e){ e.focus(); if(e.select) e.select(); } };
+  /* 시 — 13~23 이면 오후로 바꾸고 01~11 로 · 00 = 오전 12 · 3~9 한 자리면 바로 0 붙여 분으로 */
+  function 시맞춤(넘김){ let v = st.시.replace(/\D/g, '');
+    if(v.length === 2){ const h = +v; if(h >= 13 && h <= 23){ st.오후 = true; v = 둘(h - 12); } else if(h === 0){ st.오후 = false; v = '12'; } else if(h === 12){ st.오후 = true; } }
+    else if(v.length === 1 && (+v >= 2 || 넘김)) v = 둘(+v);
+    st.시 = v; 칸('.rp-hh').value = v; 위만(); if(v.length === 2) 가('.rp-mm'); }
+  box.onclick = e => { e.stopPropagation(); const b = e.target.closest('button'); if(!b || !box.contains(b)) return;      /* 다시 그려 누른 단추가 떨어져도 바깥 클릭으로 닫히지 않게 */
+    if(b.dataset.d){ st.날 = b.dataset.d; const d = 날짜(st.날); if(d.getMonth() !== st.달.getMonth()){ st.달 = d; st.달.setDate(1); } 그림(); 가('.rp-ap'); return; }      /* 날짜를 고르면 바로 오전/오후 칸으로 */
+    if(b.dataset.n){ st.달.setMonth(st.달.getMonth() + Number(b.dataset.n)); 그림(); return; }
+    if(b.dataset.x === 'ap'){ st.오후 = !st.오후; 위만(); return; }
+    if(b.dataset.x === 'clr'){ box.dispatchEvent(new CustomEvent('rpclear')); return; }
+    if(b.dataset.x === 'ok') 저장(); };
+  box.oninput = e => { const t = e.target;
+    if(t.classList.contains('rp-hh')){ st.시 = t.value.replace(/\D/g, ''); t.value = st.시; if(st.시.length === 2 || +st.시 >= 2) 시맞춤(false); else 위만(); }
+    if(t.classList.contains('rp-mm')){ st.분 = t.value.replace(/\D/g, ''); if(st.분.length === 1 && +st.분 >= 6) st.분 = 둘(+st.분); t.value = st.분; 위만(); } };
+  box.onkeydown = e => { const t = e.target, k = e.key; if(e.isComposing) return;
+    if(t.classList.contains('rp-ap')){
+      if(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(k)){ e.preventDefault(); st.오후 = !st.오후; 위만(); return; }
+      if(k === 'Enter'){ e.preventDefault(); 가('.rp-hh'); return; }
+      if(/^[0-9]$/.test(k)){ e.preventDefault(); 가('.rp-hh'); st.시 = k; 칸('.rp-hh').value = k; if(+k >= 2) 시맞춤(false); else 위만(); return; } }      /* 오전/오후 칸에서 바로 숫자를 쳐도 시로 */
+    if(t.classList.contains('rp-hh')){
+      if(k === 'Enter' || (k === 'Tab' && !e.shiftKey)){ e.preventDefault(); 시맞춤(true); 가('.rp-mm'); return; }
+      if(k === 'Backspace' && !t.value){ e.preventDefault(); 가('.rp-ap'); return; }
+      if(k === 'ArrowUp' || k === 'ArrowDown'){ e.preventDefault(); let h = (+st.시 || 0) + (k === 'ArrowUp' ? 1 : -1); if(h > 12) h = 1; if(h < 1) h = 12; st.시 = 둘(h); t.value = st.시; 위만(); return; } }
+    if(t.classList.contains('rp-mm')){
+      if(k === 'Enter'){ e.preventDefault(); 저장(); return; }
+      if(k === 'Backspace' && !t.value){ e.preventDefault(); 가('.rp-hh'); return; }
+      if(k === 'ArrowUp' || k === 'ArrowDown'){ e.preventDefault(); let m = (+st.분 || 0) + (k === 'ArrowUp' ? 10 : -10); m = (m + 60) % 60; st.분 = 둘(m - m % 10); t.value = st.분; 위만(); return; } } };
+  box.onfocusout = e => { if(e.target.classList.contains('rp-mm') && st.분.length === 1){ st.분 = 둘(+st.분); e.target.value = st.분; 위만(); } };
+  그림();
+}
+function 날시창열기(el, v, 확정){
+  const d = 쪽지열기(el, '<div class="rpbox"></div>', 360), box = d.querySelector('.rpbox');
+  날시고르기(box, v ? 로컬ISO(v) : '', TODAY); d.자리();
+  box.addEventListener('rpsave', e => { 쪽지닫기(); 확정(new Date(e.detail).toISOString()); });
+  box.addEventListener('rpclear', async () => { if(!v){ 쪽지닫기(); return; } if(!await 묻기('날짜를 비울까요?' + String.fromCharCode(10) + 시각한글(v) + ' 이(가) 삭제돼요')) return; 쪽지닫기(); 확정(null); });
+  setTimeout(() => { const f = box.querySelector(v ? '.rp-hh' : '.rp-q.on, .rp-q'); if(f){ f.focus(); if(f.select) f.select(); } }, 30); }
 function 쪽지입력(el, 값, 종류, 확정){
   const 여러줄 = 종류 === 'long';
   쪽지열기(el, 여러줄 ? '<textarea class="inp" id="txpv" rows="4"></textarea>'
@@ -14662,6 +14738,7 @@ function 속성편집(key, id, k, el){
         + '" data-act="tx:pmul" data-k="'+key+'" data-id="'+id+'" data-f="'+esc(k)+'" data-v2="'+p.id+'">'+이름딱지(p.id)+'</button>').join('')
       + '</div>', 250);
     return; }
+  if(c.타입 === 'datetime'){ 날시창열기(el, v, nv => 넣기(nv)); return; }      /* 날짜+시간 = 고르기 창 (2026-11-17) */
   if(c.타입 === 'long'){ 쪽지입력(el, v||'', 'long', nv => 넣기(nv === '' ? null : nv)); return; }
   const 종류 = c.타입==='number' ? 'number' : c.타입==='date' ? 'date'
     : c.타입==='datetime' ? 'datetime-local' : c.타입==='url' ? 'url'
@@ -15314,7 +15391,7 @@ function txSheet(key, id, 초기){
       inner = '<textarea class="inp" data-f="'+c.k+'" placeholder="'+esc(c.힌트||'')+'"'+dis+'>'+esc(v||'')+'</textarea>';
     }
     if(c.타입==='date')   inner = '<input class="inp" type="date" data-f="'+c.k+'" value="'+esc(v||'')+'"'+dis+'>';
-    if(c.타입==='datetime') inner = '<input class="inp" type="datetime-local" data-f="'+c.k+'" value="'+esc(v?로컬ISO(v):'')+'"'+dis+'>';
+    if(c.타입==='datetime') inner = '<input type="hidden" data-f="'+c.k+'" data-dt="1" value="'+esc(v||'')+'"><button type="button" class="inp rp-open" data-act="tx:rpopen" data-f="'+c.k+'"'+dis+'>'+(v ? esc(시각한글(v)) : '<span class="mut">날짜 · 시간 선택</span>')+'</button>';      /* 같은 고르기 창 (2026-11-17) */
     if(c.타입==='check')  inner = '<label class="tx-ochip '+(v?'on':'')+'"><input type="checkbox" data-f="'+c.k+'" '+(v?'checked':'')+dis+' style="display:none">'+(v?'✓ ':'')+c.이름+'</label>';
     if(c.타입==='select') inner = '<div class="tx-ochips">'+c.옵션.map(o=>'<button type="button" class="tx-ochip '+(v===o?'on':'')+(옵색(c, o)?' oc" style="--oc:'+esc(옵색(c, o)):'')+'" data-act="tx:opt" data-f="'+c.k+'" data-v2="'+esc(o)+'"'+dis+'>'+esc((c.표시||{})[o]||o)+'</button>').join('')+'</div>';
     if(c.타입==='multi')  inner = '<div class="tx-ochips">'+c.옵션.map(o=>'<button type="button" class="tx-ochip '+((v||[]).indexOf(o)>=0?'on':'')+'" data-act="tx:multi" data-f="'+c.k+'" data-v2="'+esc(o)+'"'+dis+'>'+esc(o)+'</button>').join('')+'</div>';
@@ -15357,6 +15434,7 @@ function 시트값읽기(){
     const k = el.dataset.f;
     if(el.type==='checkbox') 시트.값[k] = el.checked;
     else if(el.type==='datetime-local') 시트.값[k] = el.value ? new Date(el.value).toISOString() : null;
+    else if(el.dataset.dt) 시트.값[k] = el.value || null;
     else if(el.type==='number') 시트.값[k] = el.value==='' ? null : Number(el.value);
     else 시트.값[k] = el.value;
   });
@@ -18474,7 +18552,7 @@ async function txAct(a, el){
   if(a==='fbex'){ S.fbEx = k; render(); return; }
   if(a==='fbrow'){ S.fbOpen = S.fbOpen === k ? '' : k; render(); return; }
   if(a==='mvopen'){ S.mvOpen = !S.mvOpen; if(회원판 && el.closest('#popbox')) 회원판그리기(); else render(); return; }      /* 회원 위 요약 펼치기 · 접기 (2026-11-03) */
-  if(a==='recedit'){ const w = (D.w || []).find(x => x.id === k); if(w) 앱기록창(w.member_id, null, w.id); return; }      /* 지난 기록 「수정」 = 수업 기록과 같은 앱 창 → 시작 창(「지난 기록 수정 중」) → 기록 화면 (2026-11-16 대표 「매번 다른 화면이 뜨지 않게」 · 확정 C-2) */
+  if(a==='recedit'){ const w = (D.w || []).find(x => x.id === k); if(w && w.kind === '개인운동'){ toast('회원이 기록한 운동이에요 · 수정은 회원만'); return; } if(w) 앱기록창(w.member_id, null, w.id); return; }      /* 지난 기록 「수정」 = 수업 기록과 같은 앱 창 → 시작 창(「지난 기록 수정 중」) → 기록 화면 (2026-11-16 대표 「매번 다른 화면이 뜨지 않게」 · 확정 C-2) */
   if(a==='recdel'){ await 진행기록지우기(k); if(S.day === k) S.day = null; render(); return; }      /* 묻고 · 휴지통으로 (2026-11-05) */      /* 지난 기록 날짜 카드 「수정」 → 옛 편집 화면 */
   if(a==='recmore'){ S.recN = { mid:S.mid, n:(S.recShown || 5) + 5 }; render(); return; }      /* 5개 더 보기 (2026-11-13) */
   if(a==='fbnav'){ const ws = D.w.filter(w => w.member_id === S.mid).sort((a, b) => a.on_date < b.on_date ? 1 : -1), w = ws[+k]; if(!w) return; S.cmw = w.id; S.cday = w.on_date; S.cmopen = null; S.cmprev = null; render(); if($('#pop').classList.contains('on') && 회원판) 회원판그리기(); return; }
@@ -18605,6 +18683,8 @@ async function txAct(a, el){
     return; }
   /* ── 노션식 속성 줄 ── */
   if(a==='pedit'){ 속성편집(k, 시트.id, v2, el); return; }
+  if(a==='rpopen'){ const f = el.dataset.f, h = document.querySelector('#txform input[data-dt][data-f="' + f + '"]'); if(!h) return;      /* 상세 페이지 날짜+시간 → 같은 고르기 창 */
+    날시창열기(el, h.value || null, nv => { h.value = nv || ''; el.innerHTML = nv ? esc(시각한글(nv)) : '<span class="mut">날짜 · 시간 선택</span>'; 자동저장(true); }); return; }
   if(a==='tedit'){
     if(el.classList.contains('on') && 칸편집) return;      /* 편집 중인 칸 안을 누름 = 글 커서 — 다시 열어 전체 선택하지 않음 (2026-10-28 대표 「클릭해도 전체 선택 해제가 안 됨」) */
     const id3 = el.dataset.id;
