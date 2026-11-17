@@ -3023,7 +3023,8 @@ body:has(#pop.on.tx-side) #gchat .gc-fab:not(.x){display:none}      /* 옆 판�
 #gme.dot::after{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-left:6px;vertical-align:2px}
 .pm-card{background:var(--dark-2);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px}.pm-card h3{font-size:15px;font-weight:800;margin-bottom:2px}
 .pm-staff{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:12px}.pm-sp{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:var(--dark-3);border:1px solid #2f2e2a}.pm-sp .sub3{flex:1}
-.pm-sel{width:auto;height:32px;padding:0 8px;font-size:13px;font-weight:700}.pm-lock{font-size:13px;font-weight:800;color:var(--gold);padding:5px 10px;border-radius:9px;background:var(--gold-dim);border:1px solid #5a4a2c}
+.pm-sel{width:auto;height:32px;padding:0 8px;font-size:13px;font-weight:700}.pm-fcn{color:var(--cream);font-weight:800}
+.pm-lock{font-size:13px;font-weight:800;color:var(--gold);padding:5px 10px;border-radius:9px;background:var(--gold-dim);border:1px solid #5a4a2c}
 .pm-bar{display:flex;gap:7px;align-items:center;margin:12px 0 10px}.pm-wrap{overflow-x:auto}
 .pm-tb{width:100%;min-width:760px;border-collapse:separate;border-spacing:0}.pm-tb th{font-size:13px;color:var(--sub);font-weight:800;text-align:center;padding:8px 6px;border-bottom:1px solid var(--line)}.pm-tb th:first-child{text-align:left;width:32%}.pm-tb th small{display:block;font-size:12px;font-weight:600;color:#6f6a63}
 .pm-tb td{padding:7px 6px;border-bottom:1px solid #26251f;text-align:center;font-size:13.5px}.pm-tb td:first-child{text-align:left}
@@ -3589,7 +3590,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '695';
+const BUILD = '696';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -18028,7 +18029,7 @@ function 권한화면(){
   const 직원 = (W.staff || []).filter(x => x.active !== false && !x.__보기).sort((a, b) => 등급들.indexOf(등급of(a)) - 등급들.indexOf(등급of(b)) || String(a.name).localeCompare(String(b.name), 'ko'));
   const 바뀜 = Object.keys(권한.임시 || {}).reduce((n, k) => n + Object.keys(권한.임시[k]).filter(g => 권한.임시[k][g] !== 권한칸(k, g)).length, 0);
   let h = 가입대기칸() + '<div class="pm-card"><h3>직원 등급</h3><div class="sub3">누가 어느 등급인지 정해요 · 대표자는 수정할 수 없어요</div><div class="pm-staff">'
-    + 직원.map(p => { const g = 등급of(p); return '<div class="pm-sp">' + 선생님칩(p.name) + '<span class="sub3">' + esc(보임직함(p)) + '</span>'
+    + 직원.map(p => { const g = 등급of(p); return '<div class="pm-sp">' + 선생님칩(p.name) + '<span class="sub3">' + esc(보임직함(p)) + (g === 'FC' ? ' · <b class="pm-fcn">' + esc(p.name || '') + '</b>' : '') + '</span>'      /* FC 는 칩이 「F.C」 라 누구인지 이름을 옆에 (2026-11-17 20:40 대표 「FC 도 퇴사 입사가 있으니 어떤 FC 인지 · 지금은 김다솜」) */
       + (g === '대표자' ? '<span class="pm-lock">대표자</span>' : '<select class="inp pm-sel" data-pmstaff="' + esc(p.id) + '">' + 등급들.slice(1).map(x => '<option' + (x === g ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>') + '</div>'; }).join('')
     + '</div></div>';
   { const 있 = new Set((W.staff || []).filter(x => x.active !== false).map(x => String(x.name).trim())), 퇴 = [...퇴사명()].filter(n => n && !있.has(n)).sort((a, b) => a.localeCompare(b, 'ko'));
