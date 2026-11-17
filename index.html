@@ -2529,6 +2529,9 @@ body{word-break:keep-all}
 .aq-box{display:flex;justify-content:center;margin:14px 0 12px}.aq-box svg{border-radius:10px}
 .aq-url{display:flex;gap:8px;align-items:center;background:#141412;border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 12px;margin-bottom:10px}.aq-url span{flex:1;min-width:0;font-size:13px;color:#cfc7b8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .aq-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tlv > span{display:inline-flex;align-items:center}.tlv .nx::before{content:"내일";font-size:12.5px;font-weight:900;color:#1f170f;background:var(--gold);border-radius:999px;padding:0 7px;margin-right:8px;line-height:19px;animation:tlvnx 2.4s ease-in-out infinite}
+@keyframes tlvnx{0%,100%{box-shadow:0 0 0 0 rgba(240,207,148,0)}50%{box-shadow:0 0 0 4px rgba(240,207,148,.25)}}
+@media (prefers-reduced-motion:reduce){.tlv .nx::before{animation:none}}
 .tlv{flex:none;margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:13px;color:#cfc7b8;line-height:1.35;white-space:nowrap}.tlv i{font-style:normal;font-weight:800;color:var(--sub);margin-right:6px}
 @media (max-width:900px){.tlv{display:none}}
 .talerts::-webkit-scrollbar{display:none}.talerts.fit{-webkit-mask-image:none;mask-image:none}.talerts>span{display:inline-flex;flex:none}.talerts .pshome{flex:none;white-space:nowrap}
@@ -3586,7 +3589,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '694';
+const BUILD = '695';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12295,7 +12298,8 @@ const 쉼한칸 = o => esc(쉼짧은이름(o.r.staff_id)) + '(' + 요일of(o.t) 
 function 이번주쉼글(){
   const 남 = 쉼날들(0, 6).filter(o => o.t >= TODAY), 당 = 남.filter(o => o.r.kind === '당직'), 쉼 = 남.filter(o => o.r.kind !== '당직');
   if(!당.length && !쉼.length) return '';
-  return '<span class="tlv">' + (당.length ? '<span><i>당직</i>' + 당.map(쉼한칸).join(' · ') + '</span>' : '') + (쉼.length ? '<span><i>OFF</i>' + 쉼.map(쉼한칸).join(' · ') + '</span>' : '') + '</span>';
+  const 내일 = 날더함(TODAY, 1), 줄 = (L, 이름) => '<span' + (L.some(o => o.t === 내일) ? ' class="nx" title="내일 ' + 이름 + ' 있어요"' : '') + '><i>' + 이름 + '</i>' + L.map(쉼한칸).join(' · ') + '</span>';      /* 내일 당직 · OFF 줄 = 왼쪽 「내일」 꼬리표 (2026-11-17 20:06 대표 시안 당직전날_1117 B) */
+  return '<span class="tlv">' + (당.length ? 줄(당, '당직') : '') + (쉼.length ? 줄(쉼, 'OFF') : '') + '</span>';
 }
 const 다음주쉼 = () => 쉼날들(7, 13).filter(o => o.r.kind !== '당직');
 /* ══ 알림톡 못 감 ══ 식단톡(diet_sends.status) · 가이드 설문(assign_leads.survey_sent) — 「못 감」 = 카톡도 문자도 실패 · 최근 7일 · 같은 회원이 뒤에 다시 보내 도착했으면 뺀다 */
