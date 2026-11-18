@@ -3603,7 +3603,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '701';
+const BUILD = '702';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11350,7 +11350,7 @@ function v발송내역(){
     : '<div class="as-tbl"><table class="ck-tb"><thead><tr><th>이름</th><th style="width:110px">보낸 날</th><th style="width:130px">연락</th></tr></thead><tbody>'
       + 삼.map(r => { const x = r.extra || {}; return '<tr><td>' + 이름칸(r) + '</td><td>' + esc(짧은날3(x.s2)) + '</td><td>' + (x.crm_reg ? '<span class="k3-st u">등록함</span>' : x.c2 ? '<span class="k3-st a">연락함</span>' : '<span class="k3-st x">연락 전</span>') + '</td></tr>'; }).join('') + '</tbody></table></div>';
   /* 보내는 기준 한 줄 — 2026-11-18 대표 16:28 「헷갈리지 않게 쉽고 간단명료하게 · 2,3차 발송 명단 상단에」(중앙 전달) · 판정은 중앙 상담설문_발송.회원제외() 정본 · 화면은 글만 */
-  const 기준 = '<div class="k23-rule"><b>2차 쿠폰 · 3차 설문은 상담만 하고 아직 등록 안 한 새 손님에게만 갑니다</b><span>빠지는 사람 : 상담 전부터 회원(기존 · 만료) · 상담 뒤 등록 · 광고/스팸 표시</span><br><span>빠진 분은 만료 안내 · 컴백 마일리지가 챙깁니다 (11/18 기준)</span></div>';
+  const 기준 = '<div class="k23-rule"><b>2차 쿠폰 · 3차 설문은 상담만 하고 아직 등록 안 한 새 손님에게만 갑니다</b><span>빠지는 사람 : 회원(기존 · 만료) · 상담 뒤 등록 · 단순 문의 · 광고</span><br><span>빠진 분은 만료 안내 · 컴백 마일리지가 챙깁니다 (11/18 기준)</span></div>';
   return '<div class="as-flt"><span class="as-chips" style="margin:0">' + 칩 + '</span></div>' + 기준 + '<div style="margin-top:12px">' + 속 + '</div>';
 }
 function v팝업(){ if(팝.없음) return '<div class="empty why"><b>팝업을 불러오지 못했습니다</b>잠시 뒤 다시 열어 주세요</div>';
