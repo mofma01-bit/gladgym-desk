@@ -3603,7 +3603,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '703';
+const BUILD = '704';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -15229,6 +15229,7 @@ async function txView(key, id){
   const paths = 길모으기(bs).concat((r.files||[]).map(f=>f.path));
   const got = paths.length ? await 서명주소들(paths) : [];
   const urlmap = {}; paths.forEach((pp,ii) => urlmap[pp] = got[ii]);
+  { const 남 = paths.filter(pp => !urlmap[pp]); if(남.length){ try{ await 주소받기(남); }catch(e){} 남.forEach(pp => { if(SIGNED[pp]) urlmap[pp] = SIGNED[pp]; }); } }      /* 매뉴얼 첨부(media/manual) — 편집 창에서도 열리게 (2026-11-18) */
   const urls = (r.files||[]).map(f => urlmap[f.path]);
   if(!시트 || 시트.key!==key || 시트.id!==id) return;   /* 기다리는 동안 다른 걸 열었으면 그만 */
   const x = T.행(r);
@@ -15701,16 +15702,17 @@ async function 블록파일(i, list, t){
       if(b){ blob=b; type=b.type||'video/webm'; name = name.replace(/\.[^.]+$/,'')+(/mp4/.test(type)?'.mp4':'.webm'); }
       else toast('이 기기에선 못 줄여 원본으로 올려요'); }
     const ext = (name.split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'')||'bin';
-    const path = T.table + '/' + BL.id + '/' + Date.now() + '_' + Math.random().toString(36).slice(2,6) + '.' + ext;
+    const 매뉴얼 = T.table === 'tr_manual', 통 = 매뉴얼 ? 'media' : 'tr';      /* 2026-11-18 20:50 대표 「계약서 작성 교육 접근불가」 — tr 읽기 · 올리기 규칙(tr_path_ok)은 업무 · 상담 · 연월차 줄만 봐서 매뉴얼 첨부는 「열 수 없음」 · 올리기부터 막힘 → 매뉴얼은 media/manual/<줄 id>/ */
+    const path = (매뉴얼 ? 'manual' : T.table) + '/' + BL.id + '/' + Date.now() + '_' + Math.random().toString(36).slice(2,6) + '.' + ext;
     toast('올리는 중 — ' + name + ' (' + Math.round(blob.size/1024) + 'KB)');
     try{
       const tk = await 토큰();
-      const res = await fetch(SB_URL+'/storage/v1/object/tr/'+path, { method:'POST',
+      const res = await fetch(SB_URL+'/storage/v1/object/'+통+'/'+path, { method:'POST',
         headers:{ apikey:SB_KEY, Authorization:'Bearer '+tk, 'Content-Type':type }, body: blob });
       if(!res.ok) throw new Error((await res.text()).slice(0,80));
       const b = 새블록(kind); b.path = path; b.name = name; b.type = type; b.size = blob.size;
       z.arr.splice(++자리, 0, b);
-      const u = await 서명주소들([path]); BL.urls[path] = u[0];
+      if(매뉴얼){ await 주소받기([path]); BL.urls[path] = SIGNED[path] || ''; } else { const u = await 서명주소들([path]); BL.urls[path] = u[0]; }
       블록다시();
     }catch(e){ toast(name+' 못 올렸어요 — '+e.message); }
   }
