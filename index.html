@@ -3458,6 +3458,9 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .hblk > .homenums .num.nc.ur::after{display:none}.hblk > .homenums .num.nc.ur{box-shadow:inset 0 3px 0 #e5484d;border-color:#7a3a3a !important}.hblk > .homenums .nrow.live .num.nc.ur .v{color:#ff8a8a !important}
 .pwa-app{flex-basis:100%;display:block;margin-top:8px;font-size:14px;font-weight:800;color:var(--gold-2,#e2c184);text-decoration:none}
 .tx-notice .ntc-due{margin-left:8px;font-size:13px;font-weight:600;color:var(--sub, #c6bdb2)}
+#ggconn{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9999;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--dark-2,#1a1917);color:var(--gold,#f0d3a0);border:1px solid var(--line,#34332d);font-size:13px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none}
+#ggconn i{width:12px;height:12px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:ggconnspin .9s linear infinite}
+@keyframes ggconnspin{to{transform:rotate(360deg)}}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3599,7 +3602,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '699';
+const BUILD = '700';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3682,11 +3685,39 @@ const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c =>
 let SIGNED = {};
 const 서명유효 = 3600;
 
+/* ══ 연결 지킴 ══ 2026-11-18 중앙 요청 · 대표 「넣어」 — 대시보드 재시작 3~5초에 주간 177번 · 사진 주소 96번 되풀이(중앙 실측 · 다시 켜지자마자 몰려 또 느려짐).
+   502 · 503 · 504 · 못 닿음 = 2 → 4 → 8 → … 최대 30초 쉬었다 다시 · 쉬는 동안 다른 부름도 같이 기다림 · 쉼이 끝나면 하나만 먼저 보내 살펴봄
+   같은 읽기가 도는 중이면 새로 안 부르고 그 답을 같이 씀 · 쓰기는 쉼이 끝나길 기다렸다 한 번만(두 번 저장 막기) · 오류 창 대신 「잠시 연결 중」 작은 표시 */
+const 연결 = { n:0, 쉼까지:0, 살핌:null, 도는:new Map(), 최대:8 };      /* 최대 = 한 부름이 시도하는 횟수(2+4+8+16+30+30+30 ≈ 2분) */
+const 연결쉼 = n => Math.min(30000, 2000 * Math.pow(2, Math.max(0, n - 1)));
+const 연결끊김 = s => s === 502 || s === 503 || s === 504;
+function 연결표시(){ let el = document.getElementById('ggconn'); const 켬 = 연결.n > 0;
+  if(!el){ if(!켬 || !document.body) return; el = document.createElement('div'); el.id = 'ggconn'; el.setAttribute('role', 'status'); el.innerHTML = '<i></i>잠시 연결 중'; document.body.appendChild(el); }
+  el.hidden = !켬; }
+function 연결실패(){ const 지금 = Date.now(); if(지금 >= 연결.쉼까지){ 연결.n++; 연결.쉼까지 = 지금 + 연결쉼(연결.n); } 연결표시(); }      /* 한 쉼에 한 번만 늘린다 — 동시에 10개가 실패해도 2초가 30초로 뛰지 않게 */
+function 연결됨(){ if(연결.n || 연결.쉼까지){ 연결.n = 0; 연결.쉼까지 = 0; 연결표시(); } }
+async function 연결기다림(){ for(;;){ const 남 = 연결.쉼까지 - Date.now();
+  if(남 > 0){ await new Promise(z => setTimeout(z, Math.min(1000, 남))); continue; }
+  if(연결.n && 연결.살핌){ await 연결.살핌; continue; } return; } }
+async function 연결fetch(url, opt, 다시, 한도){
+  for(let n = 0; ; n++){
+    await 연결기다림();
+    const 끊 = 한도 && typeof AbortController === 'function' ? new AbortController() : null, 시계 = 끊 ? setTimeout(() => 끊.abort(), 한도) : 0;
+    const 살핌 = 연결.n > 0 && !연결.살핌; let 끝살핌 = null; if(살핌) 연결.살핌 = new Promise(z => 끝살핌 = z);
+    try{
+      let r; try{ r = await fetch(url, 끊 ? Object.assign({}, opt, { signal: 끊.signal }) : opt); }
+      catch(e){ if(e && e.name === 'AbortError') throw e; 연결실패(); if(!다시 || n >= 연결.최대 - 1) throw e; continue; }
+      if(연결끊김(r.status)){ 연결실패(); if(!다시 || n >= 연결.최대 - 1) return r; continue; }
+      연결됨(); return r;
+    }finally{ clearTimeout(시계); if(살핌){ 연결.살핌 = null; 끝살핌(); } }
+  } }
+function 연결묶기(열쇠, 일){ if(연결.도는.has(열쇠)) return 연결.도는.get(열쇠);
+  const p = Promise.resolve().then(일).finally(() => 연결.도는.delete(열쇠)); 연결.도는.set(열쇠, p); return p; }
 /* ══ S3 길목 (2026-10-14) — 「media/」 로 시작하면 S3(중앙 /app/media/view {desk}) · 그 밖은 예전 수파베이스. 회원 개인 영상(피드백 · 체형)이 S3 로 간다 ══ */
 const S3키 = p => typeof p === 'string' && p.indexOf('media/') === 0;
 const S3만료 = {};
 async function S3부르기(길, 몸){ if(!AUTH || !AUTH.access_token) throw new Error('로그인이 필요해요');
-  const r = await fetch('https://dash.gladgym.co.kr/app/media/' + 길, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(Object.assign(증표몸(), 몸 || {})) });
+  const r = await 연결fetch('https://dash.gladgym.co.kr/app/media/' + 길, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(Object.assign(증표몸(), 몸 || {})) }, 길 === 'view');
   if(!r.ok) throw new Error('서버에 닿지 못했어요 (' + r.status + ')'); const j = await r.json(); if(!j.ok) throw new Error(j.why || '안 되었어요'); return j; }
 /* 사진 · 영상 주소 받기 — 한꺼번에 90건 넘게 보내 서버 과다요청 차단(429)에 걸려 「열 수 없음」이 남던 것 (2026-11-06 23:19 중앙 실측 · 대표)
    → 동시에 5개까지만 줄 세움 · 같은 사진은 한 번만 묻기 · 429 면 1.2 · 2.4 · 3.6 · 4.8초 뒤 다시(4번) · 진짜 거절(권한 · 없는 파일)만 실패 */
@@ -4772,19 +4803,25 @@ async function otp(길, 몸){
 /* 서버가 멈춰 답이 안 오면 끝없이 기다리던 것 — 한도가 지나면 실패로 끝낸다 (2026-11-11 17:44 대표 「무한 로딩」 · 서버 멈춤 실측 30초+ 무응답)
    예약 점검 · 주간처럼 처음에 오래 걸리는 것은 넉넉히 */
 let crm한도 = 길 => /^(sales_check|supplies|assign|lesson)/.test(길) ? 30000 : 120000;
-async function crm(길, 몸, 재){
+/* 읽기 = 같은 부름 묶기 · 끊기면 기다렸다 다시(연결 지킴 · 2026-11-18) — 그 밖(저장 · 보내기 · 확정 …)은 한 번만 */
+const crm읽기 = 길 => /^(weekly|states|lessons|booking|roster|goal|supplies|sales_check|coupon_status|trainer_phone|member_photo|search|health|rules_board|security|desk_alerts|attend_recent|locker_status)$/.test(길);
+function crm(길, 몸, 재){
+  if(!crm읽기(길) || 재) return crm속(길, 몸, 재);
+  return 연결묶기('crm:' + 길 + ':' + JSON.stringify(몸 || {}) + ':' + ((ME && ME.name) || ''), () => crm속(길, 몸));
+}
+const crm다시 = 길 => crm읽기(길) && 길 !== 'search';      /* 검색 = 사람이 단추 앞에서 기다림 — 끊기면 바로 알린다 · 묶기만 */
+async function crm속(길, 몸, 재){
   if(!AUTH || !AUTH.access_token) throw new Error('로그인이 필요해요');
-  const 끊 = typeof AbortController === 'function' ? new AbortController() : null, 시계 = 끊 ? setTimeout(() => 끊.abort(), crm한도(길)) : 0;
-  let r; try{ r = await fetch(GG_API + '/app/crm/' + 길, { method:'POST', signal: 끊 ? 끊.signal : undefined,
+  let r; try{ r = await 연결fetch(GG_API + '/app/crm/' + 길, { method:'POST',
     headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify(Object.assign(증표몸(), 몸||{}, ((진짜ME && ME) || 내화면중()) && !/^supplies/.test(길) && !(길 === 'weekly' && 관리자칩꼴()) ? { 대신: ME.name } : {})) }); }
-  catch(e){ clearTimeout(시계); throw new Error(e && e.name === 'AbortError' ? '서버 응답이 없어요 (' + Math.round(crm한도(길) / 1000) + '초) · 잠시 뒤 다시 해 주세요' : '서버에 닿지 못했어요'); }
-  clearTimeout(시계);      /* 비품은 센터 공용 — 대신(본인 범위)을 안 붙인다: 관리자가 본인 화면에서도 구매 입력 (2026-10-20) */      /* 최고관리자 본인 화면도 본인 범위로 (2026-10-20) */      /* 선생님 계정으로 보기 — 그 선생님 범위로(중앙) */
+    body: JSON.stringify(Object.assign(증표몸(), 몸||{}, ((진짜ME && ME) || 내화면중()) && !/^supplies/.test(길) && !(길 === 'weekly' && 관리자칩꼴()) ? { 대신: ME.name } : {})) }, crm다시(길), crm한도(길)); }
+  catch(e){ throw new Error(e && e.name === 'AbortError' ? '서버 응답이 없어요 (' + Math.round(crm한도(길) / 1000) + '초) · 잠시 뒤 다시 해 주세요' : '서버에 닿지 못했어요'); }
+      /* 비품은 센터 공용 — 대신(본인 범위)을 안 붙인다: 관리자가 본인 화면에서도 구매 입력 (2026-10-20) */      /* 최고관리자 본인 화면도 본인 범위로 (2026-10-20) */      /* 선생님 계정으로 보기 — 그 선생님 범위로(중앙) */
   if(!r.ok) throw new Error('서버에 닿지 못했어요 (' + r.status + ')');
   const d = await r.json();
   /* 「권한이 없어요」 = 서버가 이 세션을 못 알아봄(다른 기기에서 로그아웃해 세션이 지워짐 등 · 수파베이스 403). 같은 거절을 1분마다 반복하지 않고
      한 번 새 토큰을 받아 다시 묻는다 — 새 토큰도 못 받으면 refreshAuth 가 로그인 화면을 띄운다 (2026-10-14 중앙 실측 217회 반복) */
-  if(!d.ok && d.why === '권한이 없어요' && !재){ await refreshAuth(); return crm(길, 몸, true); }
+  if(!d.ok && d.why === '권한이 없어요' && !재){ await refreshAuth(); return crm속(길, 몸, true); }
   if(!d.ok){ const e = new Error(d.why || '안 되었어요'); e.답 = d; throw e; }      /* 답째 실어 보낸다 — 「세는 중 · 다시 n초」 같은 것을 부른 쪽이 읽게 (2026-10-15) */
   return d;
 }
