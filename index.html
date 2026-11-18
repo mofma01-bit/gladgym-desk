@@ -3603,7 +3603,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '706';
+const BUILD = '707';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11436,7 +11436,7 @@ function 강좌끝인가(ck, 이름){ ck = String(ck);
   const L = 과정줄(ck); return !!L.length && L.every(r => (W.mread || []).some(x => x.manual_id === r.id && x.name === 이름)); }
 function 모든강좌(){ const 키 = [...new Set((W.manual || []).filter(r => !r.done && 매교육(r)).map(r => (r.course || '').trim() || 단편키(r)))]; return 연습목록.map(x => '연:' + x[0]).concat(키); }
 function 강좌이름(ck){ const 설 = 강좌설(ck); if(설.title) return 설.title; if(String(ck).indexOf('연:') === 0) return ((연습목록.find(x => x[0] === ck.slice(2)) || [])[2]) || '연습'; const L = 과정줄(ck); return ck[0] === '#' ? ((L[0] || {}).title || '(제목 없음)') : ck; }
-function 내수강할(){ if(!ME || 진짜ME) return []; 연습내진도('1'); return 모든강좌().filter(ck => { const 설 = 강좌설(ck); return ((설.send || {}).to || []).includes(ME.name) && !강좌끝인가(ck, ME.name); }); }
+function 내수강할(){ if(!ME) return [];      /* 선생님으로 보기에서도 그 선생님 것 (2026-11-18 22:11 대표 「강좌 보냈는데 트레이너 현황판에 안 떠」 — 보기 화면에선 늘 0) */ 연습내진도('1'); return 모든강좌().filter(ck => { const 설 = 강좌설(ck); return ((설.send || {}).to || []).includes(ME.name) && !강좌끝인가(ck, ME.name); }); }
 function 강좌열기(ck){ ck = String(ck); if(ck.indexOf('연:') === 0){ const k = ck.slice(2); 연습열기(k); return; } 강의.탭 = '과정'; 강의.과정 = ck; 강의.id = null; if(S.view !== 'manual') 가기('manual'); else render(); }
 function 연습열기(k){ 연습창(k === '2' || k === '3' ? k : '1');
   if(k === '3' && ME && !진짜ME){ const 줄 = { trainer: ME.name, chapter: 900, part: '3부', title: 'CRM 회원권 등록 연습 — 열어 봄', done_at: new Date().toISOString() };      /* CRM 연습은 장 진도가 없어 열면 끝 */
@@ -16356,7 +16356,7 @@ const 현황칸 = [
   { k:'실패', 이름:'리포트 발송 실패', 색:'warn' },
   { k:'밀림', 이름:'피드백 밀림',      색:'warn' },
   { k:'업무', 이름:'내 업무',          색:'gold' },
-  { k:'수강', 이름:'수강할 강좌', 색:'gold', 셈: () => 내수강할().length, 직접: () => { const L = 내수강할(); if(L.length === 1) 강좌열기(L[0]); else { 강의.탭 = '홈'; 강의.칩 = '교육'; 가기('manual'); } }, 보임: () => !!ME && !진짜ME },      /* 강좌 보내기로 받은 것 · 다 들으면 빠짐 (2026-11-17) */
+  { k:'수강', 이름:'수강할 강좌', 색:'gold', 셈: () => 내수강할().length, 직접: () => { const L = 내수강할(); if(L.length === 1) 강좌열기(L[0]); else { 강의.탭 = '홈'; 강의.칩 = '교육'; 가기('manual'); } }, 보임: () => !!ME },      /* 강좌 보내기로 받은 것 · 다 들으면 빠짐 (2026-11-17) */
   { k:'요청', 이름:'피드백 요청',      색:'teal' },
   /* 「회원 안 봄」은 뺐다 (2026-10-16 대표 낙서3 「홈 화면에도 회원 안 봄 버튼은 없애고」) → 그 자리에 「기록 빠진 수업」 */
   { k:'누락', 이름:'기록 안 한 수업', 색:'warn', 셈: () => 기록빠진().length, 직접: () => 누락판(), 보임: () => false },      /* 전체 칸은 안 씀 — 대표는 점검 탭 · 선생님은 아래 칸 (2026-11-11) */      /* 대표 「취합해」 전까지 숨김 */
@@ -16428,7 +16428,7 @@ const 현황묶음 = k => k === '상담' || k === '상담내일' ? 0 : 현황수
    ① 빨간불(급한칸) 맨 왼쪽 — 전화 · 연락 먼저, 그다음 기록 입력 ② 오늘 상담(빛남) ③ 누르면 바로 처리하는 것 — 전화 · 연락 → 기록 입력 → 예약 · 회수 → 확인 · 정리 → 목록
    ④ 보기만 하는 「수업 기록 완료」 맨 끝 · 묶음 구분선 없음(차례가 곧 묶음) · 새 칸은 여기 적지 않으면 맨 뒤로 간다 */
 const 현황차례 = ['배정없음', '재연락', '첫연락', '오늘없음', '수강', '요청', '실패', '못감', '상담', '예상', '설문2차', '락커만료', '데스크알림', 'TG정리', '배정없음', '빈담당', '담당', '부름', '첫TG', '누락', '밀림', '청소', '업무', '설문중지', '종목요청', '가입', '연월차', '다음주연차', '운동'];
-const 현황자리 = x => x.c.k === '상담' ? -2 : x.c.k === '상담내일' ? -1.5 : (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
+const 현황자리 = x => x.c.k === '상담' ? -2 : x.c.k === '수강' ? -1.8 : x.c.k === '상담내일' ? -1.5 :      /* 수강할 강좌 = 상담 바로 다음 (2026-11-18 22:11 대표) */ (x.c.k === '예상' || x.c.k === '예상미입력') ? -1 : (x.v && 급한칸.includes(x.c.k) ? 0 : 1000) + (현황차례.includes(x.c.k) ? 현황차례.indexOf(x.c.k) : 900);      /* 상담 = 무조건 1번 · 그다음 예상 매출 · 그다음 빨간불 (2026-11-04 18:34 대표) */
 const 선생님칸 = new Set(['수강', '밀림', '요청', '누락', '운동', '오늘없음', '청소', '첫연락', '첫TG', '재연락']);      /* 「다음 주 연차」는 대표도 확인할 일 → 「내가 할 일」 (2026-11-09 대표 「연차는 나도 확인을 해야 하니까 내가 할 일에」) */      /* 「2차 설문톡 연락」은 대표 · 관리자 일 → 「내가 할 일」 (2026-11-03 23:11 대표) */
 function 숫자줄(){
   setTimeout(오늘수업받기, 0);
@@ -16446,7 +16446,7 @@ function 숫자줄(){
   finally{ 현황본인눈 = false; }
   const 판색 = ['#d9d3c9'];      /* 한 톤 (2026-11-03 대표 「알록달록 · 무슨 기준인지」) */      /* 틀⑥ 숫자 칸 = 색 판 + 아이콘 + 이름 › (2026-11-03 대표 확정 · 상담은 그대로 빛남) */
   const 칸 = (x, i, xs) => { const 색 = 판색[Math.max(0, 현황칸.indexOf(x.c)) % 판색.length];
-    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + ((x.c.k === '상담' || x.c.k === '예상' || x.c.k === '예상미입력') && x.v ? ' hot' : '') + (x.v && (급한칸.includes(x.c.k) || (x.c.k === '예상' && 예상남은날() <= 3)) ? ' ur' : '') + '"'
+    return '<button class="num nc' + (x.v ? ' ' + x.c.색 : ' zero') + ((x.c.k === '상담' || x.c.k === '수강' || x.c.k === '예상' || x.c.k === '예상미입력') && x.v ? ' hot' : '') + (x.v && (급한칸.includes(x.c.k) || (x.c.k === '예상' && 예상남은날() <= 3)) ? ' ur' : '') + '"'
     + ' style="--c:' + 색 + '" data-act="tx:numopen" data-v2="' + x.c.k + '"'
     + ' title="' + x.c.이름 + ' — 눌러서 그 페이지로">'
     + '<span class="nk"><span class="nic" style="--ic:' + esc(네모주소(x.c.이름)) + '"></span><span class="k">' + x.c.이름 + '</span><em class="go">›</em></span><span class="v">' + x.v + '</span></button>'; };
