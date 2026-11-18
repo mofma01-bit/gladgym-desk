@@ -3603,7 +3603,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '702';
+const BUILD = '703';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3685,6 +3685,7 @@ const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c =>
    ⛔ 앱을 먼저 고치고 버킷을 잠근다. 서명 주소는 공개 버킷에서도 되니 순서가 안전하다. */
 let SIGNED = {};
 const 서명유효 = 3600;
+const 서명만료 = {};      /* 수파 서명 주소는 1시간이면 만료 — 받은 때를 적어 두고 55분이 지나면 새로 받는다 (2026-11-18 19:52 대표 「필수자료 현장 무이자 사진이 안 떠」 · 데스크를 오래 켜 두면 미리 받은 옛 주소로 그려 빈 칸) */
 
 /* ══ 연결 지킴 ══ 2026-11-18 중앙 요청 · 대표 「넣어」 — 대시보드 재시작 3~5초에 주간 177번 · 사진 주소 96번 되풀이(중앙 실측 · 다시 켜지자마자 몰려 또 느려짐).
    502 · 503 · 504 · 못 닿음 = 2 → 4 → 8 → … 최대 30초 쉬었다 다시 · 쉬는 동안 다른 부름도 같이 기다림 · 쉼이 끝나면 하나만 먼저 보내 살펴봄
@@ -3733,7 +3734,7 @@ async function S3지우기(k){ try{ await S3부르기('delete', { key: k }); del
 async function 주소받기(paths){
   { const 지금 = Date.now(), s3 = [...new Set((paths||[]).filter(x => S3키(x) && (!SIGNED[x] || (S3만료[x] || 0) < 지금)))];
     await Promise.all(s3.map(async k => { try{ const j = await S3보기(k); if(j && j.url){ SIGNED[k] = j.url; S3만료[k] = Date.now() + 23 * 3600 * 1000; } }catch(e){ console.warn('S3 주소 못 받음', e.message); } })); }
-  const 새것 = [...new Set((paths||[]).filter(x => x && !S3키(x) && !SIGNED[x]))];
+  const 새것 = [...new Set((paths||[]).filter(x => x && !S3키(x) && (!SIGNED[x] || (서명만료[x] || Infinity) < Date.now())))];
   if(!새것.length) return;
   for(let i=0; i<새것.length; i+=100){
     const 묶 = 새것.slice(i, i+100);
@@ -3743,7 +3744,7 @@ async function 주소받기(paths){
         body: JSON.stringify({ expiresIn: 서명유효, paths: 묶 }) });
       if(!r.ok) continue;            /* 아직 공개 버킷이면 실패해도 그만 — 공개 주소로 돈다 */
       (await r.json()).forEach(x => {
-        if(x && x.signedURL && !x.error) SIGNED[x.path] = SB_URL + '/storage/v1' + x.signedURL; });
+        if(x && x.signedURL && !x.error){ SIGNED[x.path] = SB_URL + '/storage/v1' + x.signedURL; 서명만료[x.path] = Date.now() + (서명유효 - 300) * 1000; } });
     }catch(e){ console.warn('사진 주소 못 받음', e); }
   }
 }
@@ -3754,6 +3755,7 @@ const 주소시도 = {}; let 주소모음 = [], 주소타이머 = null;
 function 주소예약(p){ if(!p || SIGNED[p] || 주소시도[p]) return; 주소시도[p] = 1; 주소모음.push(p); clearTimeout(주소타이머);
   주소타이머 = setTimeout(async () => { const 묶 = 주소모음; 주소모음 = []; try{ await 주소받기(묶); }catch(e){} if(묶.some(x => SIGNED[x])){ try{ render(); }catch(e){} document.querySelectorAll('#popbox [data-p]').forEach(el => { const u = SIGNED[el.dataset.p]; if(u) el[el.tagName === 'IMG' ? 'src' : 'href'] = u; }); } }, 60); }      /* 옆 판(배정 메모 등)은 render 로 안 바뀜 — 그림 주소만 바꿈 */
 const media = p => { if(!p) return ''; if(S3키(p) && SIGNED[p] && (S3만료[p] || 0) < Date.now()){ delete SIGNED[p]; 주소시도[p] = 0; }
+  if(!S3키(p) && SIGNED[p] && (서명만료[p] || Infinity) < Date.now()){ delete SIGNED[p]; delete 서명만료[p]; 주소시도[p] = 0; }      /* 만료된 수파 서명 주소 (11/18) */
   if(!SIGNED[p]) 주소예약(p); return SIGNED[p] || (S3키(p) ? '' : SB_URL+'/storage/v1/object/public/media/'+p); };
 
 /* 다음 개인운동 추천 — 날짜 없이 두 자리로 담아 둔다 (먼저 / 나중) */
@@ -13554,7 +13556,7 @@ async function 필자보기(id){ const x = (필자.줄 || []).find(z => z.id ===
   const 받기 = z => { const u = media(z.path); return z.kind === 'file' && /token=/.test(u) ? u + '&download=' + encodeURIComponent(z.name || '') : u; };      /* 엑셀 등 파일은 내려받기로 */
   if(fs.some(z => z.path && !SIGNED[z.path] && !S3키(z.path))) toast('파일 주소를 받지 못했어요 — 잠시 뒤 다시 눌러 주세요');
   가운데창('<div class="tx-ph"><b>' + esc(x.title || '') + '</b><button data-act="popclose">✕</button></div>'
-    + fs.filter(z => z.kind === 'photo').map(z => '<a class="mqimg" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"><img src="' + esc(media(z.path)) + '" alt="" onload="this.parentNode.classList.add(\'on\')" onerror="this.parentNode.classList.add(\'on\')"></a>').join('')
+    + fs.filter(z => z.kind === 'photo').map(z => '<a class="mqimg" href="' + esc(media(z.path)) + '" target="_blank" rel="noopener"><img src="' + esc(media(z.path)) + '" alt="" onload="this.parentNode.classList.add(\'on\')" onerror="this.parentNode.classList.add(\'on\');phBad(this)"></a>').join('')
     + fs.filter(z => z.kind !== 'photo').map(z => '<a class="mqpdf" data-p="' + esc(z.path) + '" href="' + esc(받기(z)) + '" target="_blank" rel="noopener"' + (z.kind === 'file' ? ' download="' + esc(z.name || '') + '"' : '') + '>' + (z.kind === 'file' ? '📎 ' : '📄 ') + esc(z.name || 'PDF') + (z.kind === 'file' ? ' 내려받기' : ' 열기') + '</a>').join('')
     + (String(x.body || '').trim() ? '<div class="mqbody">' + esc(x.body) + '</div>' : '')
     + '<div class="cmacts" style="margin-top:12px">' + (필자쓰기() ? '<button class="btn ed sm" data-act="tx:mqe" data-k="' + esc(x.id) + '">수정</button>' : '') + '<button class="btn ghost sm" data-act="tx:mqall">‹ 전체</button><button class="btn ghost sm" data-act="popclose">닫기</button></div>', 620); }
