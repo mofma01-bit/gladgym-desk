@@ -2374,6 +2374,7 @@ body{word-break:keep-all}
 .anon{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}.anon .t{display:block;font-size:15px}.anon small{color:var(--sub);font-size:13px}.anon textarea{width:100%;box-sizing:border-box;min-height:72px}.anon-ft{display:flex;justify-content:space-between;align-items:center;margin-top:8px}.anon-ft .ok{color:var(--teal);font-size:13px}
 .anon-ls{margin-top:14px}.anon-ls .it{border:1px solid var(--line);background:var(--dark-3);border-radius:10px;padding:8px 12px;margin-top:6px;font-size:14px}.anon-ls .it span{display:inline-block;font-size:12px;border-radius:999px;padding:1px 8px;margin-right:8px;border:1px solid var(--line);color:var(--sub)}
 .hp-fold{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}.hp-fold>summary{cursor:pointer;font-size:14px;font-weight:700;color:var(--cream);padding:6px 0}.hp-fold>summary small{color:var(--sub);font-weight:400}
+.rq6 small{display:block;color:var(--sub);font-size:13px;margin:2px 0 4px}.rq6 p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin:0 0 8px}.rq6 .btn{margin-left:auto;display:block}.gc-r6{margin:8px 0 2px}
 .hp-note{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:var(--dark-3);border:1px solid var(--line);font-size:13px;line-height:1.6;color:var(--sub)}.hp-note b{display:block;color:var(--cream);font-size:14px}
 .k3-sum{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.k3-sum span{font-size:13px;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--dark-3);color:var(--sub);border:1px solid var(--line)}
 .k3-st{display:inline-block;font-size:13px;font-weight:800;border-radius:999px;padding:2px 10px}.k3-st.a{background:#1e2a36;color:#a9c8e6}.k3-st.u{background:#1e2f2a;color:#9fd8c8}.k3-st.x{background:#2a2824;color:#a39b8d}
@@ -3609,7 +3610,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '714';
+const BUILD = '715';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8423,7 +8424,7 @@ async function 챗받기(힘){
     const [a, b, c, d] = await Promise.all([uget('tr_chat?select=*&created_at=gte.' + encodeURIComponent(전) + '&order=created_at.asc&limit=3000'), uget('tr_chat_read?select=*&staff_id=eq.' + 챗나()), uget('tr_bot_qa?select=*&order=sort'), uget('tr_req?select=*&order=created_at.desc&limit=300')]);
     챗.글 = (a || []).filter(m => 챗내방(m.room)); 챗.읽 = {}; (b || []).forEach(x => { 챗.읽[x.room] = x.at; }); 챗.답 = (c || []).filter(x => !x.done); 챗.요청 = (d || []).filter(x => 챗관리() || x.staff_id === 챗나()); 챗.없음 = false; }
   catch(e){ 챗.없음 = /404|42P01|does not exist|relation/.test(String(e.message || '')); }
-  챗.중 = false; 챗.때 = Date.now(); 챗그리기(true); 챗공지띄우기(); }
+  챗.중 = false; 챗.때 = Date.now(); 챗그리기(true); 챗공지띄우기(); 챗요청띄우기(); }
 setInterval(() => { if(ME && document.visibilityState === 'visible') 챗받기(챗.열림 && 챗.탭 === 'talk' && 챗.방); }, 15000);      /* 안 보이면 안 받음 (11/08 사고) */
 function 챗배지(){ return 챗.없음 ? 0 : [...new Set(챗.글.map(m => m.room))].reduce((a, r) => a + 챗안읽음(r), 0) + (챗관리() ? 챗.요청.filter(x => x.status === '받음').length : 0); }
 const 챗아이콘 = {
@@ -8529,6 +8530,7 @@ function 챗요청(){      /* 쓰는 창 · 보는 창 따로 — 새 요청을 
   return '<div class="gc-title">요청 · 버그</div><div class="gc-body req">' + 폼 + (챗.새요청 ? '' : 챗.요청.length ? 챗.요청.map(x => '<div class="gc-req' + (챗.펼 === x.id ? ' on' : '') + '"><button class="gc-rq" data-act="tx:gcropen" data-k="' + esc(x.id) + '"><b>' + esc(x.title || '(제목 없음)') + '<span class="gc-tg ' + (딱[x.status] || 'b') + '">' + esc(x.status) + '</span></b><small>' + esc([보임이름(x.staff_name || ''), x.kind, 챗때(x.created_at), (x.files || []).length ? '사진 ' + x.files.length : ''].filter(Boolean).join(' · ')) + '</small></button>'
       + (챗.펼 === x.id ? '<div class="gc-rd">' + esc(x.body || '') + (x.files || []).map(f => '<img class="gc-img" data-gcpath="' + esc(f.path) + '" alt="">').join('') + (x.link ? '<br><button class="gc-go" data-act="tx:gcgo" data-k="' + esc(x.link.view || '') + '">🔗 ' + esc(x.link.title || '') + ' ›</button>' : '')
           + (x.reply ? '<div class="gc-reply"><b>관리자 답</b> ' + esc(x.reply) + '</div>' : '')
+          + (챗관리() ? '<button class="btn ghost sm gc-r6" data-act="tx:gcr6" data-k="' + esc(x.id) + '">6번에 보내기</button>' : '')
           + (챗관리() ? '<div class="gc-kinds">' + ['받음', '확인 중', '끝남'].map(k => '<button class="' + (x.status === k ? 'on' : '') + '" data-act="tx:gcrst" data-k="' + esc(x.id + '|' + k) + '">' + k + '</button>').join('') + '</div><div class="gc-in"><input id="gcrr_' + esc(x.id) + '" placeholder="답 남기기" value="' + esc(x.reply || '') + '"><button data-act="tx:gcrreply" data-k="' + esc(x.id) + '">저장</button></div>' : '') + '</div>' : '') + '</div>').join('')
       : (챗관리() ? '<div class="empty why"><b>들어온 요청이 없습니다</b>직원이 보내면 여기에 뜹니다</div>' : '<div class="empty why"><b>보낸 요청이 없습니다</b>아래 「새 요청하기」를 눌러 주세요</div>')) + '<div style="height:60px"></div></div>'
     + (챗.새요청 ? '' : '<button class="gc-fly" data-act="tx:gcrnew" data-k="1">새 요청하기 ' + 챗아이콘.날 + '</button>');
@@ -8544,6 +8546,22 @@ async function 챗사진올리기(){ const 길 = [];
 async function 챗읽음(r){ 챗.읽[r] = new Date().toISOString(); try{ await usend('tr_chat_read?on_conflict=staff_id,room', 'POST', [{ staff_id:챗나(), room:r, at:챗.읽[r] }], 'resolution=merge-duplicates,return=minimal'); }catch(e){} }
 function 챗링크지금(){ const h = document.querySelector('#top h1'); return { view:S.view, title:(h ? h.innerText.trim() : 챗화면이름(S.view)) || 챗화면이름(S.view) }; }
 /* 전체방 공지 — 그날 한 번(사람마다 · 이 기기) · 끄면 안 뜸 */
+/* 새 요청 · 버그 팝업 — 대표 화면에만 · 「받음」인 것 한 번씩 · 「6번에 보내기」 = 6번 방에 붙여 넣을 글 복사 (2026-11-19 17:08 대표 「2번해」 — 데스크 안에서 자동으로 고치지 않고 6번 방이 고친다) */
+const 요청6본 = () => { try{ return JSON.parse(localStorage.getItem('gg_req_seen') || '[]') || []; }catch(e){ return []; } };
+function 요청6글(x){ const d = new Date(x.created_at), 때 = isNaN(d) ? '' : (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  return ['[데스크 ' + (x.kind || '요청') + '] ' + 때 + ' · ' + (x.staff_name || ''), '제목: ' + (x.title || ''), '내용: ' + (x.body || '')]
+    .concat((x.files || []).length ? ['사진 ' + x.files.length + '장'] : [], x.link ? ['보던 화면: ' + (x.link.title || x.link.view || '')] : [], ['번호: ' + x.id, '→ 6번 방: 확인하고 고친 뒤 이 요청에 답을 달고 「끝남」으로 해 주세요']).join(String.fromCharCode(10)); }
+async function 요청6복사(id){ const x = (챗.요청 || []).find(z => String(z.id) === String(id)); if(!x) return;
+  const 글 = 요청6글(x), 됨 = () => toast('복사했어요 · 6번 방에 붙여 넣어 주세요');
+  try{ await navigator.clipboard.writeText(글); 됨(); }catch(e){ const t = document.createElement('textarea'); t.value = 글; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); 됨(); }catch(e2){ toast('복사가 안 됐어요'); } t.remove(); } }
+function 챗요청띄우기(){ if(챗.없음 || 진짜ME || !ME || !대표인가()) return;
+  const 본 = 요청6본(), 새 = (챗.요청 || []).filter(x => x.status === '받음' && !본.includes(x.id)); if(!새.length) return;
+  try{ localStorage.setItem('gg_req_seen', JSON.stringify(본.concat(새.map(x => x.id)).slice(-300))); }catch(e){}
+  팝업차례('요청버그', () => popOpen('<div class="ps-pop"><div class="ps-h">🛠 새 요청 · 버그 ' + 새.length + '</div>'
+    + 새.map(x => '<div class="gc-ntcp rq6"><b><span class="tag' + (x.kind === '버그' ? ' warn' : '') + '">' + esc(x.kind || '요청') + '</span> ' + esc(x.title || '(제목 없음)') + '</b><small>' + esc(보임이름(x.staff_name || '')) + ' · ' + 챗때(x.created_at) + ((x.files || []).length ? ' · 사진 ' + x.files.length + '장' : '') + '</small><p>' + esc(x.body || '') + '</p>'
+      + '<button class="btn gold sm" data-act="tx:gcr6" data-k="' + esc(x.id) + '">6번에 보내기</button></div>').join('')
+    + '<div class="ps-foot"><button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcreqgo">요청 · 버그 열기</button></div></div>'));
+  if(!$('#pop').classList.contains('on')) 팝업다음(); }
 function 챗공지띄우기(){ if(챗.없음 || 챗설정.공지 === false || 진짜ME) return;
   const 본 = (() => { try{ const x = JSON.parse(localStorage.getItem('gg_chat_ntc') || '{}'); return x.d === TODAY ? x.ids || [] : []; }catch(e){ return []; } })();
   const 새 = 챗.글.filter(m => m.room === 'all' && m.notice && 서울날(m.created_at) === TODAY && !본.includes(m.id) && m.sender !== 챗나());
@@ -8597,6 +8615,8 @@ async function 챗손(a, k, el){
     if(!await 묻기(a === 'gcrst' ? '「' + (x.title || '') + '」을 「' + 값 + '」으로 할까요?' : '답을 저장할까요?')) return true;
     try{ await usend('tr_req?id=eq.' + encodeURIComponent(id), 'PATCH', Object.assign(몸, { updated_at:new Date().toISOString() }), 'return=minimal'); Object.assign(x, 몸); toast('저장했어요'); 챗그리기(); }
     catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } return true; }
+  if(a === 'gcr6'){ await 요청6복사(k); return true; }
+  if(a === 'gcreqgo'){ popClose(); 챗.열림 = true; 챗.탭 = 'req'; 챗그리기(); return true; }
   if(a === 'gcntcgo'){ popClose(); 챗.열림 = true; 챗.탭 = 'talk'; 챗.방 = 'all'; await 챗읽음('all'); 챗그리기(); return true; }
   return false;
 }
