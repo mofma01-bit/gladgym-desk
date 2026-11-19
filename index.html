@@ -3605,7 +3605,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '711';
+const BUILD = '712';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4830,7 +4830,7 @@ function crm(길, 몸, 재){
   if(!crm읽기(길) || 재) return crm속(길, 몸, 재);
   return 연결묶기('crm:' + 길 + ':' + JSON.stringify(몸 || {}) + ':' + ((ME && ME.name) || ''), () => crm속(길, 몸));
 }
-const crm다시 = 길 => crm읽기(길) && 길 !== 'search';      /* 검색 = 사람이 단추 앞에서 기다림 — 끊기면 바로 알린다 · 묶기만 */
+const crm다시 = 길 => (crm읽기(길) && 길 !== 'search') || /^(supplies_snooze)$/.test(길);      /* 비품 미루기는 여러 번 보내도 같은 결과 — 끊기면 쉬었다 다시 (2026-11-19 13:23 대표 「다시 알림 눌러도 적용이 안 됨」 · 중앙 로그 13:15 OPTIONS 만 3번 · POST 안 감) */      /* 검색 = 사람이 단추 앞에서 기다림 — 끊기면 바로 알린다 · 묶기만 */
 var crm거절 = {};      /* 길 → 거절된 때 (2026-11-18 22:36 중앙 · 보안 점검 B7) · 로그인이 바뀌면 지움(authSave) — 다시 로그인했는데 30분 막히지 않게 */
 async function crm속(길, 몸, 재){
   if(!AUTH || !AUTH.access_token) throw new Error('로그인이 필요해요');
