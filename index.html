@@ -3610,7 +3610,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '716';
+const BUILD = '717';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11483,6 +11483,13 @@ function 강좌끝인가(ck, 이름){ ck = String(ck);
 function 모든강좌(){ const 키 = [...new Set((W.manual || []).filter(r => !r.done && 매교육(r)).map(r => (r.course || '').trim() || 단편키(r)))]; return 연습목록.map(x => '연:' + x[0]).concat(키); }
 function 강좌이름(ck){ const 설 = 강좌설(ck); if(설.title) return 설.title; if(String(ck).indexOf('연:') === 0) return ((연습목록.find(x => x[0] === ck.slice(2)) || [])[2]) || '연습'; const L = 과정줄(ck); return ck[0] === '#' ? ((L[0] || {}).title || '(제목 없음)') : ck; }
 function 내수강할(){ if(!ME) return [];      /* 선생님으로 보기에서도 그 선생님 것 (2026-11-18 22:11 대표 「강좌 보냈는데 트레이너 현황판에 안 떠」 — 보기 화면에선 늘 0) */ 연습내진도('1'); return 모든강좌().filter(ck => { const 설 = 강좌설(ck); return ((설.send || {}).to || []).includes(ME.name) && !강좌끝인가(ck, ME.name); }); }
+function 수강할판(){ const L = 내수강할();
+  const 줄 = ck => { const 설 = 강좌설(ck), 까지 = (설.send || {}).until || '', 지남 = 까지 && 까지 < TODAY;
+    return '<button class="card click rowc" data-act="tx:edgo" data-k="' + esc(ck) + '"><div style="flex:1;min-width:0"><div class="t1">' + esc(강좌이름(ck)) + '</div>'
+      + (까지 ? '<div class="t2">기한 ' + esc(짧은날3(까지)) + '</div>' : '') + '</div><span class="tag' + (지남 ? ' warn' : ' gold') + '">' + (지남 ? '기한 지남' : '듣기 ›') + '</span></button>'; };
+  판열기('<b>수강할 강좌</b> <span class="who3">' + L.length + '</span>',
+    '<div class="hp-note"><b>' + (L.length ? '받은 강좌 중 아직 안 들은 것만 떠요' : '들을 강좌를 모두 들었어요') + '</b><span>' + (L.length ? '끝까지 보고 「수강 완료」를 누르면 여기서 빠져요' : '새 강좌를 받으면 여기에 떠요') + '</span></div>'
+    + '<div class="sec">' + L.map(줄).join('') + '</div>'); }
 function 강좌열기(ck){ ck = String(ck); if(ck.indexOf('연:') === 0){ const k = ck.slice(2); 연습열기(k); return; } 강의.탭 = '과정'; 강의.과정 = ck; 강의.id = null; if(S.view !== 'manual') 가기('manual'); else render(); }
 function 연습열기(k){ 연습창(k === '2' || k === '3' ? k : '1');
   if(k === '3' && ME && !진짜ME){ const 줄 = { trainer: ME.name, chapter: 900, part: '3부', title: 'CRM 회원권 등록 연습 — 열어 봄', done_at: new Date().toISOString() };      /* CRM 연습은 장 진도가 없어 열면 끝 */
@@ -16425,7 +16432,7 @@ const 현황칸 = [
   { k:'밀림', 이름:'첫 피드백 누락',      색:'warn' },      /* 이름만 바꿈 — 기준은 그대로 (2026-11-19 11:25 대표) */
   { k:'공백', 이름:'피드백 한 달 공백', 색:'warn' },      /* 첫 피드백은 있었는데 마지막 피드백이 30일 넘은 · 최근 30일 안에 운동한 회원 (2026-11-19 11:25 대표 「한 달 이상 추가 피드백이 없는 고객도 별도로」) */
   { k:'업무', 이름:'내 업무',          색:'gold' },
-  { k:'수강', 이름:'수강할 강좌', 색:'gold', 셈: () => 내수강할().length, 직접: () => { const L = 내수강할(); if(L.length === 1) 강좌열기(L[0]); else { 강의.탭 = '홈'; 강의.칩 = '교육'; 가기('manual'); } }, 보임: () => !!ME },      /* 강좌 보내기로 받은 것 · 다 들으면 빠짐 (2026-11-17) */
+  { k:'수강', 이름:'수강할 강좌', 색:'gold', 셈: () => 내수강할().length, 직접: () => 수강할판(), 보임: () => !!ME },      /* 2026-11-19 17:38 대표 「누르면 강좌가 다 뜨잖아 · 들어야 할 것만 · 사이드 페이지로」 — 옆 판에 들을 것만 */      /* 강좌 보내기로 받은 것 · 다 들으면 빠짐 (2026-11-17) */
   { k:'요청', 이름:'피드백 요청',      색:'teal' },
   /* 「회원 안 봄」은 뺐다 (2026-10-16 대표 낙서3 「홈 화면에도 회원 안 봄 버튼은 없애고」) → 그 자리에 「기록 빠진 수업」 */
   { k:'누락', 이름:'기록 안 한 수업', 색:'warn', 셈: () => 기록빠진().length, 직접: () => 누락판(), 보임: () => false },      /* 전체 칸은 안 씀 — 대표는 점검 탭 · 선생님은 아래 칸 (2026-11-11) */      /* 대표 「취합해」 전까지 숨김 */
@@ -18522,6 +18529,7 @@ async function txAct(a, el){
   if(a==='edsgo'){ await 강좌보내기(); return; }
   if(a==='edsendx'){ 강좌보냄 = null; 쪽지닫기(); if(강좌편 && 강좌편.빠른){ 강좌편 = null; popClose(); } return; }
   if(a==='edlogq'){ 수강내역판(String(k)); return; }
+  if(a==='edgo'){ popClose(); 강좌열기(String(k)); return; }      /* 수강할 강좌 옆 판 → 그 강좌 (11/19) */
   if(a==='edsdel'){ if(!(대표인가() || 할수('table'))) return; 강좌보내기취소(k, id || ''); return; }      /* 수강 내역 「보내기 취소」 (11/19) */      /* 썸네일 「수강 내역」 (11/19) */
   if(a==='edsendq'){ if(!(대표인가() || 할수('table'))) return; 강좌편 = { ck: String(k), 설: JSON.parse(JSON.stringify(강좌설(k) || {})), 빠른: true }; 강좌보냄 = null; 강좌보내기창(); return; }      /* 썸네일 「강좌 보내기」 (11/19) */
   if(a==='tutprog'){ 연습진도판(); return; }
