@@ -2230,6 +2230,7 @@ body{word-break:keep-all}
 .ps-pick select{font-size:13px;letter-spacing:0;padding:0 10px}
 .ps-h{font-size:16px;font-weight:800;margin:6px 0 8px;color:var(--cream)}.ps-h.hot{color:var(--gold);font-size:18px}
 .ps-note{background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}
+.dtn{flex:none;font-size:13.5px;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--dark-3);color:var(--cream);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dtc{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--dark-2)}.dtc-w{font-size:12.5px;font-weight:800;color:var(--sub);text-align:center;padding:6px 0;background:#1a1917;border-bottom:1px solid var(--line)}.dtc-w.sun,.dtc-d.sun .n{color:#e8927c}.dtc-w.sat,.dtc-d.sat .n{color:#8fb8e8}.dtc-d{min-height:58px;min-width:0;padding:4px 5px;border-right:1px solid #2b2a27;border-bottom:1px solid #2b2a27;display:flex;flex-direction:column;gap:2px;align-items:flex-start}.dtc-d:nth-child(7n){border-right:0}.dtc-d .n{font-size:13px;font-weight:800;color:var(--cream)}.dtc-d .h{font-size:12px;color:var(--sub);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dtc-d .dtn{font-size:12.5px;padding:1px 6px}.dtc-d.me{background:rgba(240,211,160,.07)}
 .ps-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .bp-row{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:baseline;background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}
 .bp-row b{font-weight:800}.bp-row span{color:#cfc7b8;font-size:13.5px}.bp-row em{font-style:normal;color:var(--gold);font-weight:800}.bp-row small{grid-column:1/-1;color:#8f887e;font-size:13px}.bp-row.dim b{color:#cfc7b8}
@@ -2276,8 +2277,9 @@ body{word-break:keep-all}
 .rq-big{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px;border-radius:14px;border:1px solid rgba(230,196,135,.5);background:linear-gradient(90deg,#2a2318,#1d1c1a 80%)}
 .rq-big:hover{filter:brightness(1.1)}.rq-big .ic{width:42px;height:42px;border-radius:12px;background:var(--gold);color:#241a10;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;flex:none}
 .rq-big b{font-size:17px;font-weight:800;color:var(--gold);letter-spacing:-.02em}.rq-big small{display:block;font-size:13px;color:#a39c8e;margin-top:2px}.rq-big em{margin-left:auto;font-style:normal;color:var(--gold);font-size:18px}
-.rq-mine{display:grid;gap:6px;margin-top:10px}.rq-row{display:flex;align-items:center;gap:10px;background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px}
-.rq-row b{font-weight:800}.rq-row small{margin-left:auto;font-size:13px;color:#8f887e;white-space:nowrap}.rq-row .btn{flex:none}
+.rq-mine{display:grid;gap:6px;margin-top:10px}.rq-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;column-gap:10px;row-gap:2px;min-width:0;align-items:center;background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px}
+.rq-row b{grid-column:1;grid-row:1;font-weight:800;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.rq-row small{grid-column:1;grid-row:2;min-width:0;font-size:13px;color:#8f887e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rq-row small:empty{display:none}.rq-row .rq-st{grid-column:2;grid-row:1/span 2}.rq-row .btn{grid-column:3;grid-row:1/span 2;flex:none}      /* 2026-11-20 대표 사진 — 메모가 한 줄 고정(nowrap)이라 줄이 비품 칸 밖으로 나갔다 → 이름(두 줄 + …) 아래에 누가 · 언제 · 메모(한 줄 + …) · 딱지 · 단추는 오른쪽 */
+.bpl{flex-wrap:wrap;row-gap:6px}.bpl .r{white-space:nowrap}
 .rq-st{flex:none;font-size:13px;font-weight:800;padding:2px 9px;border-radius:999px;background:#2a2926;color:#a39c8e}.rq-st.on{background:#2a2318;color:var(--gold)}
 .rq-link{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:13px;color:#a39c8e}.rq-link button{font:inherit;color:var(--teal);font-weight:700;background:none;border:0;cursor:pointer;padding:0}
 .rq-f{display:grid;gap:12px}.rq-f label{display:grid;gap:6px;font-size:13px;color:#a39c8e;font-weight:700}.rq-f label .sub3{display:inline;margin-left:4px;font-weight:500}
@@ -3610,7 +3612,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '717';
+const BUILD = '719';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10311,7 +10313,7 @@ function 비품카드(){
     + '<em class="bp-st ' + ({ '구매 필요':'now', '곧':'soon' }[x['상태']] || '') + '">' + esc(비품쉼(x) ? '알림 쉼' : (x['상태'] || '')) + '</em></button>';
   if(요청오래됨() && !요청.중) setTimeout(요청받기, 0);
   const 열 = 열린요청();
-  return '<div class="tx-home one"><div class="sec"><div class="lbl">비품 ' + (열.length ? '<span class="tx-tag gold">요청 ' + 열.length + '</span> ' : '') + '<span class="tx-tag' + (필.length ? ' gold' : '') + '">구매 필요 ' + 필.length + '</span> <span class="tx-tag">곧 ' + 곧.length + '</span>'
+  return '<div class="tx-home one"><div class="sec"><div class="lbl bpl">비품 ' + (열.length ? '<span class="tx-tag gold">요청 ' + 열.length + '</span> ' : '') + '<span class="tx-tag' + (필.length ? ' gold' : '') + '">구매 필요 ' + 필.length + '</span> <span class="tx-tag">곧 ' + 곧.length + '</span>'
     + '<span class="r" data-act="tx:bplist2">전부 보기 ›</span></div>'
     + (열.length ? '<div class="rq-boss">' + 열.slice(0, 4).map(r => 요청줄(r, true)).join('') + '</div>' : '')
     + (목.length ? '<div class="bp-hl">' + 목.slice(0, 5).map(줄).join('') + '</div>' : '<div class="empty why"><b>주기를 잡은 비품이 아직 없습니다</b>「전부 보기」에서 주기 배우는 품목을 볼 수 있어요</div>') + '</div></div>';
@@ -10538,7 +10540,7 @@ const 당직날인가 = k => { if(당직쉼(k)) return false; const g = new Date
 const 당직순서 = () => { const 재 = (W.staff || []).filter(p => p.active !== false && p.name && !퇴사명().has(String(p.name).trim())), 있 = new Set(재.map(p => p.id));
   const o = ((W.duty || {}).ord || []).filter(id => 있.has(id)); return o.length ? o : 당직기본순서.map(n => (재.find(p => p.name === n) || {}).id).filter(Boolean); };
 async function 당직받기(){ try{ const r = await uget('tr_duty_conf?select=*&id=eq.main'); W.duty = (r && r[0]) || { id:'main', ord:[], off:[], hol:[] }; W.duty없음 = false; }catch(e){ W.duty = { id:'main', ord:[], off:[], hol:[] }; W.duty없음 = true; }
-  await 당직자동(); if(S.view === 'leave') render(); }
+  await 당직자동(); if(S.view === 'leave') render(); 당직표알림(); }
 async function 당직설정저장(바꿈, 말){ if(!await 묻기(말)) return false; const 줄 = Object.assign({ id:'main', ord:당직순서(), off:(W.duty || {}).off || [], hol:(W.duty || {}).hol || [] }, 바꿈, { by:나이름(), at:new Date().toISOString() });
   try{ await usend('tr_duty_conf?on_conflict=id', 'POST', [줄], 'resolution=merge-duplicates'); W.duty = 줄; 기록남기기({ area:'연월차', action:'수정', tbl:'tr_duty_conf', row_id:'main', detail:'당직 설정 — ' + 말.split(String.fromCharCode(10))[0] }); toast('저장했어요'); return true; }
   catch(e){ toast('저장하지 못했어요 — ' + (/tr_duty_conf|404|42P01/.test(String(e.message)) ? '서버 준비(85단계)가 아직이에요' : String(e.message || '').slice(0, 60))); return false; } }
@@ -10602,6 +10604,31 @@ async function 당직자동(){      /* 매달 20일부터 다음 달 당직을 �
   const y = t.getFullYear(), m = t.getMonth(), 머리 = y + '-' + String(m + 1).padStart(2, '0');
   if((W.leave || []).some(r => r.kind === '당직' && String(r.day || '').slice(0, 7) === 머리)) return;
   try{ const n = await 당직넣기(당직채울것(y, m)); if(n) toast((m + 1) + '월 당직을 순서대로 ' + n + '일 채웠어요'); }catch(e){ console.warn('당직 자동 —', e.message); } }
+/* 다음 달 당직표 팝업 — 2026-11-20 대표 「12월 당직표 나온 거 · 표 말고 표처럼 정리된 걸로 팝업 · 연월차 탭에서 확인 및 변경해 주세요 · 간결하게」 → 12:16 B안 작은 달력(선생님 색 · 「연월차로 이동 ›」)
+   20일부터는 다음 달 · 그 전엔 이번 달 · 사람마다 그 달 한 번 · 그 달에 당직이 없으면 안 뜸 · 내 날은 굵게 + 「나」 */
+function 당직표알림(강제){
+  if(진짜ME || !ME || !W.leave) return;
+  const t = new Date(TODAY + 'T12:00:00'); if(t.getDate() >= 20) t.setMonth(t.getMonth() + 1, 1);
+  const 머리 = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0'), 월 = t.getMonth() + 1;
+  const L = (W.leave || []).filter(r => r.kind === '당직' && r.status !== 'no' && String(r.day || '').slice(0, 7) === 머리).sort((a, b) => a.day < b.day ? -1 : 1); if(!L.length) return;
+  const 읽 = () => { try{ return localStorage.getItem('gg_duty_pop') || ''; }catch(e){ return ''; } };
+  if(!강제 && 읽() === 머리) return;
+  if($('#pop').classList.contains('on')){ 팝업차례('당직표', () => 당직표알림(강제)); return; } 팝업줄빼기('당직표');
+  try{ localStorage.setItem('gg_duty_pop', 머리); }catch(e){}
+  const 내것 = r => ME && r.staff_id === ME.id, 내수 = L.filter(내것).length;
+  const 이름칸 = r => { const n = 당직이름(r.staff_id), 칠 = n ? 사람색칠(n) : ''; return '<b class="dtn' + (칠 ? ' pc' : '') + '"' + (칠 ? ' style="' + 칠 + '"' : '') + '>' + esc(n || '(없음)') + '</b>'; };
+  const 달력 = () => { const y = t.getFullYear(), m = t.getMonth(), 첫 = new Date(y, m, 1), 끝 = new Date(y, m + 1, 0).getDate(), 칸 = [];
+    for(let i = 0; i < 첫.getDay(); i++) 칸.push('<div class="dtc-d dim"></div>');
+    for(let d = 1; d <= 끝; d++){ const k = 머리 + '-' + String(d).padStart(2, '0'), g = new Date(y, m, d).getDay(), 것 = L.filter(r => r.day === k), 쉼 = 당직쉼(k), 공 = 공휴일명(k);
+      칸.push('<div class="dtc-d' + (g === 0 ? ' sun' : g === 6 ? ' sat' : '') + (것.some(내것) ? ' me' : '') + '"><span class="n">' + d + '</span>' + (공 ? '<span class="h">' + esc(공) + '</span>' : 쉼 ? '<span class="h">' + esc(쉼) + '</span>' : '') + 것.map(이름칸).join('') + '</div>'); }
+    return '<div class="dtc">' + WDN.map((w, i) => '<div class="dtc-w' + (i === 0 ? ' sun' : i === 6 ? ' sat' : '') + '">' + w + '</div>').join('') + 칸.join('') + '</div>'; };
+  popOpen('<div class="ps-pop"><div class="ps-h hot">' + 월 + '월 당직표가 나왔습니다</div>'
+    + '<div class="sub3" style="margin-bottom:10px">' + (내수 ? '내 당직 ' + 내수 + '일 · ' : '') + '연월차 탭에서 확인 · 변경해 주세요</div>'
+    + 달력()      /* 2026-11-20 12:16 대표 B안 「달력」 — 연월차 달력 꼴을 작게 · 선생님 색 */
+    + '<div class="ps-foot"><button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:dtpgo" data-k="' + 머리 + '">연월차로 이동 ›</button></div></div>'); }
+/* 대청소 날 연차 · 월차 막기 — 2026-11-20 대표 「대청소 날에는 연차 / 월차 신청이 불가하게」 · 대표는 넣을 수 있음 */
+const 대청소걸림 = (day, end) => { if(!day) return ''; const 끝 = end && end > day ? end : day; return 대청소날(+day.slice(0, 4)).concat(대청소날(+끝.slice(0, 4))).find(x => x >= day && x <= 끝) || ''; };
+const 대청소연차막힘 = r => r && (r.kind === '연차' || r.kind === '월차') && !대표인가() ? 대청소걸림(r.day, r.day_end) : '';
 const 대청소날 = y => [3, 6, 9, 12].map(m => { const t = new Date(y, m - 1, 1); t.setDate(1 + (5 - t.getDay() + 7) % 7 + 14); return 날글(t); });
 const 다음대청소 = d => 대청소날(+d.slice(0, 4)).concat(대청소날(+d.slice(0, 4) + 1)).find(x => x >= d);
 const 대메모 = day => ((청소.대 || []).find(r => r.day === day) || {}).memo || '';
@@ -10612,12 +10639,13 @@ function 대청소알림(오늘){
   if($('#pop').classList.contains('on')){ 팝업차례('대청소', () => 대청소알림(오늘)); return; } 팝업줄빼기('대청소');
   const 날 = 다음대청소(오늘); if(!날) return;
   const 읽 = k => { try{ return localStorage.getItem(k) || ''; }catch(e){ return ''; } }, 씀 = (k, v) => { try{ localStorage.setItem(k, v); }catch(e){} };
-  const 그주 = 주안(오늘, 날), 그달 = 날.slice(0, 7) === 오늘.slice(0, 7);
+  const 칠 = 날더함(날, -7) === 오늘, 그주 = 주안(오늘, 날) || 칠, 그달 = 날.slice(0, 7) === 오늘.slice(0, 7);      /* 1주 전 · 전날 (2026-11-20 대표) — 전날은 그 주 안이라 매일 뜨는 데 들어 있다 */
   if(그주 ? 읽('gg_big_d') === 오늘 : (!그달 || 읽('gg_big_m') === 오늘.slice(0, 7))) return;
   씀('gg_big_m', 오늘.slice(0, 7)); if(그주) 씀('gg_big_d', 오늘);
   const 메 = 대메모(날);
-  popOpen('<div class="ps-pop"><div class="ps-h hot">' + (그주 ? (날 === 오늘 ? '오늘 14시 대청소입니다' : '이번 주 ' + 청소짧은날(날) + ' 14시 대청소입니다') : '이번 달 대청소 — ' + 청소짧은날(날) + ' 14시') + '</div>'
-    + '<div class="sub3" style="margin-bottom:8px">분기마다 셋째 금요일 · 모두 함께 해요</div>'
+  const 머 = 날 === 오늘 ? '오늘 14시 대청소입니다' : 날더함(오늘, 1) === 날 ? '내일 ' + 청소짧은날(날) + ' 14시 대청소입니다' : 칠 ? '다음 주 ' + 청소짧은날(날) + ' 14시 대청소입니다' : 그주 ? '이번 주 ' + 청소짧은날(날) + ' 14시 대청소입니다' : '이번 달 대청소 — ' + 청소짧은날(날) + ' 14시';
+  popOpen('<div class="ps-pop"><div class="ps-h hot">' + 머 + '</div>'
+    + '<div class="sub3" style="margin-bottom:8px">분기마다 셋째 금요일 · 모두 함께 해요 · 그날은 연차 · 월차 신청이 안 돼요</div>'
     + (메 ? '<div class="ps-note" style="white-space:pre-wrap">' + esc(메) + '</div>' : '<div class="sub3">아직 메모가 없습니다</div>')
     + '<div class="ps-foot"><button class="btn main" data-act="popclose">확인</button></div></div>');
 }
@@ -13906,6 +13934,7 @@ async function 새줄만들기(k, 덧){
   if(k === 'leave' && !몸.day) 몸.day = TODAY;
   if(k === 'leave' && 몸.kind === '당직' && 할수('leaveok')) 몸.status = 'ok';
   if(k === 'leave' && (W.leave || []).some(x => x.staff_id && x.staff_id === 몸.staff_id && x.day === 몸.day && x.status !== 'no')) return toast('오늘 연월차가 이미 있어요 — 그 줄의 날짜를 확인해 주세요');
+  if(k === 'leave' && 대청소연차막힘(몸)) return toast(청소짧은날(대청소연차막힘(몸)) + '은 대청소 날이라 연차 · 월차 신청이 안 돼요 — 다른 날짜로 해 주세요');
   if(k !== 'tasks') delete 몸.template;
   if(k === 'leads') 몸.extra = Object.assign({ s1: '대기' }, 몸.extra || {});      /* 새 상담 = 1차 발송상태 대기 (2026-10-28 노션 낮 · 중앙 /hook/lead 와 같게) */
   try{ const o = await usend(T2.table, 'POST', 몸, 'return=representation');
@@ -15948,6 +15977,7 @@ async function txSave(){
   if(key==='leave'){ if(!body.day_end) body.day_end = null; }
   if(key==='leave' && body.day && (W.leave || []).some(x => x.id !== id && x.staff_id && x.staff_id === body.staff_id && x.day === body.day && x.status !== 'no')){
     상태('같은 날 이미 들어가 있어요', true); toast('같은 선생님 · 같은 날 연월차가 이미 있어요 — 날짜를 수정해 주세요'); return; }      /* 겹친 줄 막음 (2026-10-26 대표 결정 off) */
+  if(key==='leave' && 대청소연차막힘(body)){ const 대 = 대청소연차막힘(body); 상태('대청소 날이라 안 돼요', true); toast(청소짧은날(대) + '은 대청소 날이라 연차 · 월차 신청이 안 돼요 — 다른 날짜로 해 주세요'); return; }      /* 2026-11-20 대표 */
   if(key==='tasks' && !body.due) body.due = null;
   try{
     if(id){ const r = await usend(T.table+'?id=eq.'+id, 'PATCH', body, 'return=representation');
@@ -19366,6 +19396,7 @@ async function txAct(a, el){
   if(a==='dtadd'){ 순서편 = (순서편 || 당직순서()).concat([k]); 당직순서판(); return; }
   if(a==='dtcancel'){ 순서편 = null; 당직순서판(); return; }
   if(a==='dtsave'){ if(!순서편 || !순서편.length){ toast('순서에 한 명 이상 있어야 해요'); return; } if(await 당직설정저장({ ord:순서편 }, '당직 순서를 저장할까요?' + String.fromCharCode(10) + 순서편.map((id, i) => (i + 1) + ' ' + ((사람(id) || {}).name || '')).join(' → '))){ 순서편 = null; } 당직순서판(); return; }
+  if(a==='dtpgo'){ popClose(); const [y, m] = String(k).split('-').map(Number), t = new Date(TODAY + 'T12:00:00'); 달력달 = (y - t.getFullYear()) * 12 + (m - 1 - t.getMonth()); 가기('leave'); return; }      /* 당직표 팝업 → 연월차 그 달 (11/20) */
   if(a==='dtfill'){ const t = new Date(TODAY); t.setDate(1); t.setMonth(t.getMonth() + 달력달); const 계획 = 당직채울것(t.getFullYear(), t.getMonth()); if(!계획.length) return;
     if(!await 묻기((t.getMonth() + 1) + '월 빈 당직 ' + 계획.length + '일을 순서대로 채울까요?' + String.fromCharCode(10) + 계획.slice(0, 6).map(x => x.day.slice(5).replace('-', '/') + ' ' + ((사람(x.staff_id) || {}).name || '')).join(' · ') + (계획.length > 6 ? ' …' : ''))) return;
     try{ await 당직넣기(계획); toast('채웠어요'); 당직순서판(); render(); }catch(e){ toast('채우지 못했어요 — ' + String(e.message || '').slice(0, 60)); } return; }
