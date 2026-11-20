@@ -2231,7 +2231,7 @@ body{word-break:keep-all}
 .ps-h{font-size:16px;font-weight:800;margin:6px 0 8px;color:var(--cream)}.ps-h.hot{color:var(--gold);font-size:18px}
 .ps-note{background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}
 .dtn{flex:none;font-size:13.5px;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--dark-3);color:var(--cream);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dtc{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--dark-2)}.dtc-w{font-size:12.5px;font-weight:800;color:var(--sub);text-align:center;padding:6px 0;background:#1a1917;border-bottom:1px solid var(--line)}.dtc-w.sun,.dtc-d.sun .n{color:#e8927c}.dtc-w.sat,.dtc-d.sat .n{color:#8fb8e8}.dtc-d{min-height:58px;min-width:0;padding:4px 5px;border-right:1px solid #2b2a27;border-bottom:1px solid #2b2a27;display:flex;flex-direction:column;gap:2px;align-items:flex-start}.dtc-d:nth-child(7n){border-right:0}.dtc-d .n{font-size:13px;font-weight:800;color:var(--cream)}.dtc-d .h{font-size:12px;color:var(--sub);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dtc-d .dtn{font-size:12.5px;padding:1px 6px}.dtc-d.me{background:rgba(240,211,160,.07)}
-.ps-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.ps-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap;align-items:center}.ps-ck{display:inline-flex;align-items:center;gap:8px;margin-right:auto;font:inherit;font-size:14px;font-weight:700;color:var(--sub);background:none;border:0;cursor:pointer;padding:6px 2px}.ps-ck i{width:20px;height:20px;flex:none;border-radius:5px;border:1.5px solid #8f887e;display:grid;place-items:center;font-style:normal}.ps-ck.on{color:var(--cream)}.ps-ck.on i{background:var(--cream);border-color:var(--cream)}.ps-ck.on i::after{content:'✓';color:#131312;font-size:13px;font-weight:900}
 .bp-row{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:baseline;background:var(--dark-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;font-size:14px}
 .bp-row b{font-weight:800}.bp-row span{color:#cfc7b8;font-size:13.5px}.bp-row em{font-style:normal;color:var(--gold);font-weight:800}.bp-row small{grid-column:1/-1;color:#8f887e;font-size:13px}.bp-row.dim b{color:#cfc7b8}
 .bp-row2{background:var(--dark-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:7px;font-size:14px}.bp-row2.dim{opacity:.85}
@@ -3612,7 +3612,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '719';
+const BUILD = '720';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8548,8 +8548,17 @@ async function 챗사진올리기(){ const 길 = [];
 async function 챗읽음(r){ 챗.읽[r] = new Date().toISOString(); try{ await usend('tr_chat_read?on_conflict=staff_id,room', 'POST', [{ staff_id:챗나(), room:r, at:챗.읽[r] }], 'resolution=merge-duplicates,return=minimal'); }catch(e){} }
 function 챗링크지금(){ const h = document.querySelector('#top h1'); return { view:S.view, title:(h ? h.innerText.trim() : 챗화면이름(S.view)) || 챗화면이름(S.view) }; }
 /* 전체방 공지 — 그날 한 번(사람마다 · 이 기기) · 끄면 안 뜸 */
+/* ══ 단순 알림 팝업 공통 ══ 2026-11-20 12:33 대표 「단순 알림 팝업은 모두 동일하게 · 기간 정함이 없는 팝업은 기본이 하루 내내 · 체크박스 눌러야 안 뜨게 · 누르고 닫기해야 안 뜨게」
+   대상 4 = 당직표 · 대청소 · 오늘 공지 · 새 요청 · 버그. 처리하면 사라지는 팝업(매출 · 확인할 매출 · 기록 안 한 수업 · 새 담당 · 예상 매출 · 돌아보기 · 비품 · 비품 요청 · 대신 청소)은 제 규칙 그대로
+   새로고침(화면을 새로 연 것) 한 번에 한 번 뜬다 · 「오늘 하루 안 보기」 체크 = 이 기기에서 그날 그 내용만 쉼(새 공지 · 새 요청은 또 뜸) · 체크를 풀면 다시 뜸 */
+const 알림이번 = new Set();
+const 알림쉼읽기 = 이름 => { try{ const x = JSON.parse(localStorage.getItem('gg_off_' + 이름) || '{}'); return x.d === TODAY ? (x.v || []) : []; }catch(e){ return []; } };
+const 알림볼것 = (이름, 값) => !알림쉼읽기(이름).includes(String(값)) && !알림이번.has(이름 + '|' + 값);
+const 알림봄 = (이름, 값들) => 값들.forEach(v => 알림이번.add(이름 + '|' + v));
+function 알림쉼쓰기(이름, 값들, 켬){ const 옛 = 알림쉼읽기(이름), 값 = 값들.map(String), 새 = 켬 ? [...new Set(옛.concat(값))] : 옛.filter(v => !값.includes(v));
+  try{ localStorage.setItem('gg_off_' + 이름, JSON.stringify({ d:TODAY, v:새.slice(-300) })); }catch(e){} }
+const 알림쉼칸 = (이름, 값들) => '<button class="ps-ck" data-act="tx:popoff" data-k="' + esc(이름) + '" data-v2="' + esc(값들.join(',')) + '" role="checkbox" aria-checked="false"><i></i>오늘 하루 안 보기</button>';
 /* 새 요청 · 버그 팝업 — 대표 화면에만 · 「받음」인 것 한 번씩 · 「6번에 보내기」 = 6번 방에 붙여 넣을 글 복사 (2026-11-19 17:08 대표 「2번해」 — 데스크 안에서 자동으로 고치지 않고 6번 방이 고친다) */
-const 요청6본 = () => { try{ return JSON.parse(localStorage.getItem('gg_req_seen') || '[]') || []; }catch(e){ return []; } };
 function 요청6글(x){ const d = new Date(x.created_at), 때 = isNaN(d) ? '' : (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
   return ['[데스크 ' + (x.kind || '요청') + '] ' + 때 + ' · ' + (x.staff_name || ''), '제목: ' + (x.title || ''), '내용: ' + (x.body || '')]
     .concat((x.files || []).length ? ['사진 ' + x.files.length + '장'] : [], x.link ? ['보던 화면: ' + (x.link.title || x.link.view || '')] : [], ['번호: ' + x.id, '→ 6번 방: 확인하고 고친 뒤 이 요청에 답을 달고 「끝남」으로 해 주세요']).join(String.fromCharCode(10)); }
@@ -8557,19 +8566,16 @@ async function 요청6복사(id){ const x = (챗.요청 || []).find(z => String(
   const 글 = 요청6글(x), 됨 = () => toast('복사했어요 · 6번 방에 붙여 넣어 주세요');
   try{ await navigator.clipboard.writeText(글); 됨(); }catch(e){ const t = document.createElement('textarea'); t.value = 글; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); 됨(); }catch(e2){ toast('복사가 안 됐어요'); } t.remove(); } }
 function 챗요청띄우기(){ if(챗.없음 || 진짜ME || !ME || !대표인가()) return;
-  const 본 = 요청6본(), 새 = (챗.요청 || []).filter(x => x.status === '받음' && !본.includes(x.id)); if(!새.length) return;
-  try{ localStorage.setItem('gg_req_seen', JSON.stringify(본.concat(새.map(x => x.id)).slice(-300))); }catch(e){}
+  const 새 = (챗.요청 || []).filter(x => x.status === '받음' && 알림볼것('요청버그', x.id)); if(!새.length) return; 알림봄('요청버그', 새.map(x => x.id));      /* 단순 알림 — 새로고침마다 · 오늘 하루 안 보기 (11/20) */
   팝업차례('요청버그', () => popOpen('<div class="ps-pop"><div class="ps-h">🛠 새 요청 · 버그 ' + 새.length + '</div>'
     + 새.map(x => '<div class="gc-ntcp rq6"><b><span class="tag' + (x.kind === '버그' ? ' warn' : '') + '">' + esc(x.kind || '요청') + '</span> ' + esc(x.title || '(제목 없음)') + '</b><small>' + esc(보임이름(x.staff_name || '')) + ' · ' + 챗때(x.created_at) + ((x.files || []).length ? ' · 사진 ' + x.files.length + '장' : '') + '</small><p>' + esc(x.body || '') + '</p>'
       + '<button class="btn gold sm" data-act="tx:gcr6" data-k="' + esc(x.id) + '">6번에 보내기</button></div>').join('')
-    + '<div class="ps-foot"><button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcreqgo">요청 · 버그 열기</button></div></div>'));
+    + '<div class="ps-foot">' + 알림쉼칸('요청버그', 새.map(x => x.id)) + '<button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcreqgo">요청 · 버그 열기</button></div></div>'));
   if(!$('#pop').classList.contains('on')) 팝업다음(); }
 function 챗공지띄우기(){ if(챗.없음 || 챗설정.공지 === false || 진짜ME) return;
-  const 본 = (() => { try{ const x = JSON.parse(localStorage.getItem('gg_chat_ntc') || '{}'); return x.d === TODAY ? x.ids || [] : []; }catch(e){ return []; } })();
-  const 새 = 챗.글.filter(m => m.room === 'all' && m.notice && 서울날(m.created_at) === TODAY && !본.includes(m.id) && m.sender !== 챗나());
-  if(!새.length) return;
-  try{ localStorage.setItem('gg_chat_ntc', JSON.stringify({ d:TODAY, ids:본.concat(새.map(m => m.id)) })); }catch(e){}
-  팝업차례('채팅공지', () => popOpen('<div class="ps-pop"><div class="ps-h">📢 오늘 공지</div>' + 새.map(m => '<div class="gc-ntcp"><b>' + esc(보임이름(m.sender_name || '')) + '</b> · ' + 챗때(m.created_at) + '<p>' + esc(m.body || '') + '</p></div>').join('') + '<div class="ps-foot"><button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcntcgo">전체방 열기</button></div></div>'));
+  const 새 = 챗.글.filter(m => m.room === 'all' && m.notice && 서울날(m.created_at) === TODAY && m.sender !== 챗나() && 알림볼것('채팅공지', m.id));      /* 단순 알림 — 새로고침마다 · 오늘 하루 안 보기 (11/20) */
+  if(!새.length) return; 알림봄('채팅공지', 새.map(m => m.id));
+  팝업차례('채팅공지', () => popOpen('<div class="ps-pop"><div class="ps-h">📢 오늘 공지</div>' + 새.map(m => '<div class="gc-ntcp"><b>' + esc(보임이름(m.sender_name || '')) + '</b> · ' + 챗때(m.created_at) + '<p>' + esc(m.body || '') + '</p></div>').join('') + '<div class="ps-foot">' + 알림쉼칸('채팅공지', 새.map(m => m.id)) + '<button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcntcgo">전체방 열기</button></div></div>'));
   if(!$('#pop').classList.contains('on')) 팝업다음(); }
 document.addEventListener('focusout', ev => { const el = document.getElementById('gchat'); if(!el || !챗.미룸) return; setTimeout(() => { if(!(document.activeElement && el.contains(document.activeElement) && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName))) 챗그리기(true); }, 50); });
 document.addEventListener('input', ev => { const t = ev.target; if(t && t.id === 'fcs-t'){ 배정.일정글 = t.value; return; } if(t && t.classList && t.classList.contains('fcs-sel')){ 일정칸바꿈(t); return; } if(!t || !챗.새요청) return; if(t.id === 'gcrt') 챗.새요청.title = t.value; else if(t.id === 'gcrb') 챗.새요청.body = t.value; });      /* 요청 · 버그 초안은 쓰는 대로 담음 */
@@ -10605,16 +10611,15 @@ async function 당직자동(){      /* 매달 20일부터 다음 달 당직을 �
   if((W.leave || []).some(r => r.kind === '당직' && String(r.day || '').slice(0, 7) === 머리)) return;
   try{ const n = await 당직넣기(당직채울것(y, m)); if(n) toast((m + 1) + '월 당직을 순서대로 ' + n + '일 채웠어요'); }catch(e){ console.warn('당직 자동 —', e.message); } }
 /* 다음 달 당직표 팝업 — 2026-11-20 대표 「12월 당직표 나온 거 · 표 말고 표처럼 정리된 걸로 팝업 · 연월차 탭에서 확인 및 변경해 주세요 · 간결하게」 → 12:16 B안 작은 달력(선생님 색 · 「연월차로 이동 ›」)
-   20일부터는 다음 달 · 그 전엔 이번 달 · 사람마다 그 달 한 번 · 그 달에 당직이 없으면 안 뜸 · 내 날은 굵게 + 「나」 */
+   20일부터 그 달 끝까지 다음 달 표 · 단순 알림 = 새로고침마다 · 「오늘 하루 안 보기」(11/20 12:33) · 그 달에 당직이 없으면 안 뜸 */
 function 당직표알림(강제){
   if(진짜ME || !ME || !W.leave) return;
-  const t = new Date(TODAY + 'T12:00:00'); if(t.getDate() >= 20) t.setMonth(t.getMonth() + 1, 1);
+  const t = new Date(TODAY + 'T12:00:00'); if(!강제 && t.getDate() < 20) return; if(t.getDate() >= 20) t.setMonth(t.getMonth() + 1, 1);
   const 머리 = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0'), 월 = t.getMonth() + 1;
   const L = (W.leave || []).filter(r => r.kind === '당직' && r.status !== 'no' && String(r.day || '').slice(0, 7) === 머리).sort((a, b) => a.day < b.day ? -1 : 1); if(!L.length) return;
-  const 읽 = () => { try{ return localStorage.getItem('gg_duty_pop') || ''; }catch(e){ return ''; } };
-  if(!강제 && 읽() === 머리) return;
+  if(!강제 && !알림볼것('당직표', 머리)) return;
   if($('#pop').classList.contains('on')){ 팝업차례('당직표', () => 당직표알림(강제)); return; } 팝업줄빼기('당직표');
-  try{ localStorage.setItem('gg_duty_pop', 머리); }catch(e){}
+  알림봄('당직표', [머리]);
   const 내것 = r => ME && r.staff_id === ME.id, 내수 = L.filter(내것).length;
   const 이름칸 = r => { const n = 당직이름(r.staff_id), 칠 = n ? 사람색칠(n) : ''; return '<b class="dtn' + (칠 ? ' pc' : '') + '"' + (칠 ? ' style="' + 칠 + '"' : '') + '>' + esc(n || '(없음)') + '</b>'; };
   const 달력 = () => { const y = t.getFullYear(), m = t.getMonth(), 첫 = new Date(y, m, 1), 끝 = new Date(y, m + 1, 0).getDate(), 칸 = [];
@@ -10625,7 +10630,7 @@ function 당직표알림(강제){
   popOpen('<div class="ps-pop"><div class="ps-h hot">' + 월 + '월 당직표가 나왔습니다</div>'
     + '<div class="sub3" style="margin-bottom:10px">' + (내수 ? '내 당직 ' + 내수 + '일 · ' : '') + '연월차 탭에서 확인 · 변경해 주세요</div>'
     + 달력()      /* 2026-11-20 12:16 대표 B안 「달력」 — 연월차 달력 꼴을 작게 · 선생님 색 */
-    + '<div class="ps-foot"><button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:dtpgo" data-k="' + 머리 + '">연월차로 이동 ›</button></div></div>'); }
+    + '<div class="ps-foot">' + 알림쉼칸('당직표', [머리]) + '<button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:dtpgo" data-k="' + 머리 + '">연월차로 이동 ›</button></div></div>'); }
 /* 대청소 날 연차 · 월차 막기 — 2026-11-20 대표 「대청소 날에는 연차 / 월차 신청이 불가하게」 · 대표는 넣을 수 있음 */
 const 대청소걸림 = (day, end) => { if(!day) return ''; const 끝 = end && end > day ? end : day; return 대청소날(+day.slice(0, 4)).concat(대청소날(+끝.slice(0, 4))).find(x => x >= day && x <= 끝) || ''; };
 const 대청소연차막힘 = r => r && (r.kind === '연차' || r.kind === '월차') && !대표인가() ? 대청소걸림(r.day, r.day_end) : '';
@@ -10640,14 +10645,15 @@ function 대청소알림(오늘){
   const 날 = 다음대청소(오늘); if(!날) return;
   const 읽 = k => { try{ return localStorage.getItem(k) || ''; }catch(e){ return ''; } }, 씀 = (k, v) => { try{ localStorage.setItem(k, v); }catch(e){} };
   const 칠 = 날더함(날, -7) === 오늘, 그주 = 주안(오늘, 날) || 칠, 그달 = 날.slice(0, 7) === 오늘.slice(0, 7);      /* 1주 전 · 전날 (2026-11-20 대표) — 전날은 그 주 안이라 매일 뜨는 데 들어 있다 */
-  if(그주 ? 읽('gg_big_d') === 오늘 : (!그달 || 읽('gg_big_m') === 오늘.slice(0, 7))) return;
-  씀('gg_big_m', 오늘.slice(0, 7)); if(그주) 씀('gg_big_d', 오늘);
+  let 첫 = 읽('gg_big_m'); if(그달 && 첫.slice(0, 7) !== 오늘.slice(0, 7)){ 첫 = 오늘.slice(0, 7) + '|' + 오늘; 씀('gg_big_m', 첫); }      /* 그 달 처음 연 날을 기억 — 그날은 하루 내내 */
+  if(!(그주 || (그달 && 첫.split('|')[1] === 오늘))) return;
+  if(!알림볼것('대청소', 날) || 알림이번.has('대청소@' + 오늘)) return; 알림이번.add('대청소@' + 오늘);      /* 단순 알림 — 새로고침마다 · 오늘 하루 안 보기 (11/20 12:33) */
   const 메 = 대메모(날);
   const 머 = 날 === 오늘 ? '오늘 14시 대청소입니다' : 날더함(오늘, 1) === 날 ? '내일 ' + 청소짧은날(날) + ' 14시 대청소입니다' : 칠 ? '다음 주 ' + 청소짧은날(날) + ' 14시 대청소입니다' : 그주 ? '이번 주 ' + 청소짧은날(날) + ' 14시 대청소입니다' : '이번 달 대청소 — ' + 청소짧은날(날) + ' 14시';
   popOpen('<div class="ps-pop"><div class="ps-h hot">' + 머 + '</div>'
     + '<div class="sub3" style="margin-bottom:8px">분기마다 셋째 금요일 · 모두 함께 해요 · 그날은 연차 · 월차 신청이 안 돼요</div>'
     + (메 ? '<div class="ps-note" style="white-space:pre-wrap">' + esc(메) + '</div>' : '<div class="sub3">아직 메모가 없습니다</div>')
-    + '<div class="ps-foot"><button class="btn main" data-act="popclose">확인</button></div></div>');
+    + '<div class="ps-foot">' + 알림쉼칸('대청소', [날]) + '<button class="btn main" data-act="popclose">확인</button></div></div>');
 }
 /* 홈 「오늘 내 청소」 — 체크박스만 (누른 시각은 안 보인다) */
 function 청소카드(){
@@ -19396,6 +19402,7 @@ async function txAct(a, el){
   if(a==='dtadd'){ 순서편 = (순서편 || 당직순서()).concat([k]); 당직순서판(); return; }
   if(a==='dtcancel'){ 순서편 = null; 당직순서판(); return; }
   if(a==='dtsave'){ if(!순서편 || !순서편.length){ toast('순서에 한 명 이상 있어야 해요'); return; } if(await 당직설정저장({ ord:순서편 }, '당직 순서를 저장할까요?' + String.fromCharCode(10) + 순서편.map((id, i) => (i + 1) + ' ' + ((사람(id) || {}).name || '')).join(' → '))){ 순서편 = null; } 당직순서판(); return; }
+  if(a==='popoff'){ const 켬 = !el.classList.contains('on'); el.classList.toggle('on', 켬); el.setAttribute('aria-checked', 켬 ? 'true' : 'false'); 알림쉼쓰기(String(k || ''), String(v2 || '').split(',').filter(Boolean), 켬); return; }      /* 오늘 하루 안 보기 (11/20) */
   if(a==='dtpgo'){ popClose(); const [y, m] = String(k).split('-').map(Number), t = new Date(TODAY + 'T12:00:00'); 달력달 = (y - t.getFullYear()) * 12 + (m - 1 - t.getMonth()); 가기('leave'); return; }      /* 당직표 팝업 → 연월차 그 달 (11/20) */
   if(a==='dtfill'){ const t = new Date(TODAY); t.setDate(1); t.setMonth(t.getMonth() + 달력달); const 계획 = 당직채울것(t.getFullYear(), t.getMonth()); if(!계획.length) return;
     if(!await 묻기((t.getMonth() + 1) + '월 빈 당직 ' + 계획.length + '일을 순서대로 채울까요?' + String.fromCharCode(10) + 계획.slice(0, 6).map(x => x.day.slice(5).replace('-', '/') + ' ' + ((사람(x.staff_id) || {}).name || '')).join(' · ') + (계획.length > 6 ? ' …' : ''))) return;
