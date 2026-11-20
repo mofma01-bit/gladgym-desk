@@ -2262,7 +2262,7 @@ body{word-break:keep-all}
 .cl-miss b{font-weight:800}.cl-miss small{grid-column:1/-1;color:#8f887e;font-size:13px}
 .cl-ed{display:grid;gap:8px}.cl-ed label{display:grid;gap:4px;font-size:13px;color:#a39c8e}.cl-days{display:flex;gap:4px;flex-wrap:wrap}
 .cl-days button{min-width:34px;height:32px;border-radius:8px;border:1px solid var(--line);background:#1f1d1a;color:#cfc7b8;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.cl-days button.on{background:var(--gold);border-color:var(--gold);color:#16130c}
-.hm{background:var(--dark-2);border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 14px;max-width:880px}
+.hm{background:var(--dark-2);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0 0;max-width:880px}
 .hm svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .hm-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}.hm-hd .ic{width:34px;height:34px;border-radius:10px;background:var(--gold-dim);color:var(--gold);display:grid;place-items:center}.hm-hd b{font-size:17px;font-weight:800}.hm-hd .btn{margin-left:auto;width:auto;display:inline-flex;align-items:center;gap:7px}
 .hm-t{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:10px;align-items:start}@media (max-width:700px){.hm-t{grid-template-columns:1fr}}
@@ -3546,7 +3546,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
       칼로리 계산기</button>
     <button class="nav" data-v="leave">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15h3"/></svg>
-      휴무</button>
+      당직/휴무</button>
     <div style="height:1px;background:var(--line);margin:8px 6px"></div>
     <button class="nav navbig" data-v="lesson"><b>✍ 수업 기록</b><small>오늘 수업 · 피드백 · 루틴 · 리포트</small><span class="bdg" id="lsbdg" style="display:none"></span></button>
     <button class="nav" data-v="members">
@@ -3620,7 +3620,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '723';
+const BUILD = '724';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -3825,7 +3825,7 @@ const 권한줄 = [
   ['메뉴', 'manual', '매뉴얼', '', [1, 1, 1, 1, 1]],      /* 2026-10-26 대표 결정 n2 — 모두 읽기 · 고치기는 표 관리 권한 */      /* 2026-10-26 대표 결정 n4 — 처음은 관리자 · 권한 설정에서 바꿈 */
   ['메뉴', 'assign', 'TG · 체험 배정', '', [1, 1, 1, 0, 1]],
   ['메뉴', 'kcal', '칼로리 계산기', '', [1, 1, 1, 0, 1]],
-  ['메뉴', 'leave', '휴무', '', [1, 1, 1, 0, 1]],
+  ['메뉴', 'leave', '당직/휴무', '', [1, 1, 1, 0, 1]],
   ['메뉴', 'members', '회원', '', [1, 1, 1, 1, 0]],      /* FC 는 회원 탭 없음 (2026-10-30 결정함 d1029_fctab nomember · 권한 표도 꺼짐) */
   ['메뉴', 'check', '점검', '', [1, 1, 1, 0, 0]],
   ['메뉴', 'cmall', '피드백', '', [1, 1, 1, 1, 0]],
@@ -13054,7 +13054,7 @@ const 표정의 = {
       오른쪽: 아바타들(r.counselors), 체크:'done' }),
   },
   leave: {
-    table:'tr_leave', 제목:'휴무', 사람열:'staff_id', 제목열:'kind',      /* 화면 낱말 = 휴무 (11/20 대표 「연차 · 월차 · 휴가 낱말을 쓰지 말아 줘」) */
+    table:'tr_leave', 제목:'당직/휴무', 사람열:'staff_id', 제목열:'kind',      /* 화면 낱말 = 휴무 (11/20 대표 「연차 · 월차 · 휴가 낱말을 쓰지 말아 줘」) */
     열:[
       {k:'staff_id', 이름:'신청인', 타입:'person', 관리자만:'leaveok'},
       {k:'kind',     이름:'유형',   타입:'select', 옵션:['연차','월차','반차','OFF','여름휴가','당직','당직 교체','예비군','민방위','기타사유'], 기본:'연차', 표시:{ 연차:'휴무', 월차:'휴무(매월)', 반차:'반일 휴무', 여름휴가:'여름휴무', 기타사유:'기타 · 특별 휴무' }},
@@ -13503,7 +13503,7 @@ function txTools(key){
     + '<button class="tx-ib" data-act="tx:vset" data-k="'+key+'" title="보기 설정"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>'
     + '<button class="btn gold sm" data-act="tx:new" data-k="'+key+'">＋ 새로 만들기 ▾</button></div>';
 }
-function txList(key){ return (key === 'leave' ? 휴위() : '') + '<div class="tx-db">' + txList0(key) + '</div>'; }      /* 휴무 탭 맨 위 = 내 휴무 · 선생님 휴무 (11/20) · 표 전체 외곽선 (2026-10-26) */
+function txList(key){ return '<div class="tx-db">' + txList0(key) + '</div>' + (key === 'leave' ? 휴위() : ''); }      /* 당직표 · 목록이 위 · 새로 생긴 휴무 칸(내 휴무 · 선생님 휴무)은 아래 (11/20 17:56 대표 「당직표를 원래대로 위로 · 새로 생긴 걸 하단에」) · 표 전체 외곽선 (2026-10-26) */
 function txList0(key){
   const T = 표정의[key], st = 표상태[key];
   const 목록 = 보기들(key), 보임 = 목록.filter(x => !x.숨김);
