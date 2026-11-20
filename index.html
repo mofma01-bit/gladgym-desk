@@ -3612,7 +3612,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '720';
+const BUILD = '721';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -13516,6 +13516,7 @@ function 매거름(L){ const q = 강의.q.trim().toLowerCase(); return !q ? L : 
 function v매뉴얼(){
   if(강의.탭 === '과정') return 과정보기(강의.과정);
   if(강의.탭 === '현황' && 할수('table')) return 수강현황();
+  교육미리();
   const 관 = 할수('table'), 목 = 매목(), 과 = 과정들().map(c => Object.assign({}, c, { L2: 매거름(c.L) })).filter(c => !강의.q.trim() || c.L2.length || c.이름.toLowerCase().includes(강의.q.trim().toLowerCase()));
   const 문 = 매거름(목.filter(r => !매교육(r))).filter(r => 강의.칩 === '전체' || 강의.칩 === '교육' ? true : (r.part || '기타') === 강의.칩).sort((a, b) => (매필수(b) - 매필수(a)) || (매갈래.indexOf(a.part || '기타') - 매갈래.indexOf(b.part || '기타')) || String(a.title || '').localeCompare(String(b.title || ''), 'ko'));      /* 필수 먼저 · 갈래 차례 · 제목 */
   const 칩들 = ['전체', '교육'].concat(매갈래.filter(p => 목.some(r => !매교육(r) && (r.part || '기타') === p)));
@@ -13569,7 +13570,7 @@ function 과정보기(키){
   const 차례 = c.L; 강의.ids = 차례.map(r => r.id);
   if(!차례.some(r => r.id === 강의.id)) 강의.id = (차례.find(r => !강의읽음(r.id)) || 차례[0]).id;
   const i = 차례.findIndex(r => r.id === 강의.id), r = 차례[i], 끝 = i >= 차례.length - 1, y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = [];
-  (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = 서명채움(길, () => 과정보기(키));
+  (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = 서명채움(길, () => { if(S.view === 'manual' && 강의.탭 === '과정' && 강의.과정 === 키 && !강의.표편집) render(); });      /* 받으면 바로 다시 그린다 — 옛 꼴은 글만 만들고 버려 「불러오는 중」에 멈췄다 (11/20) */
   const 왼 = '<div class="lc-side"><div class="lc-ct"><b>' + esc(c.이름) + '</b><small>' + c.다 + ' / ' + 차례.length + ' 완료</small></div>' + 매진도(c.다, 차례.length)
     + 차례.map((x, j) => '<button class="lc-it' + (x.id === 강의.id ? ' on' : '') + '" data-act="tx:lec" data-id="' + esc(x.id) + '"><span class="no">' + (j + 1) + '</span><span class="t">' + esc(x.title || '(제목 없음)') + '<small>' + 매종류(x) + (매필수(x) ? ' · 필수' : '') + '</small></span>' + (강의읽음(x.id) ? '<span class="c">완료</span>' : '') + '</button>').join('') + '</div>';
   const 봄 = 강의다봄(r), 다음 = 끝 ? '' : ' · 다음 ›';
@@ -13610,10 +13611,13 @@ window.addEventListener('message', e => { if(!/youtube\.com$/.test(String(e.orig
 document.addEventListener('ended', e => { const v = e.target; if(!v || v.tagName !== 'VIDEO') return; const m = v.closest('.lc-main[data-lid]'); if(!m) return;
   const r = (W.manual || []).find(x => x.id === m.dataset.lid), 앞 = r && 유튜브id(r.video) ? 1 : 0; 강의끝(m.dataset.lid, 앞 + [...m.querySelectorAll('video')].indexOf(v)); }, true);
 /* 매뉴얼 문서 — 옆 판에서 바로 읽기 */
-function 매뉴얼문서판(id){ const r = (W.manual || []).find(x => x.id === id); if(!r) return;
+function 매뉴얼문서판(id, 다시){ const r = (W.manual || []).find(x => x.id === id); if(!r) return;
   if(매교육(r)){ 강의.탭 = '과정'; 강의.과정 = (r.course || '').trim() || 단편키(r); 강의.id = id; if(S.view !== 'manual') 가기('manual'); else render(); return; }
-  const y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = []; (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); const urls = 서명채움(길, () => 매뉴얼문서판(id));
-  판열기(esc(r.title || '(제목 없음)') + ' <span class="who3">' + esc(r.part || '기타') + ' · ' + 매종류(r) + '</span>',
+  const y = 유튜브id(r.video), bs = 블록읽기(r.body), 길 = []; (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(bs); 
+  const 머리 = esc(r.title || '(제목 없음)') + ' <span class="who3">' + esc(r.part || '기타') + ' · ' + 매종류(r) + '</span>';
+  if(다시 && !($('#pop').classList.contains('on') && 판머리 === 머리)) return;      /* 주소를 받는 사이 판을 닫았으면 다시 열지 않는다 (11/20) */
+  const urls = 서명채움(길, () => 매뉴얼문서판(id, true));
+  판열기(머리,
     (y ? '<div class="lc-vid"><iframe src="https://www.youtube.com/embed/' + y + '?rel=0" title="' + esc(r.title || '') + '" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' : r.video ? '<a class="btn ghost sm lc-link" href="' + esc(r.video) + '" target="_blank" rel="noopener">링크 열기 ↗</a>' : '')
     + (bs.length ? '<div class="tx-sec">' + 블록들(bs, false, urls) + '</div>' : '') + 매뉴얼읽음칸(r)
     + (할수('table') ? '<div class="l1row" style="margin-top:10px"><button class="btn ed sm" data-act="tx:open" data-k="manual" data-id="' + esc(r.id) + '">수정</button></div>' : '')); }
@@ -14748,13 +14752,37 @@ const 파일종류 = f => /^image\//.test(f.type||'') ? 'img' : /^video\//.test(
 /* ── 비공개 저장소 `tr` ── 주소만으로는 안 열린다. 로그인 토큰으로 1시간짜리 서명 주소를 받는다 (2026-09-08 대표 지시) */
 const 서명캐시 = {};   /* path → {url, exp} */
 /* 매뉴얼 · 글 블록 첨부 = tr(데스크가 올린 것) · media(중앙이 올린 것) 둘 다 잠김 → 서명 주소로만 열린다. 읽기 화면이 media 공개 주소를 만들어 「Bucket not found」(2026-11-03 대표 「환불계산기 다운로드가 안됨」) */
-const 서명실패 = {};
-function 서명채움(길, 다시){ const urls = {}, 없 = [];
-  길.forEach(p => { const c = 서명캐시[p]; if(c && c.exp > Date.now()) urls[p] = c.url; else if(서명실패[p]) urls[p] = ''; else 없.push(p); });
-  if(없.length) 서명주소들(없).then(async u => { const 남 = 없.filter((p, i) => !u[i]);      /* tr 에 없으면 media(잠김 · 중앙이 올린 첨부) 서명 */
-    if(남.length){ try{ await 주소받기(남); }catch(e){} 남.forEach(p => { if(SIGNED[p]) 서명캐시[p] = { url:SIGNED[p], exp:Date.now() + 50 * 60 * 1000 }; else 서명실패[p] = 1; }); }
-    다시(); });
+/* 2026-11-20 14:15 대표 「교육자료가 무한로딩 · 새로고침을 몇 번 해야 나온다 · 수강완료를 눌러야 나온다」
+   옛 꼴 = tr 에 묻고 → 없으면 media 에 또 묻고(두 번 왕복) → 한 번 삐끗하면 새로고침 전까지 「열 수 없음」 · 받고 나서 강의 화면을 다시 안 그려 「불러오는 중」에 멈춤
+   새 꼴 = 두 통을 같이 물음 · 못 닿으면 1.5 · 3초 뒤 다시 · 그래도 안 되면 15초마다 스스로 다시(화면은 「불러오는 중」) · 두 통이 다 「없음」이라고 답한 것만 「열 수 없음」(1분 뒤 다시 물어 봄) */
+const 서명실패 = {};      /* path → 거절된 때 */
+const 서명쉼 = {};        /* path → 이때까지 안 묻는다 (못 닿음) */
+async function 서명한통(통, paths){      /* → { path: 주소 | '' } · 못 닿으면 null */
+  try{ const t = await 토큰();      /* 오래 켜 둔 데스크 = 여기서 로그인 값을 새로 받는다 */
+    const r = await 연결fetch(SB_URL + '/storage/v1/object/sign/' + 통, { method:'POST', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t, 'Content-Type':'application/json' }, body: JSON.stringify({ expiresIn: 3600, paths }) }, false, 8000);
+    const o = {}; paths.forEach(p => { o[p] = ''; });
+    if(!r.ok) return r.status >= 500 || r.status === 401 || r.status === 408 || r.status === 429 ? null : o;
+    ((await r.json()) || []).forEach(x => { if(x && x.signedURL && !x.error) o[x.path] = SB_URL + '/storage/v1' + x.signedURL; }); return o;
+  }catch(e){ return null; } }
+async function 서명받기(없){ const s3 = 없.filter(S3키), s3일 = s3.length ? 주소받기(s3).catch(() => {}) : null; let 남 = 없.filter(p => !S3키(p));
+  for(let n = 0; n < 3 && 남.length; n++){ if(n) await new Promise(z => setTimeout(z, 1500 * n));
+    const [a, b] = await Promise.all([서명한통('tr', 남), 서명한통('media', 남)]);
+    남 = 남.filter(p => { const u = (a && a[p]) || (b && b[p]);
+      if(u){ 서명캐시[p] = { url:u, exp: Date.now() + 50 * 60 * 1000 }; delete 서명실패[p]; delete 서명쉼[p]; if(!(a && a[p])){ SIGNED[p] = u; 서명만료[p] = Date.now() + (서명유효 - 300) * 1000; } return false; }
+      if(a && b){ 서명실패[p] = Date.now(); return false; }      /* 두 통 다 「없음」 */
+      return true; }); }
+  남.forEach(p => { 서명쉼[p] = Date.now() + 15000; });
+  if(s3일){ await s3일; s3.forEach(p => { if(SIGNED[p]) 서명캐시[p] = { url:SIGNED[p], exp: Date.now() + 50 * 60 * 1000 }; else 서명실패[p] = Date.now(); }); }
+  return 남.length; }
+function 서명채움(길, 다시){ const urls = {}, 없 = [], 지금 = Date.now();
+  길.forEach(p => { const c = 서명캐시[p]; if(c && c.exp > 지금) urls[p] = c.url; else if(서명실패[p] && 지금 - 서명실패[p] < 60000) urls[p] = ''; else if((서명쉼[p] || 0) <= 지금) 없.push(p); });
+  if(없.length) 연결묶기('서명|' + 없.join('|'), () => 서명받기(없)).then(남 => { 다시(); if(남) setTimeout(다시, 15500); }).catch(() => {});      /* 같은 것을 묻는 중이면 그 답을 같이 쓴다 */
   return urls; }
+/* 매뉴얼을 열 때 교육 영상 · 첨부 주소를 미리 받아 둔다 — 강좌를 누르면 기다림 없이 (10분에 한 번) */
+let 교육미리때 = 0;
+function 교육미리(){ if(Date.now() - 교육미리때 < 10 * 60 * 1000) return; const 길 = [];
+  과정들().forEach(c => c.L.forEach(r => (function 모(a){ (a || []).forEach(b => { if(b.path) 길.push(b.path); if(b.c) 모(b.c); }); })(블록읽기(r.body))));
+  if(!길.length) return; 교육미리때 = Date.now(); 서명채움([...new Set(길)], () => {}); }
 async function 서명주소들(paths){
   const 필요 = paths.filter(p => !(서명캐시[p] && 서명캐시[p].exp > Date.now()));
   if(필요.length){
@@ -15561,7 +15589,7 @@ function 블록칸(b, i, 편집, urls, 번호){
     속 = !b.path || u === undefined ? '<div class="tx-med wait"><i class="gring"></i>불러오는 중…</div>'
       : !u ? '<div class="tx-med wait">🔒 열 수 없음</div>'
       : b.t==='img' ? '<div class="tx-med"><a href="'+u+'" target="_blank" rel="noopener"><img src="'+u+'" alt="'+esc(b.name||'')+'" loading="lazy" onload="if(this.naturalHeight > this.naturalWidth * 2) this.closest(&quot;.tx-med&quot;).classList.add(&quot;tall&quot;)"></a>'+(b.name?'<div class="cap">'+esc(b.name)+'</div>':'')+'</div>'
-      : b.t==='vid' ? '<div class="tx-med"><video src="'+u+'" controls preload="metadata" playsinline></video>'+(b.name?'<div class="cap">'+esc(b.name)+'</div>':'')+'</div>'
+      : b.t==='vid' ? '<div class="tx-med"><video src="'+u+'#t=0.001" controls preload="metadata" playsinline></video>'+(b.name?'<div class="cap">'+esc(b.name)+'</div>':'')+'</div>'
       : '<a class="tx-med doc" href="'+u+'" target="_blank" rel="noopener">📎 '+esc(b.name||'파일')+'<small>'+(b.size?Math.round(b.size/1024)+'KB':'')+'</small></a>';
   }
   return '<div class="tx-b'+(b.t==='todo'&&b.done?' ck':'')+'" data-t="'+b.t+'" data-i="'+i+'">'
@@ -19703,7 +19731,7 @@ function txRender(){
   b.classList.remove('lite');
   if(S.view==='home'){ top.innerHTML = '<h1>홈</h1><span class="cnt">'+dateFull(TODAY)+' · '+esc(ME?ME.name:'')+'</span><span class="talerts" id="talerts"><span id="schomeslot">' + 매확홈단추() + '</span><span id="pshomeslot">' + 매출홈단추() + '</span><span id="bphomeslot">' + 비품홈단추() + '</span></span>' + 이번주쉼글() + '<button class="btn ghost sm applink" type="button" data-act="tx:applink" data-k="m">앱 설치 링크</button>'; setTimeout(알림줄맞춤, 0);      /* 알림 단추가 많아지면 옆으로 밀어서 본다 (2026-10-21 대표 「공간이 부족하면 슬라이드로」) */
     line.innerHTML=''; b.innerHTML = vHome(); 홈배치붙이기(); return true; }
-  if(S.view === 'manual' && !강의.표편집){ const 과 = 강의.탭 === '과정' && 과정들().find(x => x.키 === 강의.과정 || (!x.단 && x.이름 === 강의.과정)); top.innerHTML = 과 ? 경로바([['매뉴얼', 'tx:mtab', '홈'], 과.이름 || '']) : 강의.탭 === '현황' ? 경로바([['매뉴얼', 'tx:mtab', '홈'], '수강 현황']) : '<h1>매뉴얼</h1>'; line.innerHTML = ''; b.innerHTML = v매뉴얼(); b.classList.remove('lite'); return true; }      /* 매뉴얼 = 교육 · 매뉴얼 화면 (2026-10-27) */
+  if(S.view === 'manual' && !강의.표편집){ const 과 = 강의.탭 === '과정' && 과정들().find(x => x.키 === 강의.과정 || (!x.단 && x.이름 === 강의.과정)); top.innerHTML = 과 ? 경로바([['매뉴얼', 'tx:mtab', '홈'], 과.이름 || '']) : 강의.탭 === '현황' ? 경로바([['매뉴얼', 'tx:mtab', '홈'], '수강 현황']) : '<h1>매뉴얼</h1>'; line.innerHTML = ''; { const h = v매뉴얼(), 첫 = b.firstElementChild; if(!(강의.탭 === '과정' && 첫 && 첫.__그림 === h)){ b.innerHTML = h; if(b.firstElementChild) b.firstElementChild.__그림 = h; } }      /* 강의 화면 = 같은 그림이면 안 갈아 끼운다 — 보던 영상이 처음으로 돌아갔다 (11/20) */ b.classList.remove('lite'); return true; }      /* 매뉴얼 = 교육 · 매뉴얼 화면 (2026-10-27) */
   if(표정의[S.view]){ top.innerHTML = txTop(S.view); line.innerHTML=''; b.innerHTML = txList(S.view); b.classList.toggle('lite', ['tasks', 'leads'].includes(S.view));      /* 업무 · 상담 = 노션처럼 흰 바탕 (2026-10-26 대표) */ if(S.view === 'tasks') setTimeout(업무노션맞춤, 300); return true; }
   return false;
 }
