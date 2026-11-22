@@ -2288,6 +2288,7 @@ body{word-break:keep-all}
 .hm-sec{display:flex;align-items:baseline;gap:8px;font-size:15px;font-weight:800;margin:18px 2px 4px}.hm-sec span{font-size:13.5px;color:var(--sub);font-weight:700}
 .hm-li{display:flex;align-items:center;gap:10px;width:100%;padding:11px 2px;border:0;border-top:1px solid var(--line);background:none;color:var(--cream);font:inherit;font-size:15px;text-align:left}.hm-li b{font-weight:800}.hm-li em{font-style:normal;font-size:13.5px;color:var(--sub);margin-left:auto;white-space:nowrap}.hm-li i{font-style:normal;font-size:13px;font-weight:800;border:1.5px dashed var(--sub);border-radius:999px;padding:0 8px;white-space:nowrap}
 .hm-li .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}.hm-li .dot.s{background:#a9c2d6}button.hm-li.yr{cursor:pointer}
+.hm-bx.sp{padding-bottom:4px}.hm-bx.sp .hm-rq{padding:9px 0}.hm-bx .v.s{line-height:1.7}
 .hm-more{width:100%;height:40px;border-radius:10px;border:1px solid var(--line);background:transparent;color:#cfc6b6;font:inherit;font-size:14px;font-weight:700;margin-top:4px;cursor:pointer}
 .hm-ft2{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.hm-ft2 .btn{width:auto}.hm-ft2 .btn.del{margin-left:auto;border-style:dashed}.hm-req .hm-f .btn{width:auto;flex:none}
 .hm-set{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.hm-set button{height:46px;border-radius:12px;border:1px solid #77715f;background:#2e2d29;color:var(--cream);font:inherit;font-size:14.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-width:0}.hm-set em{font-style:normal;font-size:13px;font-weight:900;background:var(--gold-dim);color:var(--gold);border-radius:999px;padding:0 8px}
@@ -3634,7 +3635,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '725';
+const BUILD = '726';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -8448,7 +8449,7 @@ async function 챗받기(힘){
     const [a, b, c, d] = await Promise.all([uget('tr_chat?select=*&created_at=gte.' + encodeURIComponent(전) + '&order=created_at.asc&limit=3000'), uget('tr_chat_read?select=*&staff_id=eq.' + 챗나()), uget('tr_bot_qa?select=*&order=sort'), uget('tr_req?select=*&order=created_at.desc&limit=300')]);
     챗.글 = (a || []).filter(m => 챗내방(m.room)); 챗.읽 = {}; (b || []).forEach(x => { 챗.읽[x.room] = x.at; }); 챗.답 = (c || []).filter(x => !x.done); 챗.요청 = (d || []).filter(x => 챗관리() || x.staff_id === 챗나()); 챗.없음 = false; }
   catch(e){ 챗.없음 = /404|42P01|does not exist|relation/.test(String(e.message || '')); }
-  챗.중 = false; 챗.때 = Date.now(); 챗그리기(true); 챗공지띄우기(); 챗요청띄우기(); }
+  챗.중 = false; 챗.때 = Date.now(); 챗그리기(true); 챗공지띄우기(); 챗요청띄우기(); 챗요청답띄우기(); }
 setInterval(() => { if(ME && document.visibilityState === 'visible') 챗받기(챗.열림 && 챗.탭 === 'talk' && 챗.방); }, 15000);      /* 안 보이면 안 받음 (11/08 사고) */
 function 챗배지(){ return 챗.없음 ? 0 : [...new Set(챗.글.map(m => m.room))].reduce((a, r) => a + 챗안읽음(r), 0) + (챗관리() ? 챗.요청.filter(x => x.status === '받음').length : 0); }
 const 챗아이콘 = {
@@ -8593,6 +8594,16 @@ function 챗요청띄우기(){ if(챗.없음 || 진짜ME || !ME || !대표인가
     + 새.map(x => '<div class="gc-ntcp rq6"><b><span class="tag' + (x.kind === '버그' ? ' warn' : '') + '">' + esc(x.kind || '요청') + '</span> ' + esc(x.title || '(제목 없음)') + '</b><small>' + esc(보임이름(x.staff_name || '')) + ' · ' + 챗때(x.created_at) + ((x.files || []).length ? ' · 사진 ' + x.files.length + '장' : '') + '</small><p>' + esc(x.body || '') + '</p>'
       + '<button class="btn gold sm" data-act="tx:gcr6" data-k="' + esc(x.id) + '">6번에 보내기</button></div>').join('')
     + '<div class="ps-foot">' + 알림쉼칸('요청버그', 새.map(x => x.id)) + '<button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcreqgo">요청 · 버그 열기</button></div></div>'));
+  if(!$('#pop').classList.contains('on')) 팝업다음(); }
+/* 요청 · 버그가 해결되면 요청한 사람에게 해결 내용 팝업 (2026-11-20 21:46 대표 「버그요청 받은거 해결하면 해결내용까지 해당 트레이너에게 팝업 · 팝업은 항상 오늘 안보기 체크박스 · 요청란에도 답변 똑같이」)
+   글 = 요청란에 단 답(reply) 그대로 — 한 곳에 적으면 요청란 · 팝업 둘 다 같다. 「끝남」 + 답이 있는 것 · 답한 날부터 3일 동안 · 단순 알림(새로고침마다 · 오늘 하루 안 보기) */
+const 요청답날 = 3;
+function 챗요청답띄우기(){ if(챗.없음 || 진짜ME || !ME) return;
+  const 새 = (챗.요청 || []).filter(x => String(x.staff_id) === String(챗나()) && x.status === '끝남' && String(x.reply || '').trim() && 서울날(x.updated_at || x.created_at) >= 날더함(TODAY, -요청답날) && 알림볼것('요청답', x.id));
+  if(!새.length) return; 알림봄('요청답', 새.map(x => x.id));
+  팝업차례('요청답', () => popOpen('<div class="ps-pop"><div class="ps-h">🛠 보낸 ' + (새.every(x => x.kind === '버그') ? '버그' : '요청') + '가 해결됐어요 ' + 새.length + '</div>'
+    + 새.map(x => '<div class="gc-ntcp rq6"><b><span class="tag teal">해결</span> ' + esc(x.title || '(제목 없음)') + '</b><small>' + 챗때(x.created_at) + '에 보낸 ' + esc(x.kind || '요청') + '</small><p>' + esc(x.reply || '') + '</p></div>').join('')
+    + '<div class="ps-foot">' + 알림쉼칸('요청답', 새.map(x => x.id)) + '<button class="btn ghost" data-act="popclose">닫기</button><button class="btn main" data-act="tx:gcreqgo">요청 · 버그 열기</button></div></div>'));
   if(!$('#pop').classList.contains('on')) 팝업다음(); }
 function 챗공지띄우기(){ if(챗.없음 || 챗설정.공지 === false || 진짜ME) return;
   const 새 = 챗.글.filter(m => m.room === 'all' && m.notice && 서울날(m.created_at) === TODAY && m.sender !== 챗나() && 알림볼것('채팅공지', m.id));      /* 단순 알림 — 새로고침마다 · 오늘 하루 안 보기 (11/20) */
@@ -10754,12 +10765,14 @@ async function 청소확인(grp){ const L = 청소누락().filter(o => o.grp ===
   catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 50)); } }
 /* ══ 휴무 ══ 2026-11-20 대표 노션 「11월20」 + 시안 725 「시안대로 만들어서 올려」
    ⛔ 화면 낱말 = 「휴무」 · 「여름휴무」 · 「특별 휴무」 (연차 · 월차 · 휴가 · 반차는 화면에 안 씀 · 반일은 「반일」) — 저장 값(kind)은 옛 그대로 : 휴무 = 연차 · 반일 = 반차 · 여름휴무 = 여름휴가 · 그 밖 특별 = 기타사유 + extra.sp
-   화면에는 지금 신청할 수 있는 수 하나 = 「잔여 n일 (○월까지 사용)」. 안에서는 입사 4개월째부터 매월 1(이월 없음) → 10개월 뒤 한 해 n개(규칙.연수 · 대표가 사람마다 고침)
+   화면에는 지금 신청할 수 있는 수 하나 = 「잔여 n일 (○월까지 사용)」. 안에서는 입사 4개월째부터 매월 1(이월 없음) → 10개월 뒤부터 6개월마다 n개 · 안 쓴 것은 소멸(규칙.연수 · 규칙.주기 · 대표가 사람마다 고침)
    설정 = tr_meta(tr_leave).names._rest { 사람:{id:{입사, 연:{수, 부터, 까지}}}, 준:[특별 휴무], 막:[신청 막는 날], 규칙, fc } — SQL 없음 · 쓰는 사람 = 대표(휴무 승인 권한)
    규칙 : 종류 셋은 따로 신청 · 서로 붙여 쓸 수 없음(바로 앞 · 뒷날) · 2일 이상은 n일 전까지 · 붙여쓰기 1년 미만 3 · 이상 5 · 막는 날 · 대청소 날
           결혼(1년 미만 2 · 이상 3) · 가족 상 3 · 조부모 상 2 = 선생님이 스스로 신청 · 막는 날 · 기한에 걸려도 신청됨(대표 승인은 그대로)
    아직 없음 : 재등록률 · 매출 연동(중앙이 직전 분기 숫자를 내려 줘야 함) */
-const 휴기본규칙 = { 미리:7, 붙임1:3, 붙임2:5, 연수:6 };
+const 휴기본규칙 = { 미리:7, 붙임1:3, 붙임2:5, 연수:6, 주기:6 };      /* 주기 = 몇 개월마다 다시 생기나 (11/20 21:46 대표 「한 해 6개가 아니라 6개월간 6개 · 지나면 소멸 · 다시 6개씩」) */
+/* 휴무 신청 자리는 하나 — 선생님은 아래 「내 휴무」의 「휴무 신청」으로만(규칙 · 잔여를 거친다) · 표의 「＋ 새 당직/휴무」 · 「새로 만들기」는 휴무 승인 권한(대표 · 관리자)에게만 (2026-11-20 21:37 대표 「휴무 신청란이 두 개야?」) */
+const 휴옛신청가림 = key => key === 'leave' && !할수('leaveok');
 const 휴설 = () => { const m = ((표설정('leave') || {}).names || {})._rest || {}; return { 사람:m.사람 || {}, 준:m.준 || [], 막:m.막 || [], 규칙:Object.assign({}, 휴기본규칙, m.규칙 || {}), fc:m.fc || {} }; };
 async function 휴설저장(바꿈, 말){
   const tbl = 'tr_leave', m = 표설정('leave'), names = Object.assign({}, m.names || {}); names._rest = Object.assign({}, 휴설(), 바꿈);
@@ -10784,10 +10797,11 @@ const 휴직원들 = () => (W.staff || []).filter(p => p.active !== false && p.n
 const 휴사람들 = () => { const s = 휴설().사람; return 휴직원들().filter(p => s[p.id]); };      /* 휴무 목록 = 대표가 넣은 사람만 (2026-11-20 20:34 노션 「FC 는 단기 알바라 목록에서 빼 · 직원을 내가 넣고 빼게 · 입사일만 넣으면 저절로」) */
 function 휴주기(p, d){ d = d || TODAY; const s = 휴설().사람[p.id] || {}, 규 = 휴설().규칙;
   if(s.연 && s.연.부터 && s.연.까지 && s.연.부터 <= d && d < s.연.까지) return { 수:+s.연.수 || 0, 부터:s.연.부터, 까지:s.연.까지 };      /* 대표가 고친 것이 먼저 */
-  if(!s.입사) return { 수:0 };
-  const 연시작 = 휴달더(s.입사, 10);
-  if(d >= 연시작){ let a = 연시작; for(let n = 0; n < 60 && 휴달더(a, 12) <= d; n++) a = 휴달더(a, 12); return { 수:+규.연수 || 0, 부터:a, 까지:휴달더(a, 12) }; }
-  if(d >= 휴달더(s.입사, 3)){ const a = d.slice(0, 8) + '01'; return { 수:1, 부터:a, 까지:휴달더(a, 1), 달:true }; }      /* 4개월째부터 매월 1 · 이월 없음 */
+  const 주 = +규.주기 || 6, 고친끝 = s.연 && s.연.까지 && s.연.까지 <= d && (!s.입사 || s.연.까지 >= 휴달더(s.입사, 10)) ? s.연.까지 : '';      /* 대표가 고친 기간이 끝나면 그 날부터 다시 6개월씩 — 고친 기간에 쓴 날을 새 기간에 겹쳐 세지 않는다 */
+  if(!s.입사 && !고친끝) return { 수:0 };
+  const 연시작 = 고친끝 || 휴달더(s.입사, 10);
+  if(d >= 연시작){ let k = 0; while(k < 200 && 휴달더(연시작, 주 * (k + 1)) <= d) k++; return { 수:+규.연수 || 0, 부터:휴달더(연시작, 주 * k), 까지:휴달더(연시작, 주 * (k + 1)) }; }      /* 6개월마다 새로 · 안 쓴 것은 소멸 */
+  if(s.입사 && d >= 휴달더(s.입사, 3)){ const a = d.slice(0, 8) + '01'; return { 수:1, 부터:a, 까지:휴달더(a, 1), 달:true }; }      /* 4개월째부터 매월 1 · 이월 없음 */
   return { 수:0 }; }
 function 휴잔여(p, d, 제외){ const c = 휴주기(p, d); if(!c.부터) return Object.assign(c, { 씀:0, 잔:0 });
   const 씀 = 휴내줄(p.id, 제외).filter(r => 휴갈래(r) === '기본' && r.day >= c.부터 && r.day < c.까지).reduce((a, r) => a + 휴일수(r), 0);
@@ -10817,17 +10831,17 @@ const 휴날글 = d => (d.slice(0, 4) !== TODAY.slice(0, 4) ? (+d.slice(2, 4)) +
 function 휴지금글(p){ const c = 휴주기(p); return c.달 ? '매달 1개 · 그 달 안에 사용' : c.부터 ? 휴날글(날더함(c.까지, -1)) + '까지 사용' : ''; }
 function 휴다음글(p){ const s = 휴설().사람[p.id] || {}, 규 = 휴설().규칙, c = 휴주기(p);
   if(!s.입사 && !c.부터) return '입사일을 입력하면 저절로 생겨요';
-  if(c.달){ const 연 = s.입사 ? 휴달더(s.입사, 10) : ''; return '<b>' + 휴날글(c.까지) + '</b>에 휴무 <b>1개</b>' + (연 ? ' · <b>' + 휴날글(연) + '</b>부터 한 해 <b>' + 휴수(규.연수) + '개</b>' : ''); }
+  if(c.달){ const 연 = s.입사 ? 휴달더(s.입사, 10) : ''; return '<b>' + 휴날글(c.까지) + '</b>에 휴무 <b>1개</b>' + (연 ? '<br><b>' + 휴날글(연) + '</b>부터 ' + (+규.주기 || 6) + '개월마다 <b>' + 휴수(규.연수) + '개</b>' : ''); }
   if(c.부터){ const n = 휴주기(p, c.까지); return n.부터 && n.수 > 0 ? '<b>' + 휴날글(c.까지) + '</b>' + (n.달 ? '부터 매달 휴무 <b>1개</b>가 생겨요' : '에 휴무 <b>' + 휴수(n.수) + '개</b>가 생겨요') : '정해진 것이 없어요'; }
   return '<b>' + 휴날글(휴달더(s.입사, 3)) + '</b>부터 매달 휴무 <b>1개</b>가 생겨요'; }
-const 휴미리글 = 입사 => !입사 ? '입사일을 입력해 주세요' : '<b>' + 휴날글(휴달더(입사, 3)) + '</b>부터 매달 <b>1개</b> · <b>' + 휴날글(휴달더(입사, 10)) + '</b>부터 한 해 <b>' + 휴수(휴설().규칙.연수) + '개</b>';
+const 휴미리글 = 입사 => !입사 ? '입사일을 입력해 주세요' : '<b>' + 휴날글(휴달더(입사, 3)) + '</b>부터 매달 <b>1개</b> · <b>' + 휴날글(휴달더(입사, 10)) + '</b>부터 ' + (+휴설().규칙.주기 || 6) + '개월마다 <b>' + 휴수(휴설().규칙.연수) + '개</b>';
 const 휴펼 = new Set();      /* 펼친 것 — 'm' + 사람 = 올해 더 보기 · 'y' + 사람 + ':' + 해 = 지난 해 */
 function 휴쓴날(p, 지난만){ const L = (W.leave || []).filter(r => r.staff_id === p.id && r.status !== 'no' && 휴갈래(r) && (!지난만 || r.day < TODAY)).sort((a, b) => a.day < b.day ? 1 : -1), 올 = TODAY.slice(0, 4), 해 = {};
   L.forEach(r => { const y = r.day.slice(0, 4); (해[y] = 해[y] || []).push(r); });
   const 줄 = r => '<div class="hm-li"><span class="dot' + (휴갈래(r) === '기본' ? '' : ' s') + '"></span><b>' + 휴기간글(r.day, r.day_end) + '</b>' + (r.status === 'req' ? '<i>승인 대기</i>' : r.day > TODAY ? '<i>예정</i>' : '') + '<em>' + esc(휴줄이름(r)) + (휴일수(r) !== 1 ? ' ' + 휴수(휴일수(r)) + '일' : '') + '</em></div>';
   const 합 = X => { const 셈 = g => X.filter(r => 휴갈래(r) === g).reduce((n, r) => n + 휴일수(r), 0), a = 셈('기본'), s2 = 셈('여름'), t = 셈('특별'); return '휴무 ' + 휴수(a) + '일' + (s2 ? ' · 여름휴무 ' + 휴수(s2) + '일' : '') + (t ? ' · 특별 휴무 ' + 휴수(t) + '일' : ''); };
   const 이 = 해[올] || [], 다 = 휴펼.has('m' + p.id), 옛 = Object.keys(해).filter(y => y < 올).sort().reverse();
-  return '<div class="hm-sec">쓴 날 <span>올해 ' + 합(이) + '</span></div>' + (이.length ? (다 ? 이 : 이.slice(0, 5)).map(줄).join('') + (이.length > 5 ? '<button class="hm-more" data-act="tx:hmx" data-k="m' + esc(p.id) + '">' + (다 ? '접기 ▴' : '더 보기 ▾') + '</button>' : '') : '<div class="sub3" style="padding:8px 2px">올해 쓴 날이 아직 없어요</div>')
+  return '<div class="hm-sec">쓴 날 <span>올해 ' + 합(이) + '</span></div>' + (이.length ? (다 ? 이 : 이.slice(0, 3)).map(줄).join('') + (이.length > 3 ? '<button class="hm-more" data-act="tx:hmx" data-k="m' + esc(p.id) + '">' + (다 ? '접기 ▴' : '더 보기 ▾') + '</button>' : '') : '<div class="sub3" style="padding:8px 2px">올해 쓴 날이 아직 없어요</div>')
     + (옛.length ? '<div class="hm-sec">지난 해</div>' + 옛.map(y => { const k = 'y' + p.id + ':' + y, 열 = 휴펼.has(k); return '<button class="hm-li yr" data-act="tx:hmx" data-k="' + esc(k) + '"><b>' + y + '년</b><em>' + 합(해[y]) + ' ' + (열 ? '▴' : '›') + '</em></button>' + (열 ? 해[y].map(줄).join('') : ''); }).join('') : ''); }
 /* 선생님 — 내 휴무(지금 · 다음 · 신청) + 내 신청(앞으로 잡힌 것 · 수정 · 취소) + 쓴 날 */
 function 휴내칸(){ const p = 휴나(), c = 휴잔여(p), 받 = 휴받은(p);
@@ -10838,7 +10852,7 @@ function 휴내칸(){ const p = 휴나(), c = 휴잔여(p), 받 = 휴받은(p);
     + '<div class="hm-tl" style="--c:#a9c2d6"><div class="k">특별 휴무</div>' + 받.map(g => '<div class="hm-sp"><div><em>' + esc(g.n) + '</em><div class="rm s">잔여 <b>' + 휴수(Math.max(0, g.잔)) + '</b>일' + (g.까지 ? ' <span>(' + 휴달글(g.까지) + ')</span>' : '') + '</div></div><button class="btn ghost sm" data-act="tx:hmreq" data-k="받은" data-id="' + esc(g.id) + '">' + (g.n === '여름휴무' ? '여름휴무 신청' : '신청') + '</button></div>').join('')
       + '<div class="hm-sp"><div><em>결혼 · 가족 상</em><div class="rm s"><span style="margin:0">일이 생기면 신청</span></div></div><button class="btn ghost sm" data-act="tx:hmreq" data-k="스스로">신청</button></div></div></div>'
     + (줄.length ? '<div class="hm-my">' + 줄.map(r => { const t = 딱(r), 앞 = r.status !== 'no' && r.day >= TODAY; return '<div class="hm-rq"><span class="tg' + t[0] + '">' + t[1] + '</span><div><b>' + 휴기간글(r.day, r.day_end) + '</b><small>' + esc(휴줄이름(r)) + ' ' + 휴수(휴일수(r)) + '일</small></div>'
-        + (앞 ? '<button class="btn ghost sm" data-act="tx:hmedit" data-id="' + esc(r.id) + '">수정</button><button class="btn ghost sm" data-act="tx:hmcancel" data-id="' + esc(r.id) + '">취소</button>' : '') + '</div>'; }).join('') + '</div>' : '')
+        + (앞 ? '<button class="btn ed sm" data-act="tx:hmedit" data-id="' + esc(r.id) + '">수정</button><button class="btn ghost sm" data-act="tx:hmcancel" data-id="' + esc(r.id) + '">취소</button>' : '') + '</div>'; }).join('') + '</div>' : '')
     + 휴쓴날(p, true) + '</div>'; }
 /* 신청 판 — 달력에서 시작 날 · 끝 날 */
 let 휴신청 = null;
@@ -10905,9 +10919,9 @@ function 휴사람판(id, 편){ const p = (W.staff || []).find(s => s.id === id)
     + (휴판.편 === '수' ? '<div class="hm-ed"><div class="hm-f"><span>휴무 수</span><input class="inp" type="number" min="0" step="0.5" id="hmw_n" value="' + (s.연 ? esc(String(s.연.수)) : '') + '" placeholder="' + c.수 + '"></div>'
         + '<div class="hm-f"><span>쓰는 기간</span><input class="inp" type="date" id="hmw_a" value="' + esc((s.연 || {}).부터 || '') + '"><i>~</i><input class="inp" type="date" id="hmw_b" value="' + esc((s.연 || {}).까지 ? 날더함(s.연.까지, -1) : '') + '"></div>'
         + '<div class="sub3" style="margin:2px 0 10px">셋을 모두 비우고 저장하면 입사일로 저절로 셈해요</div><div class="hm-ft"><button class="btn gold" data-act="tx:hmwsave" data-id="' + esc(id) + '">저장</button></div></div>' : '')
+    + (받.length ? '<div class="hm-bx sp"><div class="k">특별 휴무</div>' + 받.map(g => '<div class="hm-rq"><div><b>' + esc(g.n) + ' ' + 휴수(g.수) + '일</b><small>' + (g.까지 ? 휴날글(g.까지) + '까지' : '기한 없음') + '</small></div><button class="btn ghost sm" data-act="tx:hmgdel" data-k="' + esc(g.id) + '" data-id="' + esc(id) + '">회수</button></div>').join('') + '</div>' : '')      /* 지금 · 다음 · 특별 휴무 = 상자 셋이 위에 · 쓴 날(길어지는 것)은 맨 아래 (11/20 22:00 대표 「정리만」) */
     + 휴쓴날(p)
-    + (받.length ? '<div class="hm-sec">특별 휴무</div>' + 받.map(g => '<div class="hm-rq"><div><b>' + esc(g.n) + ' ' + 휴수(g.수) + '일</b><small>' + (g.까지 ? 휴날글(g.까지) + '까지' : '기한 없음') + '</small></div><button class="btn ghost sm" data-act="tx:hmgdel" data-k="' + esc(g.id) + '" data-id="' + esc(id) + '">회수</button></div>').join('') : '')
-    + '<div class="hm-ft2"><button class="btn ghost" data-act="tx:hmgive" data-k="' + esc(id) + '">특별 휴무 주기</button><button class="btn ghost" data-act="tx:hmwed" data-k="수" data-id="' + esc(id) + '">휴무 수 수정</button><button class="btn ghost del" data-act="tx:hmwdel" data-id="' + esc(id) + '">목록에서 삭제</button></div></div>'); }
+    + '<div class="hm-ft2"><button class="btn ghost" data-act="tx:hmgive" data-k="' + esc(id) + '">특별 휴무 주기</button><button class="btn ed" data-act="tx:hmwed" data-k="수" data-id="' + esc(id) + '">휴무 수 수정</button><button class="btn ghost del" data-act="tx:hmwdel" data-id="' + esc(id) + '">목록에서 삭제</button></div></div>'); }
 async function 휴사람저장(id){ const v = k => (($('#' + k) || {}).value || '').trim(), 옛 = 휴설().사람[id] || {}, 새 = Object.assign({}, 옛), p = (W.staff || []).find(s => s.id === id) || {};
   if(휴판.편 === '입사'){ const 입사 = v('hmw_in'); if(!입사) return toast('입사일을 입력해 주세요'); 새.입사 = 입사; }
   if(휴판.편 === '수'){ const 수 = v('hmw_n'), a = v('hmw_a'), b = v('hmw_b'); if((수 || a || b) && !(수 !== '' && a && b && a <= b)) return toast('휴무 수와 쓰는 기간(시작 · 끝)을 모두 입력하거나 모두 비워 주세요');
@@ -10943,7 +10957,7 @@ function 휴주기판(누구){ if(누구 !== undefined) 휴줌 = { 누구:누구
     + (o.누구 ? '<div class="hm-g3 six">' + 휴줄것().map(x => { const 날 = x[0] === '결혼' && p ? (휴일년됨(p) ? 3 : 2) : x[1]; return '<button class="hm-gc' + (o.n === x[0] ? ' on' : '') + '" data-act="tx:hmgn" data-k="' + x[0] + '" data-v2="' + 날 + '">' + x[0] + '<b>' + (x[0] === '기타' ? '직접 입력' : 날 + '일') + '</b></button>'; }).join('') + '</div>' : '')
     + (o.n && (o.손 || o.n === '기타') ? (o.n === '기타' ? '<div class="hm-f"><span>이름</span><input class="inp" id="hmg_nm" maxlength="20" placeholder="예 : 포상" value="' + esc(o.이름 || '') + '"></div>' : '')
         + '<div class="hm-f"><span>날수</span><input class="inp" type="number" min="0.5" step="0.5" id="hmg_n" value="' + esc(String(o.수 || '')) + '"></div><div class="hm-f"><span>언제까지</span><input class="inp" type="date" id="hmg_d" value="' + esc(o.까지 || 기본까지(o.n)) + '"></div>'
-       : o.n ? '<div class="hm-gl"><b>' + esc(o.n) + ' ' + 휴수(o.수) + '일 · ' + 휴달글(o.까지 || 기본까지(o.n)) + '</b><button class="btn ghost sm" data-act="tx:hmghand">날수 · 기한 수정</button></div>' : '')
+       : o.n ? '<div class="hm-gl"><b>' + esc(o.n) + ' ' + 휴수(o.수) + '일 · ' + 휴달글(o.까지 || 기본까지(o.n)) + '</b><button class="btn ed sm" data-act="tx:hmghand">날수 · 기한 수정</button></div>' : '')
     + (o.누구 && o.n ? '<button class="btn gold hm-go" data-act="tx:hmgsave">' + 휴아.선 + '주기</button>' : '') + '</div>'); }
 function 휴줌읽기(){ const o = 휴줌; if(!o) return; const v = k => (($('#' + k) || {}).value || '').trim(); if($('#hmg_n')) o.수 = +v('hmg_n') || 0; if($('#hmg_d')) o.까지 = v('hmg_d'); if($('#hmg_nm')) o.이름 = v('hmg_nm'); }
 async function 휴주기저장(){ 휴줌읽기(); const o = 휴줌; if(!o || !o.누구 || !o.n) return; const n = o.n === '기타' ? (o.이름 || '').trim() : o.n;
@@ -10975,8 +10989,8 @@ async function 휴막기풀기(id){ const x = 휴설().막.find(z => z.id === id
   try{ await 휴설저장({ 막:휴설().막.filter(z => z.id !== id) }, '신청 막는 날 풀기 — ' + 휴기간글(x.a, x.b)); toast('풀었어요'); 휴막는판(); render(); }catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 /* 대표 — 신청 규칙 (숫자 넷) */
 function 휴규칙판(){ const r = 휴설().규칙, 줄 = (k, 이름, 뒤) => '<div class="hm-f"><span>' + 이름 + '</span><input class="inp" type="number" min="0" id="hmr_' + k + '" value="' + esc(String(r[k])) + '"><i>' + 뒤 + '</i></div>';
-  판열기('신청 규칙', '<div class="hm-req">' + 줄('미리', '2일 이상은', '일 전까지 신청') + 줄('붙임1', '붙여 쓰기 · 1년 미만', '일까지') + 줄('붙임2', '붙여 쓰기 · 1년 이상', '일까지') + 줄('연수', '한 해 휴무', '일 (입사 10개월 뒤)')
-    + '<div class="sub3" style="margin:8px 0 12px">종류가 다른 휴무는 붙여 쓸 수 없어요 · 결혼 · 가족 상은 규칙에 걸려도 신청돼요</div><button class="btn gold hm-go" data-act="tx:hmrsave">저장</button></div>'); }
+  판열기('신청 규칙', '<div class="hm-req">' + 줄('미리', '2일 이상은', '일 전까지 신청') + 줄('붙임1', '붙여 쓰기 · 1년 미만', '일까지') + 줄('붙임2', '붙여 쓰기 · 1년 이상', '일까지') + 줄('연수', '6개월마다 휴무', '일 (입사 10개월 뒤부터)')
+    + '<div class="sub3" style="margin:8px 0 2px">6개월 안에 안 쓴 휴무는 없어져요</div><div class="sub3" style="margin:0 0 12px">종류가 다른 휴무는 붙여 쓸 수 없어요 · 결혼 · 가족 상은 규칙에 걸려도 신청돼요</div><button class="btn gold hm-go" data-act="tx:hmrsave">저장</button></div>'); }
 async function 휴규칙저장(){ const 규칙 = {}; ['미리', '붙임1', '붙임2', '연수'].forEach(k => { 규칙[k] = Math.max(0, +(($('#hmr_' + k) || {}).value) || 0); });
   if(!await 묻기('신청 규칙' + String.fromCharCode(10) + '이대로 저장할까요? 모든 선생님에게 바로 적용돼요')) return;
   try{ await 휴설저장({ 규칙 }, '신청 규칙 수정'); popClose(); toast('저장했어요'); render(); }catch(e){ toast('저장하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
@@ -13554,7 +13568,7 @@ function txTools(key){
     + (검 ? '<input class="srch" id="txq" data-k="'+key+'" type="text" placeholder="'+(key === 'tasks' ? '업무 검색 — 제목 · 내용 · 담당 · 구분' : T.제목+' 검색')+'" value="'+esc(st.q)+'">' + (key === 'tasks' && !st.q ? '' : '<button class="tx-ib" data-act="tx:qclose" data-k="'+key+'" title="검색 닫기">✕</button>')
          : '<button class="tx-ib" data-act="tx:qopen" data-k="'+key+'" title="검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>')
     + '<button class="tx-ib" data-act="tx:vset" data-k="'+key+'" title="보기 설정"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>'
-    + '<button class="btn gold sm" data-act="tx:new" data-k="'+key+'">＋ 새로 만들기 ▾</button></div>';
+    + (휴옛신청가림(key) ? '' : '<button class="btn gold sm" data-act="tx:new" data-k="'+key+'">＋ 새로 만들기 ▾</button>') + '</div>';
 }
 function txList(key){ return '<div class="tx-db">' + txList0(key) + '</div>' + (key === 'leave' ? 휴위() : ''); }      /* 당직표 · 목록이 위 · 새로 생긴 휴무 칸(내 휴무 · 선생님 휴무)은 아래 (11/20 17:56 대표 「당직표를 원래대로 위로 · 새로 생긴 걸 하단에」) · 표 전체 외곽선 (2026-10-26) */
 function txList0(key){
@@ -13597,7 +13611,7 @@ function txList0(key){
     + (key === 'tasks' && q ? (() => { const n = (할수('taskall') ? (W.tasks || []) : 볼줄('tasks')).filter(r => JSON.stringify(r).toLowerCase().indexOf(q) >= 0).length;      /* 검색이 비어도 다른 보기 · 담당에 있는 것은 보이게 (2026-11-16 담당 없는 잠수 업무 · 완료 탭) */
          return n ? '<div class="tx-hid">다른 보기 · 담당에 ' + n + '건 있어요 <button class="btn ghost sm" data-act="tx:tqall">전체에서 보기</button></div>' : ''; })() : '')
     + (보기줄들.length && 가린것.length ? '<div class="tx-hid">이 보기 ' + 보기줄들.length + '건이 ' + 가린것.join(' · ') + '(으)로 가려졌어요 <button class="btn ghost sm" data-act="tx:fclear" data-k="' + key + '">모두 풀기</button></div>' : '') + '</div>'
-    + '<button class="tx-newrow one" data-act="tx:rownew" data-k="'+key+'">＋ 새 '+표정의[key].제목+'</button>');
+    + (휴옛신청가림(key) ? '' : '<button class="tx-newrow one" data-act="tx:rownew" data-k="'+key+'">＋ 새 '+표정의[key].제목+'</button>'));
   const 표다 = 모양(key) === 'table', 카드다 = 모양(key) === 'card';
   const 그릴 = 줄 => key === 'leads' && 폰화면() ? 상담폰카드(줄) : 카드다 ? 카드보기(key, 줄) : 표다 ? txTable(key, 줄)
                     : '<div class="tx-list">' + 줄.map(r => txRow(key, r, true)).join('') + '</div>';
@@ -14316,7 +14330,7 @@ function txTable(key, rows){
   };
   return '<div class="tx-tw"><div class="tx-table'+(얼렸나(key)?' frz':'')+'" style="grid-template-columns:'+폭+'">'
     + 머리 + rows.map(줄).join('') + '</div></div>'
-    + (관리자() || true ? '<button class="tx-newrow" data-act="tx:rownew" data-k="'+key+'">＋ 새 '+표정의[key].제목+'</button>' : '')
+    + (!휴옛신청가림(key) ? '<button class="tx-newrow" data-act="tx:rownew" data-k="'+key+'">＋ 새 '+표정의[key].제목+'</button>' : '')
     ;
 }
 /* ── 칸 안에서 바로 치기 · 키보드로 옮겨 다니기 ──
