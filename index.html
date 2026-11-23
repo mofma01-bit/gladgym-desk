@@ -3635,7 +3635,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '726';
+const BUILD = '727';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -6794,7 +6794,7 @@ function 지정기록원(mid, ws){
   if(M.ok === mid) return M;
   if(지정기록 && 지정기록.mid === mid){ return 지정기록.ok ? 지정기록 : null; }
   지정기록 = { mid, ok:false, wi:[], ws:[], paint:{} }; const 나 = 지정기록, ids = ws.map(w => '"' + w.id + '"').join(',');
-  (async () => { try{ 나.wi = await sget('workout_items?select=*&workout_id=in.(' + ids + ')&limit=2000') || [];
+  (async () => { try{ 나.wi = await sget('workout_items?select=*&workout_id=in.(' + ids + ')&limit=2000') || []; 모르는종목받기(나.wi.map(x => x.variant_id));
       나.ws = 나.wi.length ? await sget('workout_sets?select=*&item_id=in.(' + 나.wi.map(i => i.id).join(',') + ')&limit=6000') || [] : [];
       (await sget('workouts?select=id,paint&id=in.(' + ids + ')&paint=not.is.null').catch(() => []) || []).forEach(x => { if(x && x.paint && x.paint.v === 2) 나.paint[x.id] = x.paint; }); }
     catch(e){ 나.틀림 = true; }
@@ -20991,11 +20991,25 @@ async function 회원피드백받기(mid){
 document.addEventListener('change', ev => { const t = ev.target; if(!t || !t.dataset) return;      /* 인바디 회차 · 기간 날짜 (2026-11-02) */
   if(t.dataset.ibsel){ if(t.dataset.ibsel === 'a'){ S.ibDay = t.value; if(S.ibCmp === t.value) S.ibCmp = ''; } else { S.ibCmp = t.value; S.ibQ = ''; } render(); return; }
   if(t.dataset.ibd){ S.ibPer = '직접'; if(t.dataset.ibd === 'from') S.ibFrom = t.value; else S.ibTo = t.value; render(); } });
+/* 다른 기기에서 막 만든 「추가한 종목」 — 종목 사전(D.ex · D.va)은 처음 한 번만 받는다. 받은 기록에 모르는 종목이 있으면 그 종목만 바로 받는다
+   (2026-11-23 조O철 요청 「종목이 ? 로 보임」 — 자료는 정상 · 열려 있던 화면이 새 종목을 몰랐음) */
+let 모르는종목받는중 = false;
+async function 모르는종목받기(vids){ const 앞 = v => { const s = String(v || ''), i = s.lastIndexOf(':'); return i > 0 ? s.slice(0, i) : s; };
+  const 모름 = [...new Set((vids || []).map(앞).filter(x => x && x !== 'memo' && !(D.ex || []).some(e => e.id === x)))];
+  if(!모름.length || 모르는종목받는중) return 0; 모르는종목받는중 = true;
+  try{ const q = 모름.map(x => '"' + x + '"').join(',');
+    const [exs, vrs] = await Promise.all([sget('exercises?select=*&id=in.(' + q + ')'), sget('variants?select=*&ex_id=in.(' + q + ')&order=sort')]);
+    const 새 = (exs || []).filter(e => !(D.ex || []).some(x => x.id === e.id)); if(!새.length) return 0;
+    D.ex = (D.ex || []).concat(새); D.va = (D.va || []).concat((vrs || []).filter(v => !(D.va || []).some(x => x.id === v.id)));
+    render(); return 새.length; }
+  catch(e){ console.warn('모르는 종목 못 받음 —', e.message); return 0; }
+  finally{ 모르는종목받는중 = false; } }
 async function loadMember(mid){
   const ws = D.w.filter(w=>w.member_id===mid).map(w=>w.id);
   const inList = a => '(' + a.map(x=>'"'+x+'"').join(',') + ')';
   try{
     const wi = ws.length ? await sget('workout_items?select=*&workout_id=in.'+inList(ws)+'&limit=3000') : [];
+    모르는종목받기(wi.map(x => x.variant_id));      /* 2026-11-23 */
     const ids = wi.map(x=>x.id);
     const wsets = ids.length
       ? await sget('workout_sets?select=*&item_id=in.(' + ids.join(',') + ')&limit=9000') : [];
