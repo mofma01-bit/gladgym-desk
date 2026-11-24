@@ -3635,7 +3635,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '729';
+const BUILD = '730';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -11688,7 +11688,8 @@ const 팝때 = t => { const d = new Date(t); if(isNaN(d)) return ''; const 오�
 async function 팝받기(){ if(팝.없음 || !ME) return;
   try{ 팝.줄 = await uget('tr_pops?select=*&order=created_at.desc&limit=500') || []; 팝.때 = Date.now(); }
   catch(e){ if(/→ 404|42P01/.test(String(e.message || ''))) 팝.없음 = true; return; }
-  팝띄우기(); const 지문 = (팝.줄 || []).map(r => r.id + (r.done_at ? 1 : 0) + (r.seen_at ? 1 : 0)).join(); if(지문 !== 팝.지문){ 팝.지문 = 지문; if(S.view === 'pops' || (S.view === 'home' && 할수('popup'))) render(); } }      /* 바뀌었을 때만 다시 그림 — 20초마다 홈을 덮지 않게 */
+  if(팝.받는){ const 새 = (팝.줄 || []).find(x => x.id === 팝.받는.id); if(!새 || 새.off){ const w = document.getElementById('tppwrap'); if(w) w.remove(); 팝.받는 = null; } else if(새.body !== 팝.받는.body){ 팝.받는 = 새; 팝받기그리기(); } }      /* 보낸 쪽이 지우거나 수정함 (2026-11-24) */
+  팝띄우기(); const 지문 = (팝.줄 || []).map(r => r.id + String(r.body || '').length + (r.done_at ? 1 : 0) + (r.seen_at ? 1 : 0)).join(); if(지문 !== 팝.지문){ 팝.지문 = 지문; if(S.view === 'pops' || (S.view === 'home' && 할수('popup'))) render(); } }      /* 바뀌었을 때만 다시 그림 — 20초마다 홈을 덮지 않게 */
 function 팝띄우기(){ if(진짜ME){ const w = document.getElementById('tppwrap'); if(w) w.remove(); 팝.받는 = null; return; }      /* 선생님 화면 보기 중엔 그 선생님 팝업을 띄우지 않는다 — 보기 모드는 저장이 막혀 「확인했어요」가 안 눌려 아무것도 못 했다 (2026-11-17 12:55 대표) */
   if(document.getElementById('tppwrap')) return; const 나 = 팝나();
   const r = (팝.줄 || []).filter(x => x.to_name === 나 && !x.done_at && !x.off).sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)))[0]; if(!r) return;
@@ -11751,6 +11752,24 @@ async function 팝보내기(){ const o = 팝.보낼; if(!o) return; o.글 = Stri
     await usend('tr_pops', 'POST', o.받는.map(n => ({ to_name:n, body:o.글, need_answer:!!o.답, files:첨, by_name:팝나() })), 'return=minimal');
     팝.보낼 = null; popClose(); toast(o.받는.length + '명에게 보냈어요'); 팝받기(); }
   catch(e){ toast('보내지 못했어요 — ' + String(e.message || '').slice(0, 60)); if(b){ b.disabled = false; b.textContent = '보내기'; } } }
+/* 수정 · 삭제 (2026-11-24 대표 「팝업이 수정이나 삭제가 없어」) — 「공지 쓰기」 권한 또는 보낸 사람 · 수정은 답 전만 · 삭제는 휴지통(되살리기 됨) */
+const 팝손댐 = r => !!r && (할수('popup') || r.by_name === 팝나());
+const 팝찾기 = id => (팝.줄 || []).find(x => String(x.id) === String(id));
+function 팝수정열기(id){ const r = 팝찾기(id); if(!r) return toast('팝업을 찾지 못했어요'); if(!팝손댐(r)) return toast('보낸 사람만 수정할 수 있어요'); if(r.done_at) return toast('이미 답한 팝업은 수정할 수 없어요');
+  popOpen('<div id="tppedit" style="padding:24px 26px;width:min(480px,92vw)"><div style="font-size:19px;font-weight:800;margin-bottom:4px">팝업 수정</div><div class="sub3" style="margin:0 0 14px">' + esc(r.to_name || '') + ' 선생님 · ' + esc(팝때(r.created_at)) + ' 보냄</div>'
+    + '<div class="lbl" style="margin-bottom:6px">내용 <small class="sub3" style="margin:0">첫 줄이 제목이 돼요</small></div><textarea id="tppeditbody" class="inp" style="width:100%;min-height:120px;margin-bottom:16px">' + esc(r.body || '') + '</textarea>'
+    + '<div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" data-act="popclose">취소</button><button class="btn gold" data-act="tx:tppeditsave" data-k="' + esc(r.id) + '">저장</button></div></div>'); }
+async function 팝수정저장(id){ const r = 팝찾기(id); if(!r) return toast('팝업을 찾지 못했어요'); const 글 = String((document.getElementById('tppeditbody') || {}).value || '').trim();
+  if(!글) return toast('내용을 입력해 주세요'); if(글 === String(r.body || '').trim()){ popClose(); return; }
+  if(!await 묻기('수정할까요? — ' + (r.to_name || '') + ' 선생님께 보낸 팝업' + String.fromCharCode(10) + '아직 안 봤다면 새 글로 떠요')) return;
+  try{ const 온 = await usend('tr_pops?id=eq.' + encodeURIComponent(r.id) + '&done_at=is.null', 'PATCH', { body:글 }, 'return=representation');
+    if(Array.isArray(온) && !온.length){ toast('그사이 답이 와서 수정하지 못했어요'); 팝받기(); popClose(); return; }
+    r.body = 글; popClose(); toast('수정했어요'); render(); }
+  catch(e){ toast('수정하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
+async function 팝지우기(id){ const r = 팝찾기(id); if(!r) return toast('팝업을 찾지 못했어요'); if(!팝손댐(r)) return toast('보낸 사람만 삭제할 수 있어요');
+  if(!await 묻기('정말 삭제할까요? — ' + (r.to_name || '') + ' 선생님께 보낸 「' + 팝제목(r) + '」' + String.fromCharCode(10) + (r.done_at ? '받은 답도 같이 삭제돼요 · ' : '아직 안 봤다면 뜨지 않아요 · ') + '휴지통에서 복원할 수 있어요')) return;
+  try{ await 휴지통으로('tr_pops', r, (r.to_name || '') + ' 선생님 팝업 · ' + 팝제목(r)); 팝.줄 = (팝.줄 || []).filter(x => x !== r); toast('삭제했어요 · 휴지통에 있어요'); render(); }
+  catch(e){ toast('삭제하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } }
 async function 팝답장봄(){ const 새 = 팝답장(); if(!새.length) return; const 때 = new Date().toISOString(); 새.forEach(r => r.seen_at = 때);
   try{ await usend('tr_pops?id=in.(' + 새.map(r => '"' + r.id + '"').join(',') + ')', 'PATCH', { seen_at:때 }, 'return=minimal'); }catch(e){} }
 /* ══ 2차·3차 발송내역 ══ 2026-11-17 대표 13:46 「현황판에 2차 마케팅 대상자 숫자가 아니라 발송된 사람 · 명단은 상담 탭 팝업 탭 옆」 · 13:51 「2차·3차 발송내역 · 둘 다 · 2차 쿠폰 나간 거 · 3차 설문 나간 거」(중앙 전달)
@@ -11790,10 +11809,11 @@ function v팝업(){ if(팝.없음) return '<div class="empty why"><b>팝업을 �
   const 파일 = fs => (fs || []).filter(f => !/^image\//.test(f.type || '')).map(f => '<a class="sub3" data-ppfile="' + esc(f.path) + '" data-nm="' + esc(f.name || '') + '" href="#" target="_blank" rel="noopener">📄 ' + esc(f.name || '파일') + '</a>').join(' ');
   setTimeout(() => { const b = document.getElementById('body'); if(b) 팝주소채우기(b); }, 0);
   return '<div class="as-flt" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="as-chips" style="margin:0">' + 칩 + '</span><span style="flex:1"></span>' + (할수('popup') ? '<button class="btn gold sm" data-act="tx:tppnew">＋ 선생님께 팝업</button>' : '') + '</div>'
-    + (목.length ? '<div class="as-tbl" style="margin-top:12px"><table class="ck-tb ppv-tb"><thead><tr><th style="width:120px">보낸 때</th><th style="width:96px">받는 사람</th><th>내용</th><th>답</th><th style="width:110px">답한 때</th></tr></thead><tbody>'
+    + (목.length ? '<div class="as-tbl" style="margin-top:12px"><table class="ck-tb ppv-tb"><thead><tr><th style="width:120px">보낸 때</th><th style="width:96px">받는 사람</th><th>내용</th><th>답</th><th style="width:110px">답한 때</th>' + (목.some(팝손댐) ? '<th style="width:118px"></th>' : '') + '</tr></thead><tbody>'
       + 목.map(r => '<tr><td class="sub3">' + esc(팝때(r.created_at)) + '<br><small>' + esc(r.by_name || '') + '</small></td><td><b>' + esc(r.to_name || '') + '</b></td><td>' + esc(팝제목(r)) + ((r.files || []).length ? '<div class="ppimgs">' + 사진(r.files) + 파일(r.files) + '</div>' : '') + '</td>'
         + '<td>' + (r.done_at ? '<span class="ok">' + esc(r.answer || (r.need_answer ? '' : '확인했어요')) + '</span>' + ((r.answer_files || []).length ? '<div class="ppimgs">' + 사진(r.answer_files) + 파일(r.answer_files) + '</div>' : '') : r.off ? '<small>내림</small>' : '<span class="no">● 아직 안 봤어요</span>') + '</td>'
-        + '<td class="sub3">' + (r.done_at ? esc(팝때(r.done_at)) : '') + '</td></tr>').join('') + '</tbody></table></div>'
+        + '<td class="sub3">' + (r.done_at ? esc(팝때(r.done_at)) : '') + '</td>'
+        + (목.some(팝손댐) ? '<td>' + (팝손댐(r) ? '<span style="display:inline-flex;gap:6px">' + (r.done_at ? '' : '<button class="btn ed sm" data-act="tx:tppedit" data-k="' + esc(r.id) + '">수정</button>') + '<button class="btn ghost sm" data-act="tx:tppdel" data-k="' + esc(r.id) + '">삭제</button></span>' : '') + '</td>' : '') + '</tr>').join('') + '</tbody></table></div>'
       : '<div class="empty why"><b>' + (다.length ? '조건에 맞는 팝업이 없습니다' : '보낸 팝업이 없습니다') + '</b>' + (할수('popup') ? '「＋ 선생님께 팝업」으로 보내요' : '') + '</div>'); }
 setInterval(() => { if(!document.hidden && ME && !팝.없음) 팝받기(); }, 20000);      /* 켜 둔 데스크 = 20초 안에 뜸 */
 /* 미리 띄우기 (2026-11-16 대표 「앱 화면 띄울 때 너무 오래 걸려」) — 데스크가 켜지면 뒤에서 앱을 한 번 불러 둔다(시스템이 알아서 · 켜 둘 것 없음)
@@ -19084,6 +19104,9 @@ async function txAct(a, el){
   if(a==='rj2'){ if(!루틴주기) return; 루틴주기.rid = k; 루틴주기.단계 = 3; 루틴주기판(); return; }
   if(a==='rjback'){ if(!루틴주기) return; 루틴주기.단계 = +k; 루틴주기판(); return; }
   if(a==='tppnew'){ 팝보내기열기(); return; }
+  if(a==='tppedit'){ 팝수정열기(k); return; }
+  if(a==='tppeditsave'){ 팝수정저장(k); return; }
+  if(a==='tppdel'){ 팝지우기(k); return; }
   if(a==='tpptolist'){ if(팝.보낼){ 팝.보낼.목록 = !팝.보낼.목록; 팝보내기그리기(); } return; }
   if(a==='tppto'){ const o = 팝.보낼; if(!o) return; o.받는 = o.받는.includes(k) ? o.받는.filter(x => x !== k) : o.받는.concat([k]); 팝보내기그리기(); return; }
   if(a==='tppans'){ if(팝.보낼){ 팝.보낼.답 = !팝.보낼.답; 팝보내기그리기(); } return; }
