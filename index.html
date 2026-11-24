@@ -3635,7 +3635,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '728';
+const BUILD = '729';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -10183,6 +10183,17 @@ async function 매출고르기(id){
   if(팝 && !다시 && 줄들.length) 매출.방금.set(g.키, '새');
   매출.고침 = ''; delete 매출.임[id]; toast(못 || (!줄들.length ? '저장했어요' : 다시 ? '수정했어요. 관리자가 다시 확인해요' : '저장했어요. 관리자가 확인하면 확정돼요')); 매출다시(); if(매확.답) 매확다시();
 }
+/* PT 매출을 확정하면 같은 결제의 「확인할 매출」 결제 카드도 같이 잠근다 (2026-11-23 대표 「같이 잠기게」 — 한 카드에 확정이 둘이라 헷갈림 · PT 확정이 결제수단까지 확인한 것)
+   결제수단을 안 고른 카드는 서버가 잠그지 않음(sales_check_confirm 규칙) → 건너뛰고 알림 한 줄 · 이미 잠긴 카드 · 다른 결제는 그대로 · 실패해도 PT 확정은 그대로 */
+async function 결제카드같이잠금(g){
+  try{ if(!매확.답) await 매확받기();
+    const 짝 = 매확결제().filter(o => !o['확정'] && (매확PT묶음(o) || {}).키 === g.키);
+    let 잠금 = 0, 못 = 0;
+    for(const o of 짝){ if(!o['고름']){ 못++; continue; }
+      const r = await crm('sales_check_confirm', { id: String(o.id), act: '확정' });
+      if(r && r.ok !== false){ if(r['결제']) Object.assign(o, r['결제']); else o['확정'] = { 누가: (ME && ME.name) || '', 때: new Date(Date.now() + 9 * 36e5).toISOString().replace('T', ' ').slice(0, 16) }; 잠금++; } else 못++; }
+    return { 잠금, 못 }; }
+  catch(e){ console.warn('결제 카드 같이 잠금 못 함 —', e && e.message); return { 잠금: 0, 못: 1 }; } }
 async function 매출바꿈(id, 무엇){
   const g = 묶음of(id); if(!g) return; if(!매출관리자()){ toast('관리자만 할 수 있습니다'); return; }
   const 줄들 = 무엇 === '확정' ? g.줄.filter(x => x.status === '선택됨') : 무엇 === '삭제' ? g.줄.filter(x => x.status !== '삭제됨') : g.줄.filter(x => x.status === '삭제됨');
@@ -10196,7 +10207,8 @@ async function 매출바꿈(id, 무엇){
   else ok = await 매출줄들고침(줄들, 무엇 === '확정' ? { status:'확정', confirmed_by:나 } : { status:'삭제됨', change_kind:'사람삭제', change_by:나, change_note:'관리자 삭제' }, 무엇 === '확정' ? '확정' : '사람삭제', 무엇 === '확정' ? '확정' : '관리자 삭제');
   if(!ok) return;
   if($('#popbox .ps-pop') && !$('#pop').classList.contains('tx-side') && !$('#popbox .sc-pop') && 무엇 !== '되돌림') 매출.방금.set(g.키, 매출.방금.get(g.키) || (무엇 === '확정' ? '확' : '새'));
-  toast({ 확정:'확정했어요', 삭제:'삭제했어요. 「삭제됨」에서 복원할 수 있어요', 되돌림:'되돌렸어요' }[무엇]); 매출다시();
+  const 잠긴 = 무엇 === '확정' ? await 결제카드같이잠금(g) : null;
+  toast({ 확정:'확정했어요' + (잠긴 && 잠긴.잠금 ? String.fromCharCode(10) + '결제 카드도 같이 잠갔어요' : 잠긴 && 잠긴.못 ? String.fromCharCode(10) + '결제 카드는 결제수단을 선택하면 잠글 수 있어요' : ''), 삭제:'삭제했어요. 「삭제됨」에서 복원할 수 있어요', 되돌림:'되돌렸어요' }[무엇]); 매출다시(); if(잠긴 && 잠긴.잠금 && 매확.답) 매확다시();
 }
 async function 매출기록열기(id){
   const g = 묶음of(id); if(!g) return;
