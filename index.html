@@ -3499,6 +3499,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 .l1w .a{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.l1w .a b{font-size:15px;font-weight:800}.l1w-c{margin:4px 0 8px;line-height:1.45}
 .l1w-b{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.l1w-no{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--sub);cursor:pointer}.l1w-no input{width:18px;height:18px}
 .l1w-off{margin-top:14px}.l1w-off summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--sub);padding:6px 0}
+.da-tip{margin:6px 0 2px;font-size:13.5px;font-weight:700;color:var(--gold);line-height:1.45}
 </style></head><body>
 
 <div class="tx-login" id="txlogin">
@@ -3640,7 +3641,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '733';
+const BUILD = '735';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -12965,14 +12966,21 @@ async function 데스크알림받기(강){ if(데스크알림.중 || (!강 && Da
   데스크알림.중 = false; 데스크알림.때 = Date.now(); if(S.view === 'home') render(); }
 const 데스크알림줄 = () => (데스크알림.r && 데스크알림.r['알림']) || [];
 const 알림갈래 = [['실패', '안 된 일'], ['할일', '할 일'], ['확인', '확인할 것'], ['완료', '끝난 일']];
+/* 네이버 로그인 알림 아래 한 줄 — 계정은 title 괄호 안(effectgym · mofma01) · 괄호가 없으면 mofma01 (중앙 11/25 12:02 · 블로그 로그인 감시도 같은 칸에 뜸) */
+function 로그인안내(a){ const 원 = String(a.source || a.src || ''), 제 = String(a.title || '');
+  if(!/네이버 예약자 보완|노트북 로그인 감시/.test(원) && !/네이버 로그인/.test(제)) return '';
+  const 계 = (제.match(/\(([A-Za-z0-9_.]+)\)/) || [])[1] || 'mofma01';
+  return '<div class="da-tip">노트북에서 ' + esc(계) + (/[0-9]$|[^aeiouy]$/i.test(계) && !/[0-9]$/.test(계) ? ' 으로' : ' 로') + ' 로그인하세요 — 로그인하면 저절로 닫혀요</div>'; }
 function 데스크알림판(){
   const L = 데스크알림줄(), 때 = a => String(a || '').slice(5, 16).replace('T', ' ').replace('-', '/');
   const 줄 = a => '<div class="bp-row2 da-row"><div class="a"><b>' + esc(a.title || '') + '</b><span class="da-t">' + esc(때(a.at)) + '</span></div>'
-    + (a.body ? '<div class="da-b">' + esc(a.body) + '</div>' : '') + '<div class="tf-b"><button class="btn ghost sm" data-act="tx:dadone" data-k="' + esc(String(a.id)) + '">확인했어요</button></div></div>';
+    + (a.body ? '<div class="da-b">' + esc(a.body) + '</div>' : '')
+    + 로그인안내(a)      /* 데스크에서 눌러도 로그인 안 됨 · 노트북 전용 크롬에서만 (중앙 11/25) */
+    + '<div class="tf-b"><button class="btn ghost sm" data-act="tx:dadone" data-k="' + esc(String(a.id)) + '">확인했어요</button></div></div>';
   const 남 = 알림갈래.map(g => g[0]), 기타 = L.filter(a => !남.includes(a.kind));
-  판열기('마케팅 대시보드', '<div class="ck-act">센터 일 알림이에요<small>처리했으면 「확인했어요」 · 모든 직원에게서 같이 사라져요</small></div>'
+  판열기('고장 · 오류', '<div class="ck-act">급한 고장 · 오류예요 — 해결 전까지 떠 있어요<small>해결되면 저절로 닫혀요 · 처리했으면 「확인했어요」</small></div>'
     + (L.length ? 알림갈래.concat(기타.length ? [['__', '그 밖']] : []).map(([k, 말]) => { const 들 = k === '__' ? 기타 : L.filter(a => a.kind === k); return 들.length ? '<div class="lbl">' + 말 + ' ' + 들.length + '건</div>' + 들.map(줄).join('') : ''; }).join('')
-      : '<div class="empty why"><b>새 알림이 없습니다</b>상담 · 예약 · 배정 · 비품 알림이 여기에 떠요</div>'));
+      : '<div class="empty why"><b>고장 · 오류가 없습니다</b>급한 고장 · 오류가 생기면 여기에 떠요</div>'));
 }
 async function 데스크알림닫기(id){
   const a = 데스크알림줄().find(z => String(z.id) === String(id)); if(!a) return;
@@ -16934,7 +16942,7 @@ const 현황칸 = [
   { k:'못감', 이름:'알림톡 못 감', 색:'warn', 셈: () => 못감줄().length, 직접: () => 못감판(), 보임: () => !!못감.r || !!배정.줄 },
   { k:'다음주연차', 이름:'다음 주 연차', 색:'teal', 셈: () => 다음주쉼().length, 직접: () => 다음주쉼판() },
   /* 락커 — 중앙 locker_status 그대로 (2026-10-25 대표 「현황판에는 락커만료자 · 락커TM」) · 셈 = 명단 길이 */
-  { k:'데스크알림', 이름:'마케팅 대시보드', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r && 등급of(ME) !== '트레이너' },      /* 2026-11-02 대표 「트레이너는 볼 필요 없다」 */      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
+  { k:'데스크알림', 이름:'고장 · 오류', 색:'warn', 셈: () => 데스크알림줄().length, 직접: () => 데스크알림판(), 보임: () => !!데스크알림.r && 등급of(ME) !== '트레이너' && 데스크알림줄().length > 0 },      /* 2026-11-25 11:33 대표 「고장 · 오류로 바꾸고 급한 알림만 해결 전까지 띄워」(중앙 전달) — 내용은 중앙 desk_alerts(관리자 · 급한 것만) · 0건이면 숨김 */      /* 2026-11-02 대표 「트레이너는 볼 필요 없다」 */      /* 직원 모두 (2026-10-29 19:2x 대표 · 중앙 알림 자리 나눔) */
   { k:'종목요청', 이름:'종목 수정 요청', 색:'gold', 셈: () => 종목급() ? (D.xr || []).filter(r => r.status === '대기').length : 0, 직접: () => 가기('exreq'), 보임: () => 종목급() },      /* 승인 알림 (2026-10-30 결정함 d1030c_ex 「관리자 현황판에 승인 알림」) */
   { k:'설문2차', get 이름(){ return '2차 쿠폰 ' + 이차보낸줄().filter(r => 이번달보냄(r.extra.k2)).length + ' · 3차 설문 ' + 삼차보낸줄().filter(r => 이번달보냄(r.extra.s2)).length; }, 색:'gold',
     셈: () => 이차보낸줄().filter(r => 이번달보냄(r.extra.k2)).length + 삼차보낸줄().filter(r => 이번달보냄(r.extra.s2)).length, 직접: () => 가기('k23'), 보임: () => false },      /* 현황판 칸 없앰 — 상담 탭 「2차·3차 발송내역」 단추(숫자)에서만 봄 (2026-11-19 11:15 대표 「위치를 정해 놓고 보는 게 좋겠어」 · 이번 달 보낸 누적이라 직원 할 일 아님 · 중앙 전달) */      /* 대상자 수 → 이번 달 보낸 사람 수 (2026-11-17 대표 13:46 · 13:51) · 누르면 2차·3차 발송내역 */      /* 2차 받은 분 중 아직 연락 체크 안 한 분 (2026-10-30 대표 「명단이 있을 때마다 현황판에」) */
