@@ -1553,6 +1553,7 @@ body.resizing{cursor:col-resize;user-select:none}
 .tx-cal > .tx-cd:nth-child(7n){border-right:0}
 .tx-cd.dim{opacity:.35}
 .tx-cd.today{background:rgba(212,175,95,.07)}
+.tx-cd.lvtap{cursor:pointer}.tx-cd.lvtap:hover{background:rgba(201,146,46,.06)}
 .tx-cd .d{font-weight:800;color:var(--cream);width:24px;height:24px;display:grid;place-items:center;border-radius:50%;font-size:13px}
 .tx-cd.sun .d{color:#e8927c}.tx-cd.sat .d{color:#8fb8e8}
 .tx-cd.today .d{background:var(--gold);color:#1a1712}
@@ -2524,7 +2525,7 @@ body{word-break:keep-all}
 .pq-nm{font-size:17px;font-weight:800;color:#f6e7c6;min-width:0}.pq-nm small{font-size:13px;color:#a39b8d;font-weight:600;margin-left:6px}
 .pq-amt{margin-left:auto;font-size:18px;font-weight:800;color:#f0d3a0;white-space:nowrap}
 .pq-sub{font-size:13px;color:#a39b8d;margin:4px 0 12px 36px}.pq-hd:not(:has(.pq-no)) + .pq-sub{margin-left:0}
-.pq-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pq-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pq-g.pq-pm{grid-template-columns:1fr;margin-top:10px}.pq-pm .sc-pay{max-width:none}
 .pq-f{min-width:0}.pq-f span{display:block;font-size:13px;font-weight:800;color:#a39b8d;margin:0 0 4px 2px}
 .pq-f select,.pq-m input,.pq-etc{width:100%;min-width:0;height:42px;border-radius:10px;border:1.5px solid #6b6252;background:#161513;color:#f6e7c6;font:inherit;font-size:15px;font-weight:700;padding:0 10px;box-sizing:border-box}
 .pq-etc{margin-top:6px}
@@ -3644,7 +3645,7 @@ button.ed:not(.btn){color:var(--cream)!important;border:1.5px solid var(--cream)
 
 <script>
 "use strict";
-const BUILD = '737';
+const BUILD = '738';
 /* ══ 앱 안 브라우저 → 바깥 브라우저 · 아이폰 홈 화면 추가 큰 안내 ══ 2026-10-23 대표 「사파리로 열리게 · 데스크 · 회원앱 둘 다 · 글씨 크게 알아보기 쉽게」
    카톡 안 = 카톡 기능(openExternal)으로 사파리 · 크롬에서 다시 연다 · 라인 = openExternalBrowser · 그 밖 앱 안: 안드로이드 = 크롬으로 · 아이폰 = 크게 안내 */
 const 큰안내아이폰 = () => /iphone|ipad|ipod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -9943,11 +9944,13 @@ function 매출카드값(g){
   const cl = 임.cl !== undefined ? 임.cl : (수업고름 ? 담 : '');
   const pm0 = o && o['고름'] ? 매확G(o) : '', 하나 = !pm0 || 매확수단.indexOf(pm0) >= 0;
   const 결 = !o ? '없음' : (!매확쓸수() || o['전액미수'] || 매확잠금(o)) ? '고정' : !하나 ? '여럿' : '고름';
-  const pm = 결 === '고름' ? (임.pm !== undefined ? 임.pm : pm0) : '';
-  const 결필요 = 결 === '고름' && !(o && o['고름']);
+  const 수 = 결 === '고름' && o ? 매확.고침[o.id] : null, 수ks = 수 ? 매확수단.filter(k => 수['금액'][k] !== undefined) : (pm0 ? [pm0] : []);
+  const 수합 = 수 ? 수ks.reduce((a, k) => a + (+수['금액'][k] || 0), 0) : 0, 수덜 = !!수 && ((수ks.length >= 2 && 수합 !== (+o['합'] || 0)) || (수ks.includes('기타') && !String(수.기타 || '').trim()));
+  const pm = 결 === '고름' ? 수ks.join('+') : '';
+  const 결필요 = 결 === '고름' && (!(o && o['고름']) || 수덜);
   const 메쓸 = !!o && 매확쓸수() && !매확잠금(o) && !매확메모잠김(o);
-  const 빈 = { t: !t, c: !c, e: c === '기타' && !String(e || '').trim(), cl: 수업고름 && !cl, pm: 결필요 && !pm };
-  return { id, o, r, t, c, e, 담, 쓸, 수업고름, cl, pm0, 결, pm, 결필요, 메쓸, m: 임.m || '', 빈, 다됨: !Object.keys(빈).some(k => 빈[k]) };
+  const 빈 = { t: !t, c: !c, e: c === '기타' && !String(e || '').trim(), cl: 수업고름 && !cl, pm: 결필요 && (!pm || 수덜) };
+  return { id, o, r, t, c, e, 담, 쓸, 수업고름, cl, pm0, 결, pm, 수, 수ks, 결필요, 메쓸, m: 임.m || '', 빈, 다됨: !Object.keys(빈).some(k => 빈[k]) };
 }
 function 매출카드(g, 번, st, 안){
   const x = g.머리, id = x.id, V = 매출카드값(g), 선 = 매출선생들(), 산 = g.줄.filter(y => y.status !== '삭제됨'), 합 = 매출묶음합(g);
@@ -9964,13 +9967,13 @@ function 매출카드(g, 번, st, 안){
     : V.수업고름 ? sel('cl', 배정고를선생().map(t => { const 정 = 정지판정(t, 배정희망(V.r)); return [t, t + (정 ? ' (' + 정.글 + ')' : '')]; }), V.cl, '선택')
     : !V.쓸 ? 자동(V.담 ? esc(V.담) : '<em>아직 없음</em>')
     : V.t ? 자동(esc(V.담 || V.t), '= 매출 담당') : 자동('<em>매출 담당을 선택하면 같이</em>');
-  const 결 = V.결 === '고름' ? sel('pm', 매확수단.map(k => [k, k === '기타' ? '기타 (직접 입력)' : k]).concat([['__여럿', '여러 수단으로 나눠 냄']]), V.pm, '선택')
+  const 결 = V.결 === '고름' ? 매확수단칸(V.o, V.수 || { 금액: V.pm0 ? { [V.pm0]: +V.o['합'] || 0 } : {} }, 'tx:pqm')
     : V.결 === '여럿' ? '<div class="pq-auto">' + esc(V.pm0) + (매확쓸수() && !매확잠금(V.o) ? ' <button class="btn ed sm" data-act="tx:pspay" data-k="' + esc(V.o.id) + '">수정</button>' : '') + '</div>'
     : 자동((p => p ? esc(p) : '<em>결제수단 미확인</em>')(V.pm0 || (g.줄.find(y => String(y.pay_method || '').trim()) || {}).pay_method || ''), V.o && 매확잠금(V.o) ? '🔒 관리자 확정' : '');
   return '<div class="ps-row pq' + (안 ? ' in' : '') + '" id="psr_' + esc(id) + '"' + (번 ? ' data-n="' + 번 + '"' : '') + (안 ? ' data-in="1"' : '') + '>'
     + (안 ? '<div class="pq-int"><span class="sc-gtag" style="--c:' + 매확색('PT') + '">PT 매출</span>' + esc(x.product || x.tag || '') + ' · ' + 원(합) + (st !== '미확인' ? ' · ' + 매출꼬리(st) : '') + '</div>' : '<div class="pq-hd">' + (번 ? '<span class="pq-no">' + 번 + '</span>' : '') + '<span class="pq-nm">' + esc(x.name || '') + '<small>···' + esc(x.phone4 || '') + (x.reg ? ' · ' + esc(x.reg) : '') + '</small>' + (g.줄.some(매출시험줄) ? ' <span class="tag warn">시험</span>' : '') + '</span><span class="pq-amt ps-amt">' + 원(합) + '</span></div>'
     + '<div class="pq-sub">' + esc(x.product || x.tag || '') + ' · ' + esc(매출때(x).split(' ')[0]) + ' 결제' + (st !== '미확인' ? ' · ' + 매출꼬리(st) : '') + 매출미수딱(V.o) + '</div>')
-    + '<div class="pq-g">' + 칸('매출 담당', 매담, V.빈.t) + 칸('매출 유형', 유형, V.빈.c || V.빈.e) + 칸('수업 담당', 수업, V.빈.cl) + 칸('결제수단', 결, V.빈.pm) + '</div>'
+    + '<div class="pq-g">' + 칸('매출 담당', 매담, V.빈.t) + 칸('매출 유형', 유형, V.빈.c || V.빈.e) + 칸('수업 담당', 수업, V.빈.cl) + (V.결 === '고름' ? '' : 칸('결제수단', 결, V.빈.pm)) + '</div>' + (V.결 === '고름' ? '<div class="pq-g pq-pm">' + 칸('결제수단', 결, V.빈.pm) + '</div>' : '')
     + g.줄.map(매출환줄).join('') + (g.줄.length > 1 && 산.some(y => y.status !== st) ? '<div class="ps-chg">한 결제 중 일부가 아직 ' + ({ 미확인:'담당 선택 필요', 선택됨:'관리자 확정 대기' }[st] || st) + ' — 저장하면 같은 값으로 맞춥니다</div>' : '')
     + '<div class="pq-ft">' + (V.메쓸 ? '<label class="pq-m"><input id="pmm_' + esc(id) + '"' + 속('m') + ' maxlength="200" value="' + esc(V.m) + '" placeholder="결제메모 (선택입력)"></label>' : '<span class="pq-m"></span>')
       + '<button class="pq-more" data-act="tx:plog" data-k="' + esc(id) + '">' + (매출.연기록 === id ? '접기' : '자세히') + '</button>'
@@ -9988,7 +9991,6 @@ function 매출카드맞춤(id){ const g = 묶음of(id), el = document.getElemen
   const fs = el.querySelectorAll('.pq-f'); if(fs[1]) fs[1].classList.toggle('need', V.빈.c || V.빈.e);
   const b = document.getElementById('pqok_' + id); if(b){ b.disabled = !V.다됨; if(V.다됨) b.removeAttribute('title'); } }
 function 매출칸누름(e){ const t = e.target; if(!t || !t.dataset || !t.dataset.pq) return; const id = t.dataset.pq, f = t.dataset.f, 임 = 매출.임[id] || (매출.임[id] = {});
-  if(f === 'pm' && (t.value === '__여럿' || t.value === '기타')){ delete 임.pm; const g = 묶음of(id), o = g && 매출결제건(g); 매출카드다시(id); if(o) 결제창열기(o.id); return; }      /* 나눠 냄 · 기타(무엇으로 받았나) = 확인할 매출 카드 그대로 */
   임[f] = t.value;
   if(e.type === 'change' && f !== 'e' && f !== 'm'){ if(f === 't') delete 임.cl; 매출카드다시(id); } else 매출카드맞춤(id); }
 document.addEventListener('change', 매출칸누름); document.addEventListener('input', e => { if(e.target && e.target.dataset && (e.target.dataset.f === 'e' || e.target.dataset.f === 'm')) 매출칸누름(e); });
@@ -10190,7 +10192,10 @@ async function 매출고르기(id){
   if(V && V.빈.pm){ toast('결제수단을 선택해 주세요'); return; }
   const 줄들 = g.줄.filter(x => x.status !== '삭제됨' && (x.status === '미확인' || (x.trainer || '') !== t || x.category !== c));
   const 수업 = V && V.쓸 ? (V.수업고름 ? V.cl : (t && !V.담 ? t : '')) : '', 수업함 = 수업 && 수업 !== V.담 ? 수업 : '';
-  const 결함 = V && V.결 === '고름' && V.pm && V.pm !== V.pm0 ? V.pm : '', 메 = V && V.메쓸 ? String(V.m || '').trim() : '', 메함 = 메 && 메 !== (((V.o || {})['메모'] || {})['글'] || '') ? 메 : '';
+  const 수 = V && V.결 === '고름' ? V.수 : null, 수ks = 수 ? V.수ks : [], 기타글 = 수 ? String(수.기타 || '').trim().slice(0, 30) : '';
+  const 결함 = 수ks.length && (수ks.length > 1 || 수ks[0] !== V.pm0 || 수ks[0] === '기타') ? (수ks.length === 1 ? (수ks[0] === '기타' ? '기타(' + 기타글 + ')' : 수ks[0]) : 수ks.map(k => (k === '기타' ? '기타(' + 기타글 + ')' : k) + ' ' + 매확원(수['금액'][k])).join(' + ')) : '',
+    결금액 = {}; 수ks.forEach(k => 결금액[k] = 수ks.length === 1 ? 0 : +수['금액'][k]);
+  const 메 = V && V.메쓸 ? String(V.m || '').trim() : '', 메함 = 메 && 메 !== (((V.o || {})['메모'] || {})['글'] || '') ? 메 : '';
   if(!줄들.length && !수업함 && !결함 && !메함){ toast('이미 같은 값입니다'); 매출.고침 = ''; delete 매출.임[id]; 매출다시(); return; }
   const 다시 = 줄들.some(x => x.status !== '미확인'), 합 = 매출묶음합(g), 줄바꿈 = String.fromCharCode(10);
   if(!await 묻기(g.머리.name + ' · ' + 원(합) + (g.줄.length > 1 ? ' (' + g.줄.length + '줄 한 결제)' : '') + 줄바꿈 + '매출 담당 ' + (t || '센터 매출(워크인)') + ' · ' + c
@@ -10202,11 +10207,11 @@ async function 매출고르기(id){
   if(줄들.length && !await 매출줄들고침(줄들, 몸, 다시 ? '사람수정' : '선택', 말)) return;
   let 못 = '';
   if((결함 || 메함) && V.o){ const o = V.o;      /* 결제수단 · 결제메모 = 확인할 매출과 같은 곳 */
-    try{ const r = 결함 ? await crm('sales_check_save', Object.assign({ id:o.id, 금액:{ [결함]:0 } }, 메함 ? { 메모:메함 } : {})) : await crm('sales_check_memo', { id:o.id, 종류:'메모', 글:메함 });
+    try{ const r = 결함 ? await crm('sales_check_save', Object.assign({ id:o.id, 금액:결금액 }, 수ks.includes('기타') ? { 기타:기타글 } : {}, 메함 ? { 메모:메함 } : {})) : await crm('sales_check_memo', { id:o.id, 종류:'메모', 글:메함 });
       if(!r || r.ok === false){ 못 = (r && r.why) || '결제수단은 저장하지 못했어요'; if(r && r['확정']) setTimeout(매확받기, 300); }
       else if(r['결제']) Object.assign(o, r['결제']);
-      else { if(결함) o['고름'] = { 금액:{ [결함]: +o['합'] || 0 }, G:결함, 누가:ME.name, 때:new Date().toISOString().replace('T', ' ').slice(0, 16), 전: o['고름'] ? [{ G:매확G(o), 누가:o['고름']['누가'], 때:o['고름']['때'] }].concat(o['고름']['전'] || []) : [] }; if(메함) o['메모'] = { 글:메함, 누가:ME.name }; }
-      if(!못) 매확.방금.add(String(o.id)); }      /* 확인할 매출 판 · 팝업에서 저장한 카드는 그 자리에 잠긴 채 남는다 */
+      else { if(결함) o['고름'] = { 금액: 수ks.length === 1 ? { [수ks[0]]: +o['합'] || 0 } : 결금액, G: 수ks.length === 1 ? 수ks[0] : null, 누가:ME.name, 때:new Date().toISOString().replace('T', ' ').slice(0, 16), 전: o['고름'] ? [{ G:매확G(o), 누가:o['고름']['누가'], 때:o['고름']['때'] }].concat(o['고름']['전'] || []) : [] }; if(메함) o['메모'] = { 글:메함, 누가:ME.name }; }
+      if(!못){ 매확.방금.add(String(o.id)); delete 매확.고침[o.id]; } }      /* 확인할 매출 판 · 팝업에서 저장한 카드는 그 자리에 잠긴 채 남는다 */
     catch(e){ 못 = '결제수단은 저장하지 못했어요 — ' + String(e.message || '').slice(0, 50); } }
   if(수업함 && V.r){ const x = V.r, 정 = 정지판정(수업함, 배정희망(x));      /* 수업 담당 = 배정 표 그 회원 줄 (담당 정하기와 같은 값) */
     if(정 && 정.막음) 못 = 못 || 수업함 + ' 선생님은 이 시간대 배정 정지 중이라 수업 담당은 못 정했어요';
@@ -10659,9 +10664,13 @@ function 당직순서판(){ const 관 = 할수('leaveok'), ord = 순서편 || �
         + (관 && x.갈 !== '공휴일' ? '<button class="x" data-act="tx:dthrm" data-k="' + esc(x.d) + '" data-v2="' + (x.갈 === '센터 휴무' ? 'off' : 'hol') + '" title="삭제">✕</button>' : '') + '</div>').join('') + '</div>'
     + (관 ? '<div class="dt-new"><input type="date" id="dtd" class="inp"><input id="dtn" class="inp" maxlength="20" placeholder="이름 — 예) 추석 휴무 · 임시 공휴일"><button class="btn ghost sm" data-act="tx:dthadd" data-v2="off">센터 휴무일 추가</button><button class="btn ghost sm" data-act="tx:dthadd" data-v2="hol">공휴일 추가</button></div>' : '')); }
 /* 당직 교체 — 누구나 신청(tr_leave 「당직 교체」 req) · 관리자 승인하면 그 날 당직 사람이 바뀌고 이력이 남음 (결정 swap admin · 메모 「신청은 자유롭게 · 승인은 관리자」) */
+/* 2026-11-26 14:36 대표 「장승훈 · 조민철도 당직 승인 기능이 가능하게」 — 당직 교체 승인 = 연월차 승인 권한(leaveok) + 이 두 사람
+   (둘은 평소 화면이 트레이너 꼴이라 등급 권한이 안 잡힘 → 이름으로 · 선생님 계정으로 보기 중엔 안 됨) */
+const 당직승인사람 = ['장승훈', '조민철'];
+const 당직승인가능 = () => 할수('leaveok') || (!!ME && !진짜ME && 당직승인사람.includes(String(ME.name || '').trim()));
 let 교체편 = null;      /* { duty, 상대 } — 상대 선생님을 누르면 그 선생님 당직 날짜가 뜸 */
 const 당직이름 = id => (사람(id) || {}).name || '';
-function 당직교체칸(r){ const 나 = ME && ME.id, 관 = 할수('leaveok'), 이 = (r.extra || {}).이력 || [];
+function 당직교체칸(r){ const 나 = ME && ME.id, 관 = 당직승인가능(), 이 = (r.extra || {}).이력 || [];
   const 대기 = (W.leave || []).filter(x => x.kind === '당직 교체' && x.status === 'req' && [((x.extra || {}).교체 || {}).duty, ((x.extra || {}).교체 || {}).duty2].includes(r.id));
   const 남 = (W.staff || []).filter(p => p.active !== false && p.name && p.id !== r.staff_id && !퇴사명().has(String(p.name).trim()));
   const 편 = 교체편 && 교체편.duty === r.id ? 교체편 : null;
@@ -11621,10 +11630,8 @@ function 매확줄(o, 수단만){
   if(PT있음) h += 매확PT줄(o);
   h += 매확수업담당줄(o);
   if(o['전액미수']) return h + '</div>';      /* 전액 미수 — 받은 돈이 없어 고를 결제수단이 없다 · 받으면 수납 카드로 */
-  h += '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="tx:scm" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
-    + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '');
+  h += 매확수단칸(o, 임, 'tx:scm');
   if(ks.length){
-    if(ks.length >= 2) h += '<div class="sc-amts">' + ks.map(k => '<label class="sc-amt"><span>' + k + '</span><input inputmode="numeric" data-sca="' + k + '" data-k="' + esc(o.id) + '" value="' + (임['금액'][k] ? 매확원(임['금액'][k]) : '') + '" placeholder="0"><em>원</em></label>').join('') + '</div>';
     const 합 = ks.reduce((a, k) => a + (+임['금액'][k] || 0), 0), 차 = (+o['합'] || 0) - 합, 됨 = ks.length === 1 || 차 === 0;
     h += '<div class="sc-mbox">' + (매확메모잠김(o) ? '<div class="sc-ro"><span class="k">결제메모</span><span>' + esc((o['메모'] || {})['글'] || '') + '</span></div><div class="sc-mlog">결제메모는 전산에 들어갔어요 · 전산(CRM)에서 직접 수정해주세요</div>' : 매확메모칸('메모', o.id, '결제메모', false, o['메모'])) + '</div>'
       + '<div class="sc-sum">' + (ks.length >= 2 ? (차 === 0 ? '<span class="ok">금액 맞음</span>' : '<span class="gap">' + 매확원(Math.abs(차)) + '원 ' + (차 > 0 ? '남음' : '넘침') + '</span>') : '') + '<span class="sp"></span>'
@@ -12081,6 +12088,15 @@ function 매확다시(){
   매확홈단추그리기();
 }
 /* 수단 누르기 · 금액 · 저장 */
+/* 결제수단 단추 한 벌 — 누르면 켜짐 · 둘 이상 켜면 자동으로 「나눠 냄」(금액 칸) · FC 줄과 PT 매출 카드가 같은 부품 (2026-11-25 20:49 대표 「여러 개 선택이 아니라 그냥 선택하면 복수 선택으로 자동으로」) */
+function 매확수단칸(o, 임, 단추act){ const ks = 매확수단.filter(k => 임['금액'][k] !== undefined);
+  return '<div class="sc-hint">다중 결제인 경우 모두 선택</div><div class="sc-pay">' + 매확수단.map(k => '<button class="' + (임['금액'][k] !== undefined ? 'on' : '') + '" data-act="' + 단추act + '" data-k="' + k + '" data-v2="' + esc(o.id) + '">' + k + '</button>').join('') + '</div>'
+    + (임['금액']['기타'] !== undefined ? '<label class="sc-etc"><span>기타</span><input data-scetc="' + esc(o.id) + '" maxlength="30" value="' + esc(임.기타 || '') + '" placeholder="무엇으로 받았나요 — 예) 어르신 상품권 (꼭 입력)"></label>' : '')
+    + (ks.length >= 2 ? '<div class="sc-amts">' + ks.map(k => '<label class="sc-amt"><span>' + k + '</span><input inputmode="numeric" data-sca="' + k + '" data-k="' + esc(o.id) + '" value="' + (임['금액'][k] ? 매확원(임['금액'][k]) : '') + '" placeholder="0"><em>원</em></label>').join('') + '</div>' : ''); }
+/* PT 매출 카드의 단추 — 이미 고른 수단이 있으면 그것부터 켠 채로 시작(결제창열기와 같은 씨앗) · 누른 뒤 PT 카드도 다시 그림 */
+function PT수단누름(id, m){ const o = 매확찾(id); if(!o) return;
+  if(!매확.고침[id] && o['고름']){ 매확.고침[id] = { 금액: Object.assign({}, o['고름']['금액'] || {}) }; const ks = Object.keys(매확.고침[id]['금액']); if(ks.length === 1) 매확.고침[id]['금액'][ks[0]] = +o['합'] || 0; }
+  매확수단누름(id, m); const g = (매출.줄 || []).length ? 매확PT묶음(o) : null; if(g) 매출카드다시(g.머리.id); }
 function 매확수단누름(id, m){
   const o = 매확찾(id); if(!o) return; const 임 = 매확.고침[id] || (매확.고침[id] = { 금액:{} });
   if(임['금액'][m] !== undefined) delete 임['금액'][m]; else 임['금액'][m] = 0;
@@ -12145,7 +12161,8 @@ async function 매확TG확인(주문){
 
 /* 금액 칸 · 메모 칸 — 적는 대로 기억(다시 그려도 남게) · 둘이면 나머지 저절로 */
 document.addEventListener('input', e => { const t = e.target; if(!t || t.id !== 'manq') return; 강의.q = t.value; const 끝 = t.selectionEnd; render(); const n = document.getElementById('manq'); if(n){ n.focus(); try{ n.setSelectionRange(끝, 끝); }catch(x){} } });      /* 매뉴얼 찾기 */
-document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.scetc) return; const 임 = 매확.고침[t.dataset.scetc]; if(임) 임.기타 = t.value; });      /* 결제수단 「기타」 내용 */
+document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.scetc) return; const 임 = 매확.고침[t.dataset.scetc]; if(임) 임.기타 = t.value;
+  const o = 매확찾(t.dataset.scetc), g = o && (매출.줄 || []).length ? 매확PT묶음(o) : null; if(g) 매출카드맞춤(g.머리.id); });      /* PT 카드의 「기타」 — 저장 단추 켜짐도 같이 */      /* 결제수단 「기타」 내용 */
 document.addEventListener('change', e => { const t = e.target; if(!t || !t.dataset || !t.dataset.sctas) return; const f = 매확.TGF[t.dataset.sctas]; if(f){ f.배정담당 = t.value; 매확.TG바뀜[t.dataset.sctas] = true; 매확임시적기(); } });
 document.addEventListener('input', e => { const t = e.target; if(!t || !t.dataset) return;
   if(t.dataset.stk){ const k = t.dataset.stk, f = 매확.TGF[k]; if(!f) return; f[t.dataset.stf] = t.value; 매확.TG바뀜[k] = true; 매확임시적기();
@@ -15137,7 +15154,7 @@ function txCal(key, rows){
     + '<div class="tx-cal">' + WDN.map((w, i)=>'<div class="h'+(i===0?' sun':i===6?' sat':'')+'">'+w+'</div>').join('')
     + 셀.map(d => { const k = ymd(d);
         const 것 = 전체.filter(r => r.day<=k && (r.day_end||r.day)>=k);
-        return '<div class="tx-cd '+(d.getMonth()!==m?'dim':'')+(k===TODAY?' today':'')+(d.getDay()===0?' sun':d.getDay()===6?' sat':'')+'"><span class="d">'+d.getDate()+'</span>'
+        return '<div class="tx-cd '+(d.getMonth()!==m?'dim':'')+(k===TODAY?' today':'')+(d.getDay()===0?' sun':d.getDay()===6?' sat':'')+(key === 'leave' ? ' lvtap' : '')+'"'+(key === 'leave' ? ' data-act="tx:calday" data-k="leave" data-v2="'+k+'" title="눌러서 이 날짜로 추가"' : '')+'><span class="d">'+d.getDate()+'</span>'
           + (key === 'leave' && 공휴일명(k) ? '<span class="lv-hol">' + esc(공휴일명(k)) + '</span>' : '') + (key === 'leave' && 당직쉼(k) ? '<span class="lv-off">' + esc(당직쉼(k)) + '</span>' : '')
           + (대청소날(+k.slice(0, 4)).indexOf(k) >= 0 ? '<span class="lv big" title="분기 대청소 · 다 같이">대청소 14시</span>' : '')      /* 분기 대청소 (2026-10-21 대표 「달력에도 표시」) */
           + 것.map(r=>{ const 이 = r.staff_id ? 사람(r.staff_id).name : ''; const 칠 = 이 ? 사람색칠(이) : '';
@@ -16689,7 +16706,7 @@ function vHome(){
   const N = H.줄수;
   const 나공 = (ME && ME.name) || '', 공지 = W.tasks.filter(r => 공지중(r) && 공지대상(r).includes(나공) && (!공지읽음(r, 나공) || r.due)).sort((a, b) => (공지읽음(a, 나공) ? 1 : 0) - (공지읽음(b, 나공) ? 1 : 0)).slice(0,3);      /* 기한 정한 공지는 읽어도 기한까지 떠 있음 · 안 읽은 것 먼저 (2026-11-07 10:29 대표 「기간 정한 건 읽었음 해도 공지사항에 떠 있게」) */      /* 홈 = 나한테 온 · 안 읽은 공지만 — 읽었어요 · 담당자에서 빼면 사라짐 (2026-10-28 22:51 대표 「읽었어요 체크해도 · 담당자에서 나를 빼도 떠 있다」) */
   const 이번주 = W.leave.filter(표정의.leave.보기[0].필터).sort((a,b)=>(a.day||'')>(b.day||'')?1:-1).slice(0,N);
-  const 대기 = 할수('leaveok') ? W.leave.filter(승인대기).length : 0;
+  const 대기 = 할수('leaveok') ? W.leave.filter(승인대기).length : 당직승인가능() ? W.leave.filter(r => r.kind === '당직 교체' && r.status === 'req').length : 0;      /* 장승훈 · 조민철 = 당직 교체 대기만 */
 
   const 섹 = (제목, key, 목록, 빈말) => '<div class="sec"><div class="lbl">'+제목+' '+목록.length+'건'
     + '<span class="r" data-act="tx:go" data-k="'+key+'">전부 보기 ›</span></div>'
@@ -19290,6 +19307,7 @@ async function txAct(a, el){
   if(a==='sctf'){ const f = 매확.TGF[k], i2 = String(v2).indexOf('|'), 종 = String(v2).slice(0, i2), 값 = String(v2).slice(i2 + 1); if(f && f[종]){ f[종].has(값) ? f[종].delete(값) : f[종].add(값); 매확.TG바뀜[k] = true; } 매확다시(); return; }
   if(a==='sctsave'){ await 매확TG저장(k, v2); return; }      /* 확인할 매출 (2026-10-21) */
   if(a==='scm'){ 매확수단누름(v2, k); return; }
+  if(a==='pqm'){ PT수단누름(v2, k); return; }
   if(a==='scsave'){ await 매확저장(v2); return; }
   if(a==='pspay'){ 결제창열기(k); return; }
   if(a==='scconf'){ await 매확확정(v2, '확정'); return; }      /* FC 매출 관리자 확정 · 풀기 (2026-11-17) */
@@ -19900,6 +19918,17 @@ async function txAct(a, el){
   if(a==='tplback'){ const k2 = 템편 && 템편.key; 템편 = null; if(k2) txNewMenu(k2); else popClose(); return; }
   if(a==='tpl' && k !== 'leave'){ const t = 표정의[k].템플릿[+el.dataset.i]; popClose();      /* 만들면 표 맨 위 새 줄 · 이름 칸 바로 입력 — 옆 판은 「열기」를 눌러야 (2026-10-26 대표 「사이드 페이지에 뜨는 게 아니라 열기를 눌러야 · 새로 생긴 행을 인식할 수 있게」) */
     const 본키 = 본문열쇠(k); await 새줄만들기(k, Object.assign(k === 'tasks' ? { template:t.이름 } : {}, t.값, 본키 && t.본 ? { [본키]: t.본 } : {})); return; }      /* template 칸은 업무 표에만 있다 — 상담에 보내 400 (2026-10-26 09:05 대표 화면) */
+  /* 2026-11-26 14:36 대표 「연차/당직 탭 캘린더 날짜 칸을 누르면 거기에 바로 연차든 당직이든 넣을 수 있게」 — 빈 곳을 누르면 그 날짜로
+     승인 권한(대표 · 관리자) = 무엇을 넣을지(연차 · 반차 · OFF · 당직 …) → 그 날짜가 채워진 입력 창(「새로 만들기」와 같은 창 · 같은 표)
+     선생님 = 「휴무 신청」 창이 그 날짜로 열림(규칙 · 잔여를 거치는 같은 길) · 이미 있는 칸(이름 딱지)을 누르면 지금처럼 그 줄이 열림 */
+  if(a==='calday'){ const d = v2; if(!d) return;
+    if(!할수('leaveok')){ const p = 휴나 && 휴나(); if(!p || 대표인가() || !휴설().사람[ME.id]){ toast('휴무 신청은 「내 휴무」에서 할 수 있어요'); return; }
+      휴신청열기('기본'); if(휴신청){ 휴신청.a = d; 휴신청.b = d; 휴신청.달 = d.slice(0, 7); 휴신청판(); } return; }
+    const T = 표정의.leave;
+    popOpen('<h2>' + esc(날짜한글(d)) + ' <small style="font-size:13px;color:var(--sub);font-weight:500">무엇을 추가할까요?</small></h2><div class="tx-menu">'
+      + T.템플릿.map((t, i) => [t, i]).filter(([t]) => 관리칸됨(t)).map(([t, i]) => '<button data-act="tx:caltpl" data-k="leave" data-i="' + i + '" data-v2="' + esc(d) + '">' + esc(t.이름) + '</button>').join('')
+      + '</div><button class="btn ghost" data-act="popclose">닫기</button>'); return; }
+  if(a==='caltpl'){ const t = 표정의.leave.템플릿[+el.dataset.i]; if(!t || !v2) return; popClose(); txSheet('leave', null, Object.assign({ template:t.이름 }, t.값, { day:v2 })); return; }
   if(a==='tpl'){ const t = 표정의[k].템플릿[+el.dataset.i];
     txSheet(k, null, Object.assign({template:t.이름}, t.값));     /* 기본값을 채우고 */
     if(k!=='leave'){ await txSave(); if(시트 && 시트.id) txSheet(k, 시트.id); }   /* 바로 페이지를 만든다 (연월차는 날짜 고르면) */
@@ -19937,9 +19966,9 @@ async function txAct(a, el){
     if(!await 묻기(말 + String.fromCharCode(10) + '서로 교체 신청할까요? 관리자가 승인하면 둘 다 바뀌어요')) return;
     const 줄 = { id:crypto.randomUUID(), kind:'당직 교체', staff_id:ME.id, day:r.day, status:'req', vis:'all', reason:말, extra:{ 교체:{ duty:r.id, duty2:z.id, a:r.staff_id, b:z.staff_id } } };
     try{ const o = await usend('tr_leave', 'POST', [줄], 'return=representation'); W.leave.push(Object.assign({}, 줄, (o && o[0]) || {})); 교체편 = null;
-      기록남기기({ area:'연월차', action:'생성', tbl:'tr_leave', row_id:r.id, detail:'당직 교체 신청 — ' + 말 }); toast('신청했어요 · 관리자가 승인하면 서로 바뀌어요'); txView('leave', r.id); render(); }
+      기록남기기({ area:'연월차', action:'생성', tbl:'tr_leave', row_id:r.id, detail:'당직 교체 신청 — ' + 말 }); toast('신청했어요 · 관리자 · 장승훈 · 조민철 선생님이 승인하면 서로 바뀌어요'); txView('leave', r.id); render(); }
     catch(e){ toast('신청하지 못했어요 — ' + String(e.message || '').slice(0, 60)); } return; }
-  if(a==='dswapok' || a==='dswapno'){ const x = (W.leave || []).find(z => z.id === id); if(x) await 당직교체승인(x, a === 'dswapok'); return; }
+  if(a==='dswapok' || a==='dswapno'){ if(!당직승인가능()){ toast('당직 교체 승인 권한이 없어요'); return; } const x = (W.leave || []).find(z => z.id === id); if(x) await 당직교체승인(x, a === 'dswapok'); return; }
   if(a==='pgclose'){ await 본문먼저(); popClose(); return; }      /* 페이지 아래 「닫기」 (2026-10-27 대표 「완료 말고 닫기」) */
   if(a==='upload'){ const f = $('#txfile'); if(f) f.click(); return; }
   if(a==='fdel'){ await txFileDel(시트.key, 시트.id, +el.dataset.i); return; }
